@@ -10,23 +10,14 @@ To make use of DKMS, install the `dkms` package, which on Debian (based) systems
 ```
 # apt-get install dkms
 ```
-Where '#' denotes that it should be executed as root or with sudo, but don't type that character.
 
 To make use of the DKMS feature with this project, do the following:
 ```
-# DRV_NAME=rtl8814AU
-# DRV_VERSION=4.3.21
-# mkdir /usr/src/${DRV_NAME}-${DRV_VERSION}
-# git archive driver-${DRV_VERSION} | tar -x -C /usr/src/${DRV_NAME}-${DRV_VERSION}
-# dkms add -m ${DRV_NAME} -v ${DRV_VERSION}
-# dkms build -m ${DRV_NAME} -v ${DRV_VERSION}
-# dkms install -m ${DRV_NAME} -v ${DRV_VERSION}
+sudo ./dkms-install.sh
 ```
-Whereby it is assumed you're in the cloned project directory and the current branch is `driver-4.3.21` (the default). If you want to use another driver version, adjust `DRV_VERSION` accordingly.
+Whereby it is assumed you're in the cloned project directory and the current branch is `driver-4.3.21` (the default). If you want to use another driver version, adjust `DRV_VERSION` defined in the shell scripts accordingly.
 
 If you later on want to remove it again, do the following:
 ```
-# DRV_NAME=rtl8814AU
-# DRV_VERSION=4.3.21
-# dkms remove ${DRV_NAME}/${DRV_VERSION} --all
+sudo ./dkms-remove.sh
 ```
