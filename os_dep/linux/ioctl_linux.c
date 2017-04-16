@@ -13953,32 +13953,6 @@ exit:
 	return err;
 }
 
-#ifdef CONFIG_COMPAT
-static int rtw_ioctl_compat_wext_private(struct net_device *dev, struct ifreq *rq)
-{
-	struct compat_iw_point iwp_compat;
-	union iwreq_data wrq_data;
-	int err = 0;
-	DBG_871X("%s:...\n", __func__);
-	if (copy_from_user(&iwp_compat, rq->ifr_ifru.ifru_data, sizeof(struct compat_iw_point)))
-			return -EFAULT;
-
-	wrq_data.data.pointer = compat_ptr(iwp_compat.pointer);
-	wrq_data.data.length = iwp_compat.length;
-	wrq_data.data.flags = iwp_compat.flags;
-
-	err = _rtw_ioctl_wext_private(dev, &wrq_data);
-
-	iwp_compat.pointer = ptr_to_compat(wrq_data.data.pointer);
-	iwp_compat.length = wrq_data.data.length;
-	iwp_compat.flags = wrq_data.data.flags;
-	if (copy_to_user(rq->ifr_ifru.ifru_data, &iwp_compat, sizeof(struct compat_iw_point)))
-			return -EFAULT;
-
-	return err;
-}
-#endif // CONFIG_COMPAT
-
 int rtw_ioctl(struct net_device *dev, struct ifreq *rq, int cmd)
 {
 	struct iwreq *wrq = (struct iwreq *)rq;
