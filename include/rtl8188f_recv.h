@@ -36,9 +36,9 @@
 					#define MAX_RECVBUF_SZ (32768) /* 32k */
 				#endif
 				//#define MAX_RECVBUF_SZ (20480) //20K
-				//#define MAX_RECVBUF_SZ (10240) //10K 
+				//#define MAX_RECVBUF_SZ (10240) //10K
 				//#define MAX_RECVBUF_SZ (16384) //  16k - 92E RX BUF :16K
-				//#define MAX_RECVBUF_SZ (8192+1024) // 8K+1k		
+				//#define MAX_RECVBUF_SZ (8192+1024) // 8K+1k
 			#endif
 		#endif
 	#endif //!MAX_RECVBUF_SZ

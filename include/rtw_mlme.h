@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -222,7 +222,7 @@ struct wifi_display_info{
 	u8							wfd_pc;				//	WFD preferred connection
 													//	0 -> Prefer to use the P2P for WFD connection on peer side.
 													//	1 -> Prefer to use the TDLS for WFD connection on peer side.
-											
+
 	u8							wfd_device_type;	//	WFD Device Type
 													//	0 -> WFD Source Device
 													//	1 -> WFD Primary Sink Device
@@ -242,7 +242,7 @@ struct tx_provdisc_req_info{
 
 struct rx_provdisc_req_info{	//When peer device issue prov_disc_req first, we should store the following informations
 	u8					peerDevAddr[ ETH_ALEN ];		//	Peer device address
-	u8					strconfig_method_desc_of_prov_disc_req[4];	//	description for the config method located in the provisioning discovery request frame.	
+	u8					strconfig_method_desc_of_prov_disc_req[4];	//	description for the config method located in the provisioning discovery request frame.
 																	//	The UI must know this information to know which config method the remote p2p device is requiring.
 };
 
@@ -305,7 +305,7 @@ struct wifidirect_info{
 	_adapter*				padapter;
 	_timer					find_phase_timer;
 	_timer					restore_p2p_state_timer;
-	
+
 	//	Used to do the scanning. After confirming the peer is availalble, the driver transmits the P2P frame to peer.
 	_timer					pre_tx_scan_timer;
 	_timer					reset_ch_sitesurvey;
@@ -325,7 +325,7 @@ struct wifidirect_info{
 	struct scan_limit_info		p2p_info;		//	Used for get the limit scan channel from the P2P negotiation handshake
 #ifdef CONFIG_WFD
 	struct wifi_display_info		*wfd_info;
-#endif	
+#endif
 
 #ifdef CONFIG_P2P_WOWLAN
 	struct p2p_wowlan_info		p2p_wow_info;
@@ -378,7 +378,7 @@ struct wifidirect_info{
 
 	enum	P2P_WPSINFO		ui_got_wps_info;			//	This field will store the WPS value (PIN value or PBC) that UI had got from the user.
 	u16						supported_wps_cm;			//	This field describes the WPS config method which this driver supported.
-														//	The value should be the combination of config method defined in page104 of WPS v2.0 spec.	
+														//	The value should be the combination of config method defined in page104 of WPS v2.0 spec.
 	u8						external_uuid;				// UUID flag
 	u8						uuid[16];					// UUID
 	uint						channel_list_attr_len;		//	This field will contain the length of body of P2P Channel List attribute of group negotitation response frame.
@@ -435,7 +435,7 @@ struct tdls_info{
 	u8					sta_cnt;
 	u8					sta_maximum;	/* 1:tdls sta is equal (NUM_STA-1), reach max direct link number; 0: else; */
 	struct tdls_ss_record	ss_record;
-#ifdef CONFIG_TDLS_CH_SW	
+#ifdef CONFIG_TDLS_CH_SW
 	struct tdls_ch_switch	chsw_info;
 #endif
 
@@ -452,7 +452,7 @@ struct tdls_info{
 	u8					driver_setup;
 #ifdef CONFIG_WFD
 	struct wifi_display_info		*wfd_info;
-#endif		
+#endif
 };
 
 struct tdls_txmgmt {
@@ -553,7 +553,7 @@ struct mlme_priv {
 	int num_sta_no_ht;
 
 	/* Number of HT AP/stations 20 MHz */
-	//int num_sta_ht_20mhz; 
+	//int num_sta_ht_20mhz;
 
 
 	int num_FortyMHzIntolerant;
@@ -590,8 +590,8 @@ struct mlme_priv {
 	u32 wps_probe_req_ie_len;
 
 	u8 ext_capab_ie_data[8];/*currently for ap mode only*/
-	u8 ext_capab_ie_len; 
-	
+	u8 ext_capab_ie_len;
+
 #if defined (CONFIG_AP_MODE) && defined (CONFIG_NATIVEAP_MLME)
 	/* Number of associated Non-ERP stations (i.e., stations using 802.11b
 	 * in 802.11g BSS) */
@@ -616,23 +616,23 @@ struct mlme_priv {
 
 	/* number of associated stations 40MHz intolerant */
 	int num_sta_40mhz_intolerant;
-	
+
 	/* Overlapping BSS information */
 	int olbc_ht;
-	
+
 #ifdef CONFIG_80211N_HT
-	int ht_20mhz_width_req; 
-	int ht_intolerant_ch_reported;		
+	int ht_20mhz_width_req;
+	int ht_intolerant_ch_reported;
 	u16 ht_op_mode;
 	u8 sw_to_20mhz; /*switch to 20Mhz BW*/
-#endif /* CONFIG_80211N_HT */	
+#endif /* CONFIG_80211N_HT */
 
 	u8 *assoc_req;
 	u32 assoc_req_len;
 	u8 *assoc_rsp;
 	u32 assoc_rsp_len;
 
-	u8 *wps_beacon_ie;	
+	u8 *wps_beacon_ie;
 	//u8 *wps_probe_req_ie;
 	u8 *wps_probe_resp_ie;
 	u8 *wps_assoc_resp_ie; // for CONFIG_IOCTL_CFG80211, this IE could include p2p ie / wfd ie
@@ -641,11 +641,11 @@ struct mlme_priv {
 	//u32 wps_probe_req_ie_len;
 	u32 wps_probe_resp_ie_len;
 	u32 wps_assoc_resp_ie_len; // for CONFIG_IOCTL_CFG80211, this IE len could include p2p ie / wfd ie
-	
+
 	u8 *p2p_beacon_ie;
 	u8 *p2p_probe_req_ie;
-	u8 *p2p_probe_resp_ie;	
-	u8 *p2p_go_probe_resp_ie; //for GO	
+	u8 *p2p_probe_resp_ie;
+	u8 *p2p_go_probe_resp_ie; //for GO
 	u8 *p2p_assoc_req_ie;
 
 	u32 p2p_beacon_ie_len;
@@ -665,21 +665,21 @@ struct mlme_priv {
 	u32 wps_p2p_assoc_resp_ie_len;
 #endif
 */
-	
+
 	_lock	bcn_update_lock;
 	u8		update_bcn;
-	
+
 	u8 ori_ch;
 	u8 ori_bw;
 	u8 ori_offset;
 #endif //#if defined (CONFIG_AP_MODE) && defined (CONFIG_NATIVEAP_MLME)
 
 #if defined(CONFIG_WFD) && defined(CONFIG_IOCTL_CFG80211)
-	
+
 	u8 *wfd_beacon_ie;
 	u8 *wfd_probe_req_ie;
-	u8 *wfd_probe_resp_ie;	
-	u8 *wfd_go_probe_resp_ie; //for GO	
+	u8 *wfd_probe_resp_ie;
+	u8 *wfd_go_probe_resp_ie; //for GO
 	u8 *wfd_assoc_req_ie;
 
 	u32 wfd_beacon_ie_len;
@@ -759,8 +759,8 @@ struct hostapd_priv
 #ifdef CONFIG_HOSTAPD_MLME
 	struct net_device *pmgnt_netdev;
 	struct usb_anchor anchored;
-#endif	
-	
+#endif
+
 };
 
 extern int hostapd_mode_init(_adapter *padapter);

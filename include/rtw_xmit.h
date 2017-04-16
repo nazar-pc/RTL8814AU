@@ -154,7 +154,7 @@ do{\
 #define HWXMIT_ENTRY	4
 
 // For Buffer Descriptor ring architecture
-#ifdef BUF_DESC_ARCH	
+#ifdef BUF_DESC_ARCH
 #if defined(CONFIG_RTL8192E)
 #define TX_BUFFER_SEG_NUM	1 /* 0:2 seg, 1: 4 seg, 2: 8 seg. */
 #elif defined(CONFIG_RTL8814A)
@@ -202,7 +202,7 @@ do{\
 
 enum TXDESC_SC{
 	SC_DONT_CARE = 0x00,
-	SC_UPPER= 0x01,	
+	SC_UPPER= 0x01,
 	SC_LOWER=0x02,
 	SC_DUPLICATE=0x03
 };
@@ -407,7 +407,7 @@ struct pkt_attrib
 	u8 icmp_pkt;
 	u16 txbf_p_aid;/*beamforming Partial_AID*/
 	u16 txbf_g_id;/*beamforming Group ID*/
-	
+
 };
 #endif
 
@@ -531,7 +531,7 @@ struct xmit_buf
 	u8 *ptail;
 	u8 *pend;
 	u32 ff_hwaddr;
-	u8	pg_num;	
+	u8	pg_num;
 	u8	agg_num;
 #ifdef PLATFORM_OS_XP
 	PMDL pxmitbuf_mdl;
@@ -760,11 +760,11 @@ struct	xmit_priv	{
 	#ifdef CONFIG_TX_EARLY_MODE
 
 	#ifdef CONFIG_SDIO_HCI
-	#define MAX_AGG_PKT_NUM 20	
+	#define MAX_AGG_PKT_NUM 20
 	#else
-	#define MAX_AGG_PKT_NUM 256 //Max tx ampdu coounts		
+	#define MAX_AGG_PKT_NUM 256 //Max tx ampdu coounts
 	#endif
-	
+
 	struct agg_pkt_info agg_pkt[MAX_AGG_PKT_NUM];
 	#endif
 
@@ -780,7 +780,7 @@ struct	xmit_priv	{
 extern struct xmit_frame *__rtw_alloc_cmdxmitframe(struct xmit_priv *pxmitpriv,
 		enum cmdbuf_type buf_type);
 #define rtw_alloc_cmdxmitframe(p) __rtw_alloc_cmdxmitframe(p, CMDBUF_RSVD)
-#if defined(CONFIG_RTL8192E) && defined(CONFIG_PCI_HCI) 
+#if defined(CONFIG_RTL8192E) && defined(CONFIG_PCI_HCI)
 extern struct xmit_frame *__rtw_alloc_cmdxmitframe_8192ee(struct xmit_priv *pxmitpriv,
 		enum cmdbuf_type buf_type);
 #define rtw_alloc_bcnxmitframe(p) __rtw_alloc_cmdxmitframe_8192ee(p, CMDBUF_BEACON)

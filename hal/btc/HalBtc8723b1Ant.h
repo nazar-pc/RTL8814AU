@@ -17,7 +17,7 @@
 
 #define	BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT		2
 
-#define  BT_8723B_1ANT_WIFI_NOISY_THRESH								50 //30   //max: 255								
+#define  BT_8723B_1ANT_WIFI_NOISY_THRESH								50 //30   //max: 255
 
 //for Antenna detection
 #define	BT_8723B_1ANT_ANTDET_PSDTHRES_BACKGROUND					50
@@ -153,7 +153,7 @@ typedef struct _COEX_STA_8723B_1ANT{
 	u4Byte					btInfoC2hCnt[BT_INFO_SRC_8723B_1ANT_MAX];
 	BOOLEAN					bBtWhckTest;
 	BOOLEAN					bC2hBtInquiryPage;
-	BOOLEAN					bC2hBtRemoteNameReq;				
+	BOOLEAN					bC2hBtRemoteNameReq;
 	BOOLEAN					bWiFiIsHighPriTask;		//Add for win8.1 page out issue
 	u1Byte					btRetryCnt;
 	u1Byte					btInfoExt;
@@ -164,11 +164,11 @@ typedef struct _COEX_STA_8723B_1ANT{
 	u4Byte					nCRCOK_11g;
 	u4Byte					nCRCOK_11n;
 	u4Byte					nCRCOK_11nAgg;
-	
+
 	u4Byte					nCRCErr_CCK;
 	u4Byte					nCRCErr_11g;
 	u4Byte					nCRCErr_11n;
-	u4Byte					nCRCErr_11nAgg;	
+	u4Byte					nCRCErr_11nAgg;
 
 	BOOLEAN					bCCKLock;
 	BOOLEAN					bPreCCKLock;
@@ -207,7 +207,7 @@ u4Byte			nAntDet_ThresOffset;
 u4Byte			nRealCentFreq;
 s4Byte			nRealOffset;
 u4Byte			nRealSpan;
-	
+
 u4Byte			nPSDBandWidth;  //unit: Hz
 u4Byte			nPSDPoint;		//128/256/512/1024
 u4Byte			nPSDReport[1024];  //unit:dB (20logx), 0~255

@@ -37,7 +37,7 @@ GetDeltaSwingTable_8814A(
 	OUT pu1Byte 			*TemperatureUP_A,
 	OUT pu1Byte 			*TemperatureDOWN_A,
 	OUT pu1Byte 			*TemperatureUP_B,
-	OUT pu1Byte 			*TemperatureDOWN_B	
+	OUT pu1Byte 			*TemperatureDOWN_B
 	);
 
 VOID
@@ -46,10 +46,10 @@ GetDeltaSwingTable_8814A_PathCD(
 	OUT pu1Byte 			*TemperatureUP_C,
 	OUT pu1Byte 			*TemperatureDOWN_C,
 	OUT pu1Byte 			*TemperatureUP_D,
-	OUT pu1Byte 			*TemperatureDOWN_D	
+	OUT pu1Byte 			*TemperatureDOWN_D
 	);
 
-VOID 
+VOID
 ODM_TxPwrTrackSetPwr8814A(
 	IN	PVOID		pDM_VOID,
 	PWRTRACK_METHOD 	Method,
@@ -73,7 +73,7 @@ PHY_IQCalibrate_8814A(
 //
 // LC calibrate
 //
-void	
+void
 PHY_LCCalibrate_8814A(
 	IN	PVOID		pDM_VOID
 	);
@@ -81,8 +81,8 @@ PHY_LCCalibrate_8814A(
 //
 // AP calibrate
 //
-void	
-PHY_APCalibrate_8814A(		
+void
+PHY_APCalibrate_8814A(
 #if (DM_ODM_SUPPORT_TYPE & ODM_AP)
 	IN PDM_ODM_T		pDM_Odm,
 #else
@@ -92,9 +92,9 @@ PHY_APCalibrate_8814A(
 	);
 
 
-VOID	                                                 
-PHY_DPCalibrate_8814A(                                   
-	IN 	PDM_ODM_T	pDM_Odm                             
+VOID
+PHY_DPCalibrate_8814A(
+	IN 	PDM_ODM_T	pDM_Odm
 	);
 
 
@@ -107,6 +107,6 @@ VOID PHY_SetRFPathSwitch_8814A(
 	IN	BOOLEAN		bMain
 	);
 
-								
-#endif	// #ifndef __HAL_PHY_RF_8188E_H__								
+
+#endif	// #ifndef __HAL_PHY_RF_8188E_H__
 

@@ -23,7 +23,7 @@
 //#include "hal_com.h"
 #include "hal_data.h"
 
-//include HAL Related header after HAL Related compiling flags 
+//include HAL Related header after HAL Related compiling flags
 #include "rtl8814a_spec.h"
 #include "rtl8814a_rf.h"
 #include "rtl8814a_dm.h"
@@ -43,7 +43,7 @@ typedef enum _TX_PWR_PERCENTAGE{
 	TX_PWR_PERCENTAGE_0 = 0x01, // 12.5%
 	TX_PWR_PERCENTAGE_1 = 0x02, // 25%
 	TX_PWR_PERCENTAGE_2 = 0x04, // 50%
-	TX_PWR_PERCENTAGE_3 = 0x08, //100%, default target output power.	
+	TX_PWR_PERCENTAGE_3 = 0x08, //100%, default target output power.
 } TX_PWR_PERCENTAGE;
 
 
@@ -72,17 +72,17 @@ typedef struct _RT_FIRMWARE_8814 {
 //---------------------------------------------------------------------
 		#define RTL8814A_FW_IMG					"rtl8814a/FW_NIC.bin"
 		#define RTL8814A_FW_WW_IMG				"rtl8814a/FW_WoWLAN.bin"
-		#define RTL8814A_PHY_REG					"rtl8814a/PHY_REG.txt" 
+		#define RTL8814A_PHY_REG					"rtl8814a/PHY_REG.txt"
 		#define RTL8814A_PHY_RADIO_A				"rtl8814a/RadioA.txt"
 		#define RTL8814A_PHY_RADIO_B				"rtl8814a/RadioB.txt"
 		#define RTL8814A_PHY_RADIO_C				"rtl8814a/RadioC.txt"
 		#define RTL8814A_PHY_RADIO_D				"rtl8814a/RadioD.txt"
-		#define RTL8814A_TXPWR_TRACK				"rtl8814a/TxPowerTrack.txt"			
+		#define RTL8814A_TXPWR_TRACK				"rtl8814a/TxPowerTrack.txt"
 		#define RTL8814A_AGC_TAB					"rtl8814a/AGC_TAB.txt"
 		#define RTL8814A_PHY_MACREG 				"rtl8814a/MAC_REG.txt"
 		#define RTL8814A_PHY_REG_PG				"rtl8814a/PHY_REG_PG.txt"
-		#define RTL8814A_PHY_REG_MP 				"rtl8814a/PHY_REG_MP.txt" 
-		#define RTL8814A_TXPWR_LMT				"rtl8814a/TXPWR_LMT.txt" 
+		#define RTL8814A_PHY_REG_MP 				"rtl8814a/PHY_REG_MP.txt"
+		#define RTL8814A_TXPWR_LMT				"rtl8814a/TXPWR_LMT.txt"
 		#define RTL8814A_WIFI_ANT_ISOLATION		"rtl8814a/wifi_ant_isolation.txt"
 
 #define Rtl8814A_NIC_PWR_ON_FLOW				rtl8814A_power_on_flow
@@ -93,13 +93,13 @@ typedef struct _RT_FIRMWARE_8814 {
 #define Rtl8814A_NIC_RESUME_FLOW				rtl8814A_resume_flow
 #define Rtl8814A_NIC_PDN_FLOW					rtl8814A_hwpdn_flow
 #define Rtl8814A_NIC_LPS_ENTER_FLOW			rtl8814A_enter_lps_flow
-#define Rtl8814A_NIC_LPS_LEAVE_FLOW			rtl8814A_leave_lps_flow	
+#define Rtl8814A_NIC_LPS_LEAVE_FLOW			rtl8814A_leave_lps_flow
 
 //=====================================================
 //				New	Firmware Header(8-byte alinment required)
 //=====================================================
 //--- LONG WORD 0 ----
-#define GET_FIRMWARE_HDR_SIGNATURE_3081(__FwHdr)		LE_BITS_TO_4BYTE(__FwHdr, 0, 16) 
+#define GET_FIRMWARE_HDR_SIGNATURE_3081(__FwHdr)		LE_BITS_TO_4BYTE(__FwHdr, 0, 16)
 #define GET_FIRMWARE_HDR_CATEGORY_3081(__FwHdr)		LE_BITS_TO_4BYTE(__FwHdr, 16, 8) // AP/NIC and USB/PCI
 #define GET_FIRMWARE_HDR_FUNCTION_3081(__FwHdr)			LE_BITS_TO_4BYTE(__FwHdr, 24, 8) // Reserved for different FW function indcation, for further use when driver needs to download different FW in different conditions
 #define GET_FIRMWARE_HDR_VERSION_3081(__FwHdr)			LE_BITS_TO_4BYTE(__FwHdr+4, 0, 16)// FW Version
@@ -158,7 +158,7 @@ typedef struct _RT_FIRMWARE_8814 {
 #define TRX_SHARE_BUFF_UNIT_8814A			65536//TRX Share Buffer unit Size 64K = 64*1024 Unit: Byte
 #define TRX_SHARE_BUFF_UNIT_PAGE_8814A	TRX_SHARE_BUFF_UNIT_8814A/PAGE_SIZE_8814A//512 Pages
 
-//Origin: 
+//Origin:
 #define  HPQ_PGNUM_8814A	 				0x20	//High Queue
 #define  LPQ_PGNUM_8814A	 				0x20	//Low Queue
 #define  NPQ_PGNUM_8814A	 				0x20	//Normal Queue
@@ -185,7 +185,7 @@ typedef struct _RT_FIRMWARE_8814 {
 #define TX_PAGE_BOUNDARY_8814A			TXPKT_PGNUM_8814A	// Need to enlarge boundary, by KaiYuan
 #define TX_PAGE_BOUNDARY_WOWLAN_8814A	TXPKT_PGNUM_8814A	//TODO: 20130415 KaiYuan Check this value later
 
-#ifdef CONFIG_FW_C2H_DEBUG 
+#ifdef CONFIG_FW_C2H_DEBUG
 #define RX_DMA_RESERVED_SIZE_8814A	0x100	// 256B, reserved for c2h debug message
 #else
 #define RX_DMA_RESERVED_SIZE_8814A	0x0	// 0B
@@ -246,7 +246,7 @@ Chip specific
 // <Roger_Notes> To prevent out of boundary programming case, leave 1byte and program full section
 // 9bytes + 1byt + 5bytes and pre 1byte.
 // For worst case:
-// | 1byte|----8bytes----|1byte|--5bytes--| 
+// | 1byte|----8bytes----|1byte|--5bytes--|
 // |         |            Reserved(14bytes)	      |
 //
 #define	EFUSE_OOB_PROTECT_BYTES 		15	// PG data exclude header, dummy 6 bytes frome CP test and reserved 1byte.
@@ -282,13 +282,13 @@ void	hal_EfuseParseXtal_8814A(PADAPTER pAdapter, u8* hwinfo,BOOLEAN AutoLoadFail
 void	hal_ReadAntennaDiversity8814A(PADAPTER pAdapter,u8* PROMContent,BOOLEAN AutoLoadFail);
 void	hal_Read_TRX_antenna_8814A(PADAPTER	Adapter, u8 *PROMContent, BOOLEAN AutoloadFail);
 VOID hal_ReadAmplifierType_8814A(
-	IN	PADAPTER		Adapter	
+	IN	PADAPTER		Adapter
 	);
 VOID hal_ReadPAType_8814A(
 	IN	PADAPTER	Adapter,
 	IN	u8*			PROMContent,
 	IN	BOOLEAN		AutoloadFail,
-	OUT u8*		pPAType, 
+	OUT u8*		pPAType,
 	OUT u8*		pLNAType
 	);
 void hal_GetRxGainOffset_8814A(
@@ -309,7 +309,7 @@ void	hal_ReadRemoteWakeup_8814A(PADAPTER padapter, u8* hwinfo, BOOLEAN AutoLoadF
 u8	MgntQuery_NssTxRate(u16 Rate);
 
 //BOOLEAN HalDetectPwrDownMode8812(PADAPTER Adapter);
-	
+
 #ifdef CONFIG_WOWLAN
 void Hal_DetectWoWMode(PADAPTER pAdapter);
 #endif //CONFIG_WOWLAN

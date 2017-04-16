@@ -92,7 +92,7 @@ VOID
 PHY_SetTxPowerIndex_8188F(
 	IN	PADAPTER			Adapter,
 	IN	u32					PowerIndex,
-	IN	u8					RFPath,	
+	IN	u8					RFPath,
 	IN	u8					Rate
 	);
 
@@ -100,15 +100,15 @@ u8
 PHY_GetTxPowerIndex_8188F(
 	IN	PADAPTER			pAdapter,
 	IN	u8					RFPath,
-	IN	u8					Rate,	
-	IN	CHANNEL_WIDTH		BandWidth,	
+	IN	u8					Rate,
+	IN	CHANNEL_WIDTH		BandWidth,
 	IN	u8					Channel
 	);
 
-VOID	
-PHY_GetTxPowerLevel8188F(			
+VOID
+PHY_GetTxPowerLevel8188F(
 	IN	PADAPTER		Adapter,
-	OUT s32*		    		powerlevel	
+	OUT s32*		    		powerlevel
 	);
 
 VOID

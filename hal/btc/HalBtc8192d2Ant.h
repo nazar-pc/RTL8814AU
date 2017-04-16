@@ -45,9 +45,9 @@ typedef struct _COEX_DM_8192D_2ANT{
 	BOOLEAN		bCurNavOn;
 
 
-	
 
-	
+
+
 	//BOOLEAN		bPreDecBtPwr;
 	//BOOLEAN		bCurDecBtPwr;
 

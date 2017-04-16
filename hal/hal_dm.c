@@ -28,45 +28,45 @@ ODM_BOARD_TYPE_E boardType(u8 InterfaceSel)
 
 #ifdef CONFIG_PCI_HCI
 	INTERFACE_SELECT_PCIE   pcie 	= (INTERFACE_SELECT_PCIE)InterfaceSel;
-	switch (pcie) 
+	switch (pcie)
 	{
-        case INTF_SEL0_SOLO_MINICARD:       
+        case INTF_SEL0_SOLO_MINICARD:
             board |= ODM_BOARD_MINICARD;
             break;
-        case INTF_SEL1_BT_COMBO_MINICARD:   
+        case INTF_SEL1_BT_COMBO_MINICARD:
             board |= ODM_BOARD_BT;
 			board |= ODM_BOARD_MINICARD;
             break;
         default:
             board = ODM_BOARD_DEFAULT;
             break;
-	}                                
+	}
 
 #elif defined(CONFIG_USB_HCI)
 	INTERFACE_SELECT_USB    usb 	= (INTERFACE_SELECT_USB)InterfaceSel;
-	switch (usb) 
+	switch (usb)
 	{
-	    case INTF_SEL1_USB_High_Power:      
+	    case INTF_SEL1_USB_High_Power:
 	        board |= ODM_BOARD_EXT_LNA;
-	        board |= ODM_BOARD_EXT_PA;			
+	        board |= ODM_BOARD_EXT_PA;
 	        break;
-	    case INTF_SEL2_MINICARD:            
+	    case INTF_SEL2_MINICARD:
 	        board |= ODM_BOARD_MINICARD;
 	        break;
-	    case INTF_SEL4_USB_Combo:           
+	    case INTF_SEL4_USB_Combo:
 	        board |= ODM_BOARD_BT;
 	        break;
-	    case INTF_SEL5_USB_Combo_MF:        
+	    case INTF_SEL5_USB_Combo_MF:
 	        board |= ODM_BOARD_BT;
 	        break;
-	    case INTF_SEL0_USB: 			
-	    case INTF_SEL3_USB_Solo:            			
+	    case INTF_SEL0_USB:
+	    case INTF_SEL3_USB_Solo:
 	    default:
 	        board = ODM_BOARD_DEFAULT;
 	        break;
 	}
-	
-#endif	
+
+#endif
 	//DBG_871X("===> boardType(): (pHalData->InterfaceSel, pDM_Odm->BoardType) = (%d, %d)\n", InterfaceSel, board);
 
 	return board;
@@ -120,7 +120,7 @@ void Init_ODM_ComInfo(_adapter *adapter)
 		ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_RF_TYPE, ODM_4T4R);
 	else
 		ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_RF_TYPE, ODM_XTXR);
-	
+
 
 {
 	//1 ======= BoardType: ODM_CMNINFO_BOARD_TYPE =======
@@ -143,7 +143,7 @@ void Init_ODM_ComInfo(_adapter *adapter)
 		ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_5G_EXT_PA, 1);
 	}
 	if (pHalData->EEPROMBluetoothCoexist)
-		odm_board_type |= ODM_BOARD_BT;	
+		odm_board_type |= ODM_BOARD_BT;
 
 	ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_BOARD_TYPE, odm_board_type);
 	//1 ============== End of BoardType ==============

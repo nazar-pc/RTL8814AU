@@ -130,7 +130,7 @@
 
 
 // Dword 2
-#define SET_TX_DESC_PAID_8188F(__pTxDesc, __Value) SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 0,  9, __Value) 
+#define SET_TX_DESC_PAID_8188F(__pTxDesc, __Value) SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 0,  9, __Value)
 #define SET_TX_DESC_CCA_RTS_8188F(__pTxDesc, __Value) SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 10, 2, __Value)
 #define SET_TX_DESC_AGG_ENABLE_8188F(__pTxDesc, __Value)		SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 12, 1, __Value)
 #define SET_TX_DESC_RDG_ENABLE_8188F(__pTxDesc, __Value)		SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 13, 1, __Value)

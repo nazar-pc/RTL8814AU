@@ -107,7 +107,7 @@
 #define EEPROM_THERMAL_OFFSET			0xF5
 #endif //CONFIG_RF_GAIN_OFFSET
 //----------------------------------------------------------------------------
-//       88E Driver Initialization Offload REG_FDHM0(Offset 0x88, 8 bits)  
+//       88E Driver Initialization Offload REG_FDHM0(Offset 0x88, 8 bits)
 //----------------------------------------------------------------------------
 //IOL config for REG_FDHM0(Reg0x88)
 #define CMD_INIT_LLT					BIT0

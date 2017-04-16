@@ -20,10 +20,10 @@
 /*
  * Description:
  *	This file can be applied to following platforms:
- *	CONFIG_PLATFORM_ARM_SUNXI Series platform 
- *	
+ *	CONFIG_PLATFORM_ARM_SUNXI Series platform
+ *
  */
- 
+
 #include <drv_types.h>
 #include <mach/sys_config.h>
 
@@ -82,7 +82,7 @@ int platform_wifi_power_on(void)
 		printk("sw_usb_enable_hcd: usbc_num = %d\n", item.val);
 		wifi_pm_power(1);
 		mdelay(10);
-	
+
 		#if !(defined(CONFIG_RTL8723A)) && !(defined(CONFIG_RTL8723B))
 		sw_usb_enable_hcd(item.val);
 		#endif
@@ -103,7 +103,7 @@ int platform_wifi_power_on(void)
 		printk("sw_usb_enable_hcd: usbc_num = %d\n", item.val);
 		wifi_pm_power(1);
 		mdelay(10);
-	
+
 		#if !(defined(CONFIG_RTL8723A)) && !(defined(CONFIG_RTL8723B))
 		sunxi_usb_enable_hcd(item.val);
 		#endif
@@ -136,7 +136,7 @@ void platform_wifi_power_off(void)
 	sunxi_usb_disable_hcd(item.val);
 	#endif
 	wifi_pm_power(0);
-#endif //defined(CONFIG_PLATFORM_ARM_SUN8I) 
+#endif //defined(CONFIG_PLATFORM_ARM_SUN8I)
 
 }
 

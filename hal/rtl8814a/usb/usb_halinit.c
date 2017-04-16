@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -58,7 +58,7 @@ _ConfigChipOutEP_8814(
 		case 	4:
 				pHalData->OutEpQueueSel=TX_SELE_HQ| TX_SELE_LQ|TX_SELE_NQ;
 				pHalData->OutEpNumber=4;
-				break;		
+				break;
 		case 	3:
 				pHalData->OutEpQueueSel=TX_SELE_HQ| TX_SELE_LQ|TX_SELE_NQ;
 				pHalData->OutEpNumber=3;
@@ -71,9 +71,9 @@ _ConfigChipOutEP_8814(
 				pHalData->OutEpQueueSel=TX_SELE_HQ;
 				pHalData->OutEpNumber=1;
 				break;
-		default:				
+		default:
 				break;
-			
+
 	}
 	DBG_871X("%s OutEpQueueSel(0x%02x), OutEpNumber(%d) \n",__FUNCTION__,pHalData->OutEpQueueSel,pHalData->OutEpNumber );
 
@@ -89,7 +89,7 @@ static BOOLEAN HalUsbSetQueuePipeMapping8814AUsb(
 	BOOLEAN			result		= _FALSE;
 
 	_ConfigChipOutEP_8814(pAdapter, NumOutPipe);
-	
+
 	// Normal chip with one IN and one OUT doesn't have interrupt IN EP.
 	if(1 == pHalData->OutEpNumber){
 		if(1 != NumInPipe){
@@ -103,7 +103,7 @@ static BOOLEAN HalUsbSetQueuePipeMapping8814AUsb(
 	//}
 
 	result = Hal_MappingOutPipe(pAdapter, NumOutPipe);
-	
+
 	return result;
 
 }
@@ -160,22 +160,22 @@ _InitBurstPktLen(IN PADAPTER Adapter)
 {
 	u8 			u1bTmp;
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
- 
+
 	//yx_qi 131128 move to 0x1448, 144c
 	rtw_write32(Adapter, REG_FAST_EDCA_VOVI_SETTING_8814A, 0x08070807); //yx_qi 131128
 	rtw_write32(Adapter, REG_FAST_EDCA_BEBK_SETTING_8814A, 0x08070807); //yx_qi 131128
-	
+
 	u1bTmp = rtw_read8(Adapter, 0xff); //check device operation speed: SS 0xff bit7
-	
+
 	if(u1bTmp & BIT7)   //USB2/1.1 Mode
 	{
  		pHalData->bSupportUSB3 = FALSE;
 	}
 	else  //USB3 Mode
-	{		
+	{
 		pHalData->bSupportUSB3 = TRUE;
 	}
-	
+
 	if(pHalData->bSupportUSB3 == _FALSE)   //USB2/1.1 Mode
 	{
 		if(pHalData->UsbBulkOutSize == 512)
@@ -186,26 +186,26 @@ _InitBurstPktLen(IN PADAPTER Adapter)
 		else
 		{
 			//set burst pkt len=64B
-			rtw_write8(Adapter, REG_RXDMA_MODE_8814A, 0x2e);		
+			rtw_write8(Adapter, REG_RXDMA_MODE_8814A, 0x2e);
 		}
 
 		rtw_write16(Adapter, REG_RXDMA_AGG_PG_TH_8814A,0x2005); //dmc agg th 20K
 	}
 	else  //USB3 Mode
-	{		
+	{
 		//set burst pkt len=1k
-		rtw_write8(Adapter, REG_RXDMA_MODE_8814A, 0x0e);				
+		rtw_write8(Adapter, REG_RXDMA_MODE_8814A, 0x0e);
 		rtw_write16(Adapter, REG_RXDMA_AGG_PG_TH_8814A,0x0a05); //dmc agg th 20K
-		
+
 		// set Reg 0xf008[3:4] to 2'00 to disable U1/U2 Mode to avoid 2.5G spur in USB3.0. added by page, 20120712
 		rtw_write8(Adapter, 0xf008, rtw_read8(Adapter, 0xf008)&0xE7);
 		//to avoid usb 3.0 H2C fail
 		rtw_write16(Adapter, 0xf002, 0);
-		
+
 		rtw_write8(Adapter, REG_SW_AMPDU_BURST_MODE_CTRL_8814A, rtw_read8(Adapter, REG_SW_AMPDU_BURST_MODE_CTRL_8814A) & ~BIT(6));
 		DBG_871X("turn off the LDPC pre-TX\n");
-		
-	} 
+
+	}
 
 	if(pHalData->AMPDUBurstMode)
 	{
@@ -220,7 +220,7 @@ _InitQueueReservedPage_8814AUsb(
 	)
 {
 	struct registry_priv	*pregistrypriv = &Adapter->registrypriv;
-	u16		txpktbuf_bndy; 
+	u16		txpktbuf_bndy;
 
 	DBG_871X("===>_InitQueueReservedPage_8814AUsb()\n");
 
@@ -248,7 +248,7 @@ _InitQueueReservedPage_8814AUsb(
 	rtw_write16(Adapter,REG_FIFOPAGE_CTRL_2_8814A, txpktbuf_bndy);
 	//The head page of packet of Bcnq1
 	rtw_write16(Adapter,REG_FIFOPAGE_CTRL_2_8814A+2,txpktbuf_bndy);
-	
+
 	DBG_871X("<===_InitQueueReservedPage_8814AUsb()\n");
 }
 
@@ -313,9 +313,9 @@ _InitPageBoundary_8814AUsb(
 {
 	//20130416 KaiYuan modified for 8814
 	HAL_DATA_TYPE	*pHalData	= GET_HAL_DATA(Adapter);
-	
+
 	rtw_write16(Adapter, REG_RXFF_PTR_8814A, RX_DMA_BOUNDARY_8814A); //yx_qi 20140331
-	
+
 }
 
 
@@ -347,11 +347,11 @@ _InitNormalChipTwoOutEpPriority_8814AUsb(
 	HAL_DATA_TYPE	*pHalData	= GET_HAL_DATA(Adapter);
 	struct registry_priv	*pregistrypriv = &Adapter->registrypriv;
 	u16			beQ,bkQ,viQ,voQ,mgtQ,hiQ;
-	
+
 
 	u16	valueHi = 0;
 	u16	valueLow = 0;
-	
+
 	switch(pHalData->OutEpQueueSel)
 	{
 		case (TX_SELE_HQ | TX_SELE_LQ):
@@ -368,7 +368,7 @@ _InitNormalChipTwoOutEpPriority_8814AUsb(
 			break;
 		default:
 			valueHi = QUEUE_HIGH;
-			valueLow = QUEUE_NORMAL;			
+			valueLow = QUEUE_NORMAL;
 			break;
 	}
 
@@ -377,8 +377,8 @@ _InitNormalChipTwoOutEpPriority_8814AUsb(
 		bkQ 		= valueLow;
 		viQ		= valueHi;
 		voQ 		= valueHi;
-		mgtQ 	= valueHi; 
-		hiQ 		= valueHi;								
+		mgtQ 	= valueHi;
+		hiQ 		= valueHi;
 	}
 	else{//for WMM ,CONFIG_OUT_EP_WIFI_MODE
 		beQ		= valueLow;
@@ -386,9 +386,9 @@ _InitNormalChipTwoOutEpPriority_8814AUsb(
 		viQ 		= valueHi;
 		voQ 		= valueLow;
 		mgtQ 	= valueHi;
-		hiQ 		= valueHi;							
+		hiQ 		= valueHi;
 	}
-	
+
 	_InitNormalChipRegPriority_8814AUsb(Adapter,beQ,bkQ,viQ,voQ,mgtQ,hiQ);
 }
 
@@ -406,7 +406,7 @@ _InitNormalChipThreeOutEpPriority_8814AUsb(
 		viQ 		= QUEUE_NORMAL;
 		voQ 		= QUEUE_HIGH;
 		mgtQ 	= QUEUE_HIGH;
-		hiQ 		= QUEUE_HIGH;			
+		hiQ 		= QUEUE_HIGH;
 	}
 	else{// for WMM
 		beQ		= QUEUE_LOW;
@@ -414,7 +414,7 @@ _InitNormalChipThreeOutEpPriority_8814AUsb(
 		viQ 		= QUEUE_NORMAL;
 		voQ 		= QUEUE_HIGH;
 		mgtQ 	= QUEUE_HIGH;
-		hiQ 		= QUEUE_HIGH;			
+		hiQ 		= QUEUE_HIGH;
 	}
 	_InitNormalChipRegPriority_8814AUsb(Adapter,beQ,bkQ,viQ,voQ,mgtQ,hiQ);
 }
@@ -496,8 +496,8 @@ _InitWMACSetting_8814A(
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
 
 	//pHalData->ReceiveConfig = AAP | APM | AM | AB | APP_ICV | ADF | AMF | APP_FCS | HTC_LOC_CTRL | APP_MIC | APP_PHYSTS;
-	pHalData->ReceiveConfig = 
-	RCR_APM | RCR_AM | RCR_AB |RCR_CBSSID_DATA| RCR_CBSSID_BCN| RCR_APP_ICV | RCR_AMF | RCR_HTC_LOC_CTRL | RCR_APP_MIC | RCR_APP_PHYST_RXFF;	  
+	pHalData->ReceiveConfig =
+	RCR_APM | RCR_AM | RCR_AB |RCR_CBSSID_DATA| RCR_CBSSID_BCN| RCR_APP_ICV | RCR_AMF | RCR_HTC_LOC_CTRL | RCR_APP_MIC | RCR_APP_PHYST_RXFF;
 
 #if (1 == RTL8812A_RX_PACKET_INCLUDE_CRC)
 	pHalData->ReceiveConfig |= ACRC32;
@@ -536,7 +536,7 @@ _InitWMACSetting_8814A(
 	//rtw_write16(Adapter, REG_RXFLTMAP0, value16);
 
 	//enable RX_SHIFT bits
-	//rtw_write8(Adapter, REG_TRXDMA_CTRL, rtw_read8(Adapter, REG_TRXDMA_CTRL)|BIT(1));	
+	//rtw_write8(Adapter, REG_TRXDMA_CTRL, rtw_read8(Adapter, REG_TRXDMA_CTRL)|BIT(1));
 
 }
 */
@@ -550,13 +550,13 @@ _InitMacConfigure_8814A(
 	u16			value16;
 	u32			regRRSR;
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
-	
+
 	switch (Adapter->registrypriv.wireless_mode)
 	{
 		case WIRELESS_11B:
 			regRRSR = RATE_ALL_CCK;
 			break;
-		
+
 		case WIRELESS_11G:
 		case WIRELESS_11A:
 		case WIRELESS_11_5N:
@@ -564,7 +564,7 @@ _InitMacConfigure_8814A(
 		case WIRELESS_11_5AC:
 			regRRSR = RATE_ALL_OFDM_AG;
 			break;
-		
+
 		case WIRELESS_11BG:
 		case WIRELESS_11G_24N:
 		case WIRELESS_11_24N:
@@ -572,7 +572,7 @@ _InitMacConfigure_8814A(
 		default:
 			regRRSR = RATE_ALL_CCK | RATE_ALL_OFDM_AG;
 			break;
-	
+
 	}
 
 	// Init value for RRSR.
@@ -581,7 +581,7 @@ _InitMacConfigure_8814A(
 	// Retry Limit
 	value16 = _LRL(0x30) | _SRL(0x30);
 	rtw_write16(Adapter, REG_RETRY_LIMIT_8814A, value16);
-	
+
 	pHalData->ReceiveConfig = RCR_APM | RCR_AM | RCR_AB |RCR_CBSSID_DATA| RCR_CBSSID_BCN| RCR_APP_ICV | RCR_AMF | RCR_HTC_LOC_CTRL | RCR_APP_MIC | RCR_APP_PHYST_RXFF;
 	pHalData->ReceiveConfig |= FORCEACK;
 #if (1 == RTL8812A_RX_PACKET_INCLUDE_CRC)
@@ -605,8 +605,8 @@ _InitMacConfigure_8814A(
 
 	// 201409/25 MH When RA is enabled, we need to reduce the value.
 	rtw_write8(Adapter, REG_MAX_AGGR_NUM_8814A, 0x36);
-	rtw_write8(Adapter, REG_RTS_MAX_AGGR_NUM_8814A,0x36); 
-	
+	rtw_write8(Adapter, REG_RTS_MAX_AGGR_NUM_8814A,0x36);
+
 }
 
 /*
@@ -640,7 +640,7 @@ _InitAdaptiveCtrl_8812AUsb(
 	// Retry Limit
 	value16 = _LRL(0x30) | _SRL(0x30);
 	rtw_write16(Adapter, REG_RL, value16);
-	
+
 }*/
 
 static VOID
@@ -653,7 +653,7 @@ _InitEDCA_8814AUsb(
 	rtw_write16(Adapter,REG_MAC_SPEC_SIFS, 0x100a);
 
 	// Set SIFS for CCK
-	rtw_write16(Adapter,REG_SIFS_CTX, 0x100a);	
+	rtw_write16(Adapter,REG_SIFS_CTX, 0x100a);
 
 	// Set SIFS for OFDM
 	rtw_write16(Adapter,REG_SIFS_TRX, 0x100a);
@@ -677,9 +677,9 @@ _InitBeaconMaxError_8814A(
 	)
 {
 #ifdef CONFIG_ADHOC_WORKAROUND_SETTING
-	rtw_write8(Adapter, REG_BCN_MAX_ERR, 0xFF);	
+	rtw_write8(Adapter, REG_BCN_MAX_ERR, 0xFF);
 #else
-	//rtw_write8(Adapter, REG_BCN_MAX_ERR, (InfraMode ? 0xFF : 0x10));	
+	//rtw_write8(Adapter, REG_BCN_MAX_ERR, (InfraMode ? 0xFF : 0x10));
 #endif
 }
 
@@ -688,12 +688,12 @@ _InitBeaconMaxError_8814A(
 static void _InitHWLed(PADAPTER Adapter)
 {
 	struct led_priv *pledpriv = &(Adapter->ledpriv);
-	
+
 	if( pledpriv->LedStrategy != HW_LED)
 		return;
-	
+
 // HW led control
-// to do .... 
+// to do ....
 //must consider cases of antenna diversity/ commbo card/solo card/mini card
 
 }
@@ -716,7 +716,7 @@ _InitRetryFunction_8814A(
 	)
 {
 	u8	value8;
-	
+
 	value8 = rtw_read8(Adapter, REG_FWHW_TXQ_CTRL);
 	value8 |= EN_AMPDU_RTY_NEW;
 	rtw_write8(Adapter, REG_FWHW_TXQ_CTRL, value8);
@@ -729,7 +729,7 @@ _InitRetryFunction_8814A(
 /*-----------------------------------------------------------------------------
  * Function:	usb_AggSettingTxUpdate()
  *
- * Overview:	Seperate TX/RX parameters update independent for TP detection and 
+ * Overview:	Seperate TX/RX parameters update independent for TP detection and
  *			dynamic TX/RX aggreagtion parameters update.
  *
  * Input:			PADAPTER
@@ -757,11 +757,11 @@ usb_AggSettingTxUpdate_8814A(
 		value32 = rtw_read32(Adapter, REG_TDECTRL);
 		value32 = value32 & ~(BLK_DESC_NUM_MASK << BLK_DESC_NUM_SHIFT);
 		value32 |= ((pHalData->UsbTxAggDescNum & BLK_DESC_NUM_MASK) << BLK_DESC_NUM_SHIFT);
-		
+
 		rtw_write32(Adapter, REG_TDECTRL, value32);
 		rtw_write8(Adapter, REG_TDECTRL+3, pHalData->UsbTxAggDescNum<<1);
 	}
-	
+
 #endif //CONFIG_USB_TX_AGGREGATION
 }	// usb_AggSettingTxUpdate
 
@@ -769,7 +769,7 @@ usb_AggSettingTxUpdate_8814A(
 /*-----------------------------------------------------------------------------
  * Function:	usb_AggSettingRxUpdate()
  *
- * Overview:	Seperate TX/RX parameters update independent for TP detection and 
+ * Overview:	Seperate TX/RX parameters update independent for TP detection and
  *			dynamic TX/RX aggreagtion parameters update.
  *
  * Input:			PADAPTER
@@ -853,7 +853,7 @@ init_UsbAggregationSetting_8814A(
  *
  * Revised History:
  *	When		Who		Remark
- *	12/10/2010	MHC		Create Version 0.  
+ *	12/10/2010	MHC		Create Version 0.
  *
  *---------------------------------------------------------------------------*/
 VOID
@@ -866,20 +866,20 @@ USB_AggModeSwitch(
 	PMGNT_INFO		pMgntInfo = &(Adapter->MgntInfo);
 
 	//pHalData->UsbRxHighSpeedMode = _FALSE;
-	// How to measure the RX speed? We assume that when traffic is more than 
+	// How to measure the RX speed? We assume that when traffic is more than
 	if (pMgntInfo->bRegAggDMEnable == _FALSE)
 	{
 		return;	// Inf not support.
 	}
-	
-	
-	if (pMgntInfo->LinkDetectInfo.bHigherBusyRxTraffic == _TRUE && 
+
+
+	if (pMgntInfo->LinkDetectInfo.bHigherBusyRxTraffic == _TRUE &&
 		pHalData->UsbRxHighSpeedMode == _FALSE)
 	{
 		pHalData->UsbRxHighSpeedMode = _TRUE;
 		RT_TRACE(COMP_INIT, DBG_LOUD, ("UsbAggModeSwitchCheck to HIGH\n"));
 	}
-	else if (pMgntInfo->LinkDetectInfo.bHigherBusyRxTraffic == _FALSE && 
+	else if (pMgntInfo->LinkDetectInfo.bHigherBusyRxTraffic == _FALSE &&
 		pHalData->UsbRxHighSpeedMode == _TRUE)
 	{
 		pHalData->UsbRxHighSpeedMode = _FALSE;
@@ -887,12 +887,12 @@ USB_AggModeSwitch(
 	}
 	else
 	{
-		return; 
+		return;
 	}
-	
+
 
 #if USB_RX_AGGREGATION_92C
-	if (pHalData->UsbRxHighSpeedMode == _TRUE)	
+	if (pHalData->UsbRxHighSpeedMode == _TRUE)
 	{
 		// 2010/12/10 MH The parameter is tested by SD1 engineer and SD3 channel emulator.
 		// USB mode
@@ -910,16 +910,16 @@ USB_AggModeSwitch(
 		}
 		// Mix mode
 		pHalData->RxAggPageCount	= 72;
-		pHalData->RxAggPageTimeout	= 6;		
+		pHalData->RxAggPageTimeout	= 6;
 	}
 	else
 	{
 		// USB mode
 		pHalData->RxAggBlockCount	= pMgntInfo->RegRxAggBlockCount;
-		pHalData->RxAggBlockTimeout	= pMgntInfo->RegRxAggBlockTimeout;	
+		pHalData->RxAggBlockTimeout	= pMgntInfo->RegRxAggBlockTimeout;
 		// Mix mode
 		pHalData->RxAggPageCount		= pMgntInfo->RegRxAggPageCount;
-		pHalData->RxAggPageTimeout	= pMgntInfo->RegRxAggPageTimeout;	
+		pHalData->RxAggPageTimeout	= pMgntInfo->RegRxAggPageTimeout;
 	}
 
 	if (pHalData->RxAggBlockCount > MAX_RX_AGG_BLKCNT)
@@ -935,12 +935,12 @@ USB_AggModeSwitch(
 		usb_AggSettingRxUpdate_8188E(Adapter);
 
 		// 2010/12/27 MH According to designer's suggstion, we can only modify Timeout value. Otheriwse
-		// there might many HW incorrect behavior, the XP BSOD at usbehci.sys may be relative to the 
+		// there might many HW incorrect behavior, the XP BSOD at usbehci.sys may be relative to the
 		// issue. Base on the newest test, we can not enable block cnt > 30, otherwise XP usbehci.sys may
 		// BSOD.
 	}
 #endif
-	
+
 #endif
 #endif
 }	// USB_AggModeSwitch
@@ -1003,7 +1003,7 @@ _InitOperationMode_8814A(
 			regRATR = RATE_ALL_OFDM_AG | RATE_ALL_OFDM_1SS | RATE_ALL_OFDM_2SS;
 			regRRSR = RATE_ALL_OFDM_AG;
 			break;
-			
+
 		default: //for MacOSX compiler warning.
 			break;
 	}
@@ -1055,7 +1055,7 @@ static VOID _RfPowerSave(
 	}
 	else{
 		pHalData->eRFPowerState = eRfOn;
-		pMgntInfo->RfOffReason = 0; 
+		pMgntInfo->RfOffReason = 0;
 		if(Adapter->bInSetPower || Adapter->bResetInProgress)
 			PlatformUsbEnableInPipes(Adapter);
 		RT_TRACE((COMP_INIT|COMP_RF), DBG_LOUD, ("InitializeAdapter8192CUsb(): RF is on.\n"));
@@ -1065,7 +1065,7 @@ static VOID _RfPowerSave(
 */
 enum {
 	Antenna_Lfet = 1,
-	Antenna_Right = 2,	
+	Antenna_Right = 2,
 };
 
 static VOID
@@ -1076,19 +1076,19 @@ _InitAntenna_Selection_8814A(IN	PADAPTER Adapter)
 
 	if(pHalData->AntDivCfg==0)
 		return;
-/*		
-	DBG_8192C("==>  %s ....\n",__FUNCTION__);		
+/*
+	DBG_8192C("==>  %s ....\n",__FUNCTION__);
 
 	rtw_write8(Adapter, REG_LEDCFG2, 0x82);
 
 	PHY_SetBBReg(Adapter, rFPGA0_XAB_RFParameter, BIT13, 0x01);
-		
+
 	if(PHY_QueryBBReg(Adapter, rFPGA0_XA_RFInterfaceOE, 0x300) == MAIN_ANT)
 		pHalData->CurAntenna = MAIN_ANT;
 	else
 		pHalData->CurAntenna = AUX_ANT;
 	DBG_8192C("%s,Cur_ant:(%x)%s\n",__FUNCTION__,pHalData->CurAntenna,(pHalData->CurAntenna == MAIN_ANT)?"MAIN_ANT":"AUX_ANT");
-			
+
 */
 }
 
@@ -1107,9 +1107,9 @@ HalDetectSelectiveSuspendMode(
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
 	struct dvobj_priv	*pdvobjpriv = adapter_to_dvobj(Adapter);
 
-	// If support HW radio detect, we need to enable WOL ability, otherwise, we 
+	// If support HW radio detect, we need to enable WOL ability, otherwise, we
 	// can not use FW to notify host the power state switch.
-	
+
 	EFUSE_ShadowRead(Adapter, 1, EEPROM_USB_OPTIONAL1, (u32 *)&tmpvalue);
 
 	DBG_8192C("HalDetectSelectiveSuspendMode(): SS ");
@@ -1128,7 +1128,7 @@ HalDetectSelectiveSuspendMode(
 	{
 		//PMGNT_INFO				pMgntInfo = &(Adapter->MgntInfo);
 
-		//if (!pMgntInfo->bRegDongleSS)	
+		//if (!pMgntInfo->bRegDongleSS)
 		//{
 		//	RT_TRACE(COMP_INIT, DBG_LOUD, ("Dongle disable SS\n"));
 			pdvobjpriv->RegUsbSS = _FALSE;
@@ -1161,11 +1161,11 @@ static void rtl8814au_hw_reset(_adapter *Adapter)
 #if 0
                 u8 reg_val=0;
 	if(rtw_read8(Adapter, REG_MCUFWDL)&BIT7)
-	{		
-		_8051Reset8812(Adapter);  
+	{
+		_8051Reset8812(Adapter);
 		rtw_write8(Adapter, REG_MCUFWDL, 0x00);
 		//before BB reset should do clock gated
-		rtw_write32(Adapter, rFPGA0_XCD_RFPara, 
+		rtw_write32(Adapter, rFPGA0_XCD_RFPara,
 			rtw_read32(Adapter, rFPGA0_XCD_RFPara)|(BIT6));
 		//reset BB
 		reg_val = rtw_read8(Adapter, REG_SYS_FUNC_EN);
@@ -1176,16 +1176,16 @@ static void rtl8814au_hw_reset(_adapter *Adapter)
 		//reset TRX path
 		rtw_write16(Adapter, REG_CR, 0);
 		//reset MAC
-		reg_val = rtw_read8(Adapter, REG_APS_FSMCO+1); 
+		reg_val = rtw_read8(Adapter, REG_APS_FSMCO+1);
 		reg_val |= BIT(1);
 		reg_val = rtw_write8(Adapter, REG_APS_FSMCO+1, reg_val);       //reg0x5[1] ,auto FSM off
 
 		reg_val = rtw_read8(Adapter, REG_APS_FSMCO+1);
- 
+
 		//check if   reg0x5[1] auto cleared
 		while(reg_val & BIT(1)){
 			rtw_udelay_os(1);
-			reg_val = rtw_read8(Adapter, REG_APS_FSMCO+1); 
+			reg_val = rtw_read8(Adapter, REG_APS_FSMCO+1);
 		}
 		reg_val |= BIT(0);
 		reg_val = rtw_write8(Adapter, REG_APS_FSMCO+1, reg_val);     //reg0x5[0] ,auto FSM on
@@ -1288,7 +1288,7 @@ u32 rtl8814au_hal_init(PADAPTER Adapter)
 
 
 _func_enter_;
-	
+
 HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_BEGIN);
 	if(pwrctrlpriv->bkeepfwalive)
 	{
@@ -1310,7 +1310,7 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_BEGIN);
 	}
 
 	// Check if MAC has already power on. by tynli. 2011.05.27.
-	value8 = rtw_read8(Adapter, REG_SYS_CLKR+1);	
+	value8 = rtw_read8(Adapter, REG_SYS_CLKR+1);
 	u1bRegCR = rtw_read8(Adapter, REG_CR);
 	DBG_871X(" power-on :REG_SYS_CLKR 0x09=0x%02x. REG_CR 0x100=0x%02x.\n", value8, u1bRegCR);
 	if((value8&BIT3)  && (u1bRegCR != 0 && u1bRegCR != 0xEA))
@@ -1341,7 +1341,7 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_BEGIN);
 	}*/
 
 /*
-	If HW didn't go through a complete de-initial procedure,  
+	If HW didn't go through a complete de-initial procedure,
 	it probably occurs some problem for double initial procedure.
 	Like "CONFIG_DEINIT_BEFORE_INIT" in 92du chip
 */
@@ -1357,7 +1357,7 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_PW_ON);
 	}
 
 HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_LLTT);
-	
+
 	status =  InitLLTTable8814A(Adapter);
 	if(status == _FAIL){
 		DBG_871X("Failed to init LLT table\n");
@@ -1386,7 +1386,7 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_DOWNLOAD_FW);
 	}
 
 	InitializeFirmwareVars8814(Adapter);
-	
+
 	if(pwrctrlpriv->reg_rfoff == _TRUE){
 		pwrctrlpriv->rf_pwrstate = rf_off;
 	}
@@ -1409,11 +1409,11 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MAC);
 		goto exit;
 	}
 #endif //HAL_MAC_ENABLE
-	
+
 HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC01);
-	
+
 	_InitQueuePriority_8814AUsb(Adapter);
-	_InitPageBoundary_8814AUsb(Adapter);	
+	_InitPageBoundary_8814AUsb(Adapter);
 
 	_InitTransferPageSize_8814AUsb(Adapter);
 
@@ -1423,7 +1423,7 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC02);
 
 	_InitInterrupt_8814AU(Adapter);
 	_InitID_8814A(Adapter);//set mac_address
-	_InitNetworkType_8814A(Adapter);//set msr	
+	_InitNetworkType_8814A(Adapter);//set msr
 	_InitMacConfigure_8814A(Adapter);
 	//_InitWMACSetting_8814A(Adapter);
 	//_InitAdaptiveCtrl_8814AUsb(Adapter);
@@ -1439,7 +1439,7 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC02);
 
 	//
 	// Init CR MACTXEN, MACRXEN after setting RxFF boundary REG_TRXFF_BNDY to patch
-	// Hw bug which Hw initials RxFF boundry size to a value which is larger than the real Rx buffer size in 88E. 
+	// Hw bug which Hw initials RxFF boundry size to a value which is larger than the real Rx buffer size in 88E.
 	// 2011.08.05. by tynli.
 	//
 	value8 = rtw_read8(Adapter, REG_CR);
@@ -1460,7 +1460,7 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC02);
 	rtw_write16(Adapter, REG_PKT_BE_BK_LIFE_TIME, 0x3000);	// unit: 256us. 3s
 #endif	// CONFIG_TX_MCAST2UNI
 #endif	// CONFIG_CONCURRENT_MODE || CONFIG_TX_MCAST2UNI
-	
+
 
 #ifdef CONFIG_LED
 	_InitHWLed(Adapter);
@@ -1484,7 +1484,7 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_BB);
 
 HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_RF);
 #if (HAL_RF_ENABLE == 1)
-	status = PHY_RFConfig8814A(Adapter);	
+	status = PHY_RFConfig8814A(Adapter);
 	if(status == _FAIL)
 	{
 		goto exit;
@@ -1497,13 +1497,13 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_RF);
 
 #if (MP_DRIVER == 1)
 	if (Adapter->registrypriv.mp_mode == 1)
-	{	
-		status = PHY_BBConfigMP_8814A(Adapter);	
+	{
+		status = PHY_BBConfigMP_8814A(Adapter);
 		if(status != RT_STATUS_SUCCESS){
 			DBG_871X("Configure BB MP failed!!\n");
 			return status;
 		}
-	}	
+	}
 #endif
 
 	PHY_ConfigBB_8814A(Adapter);
@@ -1513,7 +1513,7 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_RF);
 	else
 		PHY_SwitchWirelessBand8814A(Adapter, BAND_ON_5G);
 
-	rtw_hal_set_chnl_bw(Adapter, Adapter->registrypriv.channel, 
+	rtw_hal_set_chnl_bw(Adapter, Adapter->registrypriv.channel,
 		CHANNEL_WIDTH_20, HAL_PRIME_CHNL_OFFSET_DONT_CARE, HAL_PRIME_CHNL_OFFSET_DONT_CARE);
 
 HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_TURN_ON_BLOCK);
@@ -1526,9 +1526,9 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC11);
 
 	// HW SEQ CTRL
 	//set 0x0 to 0xFF by tynli. Default enable HW SEQ NUM.
-	rtw_write8(Adapter,REG_HWSEQ_CTRL, 0xFF); 
-	
-	// 
+	rtw_write8(Adapter,REG_HWSEQ_CTRL, 0xFF);
+
+	//
 	// Disable BAR, suggested by Scott
 	// 2010.04.09 add by hpfan
 	//
@@ -1548,21 +1548,21 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC11);
 
 HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_HAL_DM);
 	rtl8814_InitHalDm(Adapter);
-	
+
 	//
 	// 2010/08/11 MH Merge from 8192SE for Minicard init. We need to confirm current radio status
-	// and then decide to enable RF or not.!!!??? For Selective suspend mode. We may not 
+	// and then decide to enable RF or not.!!!??? For Selective suspend mode. We may not
 	// call init_adapter. May cause some problem??
 	//
-	// Fix the bug that Hw/Sw radio off before S3/S4, the RF off action will not be executed 
-	// in MgntActSet_RF_State() after wake up, because the value of pHalData->eRFPowerState 
+	// Fix the bug that Hw/Sw radio off before S3/S4, the RF off action will not be executed
+	// in MgntActSet_RF_State() after wake up, because the value of pHalData->eRFPowerState
 	// is the same as eRfOff, we should change it to eRfOn after we config RF parameters.
 	// Added by tynli. 2010.03.30.
 	pwrctrlpriv->rf_pwrstate = rf_on;
 
 	PHY_IQCalibrate_8814A_Init(&pHalData->odmpriv);
 
-#if (HAL_BB_ENABLE == 1)	
+#if (HAL_BB_ENABLE == 1)
 	PHY_SetRFEReg8814A(Adapter, _TRUE, pHalData->CurrentBandType);
 #endif //HAL_BB_ENABLE
 
@@ -1584,9 +1584,9 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_HAL_DM);
 	// Reset USB mode switch setting
 	rtw_write8(Adapter, REG_SDIO_CTRL_8814A, 0x0);
 	rtw_write8(Adapter, REG_ACLK_MON, 0x0);
-	
+
 	//RT_TRACE(COMP_INIT, DBG_TRACE, ("InitializeAdapter8188EUsb() <====\n"));
-	
+
 HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_IQK);
 	// 2010/08/26 MH Merge from 8192CE.
 	if(pwrctrlpriv->rf_pwrstate == rf_on)
@@ -1607,9 +1607,9 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_IQK);
 	//this should be done by rf team using phydm code
 	//PHY_IQCalibrate_8814A(&pHalData->odmpriv, _FALSE);
 HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_PW_TRACK);
-		
+
 		//ODM_TXPowerTrackingCheck(&pHalData->odmpriv );
-		
+
 
 HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_LCK);
 		//PHY_LCCalibrate_8812A(Adapter);
@@ -1639,7 +1639,7 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_BT_COEXIST);
 	if ( _TRUE == pHalData->EEPROMBluetoothCoexist)
         {
                // Init BT hw config.
-                rtw_btcoex_HAL_Initialize(Adapter, _FALSE);      
+                rtw_btcoex_HAL_Initialize(Adapter, _FALSE);
         }
         else
         {
@@ -1659,18 +1659,18 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC31);
 
 	//misc
 	{
-		int i;		
+		int i;
 		u8 mac_addr[6];
 		for(i=0; i<6; i++)
-		{			
+		{
 #ifdef CONFIG_CONCURRENT_MODE
 			if(Adapter->iface_type == IFACE_PORT1)
 				mac_addr[i] = rtw_read8(Adapter, REG_MACID1+i);
 			else
 #endif
-			mac_addr[i] = rtw_read8(Adapter, REG_MACID+i);		
+			mac_addr[i] = rtw_read8(Adapter, REG_MACID+i);
 		}
-		
+
 		DBG_8192C("MAC Address from REG_MACID = "MAC_FMT"\n", MAC_ARG(mac_addr));
 	}
 
@@ -1689,7 +1689,7 @@ HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_END);
 			, (hal_init_stages_timestamp[hal_init_profiling_i+1]-hal_init_stages_timestamp[hal_init_profiling_i])
 			, rtw_get_time_interval_ms(hal_init_stages_timestamp[hal_init_profiling_i], hal_init_stages_timestamp[hal_init_profiling_i+1])
 		);
-	}	
+	}
 	#endif
 
 
@@ -1700,30 +1700,30 @@ _func_exit_;
 
 VOID
 hal_carddisable_8814(
-	IN	PADAPTER			Adapter 
+	IN	PADAPTER			Adapter
 )
 {
 	u8	u1bTmp;
 
 	DBG_871X("CardDisableRTL8814AU\n");
 
-	// stop rx 
+	// stop rx
 	rtw_write8(Adapter, REG_CR_8814A, 0x0);
 
 	// Card disable power action flow
 	HalPwrSeqCmdParsing(Adapter, ~PWR_CUT_TESTCHIP_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, Rtl8814A_NIC_DISABLE_FLOW);
 
 	Adapter->bFWReady = _FALSE;
-	
+
 }
 
 static void rtl8814au_hw_power_down(_adapter *padapter)
 {
 	// 2010/-8/09 MH For power down module, we need to enable register block contrl reg at 0x1c.
 	// Then enable power down control bit of register 0x04 BIT4 and BIT15 as 1.
-		
+
 	// Enable register area 0x0-0xc.
-	rtw_write8(padapter,REG_RSV_CTRL, 0x0);			
+	rtw_write8(padapter,REG_RSV_CTRL, 0x0);
 	rtw_write16(padapter, REG_APS_FSMCO, 0x8812);
 }
 
@@ -1764,32 +1764,32 @@ u32 rtl8814au_hal_deinit(PADAPTER Adapter)
  	DBG_8192C("bkeepfwalive(%x)\n", pwrctl->bkeepfwalive);
  	if(pwrctl->bkeepfwalive)
  	{
-		_ps_close_RF(Adapter);		
+		_ps_close_RF(Adapter);
 		if((pwrctl->bHWPwrPindetect) && (pwrctl->bHWPowerdown))
 			rtl8814au_hw_power_down(Adapter);
  	}
 	else
 #endif
-	{	
+	{
 		if (rtw_is_hw_init_completed(Adapter)) {
 			hal_carddisable_8814(Adapter);
 
 			if((pwrctl->bHWPwrPindetect ) && (pwrctl->bHWPowerdown))
 				rtl8814au_hw_power_down(Adapter);
 		}
-	}		
+	}
 	return _SUCCESS;
  }
 
 
 unsigned int rtl8814au_inirp_init(PADAPTER Adapter)
-{	
-	u8 i;	
+{
+	u8 i;
 	struct recv_buf *precvbuf;
 	uint	status;
 	struct dvobj_priv *pdev= adapter_to_dvobj(Adapter);
 	struct intf_hdl * pintfhdl=&Adapter->iopriv.intf;
-	struct recv_priv *precvpriv = &(Adapter->recvpriv);	
+	struct recv_priv *precvpriv = &(Adapter->recvpriv);
 	u32 (*_read_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
 #ifdef CONFIG_USB_INTERRUPT_IN_PIPE
 	HAL_DATA_TYPE *pHalData = GET_HAL_DATA(Adapter);
@@ -1802,12 +1802,12 @@ _func_enter_;
 
 	status = _SUCCESS;
 
-	RT_TRACE(_module_hci_hal_init_c_,_drv_info_,("===> usb_inirp_init \n"));	
-		
+	RT_TRACE(_module_hci_hal_init_c_,_drv_info_,("===> usb_inirp_init \n"));
+
 	precvpriv->ff_hwaddr = RECV_BULK_IN_ADDR;
 
-	//issue Rx irp to receive data	
-	precvbuf = (struct recv_buf *)precvpriv->precv_buf;	
+	//issue Rx irp to receive data
+	precvbuf = (struct recv_buf *)precvpriv->precv_buf;
 	for(i=0; i<NR_RECVBUFF; i++)
 	{
 		if(_read_port(pintfhdl, precvpriv->ff_hwaddr, 0, (unsigned char *)precvbuf) == _FALSE )
@@ -1816,8 +1816,8 @@ _func_enter_;
 			status = _FAIL;
 			goto exit;
 		}
-		
-		precvbuf++;		
+
+		precvbuf++;
 		precvpriv->free_recv_buf_queue_cnt--;
 	}
 
@@ -1826,7 +1826,7 @@ _func_enter_;
 		status = _FAIL;
 		DBG_871X("%s =>Warning !! Have not USB Int-IN pipe, RtIntInPipe(%d)!!!\n", __func__, pdev->RtInPipe[REALTEK_USB_IN_INT_EP_IDX]);
 		goto exit;
-	}	
+	}
 	_read_interrupt = pintfhdl->io_ops._read_interrupt;
 	if(_read_interrupt(pintfhdl, RECV_INT_IN_ADDR) == _FALSE )
 	{
@@ -1836,7 +1836,7 @@ _func_enter_;
 #endif
 
 exit:
-	
+
 	RT_TRACE(_module_hci_hal_init_c_,_drv_info_,("<=== usb_inirp_init \n"));
 
 _func_exit_;
@@ -1846,9 +1846,9 @@ _func_exit_;
 }
 
 unsigned int rtl8814au_inirp_deinit(PADAPTER Adapter)
-{	
+{
 	RT_TRACE(_module_hci_hal_init_c_,_drv_info_,("\n ===> usb_rx_deinit \n"));
-	
+
 	rtw_read_port_cancel(Adapter);
 
 	RT_TRACE(_module_hci_hal_init_c_,_drv_info_,("\n <=== usb_rx_deinit \n"));
@@ -1873,9 +1873,9 @@ hal_ReadIDs_8814AU(
 	if( !AutoloadFail )
 	{
 		pHalData->EEPROMVID = EF2Byte( *(pu2Byte)&PROMContent[EEPROM_VID_8814AU] );
-		pHalData->EEPROMPID = EF2Byte( *(pu2Byte)&PROMContent[EEPROM_PID_8814AU] );		
-		
-		// Customer ID, 0x00 and 0xff are reserved for Realtek. 		
+		pHalData->EEPROMPID = EF2Byte( *(pu2Byte)&PROMContent[EEPROM_PID_8814AU] );
+
+		// Customer ID, 0x00 and 0xff are reserved for Realtek.
 		pHalData->EEPROMCustomerID = *(pu1Byte)&PROMContent[EEPROM_CustomID_8814];
 		pHalData->EEPROMSubCustomerID = EEPROM_Default_SubCustomerID;
 	}
@@ -1884,11 +1884,11 @@ hal_ReadIDs_8814AU(
 		pHalData->EEPROMVID 			= EEPROM_Default_VID;
 		pHalData->EEPROMPID 			= EEPROM_Default_PID;
 
-		// Customer ID, 0x00 and 0xff are reserved for Realtek. 		
+		// Customer ID, 0x00 and 0xff are reserved for Realtek.
 		pHalData->EEPROMCustomerID		= EEPROM_Default_CustomerID;
 		pHalData->EEPROMSubCustomerID	= EEPROM_Default_SubCustomerID;
 	}
-	
+
 	DBG_871X("VID = 0x%04X, PID = 0x%04X\n", pHalData->EEPROMVID, pHalData->EEPROMPID);
 	DBG_871X("Customer ID: 0x%02X, SubCustomer ID: 0x%02X\n", pHalData->EEPROMCustomerID, pHalData->EEPROMSubCustomerID);
 }
@@ -1909,7 +1909,7 @@ hal_InitPGData_8814A(
 	//#if ((DEV_BUS_TYPE==RT_USB_INTERFACE || DEV_BUS_TYPE==RT_SDIO_INTERFACE))  && (MP_DRIVER != 1)
 		//if(hal_ReadeFuse_8814A(pAdapter) == _FAIL)
 	//#endif
-		
+
 		// Read EFUSE real map to shadow.
 		EFUSE_ShadowMapUpdate(padapter, EFUSE_WIFI, _FALSE);
 	}
@@ -1933,10 +1933,10 @@ hal_CustomizedBehavior_8814AU(
 	IN	PADAPTER	Adapter
 	)
 {
-	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);	
+	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
 	struct led_priv	*pledpriv = &(Adapter->ledpriv);
 
-	
+
 	// Led mode
 	switch(pHalData->CustomerID)
 	{
@@ -1957,9 +1957,9 @@ hal_CustomizeByCustomerID_8814AU(
 	)
 {
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(pAdapter);
-	
+
 	DBG_871X("PID= 0x%x, VID=  %x\n",pHalData->EEPROMPID,pHalData->EEPROMVID);
-	
+
 	//	Decide CustomerID according to VID/DID or EEPROM
 	switch(pHalData->EEPROMCustomerID)
 	{
@@ -1973,32 +1973,32 @@ hal_CustomizeByCustomerID_8814AU(
 			else if((pHalData->EEPROMVID == 0x0BFF) && (pHalData->EEPROMPID == 0x8160))
 			{
 				pHalData->CustomerID = RT_CID_CHINA_MOBILE;
-			}	
+			}
 			else if((pHalData->EEPROMVID == 0x0BDA) &&	(pHalData->EEPROMPID == 0x5088))
 				pHalData->CustomerID = RT_CID_CC_C;
-			
+
 			break;
 		case EEPROM_CID_WHQL:
 			//padapter->bInHctTest = _TRUE;
-	
+
 			//pMgntInfo->bSupportTurboMode = _FALSE;
 			//pMgntInfo->bAutoTurboBy8186 = _FALSE;
-	
+
 			//pMgntInfo->PowerSaveControl.bInactivePs = _FALSE;
 			//pMgntInfo->PowerSaveControl.bIPSModeBackup = _FALSE;
 			//pMgntInfo->PowerSaveControl.bLeisurePs = _FALSE;
 			//pMgntInfo->PowerSaveControl.bLeisurePsModeBackup = _FALSE;
 			//pMgntInfo->keepAliveLevel = 0;
-	
+
 			//padapter->bUnloadDriverwhenS3S4 = _FALSE;
-			break;			
+			break;
 		default:
 			pHalData->CustomerID = RT_CID_DEFAULT;
 			break;
-			
+
 	}
 	DBG_871X("Customer ID: 0x%2x\n", pHalData->CustomerID);
-	
+
 	hal_CustomizedBehavior_8814AU(pAdapter);
 }
 
@@ -2023,7 +2023,7 @@ hal_ReadUsbModeSwitch_8814AU(
 
 static VOID
 ReadLEDSetting_8814AU(
-	IN	PADAPTER	Adapter,	
+	IN	PADAPTER	Adapter,
 	IN	u8*		PROMContent,
 	IN	BOOLEAN		AutoloadFail
 	)
@@ -2053,19 +2053,19 @@ InitAdapterVariablesByPROM_8814AU(
 	hal_ReadTxPowerInfo8814A(Adapter, pHalData->efuse_eeprom_data, pHalData->bautoload_fail_flag);
 	hal_ReadBoardType8814A(Adapter, pHalData->efuse_eeprom_data, pHalData->bautoload_fail_flag);
 	hal_Read_TRX_antenna_8814A(Adapter, pHalData->efuse_eeprom_data, pHalData->bautoload_fail_flag);
-	
+
 	//
 	// Read Bluetooth co-exist and initialize
 	//
 	hal_EfuseParseBTCoexistInfo8814A(Adapter, pHalData->efuse_eeprom_data, pHalData->bautoload_fail_flag);
-	
+
 	hal_ReadChannelPlan8814A(Adapter, pHalData->efuse_eeprom_data, pHalData->bautoload_fail_flag);
-	hal_EfuseParseXtal_8814A(Adapter, pHalData->efuse_eeprom_data, pHalData->bautoload_fail_flag);	
+	hal_EfuseParseXtal_8814A(Adapter, pHalData->efuse_eeprom_data, pHalData->bautoload_fail_flag);
 	hal_ReadThermalMeter_8814A(Adapter, pHalData->efuse_eeprom_data, pHalData->bautoload_fail_flag);
 	hal_ReadRemoteWakeup_8814A(Adapter, pHalData->efuse_eeprom_data, pHalData->bautoload_fail_flag);
 	hal_ReadAntennaDiversity8814A(Adapter, pHalData->efuse_eeprom_data, pHalData->bautoload_fail_flag);
 	hal_ReadRFEType_8814A(Adapter, pHalData->efuse_eeprom_data, pHalData->bautoload_fail_flag);
-	
+
 	ReadLEDSetting_8814AU(Adapter, pHalData->efuse_eeprom_data, pHalData->bautoload_fail_flag);
 
 	hal_ReadUsbModeSwitch_8814AU(Adapter, pHalData->efuse_eeprom_data, pHalData->bautoload_fail_flag);
@@ -2079,7 +2079,7 @@ InitAdapterVariablesByPROM_8814AU(
 static void hal_ReadPROMContent_8814A(
 	IN PADAPTER 		Adapter
 	)
-{	
+{
 	PHAL_DATA_TYPE pHalData = GET_HAL_DATA(Adapter);
 	u8			eeValue;
 
@@ -2102,7 +2102,7 @@ ReadAdapterInfo8814AU(
 	)
 {
 	Hal_InitEfuseVars_8814A(Adapter);
-	
+
 	// Read all content in Efuse/EEPROM.
 	hal_ReadPROMContent_8814A(Adapter);
 
@@ -2121,17 +2121,17 @@ void UpdateInterruptMask8814AU(PADAPTER padapter,u8 bHIMR0 ,u32 AddMSR, u32 Remo
 		himr = &(pHalData->IntrMask[0]);
 	else
 		himr = &(pHalData->IntrMask[1]);
-	
+
 	if (AddMSR)
 		*himr |= AddMSR;
 
 	if (RemoveMSR)
 		*himr &= (~RemoveMSR);
 
-	if(bHIMR0)	
+	if(bHIMR0)
 		rtw_write32(padapter, REG_HIMR0_8814A, *himr);
 	else
-		rtw_write32(padapter, REG_HIMR1_8814A, *himr);	
+		rtw_write32(padapter, REG_HIMR1_8814A, *himr);
 
 }
 
@@ -2223,7 +2223,7 @@ void SetHwReg8814AU(PADAPTER Adapter, u8 variable, u8* val)
 
 void GetHwReg8814AU(PADAPTER Adapter, u8 variable, u8* val)
 {
-	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);	
+	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
 _func_enter_;
 
 	switch(variable)
@@ -2261,7 +2261,7 @@ SetHalDefVar8814AUsb(
 }
 
 //
-//	Description: 
+//	Description:
 //		Query setting of specified variable.
 //
 u8
@@ -2342,7 +2342,7 @@ static void rtl8814au_init_default_value(_adapter * padapter)
 }
 
 static u8 rtl8814au_ps_func(PADAPTER Adapter,HAL_INTF_PS_FUNC efunc_id, u8 *val)
-{	
+{
 	u8 bResult = _TRUE;
 	switch(efunc_id){
 
@@ -2369,7 +2369,7 @@ _func_enter_;
 
 	pHalFunc->hal_power_on = _InitPowerOn_8814AU;
 	pHalFunc->hal_power_off = hal_carddisable_8814;
-	
+
 	pHalFunc->hal_init = &rtl8814au_hal_init;
 	pHalFunc->hal_deinit = &rtl8814au_hal_deinit;
 
@@ -2388,11 +2388,11 @@ _func_enter_;
 	pHalFunc->InitSwLeds = NULL;
 	pHalFunc->DeInitSwLeds = NULL;
 #endif//CONFIG_SW_LED
-	
+
 	pHalFunc->init_default_value = &rtl8814au_init_default_value;
 	pHalFunc->intf_chip_configure = &rtl8814au_interface_configure;
 	pHalFunc->read_adapter_info = &ReadAdapterInfo8814AU;
- 
+
 	pHalFunc->SetHwRegHandler = &SetHwReg8814AU;
 	pHalFunc->GetHwRegHandler = &GetHwReg8814AU;
   	pHalFunc->GetHalDefVarHandler = &GetHalDefVar8814AUsb;

@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -57,7 +57,7 @@ inline u8 center_chs_5g_num(u8 bw)
 {
 	if (bw >= CHANNEL_WIDTH_160)
 		return 0;
-	
+
 	return center_chs_5g_by_bw[bw].ch_num;
 }
 
@@ -68,7 +68,7 @@ inline u8 center_chs_5g(u8 bw, u8 id)
 
 	if (id >= center_chs_5g_num(bw))
 		return 0;
-		
+
 	return center_chs_5g_by_bw[bw].chs[id];
 }
 

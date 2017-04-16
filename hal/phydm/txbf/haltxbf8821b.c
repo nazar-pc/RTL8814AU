@@ -15,7 +15,7 @@ halTxbf8821B_RfMode(
 )
 {
 	PDM_ODM_T	pDM_Odm = (PDM_ODM_T)pDM_VOID;
-	
+
 	if (pDM_Odm->RFType == ODM_1T1R)
 		return;
 
@@ -178,7 +178,7 @@ halTxbf8821B_FwTxBFCmd(
 	u1TxBFParm[2] = (Period1 << 4) | Period0;
 	FillH2CCmd(Adapter, PHYDM_H2C_TXBF, 3, u1TxBFParm);
 
-	ODM_RT_TRACE(pDM_Odm, PHYDM_COMP_TXBF, ODM_DBG_LOUD, 
+	ODM_RT_TRACE(pDM_Odm, PHYDM_COMP_TXBF, ODM_DBG_LOUD,
 		("[%s] PageNum0 = %d Period0 = %d, PageNum1 = %d Period1 %d\n", __func__, PageNum0, Period0, PageNum1, Period1));
 }
 
@@ -290,7 +290,7 @@ HalTxbf8821B_Leave(
 	PRT_BEAMFORMING_INFO	pBeamformingInfo = &pDM_Odm->BeamformingInfo;
 	RT_BEAMFORMER_ENTRY	BeamformerEntry;
 	RT_BEAMFORMEE_ENTRY	BeamformeeEntry;
-	
+
 	if (Idx < BEAMFORMER_ENTRY_NUM) {
 		BeamformerEntry = pBeamformingInfo->BeamformerEntry[Idx];
 		BeamformeeEntry = pBeamformingInfo->BeamformeeEntry[Idx];
@@ -302,7 +302,7 @@ HalTxbf8821B_Leave(
 	/*Clear P_AID of Beamformee*/
 	/*Clear MAC address of Beamformer*/
 	/*Clear Associated Bfmee Sel*/
-	
+
 	if (BeamformerEntry.BeamformEntryCap == BEAMFORMING_CAP_NONE) {
 		ODM_Write1Byte(pDM_Odm, REG_SND_PTCL_CTRL_8821B, 0xC8);
 		if (Idx == 0) {
@@ -330,7 +330,7 @@ HalTxbf8821B_Leave(
 			ODM_Write2Byte(pDM_Odm, REG_BFMEE_SEL_8812A + 2, ODM_Read2Byte(pDM_Odm, REG_BFMEE_SEL_8812A + 2) & 0x60);
 		}
 	}
-	
+
 }
 
 

@@ -193,7 +193,7 @@ int rtw_mp_read_reg(struct net_device *dev,
 				pnext = strpbrk(pch, " ");
 				if (!pnext || ((pnext - tmp) > 4))
 					break;
-					
+
 				pnext++;
 				if (*pnext != '\0') {
 					/*strtout = simple_strtoul(pnext , &ptmp, 16);*/
@@ -310,7 +310,7 @@ int rtw_mp_read_rf(struct net_device *dev,
 	u32 path, addr, strtou;
 	u32 ret, i = 0 , j = 0;
 	PADAPTER padapter = rtw_netdev_priv(dev);
-	
+
 	if (wrqu->length > 128)
 		return -EFAULT;
 	_rtw_memset(input, 0, wrqu->length);
@@ -704,7 +704,7 @@ int rtw_set_ctx_destAddr(struct net_device *dev,
 	struct pkt_attrib *pattrib;
 	struct mp_priv *pmp_priv;
 	PADAPTER padapter = rtw_netdev_priv(dev);
-	
+
 	pmp_priv = &padapter->mppriv;
 	pattrib = &pmp_priv->tx.attrib;
 
@@ -841,7 +841,7 @@ int rtw_mp_disable_bt_coexist(struct net_device *dev,
 		/* Force to switch Antenna to WiFi*/
 		rtw_write16(padapter, 0x870, 0x300);
 		rtw_write16(padapter, 0x860, 0x110);
-#endif 
+#endif
 		/* CONFIG_BT_COEXIST */
 	} else {
 		RT_TRACE(_module_mp_, _drv_info_,
@@ -900,10 +900,10 @@ int rtw_mp_arx(struct net_device *dev,
 			for (jj = 0, kk = 0; jj < cnts ; jj++, kk += 2) {
 				pmppriv->network_macaddr[jj] = key_2char2num(tmp[1][kk], tmp[1][kk + 1]);
 				DBG_871X("network_macaddr[%d]=%x\n", jj, pmppriv->network_macaddr[jj]);
-			} 
+			}
 		} else
 			return -EFAULT;
-			
+
 		pmppriv->bSetRxBssid = _TRUE;
 	}
 
@@ -925,8 +925,8 @@ int rtw_mp_arx(struct net_device *dev,
 			for (jj = 0, kk = 0; jj < cnts ; jj++, kk += 2) {
 				pmppriv->mac_filter[jj] = key_2char2num(tmp[1][kk], tmp[1][kk + 1]);
 				DBG_871X("%s mac_filter[%d]=%x\n", __func__, jj, pmppriv->mac_filter[jj]);
-			} 
-		} else 
+			}
+		} else
 			return -EFAULT;
 
 	}
@@ -1318,7 +1318,7 @@ int rtw_mp_mon(struct net_device *dev,
 	struct hal_ops *pHalFunc = &padapter->HalFunc;
 	NDIS_802_11_NETWORK_INFRASTRUCTURE networkType;
 	int bstart = 1, bstop = 1;
-	
+
 	networkType = Ndis802_11Infrastructure;
 	if (copy_from_user(extra, wrqu->data.pointer, wrqu->data.length))
 		return -EFAULT;
@@ -1875,7 +1875,7 @@ int rtw_efuse_mask_file(struct net_device *dev,
 	char *rtw_efuse_mask_file_path;
 	u8 Status;
 	PADAPTER padapter = rtw_netdev_priv(dev);
-	
+
 	_rtw_memset(maskfileBuffer, 0x00, sizeof(maskfileBuffer));
 
 	if (copy_from_user(extra, wrqu->data.pointer, wrqu->data.length))
@@ -1920,7 +1920,7 @@ int rtw_efuse_file_map(struct net_device *dev,
 	PEFUSE_HAL pEfuseHal;
 	PADAPTER padapter = rtw_netdev_priv(dev);
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(padapter);
-	
+
 	pEfuseHal = &pHalData->EfuseHal;
 	if (copy_from_user(extra, wrqu->data.pointer, wrqu->data.length))
 		return -EFAULT;
@@ -2201,9 +2201,9 @@ int rtw_mp_SetBT(struct net_device *dev,
 			BtReq.pParamStart[jj] = key_2char2num(tmp[1][kk], tmp[1][kk + 1]);
 			/*			DBG_871X("BtReq.pParamStart[%d]=0x%02x\n", jj, BtReq.pParamStart[jj]);*/
 		}
-	} else 
+	} else
 		return -EFAULT;
-		
+
 	if (testmode == 0) {
 		BtReq.opCodeVer = 1;
 		BtReq.OpCode = 1;

@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -27,7 +27,7 @@
 
 #define	AFH_PSD		1	//0:normal PSD scan, 1: only do 20 pts PSD
 #define	MODE_40M		0	//0:20M, 1:40M
-#define	PSD_TH2		3  
+#define	PSD_TH2		3
 #define	PSD_CHMIN		20   // Minimum channel number for BT AFH
 #define	SIR_STEP_SIZE	3
 #define   Smooth_Size_1 	5
@@ -40,7 +40,7 @@
 #define	Adaptive_SIR	1
 #define	SCAN_INTERVAL	1500 //ms
 #define	SYN_Length		5    // for 92D
-	
+
 #define	LNA_Low_Gain_1                      0x64
 #define	LNA_Low_Gain_2                      0x5A
 #define	LNA_Low_Gain_3                      0x58
@@ -97,12 +97,12 @@ PatchDCTone(
 	PDM_ODM_T				pDM_Odm = (PDM_ODM_T)pDM_VOID;
 	//HAL_DATA_TYPE		*pHalData = GET_HAL_DATA(Adapter);
 	//PADAPTER	pAdapter;
-	
+
 	u4Byte	psd_report;
 
 	//2 Switch to CH11 to patch CH9 and CH13 DC tone
 	ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, RF_CHNLBW, 0x3FF, 11);
-	
+
 	if(pDM_Odm->SupportICType== ODM_RTL8192D)
 	{
 		if((*(pDM_Odm->pMacPhyMode) == ODM_SMSP)||(*(pDM_Odm->pMacPhyMode) == ODM_DMSP))
@@ -123,18 +123,18 @@ PatchDCTone(
 			ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, 0x2C, 0xfffff, 0x01840);
 		}
 	}
-	
+
 	//Ch9 DC tone patch
 	psd_report = GetPSDData(pDM_Odm, 96, initial_gain_psd);
 	PSD_report[50] = psd_report;
 	//Ch13 DC tone patch
 	psd_report = GetPSDData(pDM_Odm, 32, initial_gain_psd);
 	PSD_report[70] = psd_report;
-	
+
 	//2 Switch to CH3 to patch CH1 and CH5 DC tone
 	ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, RF_CHNLBW, 0x3FF, 3);
 
-	
+
 	if(pDM_Odm->SupportICType==ODM_RTL8192D)
 	{
 		if((*(pDM_Odm->pMacPhyMode) == ODM_SMSP)||(*(pDM_Odm->pMacPhyMode) == ODM_DMSP))
@@ -155,7 +155,7 @@ PatchDCTone(
 			//PHY_SetRFReg(Adapter, ODM_RF_PATH_A, 0x2C, 0xfffff, 0x01C41);
 		}
 	}
-	
+
 	//Ch1 DC tone patch
 	psd_report = GetPSDData(pDM_Odm, 96, initial_gain_psd);
 	PSD_report[10] = psd_report;
@@ -185,12 +185,12 @@ GoodChannelDecision(
 	//u1Byte	psd_bit;
 	u4Byte	i,n,j, byte_idx, bit_idx, good_cnt, good_cnt_smoothing, Smooth_Interval[3];
 	int 		start_byte_idx,start_bit_idx,cur_byte_idx, cur_bit_idx,NOW_byte_idx ;
-	
+
 //	RegB34 = PHY_QueryBBReg(Adapter,0xB34, bMaskDWord)&0xFF;
 
 	if((pDM_Odm->SupportICType == ODM_RTL8192C)||(pDM_Odm->SupportICType == ODM_RTL8192D))
        {
-            TH1 = RSSI_BT + 0x14;  
+            TH1 = RSSI_BT + 0x14;
 	}
 
 	Smooth_size[0]=Smooth_Size_1;
@@ -205,10 +205,10 @@ GoodChannelDecision(
 	good_cnt = 0;
 	if(pDM_Odm->SupportICType==ODM_RTL8723A)
 	{
-		//2 Threshold  
+		//2 Threshold
 
 		if(RSSI_BT >=41)
-			TH1 = 113;	
+			TH1 = 113;
 		else if(RSSI_BT >=38)   // >= -15dBm
 			TH1 = 105;                              //0x69
 		else if((RSSI_BT >=33)&(RSSI_BT <38))
@@ -231,7 +231,7 @@ GoodChannelDecision(
 
 	for (i = 0; i< 10; i++)
 		PSD_bitmap[i] = 0;
-	
+
 
 	 // Add By Gary
        for (i=0; i<80; i++)
@@ -259,15 +259,15 @@ GoodChannelDecision(
 		else
 		{
 			if(TH1==(RSSI_BT+0x1E))
-             		     break;    
+             		     break;
    			if((TH1+2) < (RSSI_BT+0x1E))
 				TH1+=3;
 		     	else
-				TH1 = RSSI_BT+0x1E;	
-             
+				TH1 = RSSI_BT+0x1E;
+
 		}
 		ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD,DBG_LOUD,("PSD: decision threshold is: %d", TH1));
-			 
+
 		for (i = 0; i< 80; i++)
 		{
 			if((s4Byte)(PSD_report[i]) < TH1)
@@ -288,7 +288,7 @@ GoodChannelDecision(
 				ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("PSD_bitmap[%u] =   %d\n", 2402+n*8+i, (PSD_bitmap[n]&BIT(i))>>i));
 		}
 #endif
-	
+
 		//1 Start of smoothing function
 
 		for (j=0;j<3;j++)
@@ -313,8 +313,8 @@ GoodChannelDecision(
 					cur_bit_idx = start_bit_idx;
 					cur_byte_idx = start_byte_idx;
 					for ( i=0; i< Smooth_size[j] ; i++)
-					{	
-						NOW_byte_idx = cur_byte_idx + (i+cur_bit_idx)/8;				
+					{
+						NOW_byte_idx = cur_byte_idx + (i+cur_bit_idx)/8;
 						PSD_bitmap[NOW_byte_idx] = PSD_bitmap[NOW_byte_idx] & (~BIT( (cur_bit_idx + i)%8));
 					}
 				}
@@ -332,7 +332,7 @@ GoodChannelDecision(
 				for (i = 0; i<8; i++)
 				{
 					ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("PSD_bitmap[%u] =   %d\n", 2402+n*8+i, (PSD_bitmap[n]&BIT(i))>>i));
-					
+
 					if ( ((PSD_bitmap[n]&BIT(i))>>i) ==1)  //----- Add By Gary
 					{
 	                                   pRX_HP_Table->PSD_bitmap_RXHP[8*n+i] = 1;
@@ -342,7 +342,7 @@ GoodChannelDecision(
 
 		}
 
-	
+
 		good_cnt = 0;
 		for ( i = 0; i < 10; i++)
 		{
@@ -356,14 +356,14 @@ GoodChannelDecision(
 	//RT_TRACE(ODM_COMP_PSD, DBG_LOUD,("PSD: SSBT=%d, TH2=%d, TH1=%d",SSBT,TH2,TH1));
 	for (i = 0; i <10; i++)
 		ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("PSD: PSD_bitmap[%u]=%x",i,PSD_bitmap[i]));
-/*	
+/*
 	//Update bitmap memory
 	for(i = 0; i < 80; i++)
 	{
 		byte_idx = i / 8;
 		bit_idx = i -8*byte_idx;
 		psd_bit = (PSD_bitmap[byte_idx] & BIT(bit_idx)) >> bit_idx;
-		bitmap = PSD_bitmap_memory[i]; 
+		bitmap = PSD_bitmap_memory[i];
 		PSD_bitmap_memory[i] = (bitmap << 1) |psd_bit;
 	}
 */
@@ -399,7 +399,7 @@ odm_PSD_Monitor(
 	int 				cur_byte_idx, cur_bit_idx;
 	PADAPTER		Adapter = pDM_Odm->Adapter;
 	PMGNT_INFO      	pMgntInfo = &Adapter->MgntInfo;
-	
+
 
 	if(*pDM_Odm->pbDriverIsGoingToPnpSetPowerSleep)
  	{
@@ -407,13 +407,13 @@ odm_PSD_Monitor(
   		return;
  	}
 
-	
+
 	if( (*(pDM_Odm->pbScanInProcess)) ||
 		pDM_Odm->bLinkInProcess)
 	{
 		if((pDM_Odm->SupportICType==ODM_RTL8723A)&(pDM_Odm->SupportInterface==ODM_ITRF_PCIE))
 		{
-			ODM_SetTimer( pDM_Odm, &pDM_Odm->PSDTimer, 1500); //ms	
+			ODM_SetTimer( pDM_Odm, &pDM_Odm->PSDTimer, 1500); //ms
 			//psd_cnt=0;
 		}
 		return;
@@ -489,7 +489,7 @@ odm_PSD_Monitor(
 	//Pause TX Queue
 	//PlatformEFIOWrite1Byte(Adapter, REG_TXPAUSE, 0xFF);
 	ODM_Write1Byte(pDM_Odm,REG_TXPAUSE, 0xFF);
-	
+
 	//Force RX to stop TX immediately
 	//PHY_SetRFReg(Adapter, ODM_RF_PATH_A, RF_AC, bRFRegOffsetMask, 0x32E13);
 
@@ -502,22 +502,22 @@ odm_PSD_Monitor(
 	ODM_SetBBReg(pDM_Odm, 0xC70, BIT0, 0);
 	ODM_SetBBReg(pDM_Odm, 0xC7C, BIT20, 0);
 
-	
+
 	//Turn off CCA
 	//PHY_SetBBReg(Adapter, 0xC14, bMaskDWord, 0x0);
 	ODM_SetBBReg(pDM_Odm, 0xC14, bMaskDWord, 0x0);
-	
+
 	//BB Reset
 	//BBReset = PlatformEFIORead1Byte(Adapter, 0x02);
 	BBReset = ODM_Read1Byte(pDM_Odm, 0x02);
-	
+
 	//PlatformEFIOWrite1Byte(Adapter, 0x02, BBReset&(~BIT0));
 	//PlatformEFIOWrite1Byte(Adapter, 0x02, BBReset|BIT0);
-	ODM_SetBBReg(pDM_Odm, 0x87C, BIT31, 1); //clock gated to prevent from AGC table mess 
+	ODM_SetBBReg(pDM_Odm, 0x87C, BIT31, 1); //clock gated to prevent from AGC table mess
 	ODM_Write1Byte(pDM_Odm,  0x02, BBReset&(~BIT0));
 	ODM_Write1Byte(pDM_Odm,  0x02, BBReset|BIT0);
 	ODM_SetBBReg(pDM_Odm, 0x87C, BIT31, 0);
-	
+
 	//1 Leave RX idle low power
 	//PHY_SetBBReg(Adapter, 0x818, BIT28, 0x0);
 
@@ -533,13 +533,13 @@ odm_PSD_Monitor(
 
 	if(RSSI_BT>=47)
 		RSSI_BT=47;
-	   
+
 	ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("PSD: RSSI_BT= %d\n", RSSI_BT));
-	
+
 	if(pDM_Odm->SupportICType==ODM_RTL8723A)
 	{
 	       //Neil add--2011--10--12
-		//2 Initial Gain index 
+		//2 Initial Gain index
 		if(RSSI_BT >=35)   // >= -15dBm
 			initial_gain_psd = RSSI_BT*2;
 		else if((RSSI_BT >=33)&(RSSI_BT<35))
@@ -557,10 +557,10 @@ odm_PSD_Monitor(
 	}
 	else
 	{
-	
-		//need to do	
+
+		//need to do
          	initial_gain_psd = pDM_Odm->RSSI_Min;    // PSD report based on RSSI
-           	//}  	
+           	//}
 	}
 	//if(RSSI_BT<0x17)
 	//	RSSI_BT +=3;
@@ -568,7 +568,7 @@ odm_PSD_Monitor(
 	ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("PSD: RSSI_BT= %d\n", RSSI_BT));
 
 	//initialGainUpper = 0x5E;  //Modify by neil chen
-	
+
 	if(pDM_Odm->bUserAssignLevel)
 	{
 		pDM_Odm->bUserAssignLevel = FALSE;
@@ -578,7 +578,7 @@ odm_PSD_Monitor(
 	{
 		initialGainUpper = 0x5E;
 	}
-	
+
 	/*
 	if (initial_gain_psd < 0x1a)
 		initial_gain_psd = 0x1a;
@@ -588,8 +588,8 @@ odm_PSD_Monitor(
 
 	//if(pDM_Odm->SupportICType==ODM_RTL8723A)
 	SSBT = RSSI_BT  * 2 +0x3E;
-	
-	
+
+
 	//if(IS_HARDWARE_TYPE_8723AE(Adapter))
 	//	SSBT = RSSI_BT  * 2 +0x3E;
 	//else if((IS_HARDWARE_TYPE_8192C(Adapter))||(IS_HARDWARE_TYPE_8192D(Adapter)))   // Add by Gary
@@ -603,7 +603,7 @@ odm_PSD_Monitor(
 	//need to do
 	pDM_Odm->bDMInitialGainEnable = FALSE;
 	initial_gain =(u1Byte) (ODM_GetBBReg(pDM_Odm, 0xc50, bMaskDWord) & 0x7F);
-	
+
         // make sure the initial gain is under the correct range.
 	//initial_gain_psd &= 0x7f;
 	ODM_Write_DIG(pDM_Odm, initial_gain_psd);
@@ -637,14 +637,14 @@ odm_PSD_Monitor(
 		start_point = 512;
 		stop_point = 1536;
 	}
-	
+
 
 //3 Skip WLAN channels if WLAN busy
 
 	curTxOkCnt = *(pDM_Odm->pNumTxBytesUnicast) - lastTxOkCnt;
 	curRxOkCnt = *(pDM_Odm->pNumRxBytesUnicast) - lastRxOkCnt;
 	lastTxOkCnt = *(pDM_Odm->pNumTxBytesUnicast);
-	lastRxOkCnt = *(pDM_Odm->pNumRxBytesUnicast);	
+	lastRxOkCnt = *(pDM_Odm->pNumRxBytesUnicast);
 
 	PSD_skip_start=80;
 	PSD_skip_stop = 0;
@@ -665,7 +665,7 @@ odm_PSD_Monitor(
 				else
 				{
 					PSD_skip_start = ((wlan_channel-1)*5 -Is40MHz*10)-10;  // Modify by Neil to add 10 chs to mask
-					PSD_skip_stop = (PSD_skip_start + (1+Is40MHz)*20)+18; 
+					PSD_skip_stop = (PSD_skip_start + (1+Is40MHz)*20)+18;
 				}
 			}
 			else
@@ -691,9 +691,9 @@ odm_PSD_Monitor(
 				else
 				{
 					PSD_skip_start = ((wlan_channel-1)*5 -Is40MHz*10)-10;  // Modify by Neil to add 10 chs to mask
-					PSD_skip_stop = (PSD_skip_start + (1+Is40MHz)*20)+18; 
+					PSD_skip_stop = (PSD_skip_start + (1+Is40MHz)*20)+18;
 				}
-				
+
 				if(PSD_skip_start < 0)
 					PSD_skip_start = 0;
 				if(PSD_skip_stop >80)
@@ -701,7 +701,7 @@ odm_PSD_Monitor(
 			}
 		}
 	}
-#if 0	
+#if 0
 	else
 	{
 		if((curRxOkCnt+curTxOkCnt) > 1000)
@@ -709,7 +709,7 @@ odm_PSD_Monitor(
 			PSD_skip_start = (wlan_channel-1)*5 -Is40MHz*10;
 			PSD_skip_stop = PSD_skip_start + (1+Is40MHz)*20;
 		}
-	}   
+	}
 #endif  //Reove RXHP Issue
 	ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD,DBG_LOUD,("PSD: Skip tone from %d to %d \n", PSD_skip_start, PSD_skip_stop));
 
@@ -718,12 +718,12 @@ odm_PSD_Monitor(
  		if((n%20)==0)
  		{
 			channel = (n/20)*4 + 1;
-					
+
 					ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, RF_CHNLBW, 0x3FF, channel);
 				}
 		tone_idx = n%20;
 		if ((n>=PSD_skip_start) && (n<PSD_skip_stop))
-		{	
+		{
 			PSD_report[n] = SSBT;
 			ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD,DBG_LOUD,("PSD:Tone %d skipped \n", n));
 		}
@@ -733,12 +733,12 @@ odm_PSD_Monitor(
 
 			if ( PSD_report_tmp > PSD_report[n])
 				PSD_report[n] = PSD_report_tmp;
-				
+
 		}
 	}
 
 	PatchDCTone(pDM_Odm, PSD_report, initial_gain_psd);
-      
+
        //----end
 	//1 Turn on RX
 	//Rx AGC on
@@ -748,14 +748,14 @@ odm_PSD_Monitor(
 	ODM_SetBBReg(pDM_Odm, rFPGA0_RFMOD, BIT24, 1);
 	//1 Turn on TX
 	//Resume TX Queue
-	
+
 	ODM_Write1Byte(pDM_Odm,REG_TXPAUSE, 0x00);
 	//Turn on 3-wire
 	ODM_SetBBReg(pDM_Odm, 0x88c, BIT20|BIT21|BIT22|BIT23, 0x0);
 	//1 Restore Current Settings
 	//Resume DIG
 	pDM_Odm->bDMInitialGainEnable = TRUE;
-	
+
 	ODM_Write_DIG(pDM_Odm, initial_gain);
 
 	// restore originl center frequency
@@ -766,11 +766,11 @@ odm_PSD_Monitor(
 	//Restore RX idle low power
 	if(RxIdleLowPwr == TRUE)
 		ODM_SetBBReg(pDM_Odm, 0x818, BIT28, 1);
-	
+
 	psd_cnt++;
 	ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("PSD:psd_cnt = %d \n",psd_cnt));
 	if (psd_cnt < ReScan)
-		ODM_SetTimer(pDM_Odm, &pDM_Odm->PSDTimer, Interval);		
+		ODM_SetTimer(pDM_Odm, &pDM_Odm->PSDTimer, Interval);
 	else
 	{
 		psd_cnt = 0;
@@ -793,8 +793,8 @@ odm_PSD_Monitor(
 			H2C_PSD_DATA_last[3] = H2C_PSD_DATA[3];
 			H2C_PSD_DATA_last[4] = H2C_PSD_DATA[4];
 
-	
-			//2 Translate 80bit channel map to 40bit channel	
+
+			//2 Translate 80bit channel map to 40bit channel
 			for ( i=0;i<5;i++)
 			{
 				for(n=0;n<8;n++)
@@ -806,7 +806,7 @@ odm_PSD_Monitor(
 				}
 				ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("H2C_PSD_DATA[%d]=0x%x\n" ,i, H2C_PSD_DATA[i]));
 			}
-	
+
 			//3 To Compare the difference
 			for ( i=0;i<5;i++)
 			{
@@ -819,18 +819,18 @@ odm_PSD_Monitor(
 				else
 				{
 					if(i==5)
-						ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("Not need to Update\n"));	
+						ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("Not need to Update\n"));
 				}
 			}
 			if(pDM_Odm->bBtHsOperation)
 			{
 				ODM_SetTimer(pDM_Odm, &pDM_Odm->PSDTimer, 10000);
-				ODM_RT_TRACE(	pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("Leave dm_PSD_Monitor\n"));		
+				ODM_RT_TRACE(	pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("Leave dm_PSD_Monitor\n"));
 			}
 			else
 			{
 				ODM_SetTimer(pDM_Odm, &pDM_Odm->PSDTimer, 1500);
-				ODM_RT_TRACE(	pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("Leave dm_PSD_Monitor\n"));		
+				ODM_RT_TRACE(	pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("Leave dm_PSD_Monitor\n"));
 		}
 	}
     }
@@ -855,9 +855,9 @@ ODM_PSDMonitor(
 {
 	PDM_ODM_T				pDM_Odm = (PDM_ODM_T)pDM_VOID;
 	//HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
-	
+
 	//if(IS_HARDWARE_TYPE_8723AE(Adapter))
-	
+
 	if(pDM_Odm->SupportICType == ODM_RTL8723A)   //may need to add other IC type
 	{
 		if(pDM_Odm->SupportInterface==ODM_ITRF_PCIE)
@@ -866,7 +866,7 @@ ODM_PSDMonitor(
 			{
 				pDM_Odm->bPSDactive=FALSE;
 				ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD, DBG_LOUD, ("odm_PSDMonitor, return for BT is disabled!!!\n"));
-		   		return; 
+		   		return;
 			}
 
 			ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD, DBG_LOUD, ("odm_PSDMonitor\n"));
@@ -875,8 +875,8 @@ ODM_PSDMonitor(
 	 		pDM_Odm->bPSDactive=TRUE;
 			odm_PSD_Monitor(pDM_Odm);
 			pDM_Odm->bPSDinProcess = FALSE;
-		}	
-	}	
+		}
+	}
 
 }
 VOID
@@ -921,7 +921,7 @@ ODM_PSDDbgControl(
 	{
 		pDM_Odm->RSSI_BT = (u1Byte)btRssi;
 		pDM_Odm->bUserAssignLevel = TRUE;
-		ODM_SetTimer( pDM_Odm, &pDM_Odm->PSDTimer, 0); //ms		
+		ODM_SetTimer( pDM_Odm, &pDM_Odm->PSDTimer, 0); //ms
 	}
 	else
 	{
@@ -979,7 +979,7 @@ odm_PSD_RXHP(
 	u4Byte			CurrentChannel, RXIQI, RxIdleLowPwr, wlan_channel;
 	u4Byte			ReScan, Interval, Is40MHz;
 	u8Byte			curTxOkCnt, curRxOkCnt;
-	//--------------2G band synthesizer for 92D switch RF channel using----------------- 
+	//--------------2G band synthesizer for 92D switch RF channel using-----------------
 	u1Byte			group_idx=0;
 	u4Byte			SYN_RF25=0, SYN_RF26=0, SYN_RF27=0, SYN_RF2B=0, SYN_RF2C=0;
 	u4Byte			SYN[5] = {0x25, 0x26, 0x27, 0x2B, 0x2C};    // synthesizer RF register for 2G channel
@@ -990,7 +990,7 @@ odm_PSD_RXHP(
   	u1Byte                 RSSI_BT_new = (u1Byte) ODM_GetBBReg(pDM_Odm, 0xB9C, 0xFF);
        u1Byte                 rssi_ctrl = (u1Byte) ODM_GetBBReg(pDM_Odm, 0xB38, 0xFF);
        //---------------------------------------------------------------------
-	
+
 	if(pMgntInfo->bScanInProgress)
 	{
 		return;
@@ -1055,7 +1055,7 @@ odm_PSD_RXHP(
 	//Turn off CCA
 	ODM_SetBBReg(pDM_Odm, 0xC14, bMaskDWord, 0x0);
 	//BB Reset
-	ODM_SetBBReg(pDM_Odm, 0x87C, BIT31, 1); //clock gated to prevent from AGC table mess 
+	ODM_SetBBReg(pDM_Odm, 0x87C, BIT31, 1); //clock gated to prevent from AGC table mess
 	BBReset = ODM_Read1Byte(pDM_Odm, 0x02);
 	ODM_Write1Byte(pDM_Odm, 0x02, BBReset&(~BIT0));
 	ODM_Write1Byte(pDM_Odm, 0x02, BBReset|BIT0);
@@ -1065,25 +1065,25 @@ odm_PSD_RXHP(
 	//1 Fix initial gain
       	RSSI_BT = RSSI_BT_new;
 	RT_TRACE(ODM_COMP_PSD, DBG_LOUD,("PSD: RSSI_BT= %d\n", RSSI_BT));
-	
+
 	if(rssi_ctrl == 1)        // just for debug!!
-		initial_gain_psd = RSSI_BT_new; 
+		initial_gain_psd = RSSI_BT_new;
      	else
 		initial_gain_psd = pDM_Odm->RSSI_Min;    // PSD report based on RSSI
-	
+
 	RT_TRACE(ODM_COMP_PSD, DBG_LOUD,("PSD: RSSI_BT= %d\n", RSSI_BT));
-	
+
 	initialGainUpper = 0x54;
-	
+
 	RSSI_BT = initial_gain_psd;
 	//SSBT = RSSI_BT;
-	
+
 	//RT_TRACE(	ODM_COMP_PSD, DBG_LOUD,("PSD: SSBT= %d\n", SSBT));
 	RT_TRACE(	ODM_COMP_PSD, DBG_LOUD,("PSD: initial gain= 0x%x\n", initial_gain_psd));
-	
-	pDM_Odm->bDMInitialGainEnable = FALSE;		
+
+	pDM_Odm->bDMInitialGainEnable = FALSE;
 	initial_gain = ODM_GetBBReg(pDM_Odm, 0xc50, bMaskDWord) & 0x7F;
-	//ODM_SetBBReg(pDM_Odm, 0xc50, 0x7F, initial_gain_psd);	
+	//ODM_SetBBReg(pDM_Odm, 0xc50, 0x7F, initial_gain_psd);
 	ODM_Write_DIG(pDM_Odm, initial_gain_psd);
 	//1 Turn off 3-wire
 	ODM_SetBBReg(pDM_Odm, 0x88c, BIT20|BIT21|BIT22|BIT23, 0xF);
@@ -1115,20 +1115,20 @@ odm_PSD_RXHP(
 		start_point = 512;
 		stop_point = 1536;
 	}
-	
+
 
 //3 Skip WLAN channels if WLAN busy
 	curTxOkCnt = *(pDM_Odm->pNumTxBytesUnicast) - lastTxOkCnt;
 	curRxOkCnt = *(pDM_Odm->pNumRxBytesUnicast) - lastRxOkCnt;
 	lastTxOkCnt = *(pDM_Odm->pNumTxBytesUnicast);
 	lastRxOkCnt = *(pDM_Odm->pNumRxBytesUnicast);
-	
+
 	PSD_skip_start=80;
 	PSD_skip_stop = 0;
 	wlan_channel = CurrentChannel & 0x0f;
 
 	RT_TRACE(ODM_COMP_PSD,DBG_LOUD,("PSD: current channel: %x, BW:%d \n", wlan_channel, Is40MHz));
-	
+
 	if((curRxOkCnt+curTxOkCnt) > 1000)
 	{
 		PSD_skip_start = (wlan_channel-1)*5 -Is40MHz*10;
@@ -1146,7 +1146,7 @@ odm_PSD_RXHP(
 			{
 				switch(channel)
 				{
-					case 1: 
+					case 1:
 					case 9:
 						group_idx = 0;
 						break;
@@ -1157,7 +1157,7 @@ odm_PSD_RXHP(
 				 		group_idx = 1;
 						break;
 				}
-				if((*(pDM_Odm->pMacPhyMode)==ODM_SMSP)||(*(pDM_Odm->pMacPhyMode)==ODM_DMSP))   
+				if((*(pDM_Odm->pMacPhyMode)==ODM_SMSP)||(*(pDM_Odm->pMacPhyMode)==ODM_DMSP))
 		{
 					for(i = 0; i < SYN_Length; i++)
 						ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_B, SYN[i], bMaskDWord, SYN_group[group_idx][i]);
@@ -1168,17 +1168,17 @@ odm_PSD_RXHP(
 				else  // DualMAC_DualPHY 2G
 			{
 					for(i = 0; i < SYN_Length; i++)
-						ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, SYN[i], bMaskDWord, SYN_group[group_idx][i]);   
-					
+						ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, SYN[i], bMaskDWord, SYN_group[group_idx][i]);
+
 					ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, RF_CHNLBW, 0x3FF, channel);
 				}
 			}
 			else
 			ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, RF_CHNLBW, 0x3FF, channel);
-			}	
+			}
 		tone_idx = n%20;
 		if ((n>=PSD_skip_start) && (n<PSD_skip_stop))
-		{	
+		{
 			PSD_report[n] = initial_gain_psd;//SSBT;
 			ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD,DBG_LOUD,("PSD:Tone %d skipped \n", n));
 		}
@@ -1188,12 +1188,12 @@ odm_PSD_RXHP(
 
 			if ( PSD_report_tmp > PSD_report[n])
 				PSD_report[n] = PSD_report_tmp;
-				
+
 		}
 	}
 
 	PatchDCTone(pDM_Odm, PSD_report, initial_gain_psd);
-      
+
        //----end
 	//1 Turn on RX
 	//Rx AGC on
@@ -1238,7 +1238,7 @@ odm_PSD_RXHP(
 	//Restore RX idle low power
 	if(RxIdleLowPwr == TRUE)
 		ODM_SetBBReg(pDM_Odm, 0x818, BIT28, 1);
-	
+
 	psd_cnt++;
 	//gPrint("psd cnt=%d\n", psd_cnt);
 	ODM_RT_TRACE(pDM_Odm,ODM_COMP_PSD, DBG_LOUD,("PSD:psd_cnt = %d \n",psd_cnt));
@@ -1247,7 +1247,7 @@ odm_PSD_RXHP(
 		ODM_SetTimer(pDM_Odm, &pRX_HP_Table->PSDTimer, Interval);  //ms
 	}
 	else
-	{	
+	{
 		psd_cnt = 0;
 		for(i=0;i<80;i++)
 			RT_TRACE(	ODM_COMP_PSD, DBG_LOUD,("psd_report[%d]=     %d \n", 2402+i, PSD_report[i]));
@@ -1268,9 +1268,9 @@ void odm_Write_RXHP(
 	if(pRX_HP_Table->Cur_IGI != pRX_HP_Table->Pre_IGI)
 	{
 		ODM_SetBBReg(pDM_Odm, rOFDM0_XAAGCCore1, bMaskByte0, pRX_HP_Table->Cur_IGI);
-	     	ODM_SetBBReg(pDM_Odm, rOFDM0_XBAGCCore1, bMaskByte0, pRX_HP_Table->Cur_IGI);	
+	     	ODM_SetBBReg(pDM_Odm, rOFDM0_XBAGCCore1, bMaskByte0, pRX_HP_Table->Cur_IGI);
 	}
-	
+
 	if(pRX_HP_Table->Cur_pw_th != pRX_HP_Table->Pre_pw_th)
 {
 		ODM_SetBBReg(pDM_Odm, rOFDM0_XAAGCCore2, BIT8|BIT9, pRX_HP_Table->Cur_pw_th);  // RegC54[9:8]=2'b11:  AGC Flow 3
@@ -1286,7 +1286,7 @@ void odm_Write_RXHP(
 		if(currentIGI<0x50)
 		{
 			ODM_SetBBReg(pDM_Odm, rOFDM0_XAAGCCore1, bMaskByte0, pRX_HP_Table->Cur_IGI);
-	     		ODM_SetBBReg(pDM_Odm, rOFDM0_XBAGCCore1, bMaskByte0, pRX_HP_Table->Cur_IGI);	
+	     		ODM_SetBBReg(pDM_Odm, rOFDM0_XBAGCCore1, bMaskByte0, pRX_HP_Table->Cur_IGI);
 		}
 	}
 	pRX_HP_Table->Pre_IGI = pRX_HP_Table->Cur_IGI;
@@ -1306,32 +1306,32 @@ void odm_RXHP(
 	pDIG_T		pDM_DigTable = &pDM_Odm->DM_DigTable;
 	pRXHP_T		pRX_HP_Table  = &pDM_Odm->DM_RXHP_Table;
 	PFALSE_ALARM_STATISTICS		FalseAlmCnt = (PFALSE_ALARM_STATISTICS)PhyDM_Get_Structure(pDM_Odm, PHYDM_FALSEALMCNT);
-	
+
 	u1Byte              	i, j, sum;
 	u1Byte			Is40MHz;
-	s1Byte              	Intf_diff_idx, MIN_Intf_diff_idx = 16;   
-       s4Byte              	cur_channel;    
-       u1Byte              	ch_map_intf_5M[17] = {0};     
-       static u4Byte		FA_TH = 0;	
+	s1Byte              	Intf_diff_idx, MIN_Intf_diff_idx = 16;
+       s4Byte              	cur_channel;
+       u1Byte              	ch_map_intf_5M[17] = {0};
+       static u4Byte		FA_TH = 0;
 	static u1Byte      	psd_intf_flag = 0;
-	static s4Byte      	curRssi = 0;                
-       static s4Byte  		preRssi = 0;                                                                
+	static s4Byte      	curRssi = 0;
+       static s4Byte  		preRssi = 0;
 	static u1Byte		PSDTriggerCnt = 1;
-	
+
 	u1Byte			RX_HP_enable = (u1Byte)(ODM_GetBBReg(pDM_Odm, rOFDM0_XAAGCCore2, bMaskDWord)>>31);   // for debug!!
 
-#if(DEV_BUS_TYPE == RT_USB_INTERFACE)	
-	static s8Byte  		lastTxOkCnt = 0, lastRxOkCnt = 0;  
+#if(DEV_BUS_TYPE == RT_USB_INTERFACE)
+	static s8Byte  		lastTxOkCnt = 0, lastRxOkCnt = 0;
        s8Byte			curTxOkCnt, curRxOkCnt;
 	s8Byte			curTPOkCnt;
 	s8Byte			TP_Acc3, TP_Acc5;
 	static s8Byte		TP_Buff[5] = {0};
 	static u1Byte		pre_state = 0, pre_state_flag = 0;
-	static u1Byte		Intf_HighTP_flag = 0, De_counter = 16; 
+	static u1Byte		Intf_HighTP_flag = 0, De_counter = 16;
 	static u1Byte		TP_Degrade_flag = 0;
-#endif	   
+#endif
 	static u1Byte		LatchCnt = 0;
-	
+
 	if(pDM_Odm->SupportICType & (ODM_RTL8723A|ODM_RTL8188E))
 		return;
 	//AGC RX High Power Mode is only applied on 2G band in 92D!!!
@@ -1361,7 +1361,7 @@ void odm_RXHP(
 		return;
 	}
 
-#if(DEV_BUS_TYPE == RT_USB_INTERFACE)	
+#if(DEV_BUS_TYPE == RT_USB_INTERFACE)
 	//2 Record current TP for USB interface
 	curTxOkCnt = *(pDM_Odm->pNumTxBytesUnicast)-lastTxOkCnt;
 	curRxOkCnt = *(pDM_Odm->pNumRxBytesUnicast)-lastRxOkCnt;
@@ -1369,10 +1369,10 @@ void odm_RXHP(
 	lastRxOkCnt = *(pDM_Odm->pNumRxBytesUnicast);
 
 	curTPOkCnt = curTxOkCnt+curRxOkCnt;
-	TP_Buff[0] = curTPOkCnt;    // current TP  
+	TP_Buff[0] = curTPOkCnt;    // current TP
 	TP_Acc3 = PlatformDivision64((TP_Buff[1]+TP_Buff[2]+TP_Buff[3]), 3);
 	TP_Acc5 = PlatformDivision64((TP_Buff[0]+TP_Buff[1]+TP_Buff[2]+TP_Buff[3]+TP_Buff[4]), 5);
-	
+
 	if(TP_Acc5 < 1000)
 		pRX_HP_Table->TP_Mode = Idle_Mode;
 	else if((1000 < TP_Acc5)&&(TP_Acc5 < 3750000))
@@ -1408,7 +1408,7 @@ void odm_RXHP(
 	//3 NOT applied 1. Ad Hoc Mode.
 	//3 NOT applied 2. AP Mode
 	if ((pMgntInfo->mAssoc) && (!pMgntInfo->mIbss) && (!ACTING_AS_AP(Adapter)))
-	{    
+	{
 		Is40MHz = *(pDM_Odm->pBandWidth);
 		curRssi = pDM_Odm->RSSI_Min;
 		cur_channel = ODM_GetRFReg(pDM_Odm, ODM_RF_PATH_A, RF_CHNLBW, 0x0fff) & 0x0f;
@@ -1418,25 +1418,25 @@ void odm_RXHP(
 			ODM_RT_TRACE(pDM_Odm,	ODM_COMP_RXHP, ODM_DBG_LOUD, ("illegal channel setting, 40MHz channel = %d\n", cur_channel));
 			return;
 		}
-		
+
 		ODM_RT_TRACE(pDM_Odm, 	ODM_COMP_RXHP, ODM_DBG_LOUD, ("RXHP RX HP flag = %d\n", pRX_HP_Table->RXHP_flag));
 		ODM_RT_TRACE(pDM_Odm,	ODM_COMP_RXHP, ODM_DBG_LOUD, ("RXHP FA = %d\n", FalseAlmCnt->Cnt_all));
 		ODM_RT_TRACE(pDM_Odm,	ODM_COMP_RXHP, ODM_DBG_LOUD, ("RXHP cur RSSI = %d, pre RSSI=%d\n", curRssi, preRssi));
 		ODM_RT_TRACE(pDM_Odm,	ODM_COMP_RXHP, ODM_DBG_LOUD, ("RXHP current CH = %d\n", cur_channel));
 		ODM_RT_TRACE(pDM_Odm,	ODM_COMP_RXHP, ODM_DBG_LOUD, ("RXHP Is 40MHz = %d\n", Is40MHz));
-       	//2 PSD function would be triggered 
+       	//2 PSD function would be triggered
        	//3 1. Every 4 sec for PCIE
        	//3 2. Before TP Mode (Idle TP<4kbps) for USB
-       	//3 3. After TP Mode (High TP) for USB 
-		if((curRssi > 68) && (pRX_HP_Table->RXHP_flag == 0))	// Only RSSI>TH and RX_HP_flag=0 will Do PSD process 
+       	//3 3. After TP Mode (High TP) for USB
+		if((curRssi > 68) && (pRX_HP_Table->RXHP_flag == 0))	// Only RSSI>TH and RX_HP_flag=0 will Do PSD process
 		{
 #if (DEV_BUS_TYPE == RT_USB_INTERFACE)
 			//2 Before TP Mode ==> PSD would be trigger every 4 sec
 			if(pRX_HP_Table->TP_Mode == Idle_Mode)		//2.1 less wlan traffic <4kbps
 			{
 #endif
-				if(PSDTriggerCnt == 1)       
-				{    	
+				if(PSDTriggerCnt == 1)
+				{
 					odm_PSD_RXHP(pDM_Odm);
 					pRX_HP_Table->PSD_func_trigger = 1;
 					PSDTriggerCnt = 0;
@@ -1446,11 +1446,11 @@ void odm_RXHP(
              				PSDTriggerCnt++;
 				}
 #if(DEV_BUS_TYPE == RT_USB_INTERFACE)
-			}	
+			}
 			//2 After TP Mode ==> Check if TP degrade larger than 20% would trigger PSD function
 			if(pRX_HP_Table->TP_Mode == High_TP_Mode)
 			{
-				if((pre_state_flag == 0)&&(LatchCnt == 0)) 
+				if((pre_state_flag == 0)&&(LatchCnt == 0))
 				{
 					// TP var < 5%
 					if((((curTPOkCnt-TP_Acc3)*20)<(TP_Acc3))&&(((curTPOkCnt-TP_Acc3)*20)>(-TP_Acc3)))
@@ -1469,7 +1469,7 @@ void odm_RXHP(
 					}
 				}
 				//3 If pre_state_flag=1 ==> start to monitor TP degrade 20%
-				if(pre_state_flag == 1)		
+				if(pre_state_flag == 1)
 				{
 					if(((TP_Acc3-curTPOkCnt)*5)>(TP_Acc3))      // degrade 20%
 					{
@@ -1506,16 +1506,16 @@ void odm_RXHP(
 			TP_Buff[4-i] = TP_Buff[3-i];
 		}
 #endif
-		//2 Update PSD bitmap according to PSD report 
+		//2 Update PSD bitmap according to PSD report
 		if((pRX_HP_Table->PSD_func_trigger == 1)&&(LatchCnt == 0))
-    		{	
+    		{
            		//2 Separate 80M bandwidth into 16 group with smaller 5M BW.
 			for (i = 0 ; i < 16 ; i++)
            		{
 				sum = 0;
 				for(j = 0; j < 5 ; j++)
                 			sum += pRX_HP_Table->PSD_bitmap_RXHP[5*i + j];
-            
+
                 		if(sum < 5)
                 		{
                 			ch_map_intf_5M[i] = 1;  // interference flag
@@ -1528,19 +1528,19 @@ void odm_RXHP(
 			//2 Mask target channel 5M index
 	    		for(i = 0; i < (4+4*Is40MHz) ; i++)
            		{
-				ch_map_intf_5M[cur_channel - (1+2*Is40MHz) + i] = 0;  
+				ch_map_intf_5M[cur_channel - (1+2*Is40MHz) + i] = 0;
            		}
-				
+
            		psd_intf_flag = 0;
 	    		for(i = 0; i < 16; i++)
            		{
          			if(ch_map_intf_5M[i] == 1)
 	              	{
-	              		psd_intf_flag = 1;            // interference is detected!!!	
+	              		psd_intf_flag = 1;            // interference is detected!!!
 	              		break;
          			}
 	    		}
-				
+
 #if (DEV_BUS_TYPE == RT_USB_INTERFACE)
 			if(pRX_HP_Table->TP_Mode!=Idle_Mode)
 			{
@@ -1557,41 +1557,41 @@ void odm_RXHP(
           		{
 				if(ch_map_intf_5M[i] == 1)
                 		{
-					Intf_diff_idx = ((cur_channel+Is40MHz-(i+1))>0) ? (s1Byte)(cur_channel-2*Is40MHz-(i-2)) : (s1Byte)((i+1)-(cur_channel+2*Is40MHz));  
+					Intf_diff_idx = ((cur_channel+Is40MHz-(i+1))>0) ? (s1Byte)(cur_channel-2*Is40MHz-(i-2)) : (s1Byte)((i+1)-(cur_channel+2*Is40MHz));
                       		if(Intf_diff_idx < MIN_Intf_diff_idx)
 						MIN_Intf_diff_idx = Intf_diff_idx;    // the min difference index between interference and target
 		  		}
 	    		}
-	    		ODM_RT_TRACE(pDM_Odm,	ODM_COMP_RXHP, ODM_DBG_LOUD, ("RX HP MIN_Intf_diff_idx = %d\n", MIN_Intf_diff_idx)); 
+	    		ODM_RT_TRACE(pDM_Odm,	ODM_COMP_RXHP, ODM_DBG_LOUD, ("RX HP MIN_Intf_diff_idx = %d\n", MIN_Intf_diff_idx));
 			//2 Choose False Alarm Threshold
 			switch (MIN_Intf_diff_idx){
-      				case 0: 
+      				case 0:
 	   			case 1:
 	        		case 2:
-	        		case 3:	 	 
-                 			FA_TH = FA_RXHP_TH1;  
+	        		case 3:
+                 			FA_TH = FA_RXHP_TH1;
                      		break;
 	        		case 4:				// CH5
 	        		case 5:				// CH6
-		   			FA_TH = FA_RXHP_TH2;	
+		   			FA_TH = FA_RXHP_TH2;
                			break;
 	        		case 6:				// CH7
 	        		case 7:				// CH8
 		      			FA_TH = FA_RXHP_TH3;
-                    			break; 
+                    			break;
                		case 8:				// CH9
 	        		case 9:				//CH10
 		      			FA_TH = FA_RXHP_TH4;
-                    			break; 	
+                    			break;
 	        		case 10:
 	        		case 11:
 	        		case 12:
-	        		case 13:	 
+	        		case 13:
 	        		case 14:
-	      			case 15:	 	
+	      			case 15:
 		      			FA_TH = FA_RXHP_TH5;
-                    			break;  		
-       		}	
+                    			break;
+       		}
 			ODM_RT_TRACE(pDM_Odm,	ODM_COMP_RXHP, ODM_DBG_LOUD, ("RX HP FA_TH = %d\n", FA_TH));
 			pRX_HP_Table->PSD_func_trigger = 0;
 		}
@@ -1599,7 +1599,7 @@ void odm_RXHP(
          	if(pRX_HP_Table->RXHP_flag == 1)
          	{
               	if ((curRssi > 80)&&(preRssi < 80))
-              	{ 
+              	{
                    		pRX_HP_Table->Cur_IGI = LNA_Low_Gain_1;
               	}
               	else if ((curRssi < 80)&&(preRssi > 80))
@@ -1617,21 +1617,21 @@ void odm_RXHP(
 	       	else if (curRssi < 68)		 //RSSI is NOT large enough!!==> Exit AGC RX High Power Mode
 	       	{
                    		pRX_HP_Table->Cur_pw_th = pw_th_10dB;
-				pRX_HP_Table->RXHP_flag = 0;    // Back to Normal DIG Mode		  
+				pRX_HP_Table->RXHP_flag = 0;    // Back to Normal DIG Mode
 				psd_intf_flag = 0;
 			}
 		}
 		else    // pRX_HP_Table->RXHP_flag == 0
 		{
 			//1 Decide whether to enter AGC RX High Power Mode
-			if ((curRssi > 70) && (psd_intf_flag == 1) && (FalseAlmCnt->Cnt_all > FA_TH) &&  
+			if ((curRssi > 70) && (psd_intf_flag == 1) && (FalseAlmCnt->Cnt_all > FA_TH) &&
 				(pDM_DigTable->CurIGValue == pDM_DigTable->rx_gain_range_max))
 			{
              			if (curRssi > 80)
              			{
 					pRX_HP_Table->Cur_IGI = LNA_Low_Gain_1;
 				}
-				else if (curRssi > 72) 
+				else if (curRssi > 72)
               		{
                			pRX_HP_Table->Cur_IGI = LNA_Low_Gain_2;
 				}
@@ -1644,8 +1644,8 @@ void odm_RXHP(
 				pRX_HP_Table->RXHP_flag = 1;    //	RXHP_flag=1: AGC RX High Power Mode, RXHP_flag=0: Normal DIG Mode
 			}
 		}
-		preRssi = curRssi; 
-		odm_Write_RXHP(pDM_Odm);	
+		preRssi = curRssi;
+		odm_Write_RXHP(pDM_Odm);
 	}
 #endif //#if( DM_ODM_SUPPORT_TYPE & (ODM_WIN))
 #endif //#if (DEV_BUS_TYPE == RT_PCI_INTERFACE) | (DEV_BUS_TYPE == RT_USB_INTERFACE)
@@ -1661,7 +1661,7 @@ odm_PSD_RXHPCallback(
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
 	PDM_ODM_T		pDM_Odm = &pHalData->DM_OutSrc;
 	pRXHP_T			pRX_HP_Table  = &pDM_Odm->DM_RXHP_Table;
-	
+
 #if DEV_BUS_TYPE==RT_PCI_INTERFACE
 	#if USE_WORKITEM
 	ODM_ScheduleWorkItem(&pRX_HP_Table->PSDTimeWorkitem);
@@ -1671,7 +1671,7 @@ odm_PSD_RXHPCallback(
 #else
 	ODM_ScheduleWorkItem(&pRX_HP_Table->PSDTimeWorkitem);
 #endif
-	
+
 	}
 
 VOID
@@ -1682,11 +1682,11 @@ odm_PSD_RXHPWorkitemCallback(
 	PADAPTER	pAdapter = (PADAPTER)pContext;
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(pAdapter);
 	PDM_ODM_T		pDM_Odm = &pHalData->DM_OutSrc;
-	
+
 	odm_PSD_RXHP(pDM_Odm);
 }
 
 #endif //#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
 
 
- 
+

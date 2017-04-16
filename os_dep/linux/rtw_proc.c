@@ -64,7 +64,7 @@ inline struct proc_dir_entry *rtw_proc_create_dir(const char *name, struct proc_
 	return entry;
 }
 
-inline struct proc_dir_entry *rtw_proc_create_entry(const char *name, struct proc_dir_entry *parent, 
+inline struct proc_dir_entry *rtw_proc_create_entry(const char *name, struct proc_dir_entry *parent,
 	const struct file_operations *fops, void * data)
 {
 	struct proc_dir_entry *entry;
@@ -130,13 +130,13 @@ static ssize_t proc_set_log_level(struct file *file, const char __user *buffer, 
 	} else {
 		return -EFAULT;
 	}
-	
+
 	return count;
 }
 
 #ifdef DBG_MEM_ALLOC
 static int proc_get_mstat(struct seq_file *m, void *v)
-{	
+{
 	rtw_mstat_dump(m);
 	return 0;
 }
@@ -184,7 +184,7 @@ static ssize_t rtw_drv_proc_write(struct file *file, const char __user *buffer, 
 	ssize_t index = (ssize_t)PDE_DATA(file_inode(file));
 	const struct rtw_proc_hdl *hdl = drv_proc_hdls+index;
 	ssize_t (*write)(struct file *, const char __user *, size_t, loff_t *, void *) = hdl->write;
-	
+
 	if (write)
 		return write(file, buffer, count, pos, NULL);
 
@@ -314,9 +314,9 @@ static ssize_t proc_set_config_gpio(struct file *file, const char __user *buffer
 {
 	struct net_device *dev = data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
-	char tmp[32]={0}; 
+	char tmp[32]={0};
 	int num=0,gpio_pin=0,gpio_mode=0;//gpio_mode:0 input  1:output;
-	
+
 	if (count < 2)
 		return -EFAULT;
 
@@ -331,7 +331,7 @@ static ssize_t proc_set_config_gpio(struct file *file, const char __user *buffer
       		padapter->pre_gpio_pin=gpio_pin;
 
 		if(gpio_mode==0 || gpio_mode==1  )
-			rtw_hal_config_gpio(padapter, gpio_pin,gpio_mode);	
+			rtw_hal_config_gpio(padapter, gpio_pin,gpio_mode);
 	}
 	return count;
 
@@ -340,9 +340,9 @@ static ssize_t proc_set_gpio_output_value(struct file *file, const char __user *
 {
 	struct net_device *dev = data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
-	char tmp[32]={0}; 
+	char tmp[32]={0};
 	int num=0,gpio_pin=0,pin_mode=0;//pin_mode: 1 high         0:low
-	
+
 	if (count < 2)
 		return -EFAULT;
 
@@ -355,9 +355,9 @@ static ssize_t proc_set_gpio_output_value(struct file *file, const char __user *
 		num	=sscanf(tmp, "%d %d",&gpio_pin,&pin_mode);
 		DBG_871X("num=%d gpio_pin=%d pin_high=%d\n",num,gpio_pin,pin_mode);
 		padapter->pre_gpio_pin=gpio_pin;
-		
+
 		if(pin_mode==0 || pin_mode==1  )
-			rtw_hal_set_gpio_output_value(padapter, gpio_pin,pin_mode);	
+			rtw_hal_set_gpio_output_value(padapter, gpio_pin,pin_mode);
 	}
 	return count;
 }
@@ -365,13 +365,13 @@ static int proc_get_gpio(struct seq_file *m, void *v)
 {
 	u8 gpioreturnvalue=0;
 	struct net_device *dev = m->private;
-	
+
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
-	if(!padapter)	
+	if(!padapter)
 		return -EFAULT;
 	gpioreturnvalue = rtw_hal_get_gpio(padapter, padapter->pre_gpio_pin);
 	DBG_871X_SEL_NL(m, "get_gpio %d:%d \n",padapter->pre_gpio_pin ,gpioreturnvalue);
-	
+
 	return 0;
 
 }
@@ -379,9 +379,9 @@ static ssize_t proc_set_gpio(struct file *file, const char __user *buffer, size_
 {
 	struct net_device *dev = data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
-	char tmp[32]={0}; 
+	char tmp[32]={0};
 	int num=0,gpio_pin=0;
-	
+
 	if (count < 1)
 		return -EFAULT;
 
@@ -394,7 +394,7 @@ static ssize_t proc_set_gpio(struct file *file, const char __user *buffer, size_
 		num	=sscanf(tmp, "%d",&gpio_pin);
 		DBG_871X("num=%d gpio_pin=%d\n",num,gpio_pin);
 		padapter->pre_gpio_pin=gpio_pin;
-		
+
 	}
 		return count;
 }
@@ -524,9 +524,9 @@ static int proc_get_linked_info_dump(struct seq_file *m, void *v)
 {
 	struct net_device *dev = m->private;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
-	if(padapter)	
+	if(padapter)
 		DBG_871X_SEL_NL(m, "linked_info_dump :%s \n", (padapter->bLinkInfoDump)?"enable":"disable");
-	
+
 	return 0;
 }
 
@@ -535,9 +535,9 @@ static ssize_t proc_set_linked_info_dump(struct file *file, const char __user *b
 	struct net_device *dev = data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 
-	char tmp[32]={0}; 
+	char tmp[32]={0};
 	int mode=0,pre_mode=0;
-	int num=0;	
+	int num=0;
 
 	if (count < 1)
 		return -EFAULT;
@@ -560,16 +560,16 @@ static ssize_t proc_set_linked_info_dump(struct file *file, const char __user *b
 			DBG_871X("argument number is wrong\n");
 				return -EFAULT;
 		}
-	
+
 		if(mode==1 || (mode==0 && pre_mode==1) ) //not consider pwr_saving 0:
 		{
-			padapter->bLinkInfoDump = mode;	
-		
+			padapter->bLinkInfoDump = mode;
+
 		}
 		else if( (mode==2 ) || (mode==0 && pre_mode==2))//consider power_saving
-		{		
+		{
 			//DBG_871X("linked_info_dump =%s \n", (padapter->bLinkInfoDump)?"enable":"disable")
-			linked_info_dump(padapter,mode);	
+			linked_info_dump(padapter,mode);
 		}
 	}
 	return count;
@@ -590,7 +590,7 @@ int proc_get_wifi_spec(struct seq_file *m, void *v)
 	struct net_device *dev = m->private;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct registry_priv	*pregpriv = &padapter->registrypriv;
-	
+
 	DBG_871X_SEL_NL(m,"wifi_spec=%d\n",pregpriv->wifi_spec);
 	return 0;
 }
@@ -619,7 +619,7 @@ static ssize_t proc_set_chan_plan(struct file *file, const char __user *buffer, 
 	{
 		DBG_871X("argument size is less than 1\n");
 		return -EFAULT;
-	}	
+	}
 
 	if (count > sizeof(tmp)) {
 		rtw_warn_on(1);
@@ -717,7 +717,7 @@ static int proc_get_udpport(struct seq_file *m, void *v)
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct recv_priv *precvpriv = &(padapter->recvpriv);
 
-	DBG_871X_SEL_NL(m,"%d\n",precvpriv->sink_udpport);	
+	DBG_871X_SEL_NL(m,"%d\n",precvpriv->sink_udpport);
 	return 0;
 }
 static ssize_t proc_set_udpport(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
@@ -725,10 +725,10 @@ static ssize_t proc_set_udpport(struct file *file, const char __user *buffer, si
 	struct net_device *dev = data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct recv_priv *precvpriv = &(padapter->recvpriv);
-	int sink_udpport = 0;	
+	int sink_udpport = 0;
 	char tmp[32];
-	
-	
+
+
 	if (!padapter)
 		return -EFAULT;
 
@@ -736,7 +736,7 @@ static ssize_t proc_set_udpport(struct file *file, const char __user *buffer, si
 	{
 		DBG_871X("argument size is less than 1\n");
 		return -EFAULT;
-	}	
+	}
 
 	if (count > sizeof(tmp)) {
 		rtw_warn_on(1);
@@ -754,7 +754,7 @@ static ssize_t proc_set_udpport(struct file *file, const char __user *buffer, si
 
 	}
 	precvpriv->sink_udpport = sink_udpport;
-	
+
 	return count;
 
 }
@@ -1159,7 +1159,7 @@ ssize_t proc_set_btinfo_evt(struct file *file, const char __user *buffer, size_t
 		int num = 0;
 
 		_rtw_memset(btinfo, 0, 8);
-		
+
 		num = sscanf(tmp, "%hhx %hhx %hhx %hhx %hhx %hhx %hhx %hhx"
 			, &btinfo[0], &btinfo[1], &btinfo[2], &btinfo[3]
 			, &btinfo[4], &btinfo[5], &btinfo[6], &btinfo[7]);
@@ -1171,7 +1171,7 @@ ssize_t proc_set_btinfo_evt(struct file *file, const char __user *buffer, size_t
 
 		rtw_btinfo_cmd(padapter, btinfo, btinfo[1]+2);
 	}
-	
+
 	return count;
 }
 #endif
@@ -1206,7 +1206,7 @@ static ssize_t  proc_set_acs(struct file *file, const char __user *buffer, size_
 	if (buffer && !copy_from_user(tmp, buffer, count)) {
 
 		int num = sscanf(tmp, "%hhu", &acs_satae);
-		
+
 		if (num < 1)
 			return -EINVAL;
 
@@ -1244,7 +1244,7 @@ const struct rtw_proc_hdl adapter_proc_hdls [] = {
 	{"ht_option", proc_get_ht_option, NULL},
 	{"rf_info", proc_get_rf_info, NULL},
 	{"scan_param", proc_get_scan_param, proc_set_scan_param},
-	{"scan_abort", proc_get_scan_abort, NULL},	
+	{"scan_abort", proc_get_scan_abort, NULL},
 #ifdef CONFIG_SCAN_BACKOP
 	{"backop_flags_sta", proc_get_backop_flags_sta, proc_set_backop_flags_sta},
 	{"backop_flags_ap", proc_get_backop_flags_ap, proc_set_backop_flags_ap},
@@ -1278,7 +1278,7 @@ const struct rtw_proc_hdl adapter_proc_hdls [] = {
 	{"mac_reg_dump", proc_get_mac_reg_dump, NULL},
 	{"bb_reg_dump", proc_get_bb_reg_dump, NULL},
 	{"rf_reg_dump", proc_get_rf_reg_dump, NULL},
-	
+
 #ifdef CONFIG_AP_MODE
 	{"all_sta_info", proc_get_all_sta_info, NULL},
 #endif /* CONFIG_AP_MODE */
@@ -1302,7 +1302,7 @@ const struct rtw_proc_hdl adapter_proc_hdls [] = {
 	{"rx_ampdu", proc_get_rx_ampdu, proc_set_rx_ampdu},
 	{"rx_ampdu_factor",proc_get_rx_ampdu_factor,proc_set_rx_ampdu_factor},
 	{"rx_ampdu_density",proc_get_rx_ampdu_density,proc_set_rx_ampdu_density},
-	{"tx_ampdu_density",proc_get_tx_ampdu_density,proc_set_tx_ampdu_density},	 
+	{"tx_ampdu_density",proc_get_tx_ampdu_density,proc_set_tx_ampdu_density},
 #endif /* CONFIG_80211N_HT */
 
 	{"en_fwps", proc_get_en_fwps, proc_set_en_fwps},
@@ -1356,7 +1356,7 @@ const struct rtw_proc_hdl adapter_proc_hdls [] = {
 	{"sink_udpport",proc_get_udpport,proc_set_udpport},
 #ifdef DBG_RX_COUNTER_DUMP
 	{"dump_rx_cnt_mode",proc_get_rx_cnt_dump,proc_set_rx_cnt_dump},
-#endif	
+#endif
 	{"change_bss_chbw", NULL, proc_set_change_bss_chbw},
 	{"tx_power_by_rate_base", proc_get_tx_power_by_rate_base, NULL},
 	{"tx_power_by_rate", proc_get_tx_power_by_rate, NULL},
@@ -1576,7 +1576,7 @@ ssize_t proc_set_odm_adaptivity(struct file *file, const char __user *buffer, si
 
 		rtw_odm_adaptivity_parm_set(padapter, (s8)TH_L2H_ini, TH_EDCCA_HL_diff, (s8)TH_L2H_ini_mode2, TH_EDCCA_HL_diff_mode2, EDCCA_enable);
 	}
-	
+
 	return count;
 }
 
@@ -1679,7 +1679,7 @@ static ssize_t rtw_odm_proc_write(struct file *file, const char __user *buffer, 
 	ssize_t index = (ssize_t)PDE_DATA(file_inode(file));
 	const struct rtw_proc_hdl *hdl = odm_proc_hdls+index;
 	ssize_t (*write)(struct file *, const char __user *, size_t, loff_t *, void *) = hdl->write;
-	
+
 	if (write)
 		return write(file, buffer, count, pos, ((struct seq_file *)file->private_data)->private);
 

@@ -33,9 +33,9 @@
 //-----------------------------------------------------
 #define REG_SYS_ISO_CTRL_8814A			0x0000	// 2 Byte
 #define REG_SYS_FUNC_EN_8814A			0x0002	// 2 Byte
-#define REG_SYS_PW_CTRL_8814A			0x0004	// 4 Byte        
+#define REG_SYS_PW_CTRL_8814A			0x0004	// 4 Byte
 #define REG_SYS_CLKR_8814A				0x0008	// 2 Byte
-#define REG_SYS_EEPROM_CTRL_8814A		0x000A	// 2 Byte        
+#define REG_SYS_EEPROM_CTRL_8814A		0x000A	// 2 Byte
 #define REG_EE_VPD_8814A				0x000C	// 2 Byte
 #define REG_SYS_SWR_CTRL1_8814A			0x0010	// 1 Byte
 #define REG_SPS0_CTRL_8814A				0x0011	// 7 Byte
@@ -45,11 +45,11 @@
 #define REG_RF_CTRL1_8814A				0x0020	// 1 Byte
 #define REG_RF_CTRL2_8814A				0x0021	// 1 Byte
 #define REG_LPLDO_CTRL_8814A			0x0023	// 1 Byte
-#define REG_AFE_CTRL1_8814A				0x0024	// 4 Byte        
-#define REG_AFE_CTRL2_8814A				0x0028	// 4 Byte        
-#define REG_AFE_CTRL3_8814A				0x002c 	// 4 Byte 
+#define REG_AFE_CTRL1_8814A				0x0024	// 4 Byte
+#define REG_AFE_CTRL2_8814A				0x0028	// 4 Byte
+#define REG_AFE_CTRL3_8814A				0x002c 	// 4 Byte
 #define REG_EFUSE_CTRL_8814A			0x0030
-#define REG_LDO_EFUSE_CTRL_8814A		0x0034 
+#define REG_LDO_EFUSE_CTRL_8814A		0x0034
 #define REG_PWR_DATA_8814A				0x0038
 #define REG_CAL_TIMER_8814A				0x003C
 #define REG_ACLK_MON_8814A				0x003E
@@ -71,8 +71,8 @@
 #define REG_SDIO_CTRL_8814A				0x0070
 #define REG_HCI_OPT_CTRL_8814A			0x0074
 #define REG_RF_CTRL3_8814A				0x0076	// 1 Byte
-#define REG_AFE_CTRL4_8814A				0x0078 
-#define REG_8051FW_CTRL_8814A			0x0080 
+#define REG_AFE_CTRL4_8814A				0x0078
+#define REG_8051FW_CTRL_8814A			0x0080
 #define REG_HIMR0_8814A					0x00B0
 #define REG_HISR0_8814A					0x00B4
 #define REG_HIMR1_8814A					0x00B8
@@ -170,7 +170,7 @@
 //
 //-----------------------------------------------------
 #define	REG_PCIE_CTRL_REG_8814A			0x0300
-#define	REG_INT_MIG_8814A				0x0304	// Interrupt Migration 
+#define	REG_INT_MIG_8814A				0x0304	// Interrupt Migration
 #define	REG_BCNQ_TXBD_DESA_8814A		0x0308	// TX Beacon Descriptor Address
 #define	REG_MGQ_TXBD_DESA_8814A			0x0310	// TX Manage Queue Descriptor Address
 #define	REG_VOQ_TXBD_DESA_8814A			0x0318	// TX VO Queue Descriptor Address
@@ -364,7 +364,7 @@
 #define REG_USTIME_TSF_8814A				0x055C
 #define REG_BCN_MAX_ERR_8814A				0x055D
 #define REG_RXTSF_OFFSET_CCK_8814A		0x055E
-#define REG_RXTSF_OFFSET_OFDM_8814A		0x055F	
+#define REG_RXTSF_OFFSET_OFDM_8814A		0x055F
 #define REG_TSFTR_8814A						0x0560
 #define REG_CTWND_8814A					0x0572
 #define REG_SECONDARY_CCA_CTRL_8814A		0x0577 // ??????
@@ -505,7 +505,7 @@
 #define R_EN_BOOT_FLASH         BIT20
 
 #define OCPBASE_IMEM_3081        0x00000000
-#define OCPBASE_DMEM_3081        0x00200000 
+#define OCPBASE_DMEM_3081        0x00200000
 #define OCPBASE_RPTBUF_3081      0x18660000
 #define OCPBASE_RXBUF2_3081      0x18680000
 #define OCPBASE_RXBUF_3081       0x18700000
@@ -533,7 +533,7 @@
 #define	MSR_8814A							(REG_CR_8814A + 2)		// Media Status register
 #define	ISR_8814A							REG_HISR0_8814A
 #define	TSFR_8814A							REG_TSFTR_8814A			// Timing Sync Function Timer Register.
-					
+
 #define PBP_8814A							REG_PBP_8814A
 
 // Redifine MACID register, to compatible prior ICs.
@@ -557,28 +557,28 @@
 #define	IMR_DISABLED_8814A					0
 // IMR DW0(0x00B0-00B3) Bit 0-31
 #define	IMR_TIMER2_8814A					BIT31		// Timeout interrupt 2
-#define	IMR_TIMER1_8814A					BIT30		// Timeout interrupt 1	
+#define	IMR_TIMER1_8814A					BIT30		// Timeout interrupt 1
 #define	IMR_PSTIMEOUT_8814A				BIT29		// Power Save Time Out Interrupt
-#define	IMR_GTINT4_8814A					BIT28		// When GTIMER4 expires, this bit is set to 1	
-#define	IMR_GTINT3_8814A					BIT27		// When GTIMER3 expires, this bit is set to 1	
-#define	IMR_TXBCN0ERR_8814A				BIT26		// Transmit Beacon0 Error			
-#define	IMR_TXBCN0OK_8814A					BIT25		// Transmit Beacon0 OK			
-#define	IMR_TSF_BIT32_TOGGLE_8814A		BIT24		// TSF Timer BIT32 toggle indication interrupt			
-#define	IMR_BCNDMAINT0_8814A				BIT20		// Beacon DMA Interrupt 0			
-#define	IMR_BCNDERR0_8814A					BIT16		// Beacon Queue DMA OK0			
+#define	IMR_GTINT4_8814A					BIT28		// When GTIMER4 expires, this bit is set to 1
+#define	IMR_GTINT3_8814A					BIT27		// When GTIMER3 expires, this bit is set to 1
+#define	IMR_TXBCN0ERR_8814A				BIT26		// Transmit Beacon0 Error
+#define	IMR_TXBCN0OK_8814A					BIT25		// Transmit Beacon0 OK
+#define	IMR_TSF_BIT32_TOGGLE_8814A		BIT24		// TSF Timer BIT32 toggle indication interrupt
+#define	IMR_BCNDMAINT0_8814A				BIT20		// Beacon DMA Interrupt 0
+#define	IMR_BCNDERR0_8814A					BIT16		// Beacon Queue DMA OK0
 #define	IMR_HSISR_IND_ON_INT_8814A		BIT15		// HSISR Indicator (HSIMR & HSISR is true, this bit is set to 1)
-#define	IMR_BCNDMAINT_E_8814A				BIT14		// Beacon DMA Interrupt Extension for Win7			
+#define	IMR_BCNDMAINT_E_8814A				BIT14		// Beacon DMA Interrupt Extension for Win7
 #define	IMR_ATIMEND_8814A					BIT12		// CTWidnow End or ATIM Window End
-#define	IMR_C2HCMD_8814A					BIT10		// CPU to Host Command INT Status, Write 1 clear	
-#define	IMR_CPWM2_8814A					BIT9			// CPU power Mode exchange INT Status, Write 1 clear	
-#define	IMR_CPWM_8814A						BIT8			// CPU power Mode exchange INT Status, Write 1 clear	
-#define	IMR_HIGHDOK_8814A					BIT7			// High Queue DMA OK	
-#define	IMR_MGNTDOK_8814A					BIT6			// Management Queue DMA OK	
-#define	IMR_BKDOK_8814A					BIT5			// AC_BK DMA OK		
-#define	IMR_BEDOK_8814A					BIT4			// AC_BE DMA OK	
-#define	IMR_VIDOK_8814A					BIT3			// AC_VI DMA OK		
-#define	IMR_VODOK_8814A					BIT2			// AC_VO DMA OK	
-#define	IMR_RDU_8814A						BIT1			// Rx Descriptor Unavailable	
+#define	IMR_C2HCMD_8814A					BIT10		// CPU to Host Command INT Status, Write 1 clear
+#define	IMR_CPWM2_8814A					BIT9			// CPU power Mode exchange INT Status, Write 1 clear
+#define	IMR_CPWM_8814A						BIT8			// CPU power Mode exchange INT Status, Write 1 clear
+#define	IMR_HIGHDOK_8814A					BIT7			// High Queue DMA OK
+#define	IMR_MGNTDOK_8814A					BIT6			// Management Queue DMA OK
+#define	IMR_BKDOK_8814A					BIT5			// AC_BK DMA OK
+#define	IMR_BEDOK_8814A					BIT4			// AC_BE DMA OK
+#define	IMR_VIDOK_8814A					BIT3			// AC_VI DMA OK
+#define	IMR_VODOK_8814A					BIT2			// AC_VO DMA OK
+#define	IMR_RDU_8814A						BIT1			// Rx Descriptor Unavailable
 #define	IMR_ROK_8814A						BIT0			// Receive DMA OK
 
 // IMR DW1(0x00B4-00B7) Bit 0-31
@@ -615,7 +615,7 @@
 
 /*===================================================================
 =====================================================================
-Here the register defines are for 92C. When the define is as same with 92C, 
+Here the register defines are for 92C. When the define is as same with 92C,
 we will use the 92C's define for the consistency
 So the following defines for 92C is not entire!!!!!!
 =====================================================================

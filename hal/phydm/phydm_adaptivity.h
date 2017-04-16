@@ -2,7 +2,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -18,7 +18,7 @@
  *
  *
  ******************************************************************************/
- 
+
 #ifndef	__PHYDMADAPTIVITY_H__
 #define    __PHYDMADAPTIVITY_H__
 
@@ -32,8 +32,8 @@ typedef enum _tag_PhyDM_REGULATION_Type {
 	REGULATION_FCC = 0,
 	REGULATION_MKK = 1,
 	REGULATION_ETSI = 2,
-	REGULATION_WW = 3,	
-	
+	REGULATION_WW = 3,
+
 	MAX_REGULATION_NUM = 4
 } PhyDM_REGULATION_TYPE;
 #endif
@@ -121,7 +121,7 @@ Phydm_SetTRxMux(
 	IN		PVOID			pDM_VOID,
 	IN		PhyDM_Trx_MUX_Type			txMode,
 	IN		PhyDM_Trx_MUX_Type			rxMode
-);	
+);
 
 BOOLEAN
 Phydm_CalNHMcnt(
@@ -133,7 +133,7 @@ Phydm_SearchPwdBLowerBound(
 	IN		PVOID					pDM_VOID
 );
 
-VOID 
+VOID
 Phydm_AdaptivityInit(
 	IN		PVOID					pDM_VOID
 	);

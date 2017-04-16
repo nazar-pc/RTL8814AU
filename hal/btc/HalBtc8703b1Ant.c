@@ -58,7 +58,7 @@ halbtc8703b1ant_BtRssiState(
 	btRssi = pCoexSta->btRssi;
 
 	if(levelNum == 2)
-	{			
+	{
 		if( (pCoexSta->preBtRssiState == BTC_RSSI_STATE_LOW) ||
 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_LOW))
 		{
@@ -90,7 +90,7 @@ halbtc8703b1ant_BtRssiState(
 			RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], BT Rssi thresh error!!\n"));
 			return pCoexSta->preBtRssiState;
 		}
-		
+
 		if( (pCoexSta->preBtRssiState == BTC_RSSI_STATE_LOW) ||
 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_LOW))
 		{
@@ -131,7 +131,7 @@ halbtc8703b1ant_BtRssiState(
 			}
 		}
 	}
-		
+
 	pCoexSta->preBtRssiState = btRssiState;
 
 	return btRssiState;
@@ -150,7 +150,7 @@ halbtc8703b1ant_WifiRssiState(
 	u1Byte			wifiRssiState=pCoexSta->preWifiRssiState[index];
 
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_S4_WIFI_RSSI, &wifiRssi);
-	
+
 	if(levelNum == 2)
 	{
 		if( (pCoexSta->preWifiRssiState[index] == BTC_RSSI_STATE_LOW) ||
@@ -184,7 +184,7 @@ halbtc8703b1ant_WifiRssiState(
 			RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], wifi RSSI thresh error!!\n"));
 			return pCoexSta->preWifiRssiState[index];
 		}
-		
+
 		if( (pCoexSta->preWifiRssiState[index] == BTC_RSSI_STATE_LOW) ||
 			(pCoexSta->preWifiRssiState[index] == BTC_RSSI_STATE_STAY_LOW))
 		{
@@ -225,7 +225,7 @@ halbtc8703b1ant_WifiRssiState(
 			}
 		}
 	}
-		
+
 	pCoexSta->preWifiRssiState[index] = wifiRssiState;
 
 	return wifiRssiState;
@@ -239,7 +239,7 @@ halbtc8703b1ant_UpdateRaMask(
 	)
 {
 	pCoexDm->curRaMask = disRateMask;
-	
+
 	if( bForceExec || (pCoexDm->preRaMask != pCoexDm->curRaMask))
 	{
 		pBtCoexist->fBtcSet(pBtCoexist, BTC_SET_ACT_UPDATE_RAMASK, &pCoexDm->curRaMask);
@@ -255,7 +255,7 @@ halbtc8703b1ant_AutoRateFallbackRetry(
 	)
 {
 	BOOLEAN	bWifiUnderBMode=FALSE;
-	
+
 	pCoexDm->curArfrType = type;
 
 	if( bForceExec || (pCoexDm->preArfrType != pCoexDm->curArfrType))
@@ -266,7 +266,7 @@ halbtc8703b1ant_AutoRateFallbackRetry(
 				pBtCoexist->fBtcWrite4Byte(pBtCoexist, 0x430, pCoexDm->backupArfrCnt1);
 				pBtCoexist->fBtcWrite4Byte(pBtCoexist, 0x434, pCoexDm->backupArfrCnt2);
 				break;
-			case 1:	
+			case 1:
 				pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_UNDER_B_MODE, &bWifiUnderBMode);
 				if(bWifiUnderBMode)
 				{
@@ -409,7 +409,7 @@ halbtc8703b1ant_QueryBtInfo(
 
 	H2C_Parameter[0] |= BIT0;	// trigger
 
-	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], Query Bt Info, FW write 0x61=0x%x\n", 
+	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], Query Bt Info, FW write 0x61=0x%x\n",
 		H2C_Parameter[0]));
 
 	pBtCoexist->fBtcFillH2c(pBtCoexist, 0x61, 1, H2C_Parameter);
@@ -425,9 +425,9 @@ halbtc8703b1ant_MonitorBtCtr(
 	u1Byte			u1Tmp, u1Tmp1;
 	s4Byte			wifiRssi;
 	static u1Byte		NumOfBtCounterChk = 0;
-	
+
        //to avoid 0x76e[3] = 1 (WLAN_Act control by PTA) during IPS
-	//if (! (pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x76e) & 0x8) ) 
+	//if (! (pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x76e) & 0x8) )
 
 	if (pCoexSta->bUnderIps)
 	{
@@ -437,7 +437,7 @@ halbtc8703b1ant_MonitorBtCtr(
 		//pCoexSta->lowPriorityRx = 65535;
 		//return;
 	}
-		
+
 	regHPTxRx = 0x770;
 	regLPTxRx = 0x774;
 
@@ -448,7 +448,7 @@ halbtc8703b1ant_MonitorBtCtr(
 	u4Tmp = pBtCoexist->fBtcRead4Byte(pBtCoexist, regLPTxRx);
 	regLPTx = u4Tmp & bMaskLWord;
 	regLPRx = (u4Tmp & bMaskHWord)>>16;
-		
+
 	pCoexSta->highPriorityTx = regHPTx;
 	pCoexSta->highPriorityRx = regHPRx;
 	pCoexSta->lowPriorityTx = regLPTx;
@@ -501,7 +501,7 @@ halbtc8703b1ant_MonitorWiFiCtr(
 		pCoexSta->nCRCErr_CCK = 0;
 		pCoexSta->nCRCErr_11g = 0;
 		pCoexSta->nCRCErr_11n = 0;
-		pCoexSta->nCRCErr_11nAgg = 0;	
+		pCoexSta->nCRCErr_11nAgg = 0;
 	}
 	else
 	{
@@ -513,7 +513,7 @@ halbtc8703b1ant_MonitorWiFiCtr(
 		pCoexSta->nCRCErr_CCK 	 = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0xf84);
 		pCoexSta->nCRCErr_11g 	 = pBtCoexist->fBtcRead2Byte(pBtCoexist, 0xf96);
 		pCoexSta->nCRCErr_11n 	 = pBtCoexist->fBtcRead2Byte(pBtCoexist, 0xf92);
-		pCoexSta->nCRCErr_11nAgg = pBtCoexist->fBtcRead2Byte(pBtCoexist, 0xfba);		
+		pCoexSta->nCRCErr_11nAgg = pBtCoexist->fBtcRead2Byte(pBtCoexist, 0xfba);
 	}
 
 
@@ -523,14 +523,14 @@ halbtc8703b1ant_MonitorWiFiCtr(
 
 	if ( (bWifiBusy) && (wifiRssi >= 30) && (!bWifiUnderBMode))
 	{
-		TotalCnt = pCoexSta->nCRCOK_CCK + pCoexSta->nCRCOK_11g + pCoexSta->nCRCOK_11n + 
+		TotalCnt = pCoexSta->nCRCOK_CCK + pCoexSta->nCRCOK_11g + pCoexSta->nCRCOK_11n +
 				pCoexSta->nCRCOK_11nAgg;
-	
+
 		if ( (pCoexDm->btStatus == BT_8703B_1ANT_BT_STATUS_ACL_BUSY) ||
 			(pCoexDm->btStatus == BT_8703B_1ANT_BT_STATUS_ACL_SCO_BUSY) ||
 			(pCoexDm->btStatus == BT_8703B_1ANT_BT_STATUS_SCO_BUSY) )
 		{
-			if (pCoexSta->nCRCOK_CCK >(TotalCnt -pCoexSta->nCRCOK_CCK)) 
+			if (pCoexSta->nCRCOK_CCK >(TotalCnt -pCoexSta->nCRCOK_CCK))
 			{
 				if (nCCKLockCounter < 3)
 				 nCCKLockCounter++;
@@ -560,21 +560,21 @@ halbtc8703b1ant_MonitorWiFiCtr(
 		if (nCCKLockCounter >= 3)
 		 pCoexSta->bCCKLock = TRUE;
 		else
-		 pCoexSta->bCCKLock = FALSE;			
+		 pCoexSta->bCCKLock = FALSE;
 	}
 	else
 	{
 		if (nCCKLockCounter == 0)
 		 pCoexSta->bCCKLock = FALSE;
 		else
-		 pCoexSta->bCCKLock = TRUE;		
+		 pCoexSta->bCCKLock = TRUE;
 	}
 
 	if  (pCoexSta->bCCKLock)
 		pCoexSta->bCCKEverLock = TRUE;
-	
-	pCoexSta->bPreCCKLock =  pCoexSta->bCCKLock;	
-		
+
+	pCoexSta->bPreCCKLock =  pCoexSta->bCCKLock;
+
 
 }
 
@@ -664,7 +664,7 @@ halbtc8703b1ant_UpdateBtLinkInfo(
 		pBtLinkInfo->bPanOnly = TRUE;
 	else
 		pBtLinkInfo->bPanOnly = FALSE;
-	
+
 	// check if Hid only
 	if( !pBtLinkInfo->bScoExist &&
 		!pBtLinkInfo->bA2dpExist &&
@@ -700,12 +700,12 @@ halbtc8703b1ant_UpdateWifiChannelInfo(
 		else
 			H2C_Parameter[2] = 0x20;
 	}
-		
+
 	pCoexDm->wifiChnlInfo[0] = H2C_Parameter[0];
 	pCoexDm->wifiChnlInfo[1] = H2C_Parameter[1];
 	pCoexDm->wifiChnlInfo[2] = H2C_Parameter[2];
-	
-	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], FW write 0x66=0x%x\n", 
+
+	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], FW write 0x66=0x%x\n",
 		H2C_Parameter[0]<<16|H2C_Parameter[1]<<8|H2C_Parameter[2]));
 
 	pBtCoexist->fBtcFillH2c(pBtCoexist, 0x66, 3, H2C_Parameter);
@@ -738,7 +738,7 @@ halbtc8703b1ant_ActionAlgorithm(
 		numOfDiffProfile++;
 	if(pBtLinkInfo->bA2dpExist)
 		numOfDiffProfile++;
-	
+
 	if(numOfDiffProfile == 1)
 	{
 		if(pBtLinkInfo->bScoExist)
@@ -929,7 +929,7 @@ halbtc8703b1ant_SetBtAutoReport(
 	)
 {
 	u1Byte			H2C_Parameter[1] ={0};
-	
+
 	H2C_Parameter[0] = 0;
 
 	if(bEnableAutoReport)
@@ -937,10 +937,10 @@ halbtc8703b1ant_SetBtAutoReport(
 		H2C_Parameter[0] |= BIT0;
 	}
 
-	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], BT FW auto report : %s, FW write 0x68=0x%x\n", 
+	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], BT FW auto report : %s, FW write 0x68=0x%x\n",
 		(bEnableAutoReport? "Enabled!!":"Disabled!!"), H2C_Parameter[0]));
 
-	pBtCoexist->fBtcFillH2c(pBtCoexist, 0x68, 1, H2C_Parameter);	
+	pBtCoexist->fBtcFillH2c(pBtCoexist, 0x68, 1, H2C_Parameter);
 }
 
 VOID
@@ -950,13 +950,13 @@ halbtc8703b1ant_BtAutoReport(
 	IN	BOOLEAN			bEnableAutoReport
 	)
 {
-	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], %s BT Auto report = %s\n",  
+	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], %s BT Auto report = %s\n",
 		(bForceExec? "force to":""), ((bEnableAutoReport)? "Enabled":"Disabled")));
 	pCoexDm->bCurBtAutoReport = bEnableAutoReport;
 
 	if(!bForceExec)
 	{
-		if(pCoexDm->bPreBtAutoReport == pCoexDm->bCurBtAutoReport) 
+		if(pCoexDm->bPreBtAutoReport == pCoexDm->bCurBtAutoReport)
 			return;
 	}
 	halbtc8703b1ant_SetBtAutoReport(pBtCoexist, pCoexDm->bCurBtAutoReport);
@@ -971,7 +971,7 @@ halbtc8703b1ant_SetSwPenaltyTxRateAdaptive(
 	)
 {
 	u1Byte			H2C_Parameter[6] ={0};
-	
+
 	H2C_Parameter[0] = 0x6;	// opCode, 0x6= Retry_Penalty
 
 	if(bLowPenaltyRa)
@@ -980,10 +980,10 @@ halbtc8703b1ant_SetSwPenaltyTxRateAdaptive(
 		H2C_Parameter[2] = 0x00;  //normal rate except MCS7/6/5, OFDM54/48/36
 		H2C_Parameter[3] = 0xf7;  //MCS7 or OFDM54
 		H2C_Parameter[4] = 0xf8;  //MCS6 or OFDM48
-		H2C_Parameter[5] = 0xf9;	//MCS5 or OFDM36	
+		H2C_Parameter[5] = 0xf9;	//MCS5 or OFDM36
 	}
 
-	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], set WiFi Low-Penalty Retry: %s", 
+	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], set WiFi Low-Penalty Retry: %s",
 		(bLowPenaltyRa? "ON!!":"OFF!!") ));
 
 	pBtCoexist->fBtcFillH2c(pBtCoexist, 0x69, 6, H2C_Parameter);
@@ -1000,7 +1000,7 @@ halbtc8703b1ant_LowPenaltyRa(
 
 	if(!bForceExec)
 	{
-		if(pCoexDm->bPreLowPenaltyRa == pCoexDm->bCurLowPenaltyRa) 
+		if(pCoexDm->bPreLowPenaltyRa == pCoexDm->bCurLowPenaltyRa)
 			return;
 	}
 	halbtc8703b1ant_SetSwPenaltyTxRateAdaptive(pBtCoexist, pCoexDm->bCurLowPenaltyRa);
@@ -1012,12 +1012,12 @@ u4Byte
 halbtc8703b1ant_LTECoex_InDirectReadReg(
 IN	PBTC_COEXIST		pBtCoexist,
 IN 	u2Byte				RegAddr
-)	
+)
 {
 	u4Byte j =0;
 
-	
-	//wait for ready bit before access 0x7c0		
+
+	//wait for ready bit before access 0x7c0
 	pBtCoexist->fBtcWrite4Byte(pBtCoexist, 0x7c0, 0x800F0000|RegAddr);
 
 	do
@@ -1039,10 +1039,10 @@ IN	u4Byte				RegValue
 )
 {
 	u4Byte val, i=0, j=0, bitpos = 0;
-	
+
 
 	if (BitMask == 0x0)
-	 return;	
+	 return;
 	if (BitMask == 0xffffffff)
 	{
 		pBtCoexist->fBtcWrite4Byte(pBtCoexist, 0x7c4, RegValue); //put write data
@@ -1052,8 +1052,8 @@ IN	u4Byte				RegValue
 		{
 			j++;
 		}while( ((pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x7c3) & BIT5) ==0) && (j <BT_8703B_1ANT_LTECOEX_INDIRECTREG_ACCESS_TIMEOUT) );
-		
-		
+
+
 		pBtCoexist->fBtcWrite4Byte(pBtCoexist, 0x7c0, 0xc00F0000|RegAddr);
 	}
 	else
@@ -1067,21 +1067,21 @@ IN	u4Byte				RegValue
 			}
             	}
 
-		//read back register value before write 
+		//read back register value before write
 		val = halbtc8703b1ant_LTECoex_InDirectReadReg(pBtCoexist, RegAddr);
 		val = (val & (~BitMask)) | (RegValue << bitpos);
 
 		pBtCoexist->fBtcWrite4Byte(pBtCoexist, 0x7c4, val); //put write data
 
-		//wait for ready bit before access 0x7c0		
+		//wait for ready bit before access 0x7c0
 		do
 		{
 			j++;
 		}while( ((pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x7c3) & BIT5) ==0) && (j <BT_8703B_1ANT_LTECOEX_INDIRECTREG_ACCESS_TIMEOUT) );
-		
-		
+
+
 		pBtCoexist->fBtcWrite4Byte(pBtCoexist, 0x7c0, 0xc00F0000|RegAddr);
-		
+
 	}
 
 }
@@ -1093,8 +1093,8 @@ IN	BOOLEAN				bEnable
 )
 {
 	u1Byte val;
-	
-	val =  (bEnable)? 1 : 0; 
+
+	val =  (bEnable)? 1 : 0;
 	halbtc8703b1ant_LTECoex_InDirectWriteReg(pBtCoexist, 0x38, 0x80, val);  //0x38[7]
 
 }
@@ -1106,8 +1106,8 @@ IN	BOOLEAN				bWiFiControl
 )
 {
 	u1Byte val;
-	
-	val =  (bWiFiControl)? 1 : 0; 
+
+	val =  (bWiFiControl)? 1 : 0;
 	pBtCoexist->fBtcWrite1ByteBitMask(pBtCoexist, 0x73, 0x4, val); //0x70[26]
 
 }
@@ -1121,18 +1121,18 @@ IN	u1Byte				nState
 )
 {
 	u4Byte val=0, BitMask;
-	
-	nState = nState & 0x1;	
-	val =  (bSWControl)? ((nState<<1) | 0x1) : 0; 
+
+	nState = nState & 0x1;
+	val =  (bSWControl)? ((nState<<1) | 0x1) : 0;
 
 	switch(nControlBlock)
 	{
-		case RFC_AND_BB:	
+		case RFC_AND_BB:
 		default:
 			BitMask = 0xc000;
 			halbtc8703b1ant_LTECoex_InDirectWriteReg(pBtCoexist, 0x38, BitMask, val); // 0x38[15:14]
 			BitMask = 0x0c00;
-			halbtc8703b1ant_LTECoex_InDirectWriteReg(pBtCoexist, 0x38, BitMask, val); // 0x38[11:10]						
+			halbtc8703b1ant_LTECoex_InDirectWriteReg(pBtCoexist, 0x38, BitMask, val); // 0x38[11:10]
 			break;
 		case RFC_ONLY:
 			BitMask = 0xc000;
@@ -1144,7 +1144,7 @@ IN	u1Byte				nState
 			break;
 
 	}
-	
+
 }
 
 void
@@ -1156,18 +1156,18 @@ IN	u1Byte				nState
 )
 {
 	u4Byte val=0, BitMask;
-	
-	nState = nState & 0x1;	
-	val =  (bSWControl)? ((nState<<1) | 0x1) : 0; 
+
+	nState = nState & 0x1;
+	val =  (bSWControl)? ((nState<<1) | 0x1) : 0;
 
 	switch(nControlBlock)
 	{
-		case RFC_AND_BB:	
+		case RFC_AND_BB:
 		default:
 			BitMask = 0x3000;
 			halbtc8703b1ant_LTECoex_InDirectWriteReg(pBtCoexist, 0x38, BitMask, val); // 0x38[13:12]
 			BitMask = 0x0300;
-			halbtc8703b1ant_LTECoex_InDirectWriteReg(pBtCoexist, 0x38, BitMask, val); // 0x38[9:8]						
+			halbtc8703b1ant_LTECoex_InDirectWriteReg(pBtCoexist, 0x38, BitMask, val); // 0x38[9:8]
 			break;
 		case RFC_ONLY:
 			BitMask = 0x3000;
@@ -1230,7 +1230,7 @@ IN	u1Byte				nTableContent
 			break;
 		case LTE_BREAK_BT:
 			RegAddr = 0xb4;
-			break;	
+			break;
 	}
 
 	if (RegAddr != 0x0000)
@@ -1271,7 +1271,7 @@ halbtc8703b1ant_CoexTable(
 	IN	u1Byte			val0x6cc
 	)
 {
-	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], %s write Coex Table 0x6c0=0x%x, 0x6c4=0x%x, 0x6cc=0x%x\n", 
+	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], %s write Coex Table 0x6c0=0x%x, 0x6c4=0x%x, 0x6cc=0x%x\n",
 		(bForceExec? "force to":""), val0x6c0, val0x6c4, val0x6cc));
 	pCoexDm->curVal0x6c0 = val0x6c0;
 	pCoexDm->curVal0x6c4 = val0x6c4;
@@ -1304,11 +1304,11 @@ halbtc8703b1ant_CoexTableWithType(
 	PBTC_BOARD_INFO	pBoardInfo=&pBtCoexist->boardInfo;
 
 	u4Byte	nBreakTable;
-	u1Byte	nSelectTable;	
+	u1Byte	nSelectTable;
 
 
 	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], ********** CoexTable(%d) **********\n", type));
-	
+
 	pCoexSta->nCoexTableType = type;
 
 	if (pCoexSta->bConCurrentRxModeOn == true)
@@ -1321,7 +1321,7 @@ halbtc8703b1ant_CoexTableWithType(
 		nBreakTable = 0xffffff;
 		nSelectTable = 0x3;
 	}
-	
+
 	switch(type)
 	{
 		case 0:
@@ -1377,7 +1377,7 @@ halbtc8703b1ant_CoexTableWithType(
 			break;
 		case 15:
 			halbtc8703b1ant_CoexTable(pBtCoexist, bForceExec, 0x55dd55dd, 0xaaaaaaaa, nBreakTable, nSelectTable);
-			break;	
+			break;
 		default:
 			break;
 	}
@@ -1390,13 +1390,13 @@ halbtc8703b1ant_SetFwIgnoreWlanAct(
 	)
 {
 	u1Byte			H2C_Parameter[1] ={0};
-		
+
 	if(bEnable)
 	{
 		H2C_Parameter[0] |= BIT0;		// function enable
 	}
-	
-	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], set FW for BT Ignore Wlan_Act, FW write 0x63=0x%x\n", 
+
+	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], set FW for BT Ignore Wlan_Act, FW write 0x63=0x%x\n",
 		H2C_Parameter[0]));
 
 	pBtCoexist->fBtcFillH2c(pBtCoexist, 0x63, 1, H2C_Parameter);
@@ -1409,7 +1409,7 @@ halbtc8703b1ant_IgnoreWlanAct(
 	IN	BOOLEAN			bEnable
 	)
 {
-	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], %s turn Ignore WlanAct %s\n", 
+	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], %s turn Ignore WlanAct %s\n",
 		(bForceExec? "force to":""), (bEnable? "ON":"OFF")));
 	pCoexDm->bCurIgnoreWlanAct = bEnable;
 
@@ -1432,7 +1432,7 @@ halbtc8703b1ant_SetLpsRpwm(
 {
 	u1Byte	lps=lpsVal;
 	u1Byte	rpwm=rpwmVal;
-	
+
 	pBtCoexist->fBtcSet(pBtCoexist, BTC_SET_U1_LPS_VAL, &lps);
 	pBtCoexist->fBtcSet(pBtCoexist, BTC_SET_U1_RPWM_VAL, &rpwm);
 }
@@ -1446,8 +1446,8 @@ halbtc8703b1ant_LpsRpwm(
 	)
 {
 	BOOLEAN	bForceExecPwrCmd=FALSE;
-	
-	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], %s set lps/rpwm=0x%x/0x%x \n", 
+
+	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], %s set lps/rpwm=0x%x/0x%x \n",
 		(bForceExec? "force to":""), lpsVal, rpwmVal));
 	pCoexDm->curLps = lpsVal;
 	pCoexDm->curRpwm = rpwmVal;
@@ -1468,9 +1468,9 @@ halbtc8703b1ant_LpsRpwm(
 
 VOID
 halbtc8703b1ant_SwMechanism(
-	IN	PBTC_COEXIST	pBtCoexist,	
+	IN	PBTC_COEXIST	pBtCoexist,
 	IN	BOOLEAN 		bLowPenaltyRA
-	) 
+	)
 {
 	halbtc8703b1ant_LowPenaltyRa(pBtCoexist, NORMAL_EXEC, bLowPenaltyRA);
 }
@@ -1492,9 +1492,9 @@ halbtc8703b1ant_SetAntPath(
 	u1Byte			H2C_Parameter[2] ={0}, u1Tmp = 0;
 	u4Byte			u4Tmp1=0, u4Tmp2=0;
 
-	pCoexDm->curAntPosType = antPosType;	
+	pCoexDm->curAntPosType = antPosType;
 
-#if 1	
+#if 1
 		u4Tmp1 = halbtc8703b1ant_LTECoex_InDirectReadReg(pBtCoexist, 0x38);
 		u4Tmp2 = halbtc8703b1ant_LTECoex_InDirectReadReg(pBtCoexist, 0x54);
 		u1Tmp  = pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x73);
@@ -1503,7 +1503,7 @@ halbtc8703b1ant_SetAntPath(
 #endif
 
 	if(bInitHwCfg)
-	{	
+	{
 		//Disable LTE Coex Function in WiFi side (this should be on if LTE coex is required)
 		halbtc8703b1ant_LTECoex_Enable(pBtCoexist, 0x0);
 
@@ -1513,7 +1513,7 @@ halbtc8703b1ant_SetAntPath(
 		//GNT_BT_LTE always = 1 (this should be config if LTE coex is required)
 		halbtc8703b1ant_LTECoex_Set_CoexTable(pBtCoexist, BT_VS_LTE, 0xffff);
 
-		// Wait If BT IQK running, because Path control owner is at BT during BT IQK (setup by WiFi firmware)  
+		// Wait If BT IQK running, because Path control owner is at BT during BT IQK (setup by WiFi firmware)
 		while(cntBtCalChk <= 20)
 		{
 				u1Tmp = pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x49d);
@@ -1529,28 +1529,28 @@ halbtc8703b1ant_SetAntPath(
 					break;
 				}
 		}
-		
+
 		//set Path control owner to WL at initial step
-		halbtc8703b1ant_LTECoex_PathControlOwner(pBtCoexist, WLSIDE_CONTROL);			
+		halbtc8703b1ant_LTECoex_PathControlOwner(pBtCoexist, WLSIDE_CONTROL);
 	}
 	else if(bWifiOff)
-	{		
-		//Disable LTE Coex Function in WiFi side 
+	{
+		//Disable LTE Coex Function in WiFi side
 		halbtc8703b1ant_LTECoex_Enable(pBtCoexist, 0x0);
 
 		//if MP mode
 		pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_IS_IN_MP_MODE, &bIsInMpMode);
-		if(bIsInMpMode)	
+		if(bIsInMpMode)
 			halbtc8703b1ant_LTECoex_PathControlOwner(pBtCoexist, WLSIDE_CONTROL); //set Path control owner to BT
 		else
-			halbtc8703b1ant_LTECoex_PathControlOwner(pBtCoexist, BTSIDE_CONTROL);//set Path control owner to WiFi			
+			halbtc8703b1ant_LTECoex_PathControlOwner(pBtCoexist, BTSIDE_CONTROL);//set Path control owner to WiFi
 	}
 	else
-	{			
+	{
 			//
 	}
-	
-	
+
+
 	if(bForceExec || (pCoexDm->curAntPosType != pCoexDm->preAntPosType) || bInitHwCfg || bWifiOff)
 	{
 		// internal switch setting
@@ -1577,7 +1577,7 @@ halbtc8703b1ant_SetAntPath(
 				break;
 		}
 	}
-	
+
 #if 1
 	u4Tmp1 = halbtc8703b1ant_LTECoex_InDirectReadReg(pBtCoexist, 0x38);
 	u4Tmp2 = halbtc8703b1ant_LTECoex_InDirectReadReg(pBtCoexist, 0x54);
@@ -1589,8 +1589,8 @@ halbtc8703b1ant_SetAntPath(
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], ********** (After WiFi off) 0x73 = 0x%x, 0x38= 0x%x, 0x54= 0x%x**********\n", u1Tmp, u4Tmp1, u4Tmp2));
 	else
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], ********** (After Run time) 0x73 = 0x%x, 0x38= 0x%x, 0x54= 0x%x**********\n", u1Tmp, u4Tmp1, u4Tmp2));
-#endif	
-	
+#endif
+
 	pCoexDm->preAntPosType = pCoexDm->curAntPosType;
 }
 
@@ -1614,7 +1614,7 @@ halbtc8703b1ant_SetFwPstdma(
 	if(bApEnable)
 	{
 		if(byte1&BIT4 && !(byte1&BIT5))
-		{			
+		{
 			RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], FW for 1Ant AP mode\n"));
 			realByte1 &= ~BIT4;
 			realByte1 |= BIT5;
@@ -1624,8 +1624,8 @@ halbtc8703b1ant_SetFwPstdma(
 		}
 	}
 
-	H2C_Parameter[0] = realByte1;	
-	H2C_Parameter[1] = byte2;	
+	H2C_Parameter[0] = realByte1;
+	H2C_Parameter[1] = byte2;
 	H2C_Parameter[2] = byte3;
 	H2C_Parameter[3] = byte4;
 	H2C_Parameter[4] = realByte5;
@@ -1635,9 +1635,9 @@ halbtc8703b1ant_SetFwPstdma(
 	pCoexDm->psTdmaPara[2] = byte3;
 	pCoexDm->psTdmaPara[3] = byte4;
 	pCoexDm->psTdmaPara[4] = realByte5;
-	
-	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], PS-TDMA H2C cmd =0x%x%08x\n", 
-		H2C_Parameter[0], 
+
+	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], PS-TDMA H2C cmd =0x%x%08x\n",
+		H2C_Parameter[0],
 		H2C_Parameter[1]<<24|H2C_Parameter[2]<<16|H2C_Parameter[3]<<8|H2C_Parameter[4]));
 
 	pBtCoexist->fBtcFillH2c(pBtCoexist, 0x60, 5, H2C_Parameter);
@@ -1663,27 +1663,27 @@ halbtc8703b1ant_PsTdma(
 	pCoexDm->bCurPsTdmaOn = bTurnOn;
 	pCoexDm->curPsTdma = type;
 
-	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_BUSY, &bWifiBusy);	
+	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_BUSY, &bWifiBusy);
 
 	if (bWifiBusy != bPreWifiBusy)
 	{
-		bForceExec = TRUE;	
+		bForceExec = TRUE;
 		bPreWifiBusy = bWifiBusy;
 	}
 
 	if (pCoexDm->bCurPsTdmaOn)
 	{
-		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], ********** TDMA(on, %d) **********\n", 
+		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], ********** TDMA(on, %d) **********\n",
 				pCoexDm->curPsTdma));
 	}
 	else
 	{
-		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], ********** TDMA(off, %d) **********\n", 
+		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], ********** TDMA(off, %d) **********\n",
 				pCoexDm->curPsTdma));
 	}
-			
+
 	if(!bForceExec)
-	{	
+	{
 		if( (pCoexDm->bPrePsTdmaOn == pCoexDm->bCurPsTdmaOn) &&
 			(pCoexDm->prePsTdma == pCoexDm->curPsTdma) )
 			return;
@@ -1693,10 +1693,10 @@ halbtc8703b1ant_PsTdma(
 		nWiFiDurationAdjust = 5;
 		//nWiFiDurationAdjust = 2;
 	else if  (pCoexSta->nScanAPNum >= 40)
-		nWiFiDurationAdjust = -15;	
+		nWiFiDurationAdjust = -15;
 	else if  (pCoexSta->nScanAPNum >= 20)
-		nWiFiDurationAdjust = -10;	
-	
+		nWiFiDurationAdjust = -10;
+
 	if ((type == 1) || (type == 2) || (type == 9) || (type == 11) || (type == 101)
 		|| (type == 102) || (type == 109) || (type == 101))
 	{
@@ -1718,42 +1718,42 @@ halbtc8703b1ant_PsTdma(
 		psTdmaByte0Val = 0x51;  //null-pkt
 		psTdmaByte3Val = 0x10; //tx-pause at BT-slot
 		psTdmaByte4Val = 0x10; // 0x778 = d/1 toggle, no dynamic slot
-#if 0	
+#if 0
 		if (!bWifiBusy)
 			psTdmaByte4Val = psTdmaByte4Val | 0x1;  //0x778 = 0x1 at wifi slot (no blocking BT Low-Pri pkts)
-#endif		
+#endif
 	}
 	else  //native power save case
 	{
 		psTdmaByte0Val = 0x61;  //no null-pkt
 		psTdmaByte3Val = 0x11; // no tx-pause at BT-slot
 		psTdmaByte4Val = 0x11; // 0x778 = d/1 toggle, no dynamic slot
-		//psTdmaByte4Va is not defne for 0x778 = d/1, 1/1 case 
+		//psTdmaByte4Va is not defne for 0x778 = d/1, 1/1 case
 		}
-		 
+
 	//if (pBtLinkInfo->bSlaveRole == TRUE)
 	if ((pBtLinkInfo->bSlaveRole == TRUE)	&& (pBtLinkInfo->bA2dpExist))
 		psTdmaByte4Val = psTdmaByte4Val | 0x1;  //0x778 = 0x1 at wifi slot (no blocking BT Low-Pri pkts)
-		
+
 	if (type > 100)
 	{
-		psTdmaByte0Val = psTdmaByte0Val | 0x82; //set antenna control by SW	
+		psTdmaByte0Val = psTdmaByte0Val | 0x82; //set antenna control by SW
 		psTdmaByte3Val = psTdmaByte3Val | 0x60;  //set antenna no toggle, control by antenna diversity
 	}
 
-		
+
 	if(bTurnOn)
-	{	 
+	{
 		switch(type)
 		{
 			default:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, 0x51, 0x1a, 0x1a, 0x0, psTdmaByte4Val);
 				break;
 			case 1:
-				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x3a+nWiFiDurationAdjust, 0x03, psTdmaByte3Val, psTdmaByte4Val);								
+				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x3a+nWiFiDurationAdjust, 0x03, psTdmaByte3Val, psTdmaByte4Val);
 				break;
 			case 2:
-				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x2d+nWiFiDurationAdjust, 0x03, psTdmaByte3Val, psTdmaByte4Val);							
+				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x2d+nWiFiDurationAdjust, 0x03, psTdmaByte3Val, psTdmaByte4Val);
 				break;
 			case 3:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x3a, 0x03, psTdmaByte3Val, psTdmaByte4Val);
@@ -1770,17 +1770,17 @@ halbtc8703b1ant_PsTdma(
 			case 7:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, 0x13, 0xc, 0x5, 0x0, 0x0);
 				break;
-			case 8:	
+			case 8:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, 0x93, 0x25, 0x3, 0x10, 0x0);
 				break;
-			case 9:	
-				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x3, psTdmaByte3Val, psTdmaByte4Val);				
+			case 9:
+				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x3, psTdmaByte3Val, psTdmaByte4Val);
 				break;
-			case 10:	
+			case 10:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, 0x13, 0xa, 0xa, 0x0, 0x40);
 				break;
-			case 11:	
-				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x03, psTdmaByte3Val, psTdmaByte4Val);			
+			case 11:
+				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x03, psTdmaByte3Val, psTdmaByte4Val);
 				break;
 			case 12:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, 0x51, 0x0a, 0x0a, 0x0, 0x50);
@@ -1788,11 +1788,11 @@ halbtc8703b1ant_PsTdma(
 			case 13:
 				 if (pCoexSta->nScanAPNum <= 3) // for Lenovo CPT test A2DP + OPP
 				 	halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x3a, 0x3, psTdmaByte3Val, psTdmaByte4Val);
-				 else	
+				 else
 					halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x3, psTdmaByte3Val, psTdmaByte4Val);
 				break;
 			case 14:
-				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x3, psTdmaByte3Val, psTdmaByte4Val);				
+				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x3, psTdmaByte3Val, psTdmaByte4Val);
 				break;
 			case 15:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, 0x13, 0xa, 0x3, 0x8, 0x0);
@@ -1802,7 +1802,7 @@ halbtc8703b1ant_PsTdma(
 				break;
 			case 18:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, 0x93, 0x25, 0x3, 0x10, 0x0);
-				break;			
+				break;
 			case 20:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x3f, 0x03, psTdmaByte3Val, 0x10);
 				break;
@@ -1857,14 +1857,14 @@ halbtc8703b1ant_PsTdma(
 			case 40: // SoftAP only with no sta associated,BT disable ,TDMA mode for power saving
 				/* here softap mode screen off will cost 70-80mA for phone */
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, 0x23, 0x18, 0x00, 0x10, 0x24);
-				break;	
-				
-			//for 1-Ant translate to 2-Ant	
+				break;
+
+			//for 1-Ant translate to 2-Ant
 			case 101:
-				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x3a+nWiFiDurationAdjust, 0x03, psTdmaByte3Val, psTdmaByte4Val);								
+				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x3a+nWiFiDurationAdjust, 0x03, psTdmaByte3Val, psTdmaByte4Val);
 				break;
 			case 102:
-				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x2d+nWiFiDurationAdjust, 0x03, psTdmaByte3Val, psTdmaByte4Val);							
+				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x2d+nWiFiDurationAdjust, 0x03, psTdmaByte3Val, psTdmaByte4Val);
 				break;
 			case 103:
 				//halbtc8703b1ant_SetFwPstdma(pBtCoexist, 0x51, 0x1d, 0x1d, 0x0, psTdmaByte4Val);
@@ -1875,37 +1875,37 @@ halbtc8703b1ant_PsTdma(
 				break;
 			case 106:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x20, 0x3, psTdmaByte3Val, 0x11);
-				break;	
-			case 109:	
-				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x3, psTdmaByte3Val, psTdmaByte4Val);				
-				break;			
-			case 111:	
-				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x03, psTdmaByte3Val, psTdmaByte4Val);			
-				break;	
+				break;
+			case 109:
+				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x3, psTdmaByte3Val, psTdmaByte4Val);
+				break;
+			case 111:
+				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x03, psTdmaByte3Val, psTdmaByte4Val);
+				break;
 			case 113:
 				//halbtc8703b1ant_SetFwPstdma(pBtCoexist, 0x51, 0x12, 0x12, 0x0, psTdmaByte4Val);
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x3, psTdmaByte3Val, psTdmaByte4Val);
 				break;
 			case 114:
-				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x3, psTdmaByte3Val, psTdmaByte4Val);				
-				break;	
+				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x21, 0x3, psTdmaByte3Val, psTdmaByte4Val);
+				break;
 			case 120:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x3f, 0x03, psTdmaByte3Val, 0x10);
-				break;			
+				break;
 			case 122:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x25, 0x03, psTdmaByte3Val, 0x10);
 				break;
 			case 132:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x25, 0x03, psTdmaByte3Val, psTdmaByte4Val);
-				break;	
+				break;
 			case 133:
 				halbtc8703b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val, 0x25, 0x03, psTdmaByte3Val, 0x11);
-				break;		
-				
+				break;
+
 		}
 	}
 	else
-	{		
+	{
 
 		// disable PS tdma
 		switch(type)
@@ -1922,9 +1922,9 @@ halbtc8703b1ant_PsTdma(
 				break;
 #if 0
 			case 9:   //Software control, Antenna at WiFi side
-				halbtc8703b1ant_SetFwPstdma(pBtCoexist, 0x0, 0x0, 0x0, 0x0, 0x0);				
+				halbtc8703b1ant_SetFwPstdma(pBtCoexist, 0x0, 0x0, 0x0, 0x0, 0x0);
 				halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_WIFI, FALSE, FALSE);
-				break;			
+				break;
 #endif
 		}
 	}
@@ -1950,16 +1950,16 @@ halbtc8703b1ant_IsCommonAction(
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_CONNECTED, &bWifiConnected);
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_BUSY, &bWifiBusy);
 
-	if(!bWifiConnected && 
+	if(!bWifiConnected &&
 		BT_8703B_1ANT_BT_STATUS_NON_CONNECTED_IDLE == pCoexDm->btStatus)
 	{
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], Wifi non connected-idle + BT non connected-idle!!\n"));
-		
+
  		//halbtc8703b1ant_SwMechanism(pBtCoexist, FALSE);
 
 		bCommon = TRUE;
 	}
-	else if(bWifiConnected && 
+	else if(bWifiConnected &&
 		(BT_8703B_1ANT_BT_STATUS_NON_CONNECTED_IDLE == pCoexDm->btStatus) )
 	{
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], Wifi connected + BT non connected-idle!!\n"));
@@ -1968,7 +1968,7 @@ halbtc8703b1ant_IsCommonAction(
 
 		bCommon = TRUE;
 	}
-	else if(!bWifiConnected && 
+	else if(!bWifiConnected &&
 		(BT_8703B_1ANT_BT_STATUS_CONNECTED_IDLE == pCoexDm->btStatus) )
 	{
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], Wifi non connected-idle + BT connected-idle!!\n"));
@@ -1977,7 +1977,7 @@ halbtc8703b1ant_IsCommonAction(
 
 		bCommon = TRUE;
 	}
-	else if(bWifiConnected && 
+	else if(bWifiConnected &&
 		(BT_8703B_1ANT_BT_STATUS_CONNECTED_IDLE == pCoexDm->btStatus) )
 	{
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], Wifi connected + BT connected-idle!!\n"));
@@ -1986,18 +1986,18 @@ halbtc8703b1ant_IsCommonAction(
 
 		bCommon = TRUE;
 	}
-	else if(!bWifiConnected && 
+	else if(!bWifiConnected &&
 		(BT_8703B_1ANT_BT_STATUS_CONNECTED_IDLE != pCoexDm->btStatus) )
 	{
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], Wifi non connected-idle + BT Busy!!\n"));
 
 		//halbtc8703b1ant_SwMechanism(pBtCoexist, FALSE);
-		
+
 		bCommon = TRUE;
 	}
 	else
 	{
-		if (bWifiBusy)			
+		if (bWifiBusy)
 		{
 			RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], Wifi Connected-Busy + BT Busy!!\n"));
 		}
@@ -2005,10 +2005,10 @@ halbtc8703b1ant_IsCommonAction(
 		{
 			RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], Wifi Connected-Idle + BT Busy!!\n"));
 		}
-		
+
 		bCommon = FALSE;
 	}
-	
+
 	return bCommon;
 }
 
@@ -2027,10 +2027,10 @@ halbtc8703b1ant_TdmaDurationAdjustForAcl(
 
 	RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], TdmaDurationAdjustForAcl()\n"));
 
-	if(BT_8703B_1ANT_WIFI_STATUS_CONNECTED_BUSY == wifiStatus) 
+	if(BT_8703B_1ANT_WIFI_STATUS_CONNECTED_BUSY == wifiStatus)
 		bWifiBusy = TRUE;
 	else
-		bWifiBusy = FALSE;	 	
+		bWifiBusy = FALSE;
 
 	if( (BT_8703B_1ANT_WIFI_STATUS_NON_CONNECTED_ASSO_AUTH_SCAN == wifiStatus) ||
 		(BT_8703B_1ANT_WIFI_STATUS_CONNECTED_SCAN == wifiStatus) ||
@@ -2050,7 +2050,7 @@ halbtc8703b1ant_TdmaDurationAdjustForAcl(
 			n= 3;
 			result = 0;
 			WaitCount = 0;
-		}		
+		}
 		return;
 	}
 
@@ -2076,32 +2076,32 @@ halbtc8703b1ant_TdmaDurationAdjustForAcl(
 		btInfoExt = pCoexSta->btInfoExt;
 
 		if ( (pCoexSta->lowPriorityTx) > 1050 ||  (pCoexSta->lowPriorityRx) > 1250 )
-			retryCount++;	
-		
+			retryCount++;
+
 		result = 0;
-		WaitCount++; 
-		  
+		WaitCount++;
+
 		if(retryCount == 0)  // no retry in the last 2-second duration
 		{
 			up++;
 			dn--;
 
 			if (dn <= 0)
-				dn = 0;				 
+				dn = 0;
 
 			if(up >= n)	// if 連續 n 個2秒 retry count為0, 則調寬WiFi duration
 			{
-				WaitCount = 0; 
+				WaitCount = 0;
 				n = 3;
 				up = 0;
 				dn = 0;
-				result = 1; 
+				result = 1;
 				RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], Increase wifi duration!!\n"));
 			}
 		}
 		else if (retryCount <= 3)	// <=3 retry in the last 2-second duration
 		{
-			up--; 
+			up--;
 			dn++;
 
 			if (up <= 0)
@@ -2121,7 +2121,7 @@ halbtc8703b1ant_TdmaDurationAdjustForAcl(
 				up = 0;
 				dn = 0;
 				WaitCount = 0;
-				result = -1; 
+				result = -1;
 				RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], Decrease wifi duration for retryCounter<3!!\n"));
 			}
 		}
@@ -2138,7 +2138,7 @@ halbtc8703b1ant_TdmaDurationAdjustForAcl(
 			n = 3*m;
 			up = 0;
 			dn = 0;
-			WaitCount = 0; 
+			WaitCount = 0;
 			result = -1;
 			RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], Decrease wifi duration for retryCounter>3!!\n"));
 		}
@@ -2193,15 +2193,15 @@ halbtc8703b1ant_TdmaDurationAdjustForAcl(
 		}
 		else	  //no change
 		{
-			/* Bryant Modify	
+			/* Bryant Modify
 			if(bWifiBusy != bPreWifiBusy)  //if busy / idle change
 			{
 				bPreWifiBusy = bWifiBusy;
 				halbtc8703b1ant_PsTdma(pBtCoexist, FORCE_EXEC, TRUE, pCoexDm->curPsTdma);
 			}
 			*/
-		
-			RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], ********** TDMA(on, %d) **********\n", 
+
+			RT_TRACE(COMP_COEX, DBG_TRACE, ("[BTCoex], ********** TDMA(on, %d) **********\n",
 				pCoexDm->curPsTdma));
 		}
 
@@ -2225,10 +2225,10 @@ halbtc8703b1ant_PsTdmaCheckForPowerSaveState(
 	u1Byte	lpsMode=0x0;
 
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_U1_LPS_MODE, &lpsMode);
-	
+
 	if(lpsMode)	// already under LPS state
 	{
-		if(bNewPsState)		
+		if(bNewPsState)
 		{
 			// keep state under LPS, do nothing.
 		}
@@ -2261,7 +2261,7 @@ halbtc8703b1ant_PowerSaveState(
 	)
 {
 	BOOLEAN		bLowPwrDisable=FALSE;
-	
+
 	switch(psType)
 	{
 		case BTC_PS_WIFI_NATIVE:
@@ -2273,11 +2273,11 @@ halbtc8703b1ant_PowerSaveState(
 			break;
 		case BTC_PS_LPS_ON:
 			halbtc8703b1ant_PsTdmaCheckForPowerSaveState(pBtCoexist, TRUE);
-			halbtc8703b1ant_LpsRpwm(pBtCoexist, NORMAL_EXEC, lpsVal, rpwmVal);			
+			halbtc8703b1ant_LpsRpwm(pBtCoexist, NORMAL_EXEC, lpsVal, rpwmVal);
 			// when coex force to enter LPS, do not enter 32k low power.
 			bLowPwrDisable = TRUE;
 			pBtCoexist->fBtcSet(pBtCoexist, BTC_SET_ACT_DISABLE_LOW_POWER, &bLowPwrDisable);
-			// power save must executed before psTdma.			
+			// power save must executed before psTdma.
 			pBtCoexist->fBtcSet(pBtCoexist, BTC_SET_ACT_ENTER_LPS, NULL);
 			pCoexSta->bForceLpsOn = TRUE;
 			break;
@@ -2336,7 +2336,7 @@ halbtc8703b1ant_MonitorBtEnableDisable(
 	else
 	{
 		btDisableCnt++;
-		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], bt all counters=0, %d times!!\n", 
+		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], bt all counters=0, %d times!!\n",
 				btDisableCnt));
 		if(btDisableCnt >= 2)
 		{
@@ -2348,8 +2348,8 @@ halbtc8703b1ant_MonitorBtEnableDisable(
 	}
 	if(bPreBtDisabled != bBtDisabled)
 	{
-		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], BT is from %s to %s!!\n", 
-			(bPreBtDisabled ? "disabled":"enabled"), 
+		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], BT is from %s to %s!!\n",
+			(bPreBtDisabled ? "disabled":"enabled"),
 			(bBtDisabled ? "disabled":"enabled")));
 		bPreBtDisabled = bBtDisabled;
 		if(!bBtDisabled)
@@ -2470,7 +2470,7 @@ halbtc8703b1ant_ActionBtWhckTest(
 	)
 {
 	halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
-	
+
 	halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, FALSE, 8);
 	halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_PTA, NORMAL_EXEC, FALSE, FALSE);
 	halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 0);
@@ -2482,7 +2482,7 @@ halbtc8703b1ant_ActionWifiMultiPort(
 	)
 {
 	halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
-	
+
 	halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, FALSE, 8);
 	halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_PTA, NORMAL_EXEC, FALSE, FALSE);
 	halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 2);
@@ -2501,7 +2501,7 @@ VOID
 halbtc8703b1ant_ActionBtInquiry(
 	IN	PBTC_COEXIST		pBtCoexist
 	)
-{	
+{
 	PBTC_BT_LINK_INFO pBtLinkInfo=&pBtCoexist->btLinkInfo;
 	BOOLEAN			bWifiConnected=FALSE, bApEnable=FALSE, bWifiBusy=FALSE, bBtBusy=FALSE;
 
@@ -2515,37 +2515,37 @@ halbtc8703b1ant_ActionBtInquiry(
 		halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
 		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, FALSE, 8);
 		halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_PTA, NORMAL_EXEC, FALSE, FALSE);
-	 	halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 0);		
+	 	halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 0);
 	}
 	else if( (pBtLinkInfo->bScoExist) || 	(pBtLinkInfo->bHidExist) || 	(pBtLinkInfo->bA2dpExist)  )
 	{
 		// SCO/HID/A2DP busy
 		halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
 		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 32);
-		
-		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);		
+
+		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
 	}
 	else if ( (pBtLinkInfo->bPanExist) || (bWifiBusy) )
 	{
-		halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);		
+		halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
 
 		//for BT inquiry/page fail after S4 resume
-		//halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 20);		
+		//halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 20);
 		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 32);
-		
+
 		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
 	}
 	else
 	{
 		halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
-		
+
 		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, FALSE, 8);
 		halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_PTA, NORMAL_EXEC, FALSE, FALSE);
-	 	halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 7);		
-		
+	 	halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 7);
+
 
 		//halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 32);
-		//halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);				
+		//halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
 	}
 }
 
@@ -2582,9 +2582,9 @@ halbtc8703b1ant_ActionWifiConnectedBtAclBusy(
 	)
 {
 	u1Byte		btRssiState;
-	
+
 	PBTC_BT_LINK_INFO pBtLinkInfo=&pBtCoexist->btLinkInfo;
-	btRssiState = halbtc8703b1ant_BtRssiState(2, 28, 0);	
+	btRssiState = halbtc8703b1ant_BtRssiState(2, 28, 0);
 
 	if ( (pCoexSta->lowPriorityRx >= 950)  && (!pCoexSta->bUnderIps) )
 	{
@@ -2601,7 +2601,7 @@ halbtc8703b1ant_ActionWifiConnectedBtAclBusy(
 		pCoexDm->bAutoTdmaAdjust = FALSE;
 		return;
 	}
-	else if(pBtLinkInfo->bA2dpOnly)  //A2DP		
+	else if(pBtLinkInfo->bA2dpOnly)  //A2DP
 	{
 		if(BT_8703B_1ANT_WIFI_STATUS_CONNECTED_IDLE == wifiStatus)
 		{
@@ -2630,19 +2630,19 @@ halbtc8703b1ant_ActionWifiConnectedBtAclBusy(
 
 		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
 	}
-	else if( (pBtLinkInfo->bPanOnly) || (pBtLinkInfo->bHidExist&&pBtLinkInfo->bPanExist) ) //PAN(OPP,FTP), HID+PAN(OPP,FTP)			
+	else if( (pBtLinkInfo->bPanOnly) || (pBtLinkInfo->bHidExist&&pBtLinkInfo->bPanExist) ) //PAN(OPP,FTP), HID+PAN(OPP,FTP)
 	{
 		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 3);
 		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
 		pCoexDm->bAutoTdmaAdjust = FALSE;
 	}
 	else
-	{		
+	{
 		//BT no-profile busy (0x9)
-		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 33);	
+		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 33);
 		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
 		pCoexDm->bAutoTdmaAdjust = FALSE;
-	}	
+	}
 }
 
 VOID
@@ -2665,7 +2665,7 @@ halbtc8703b1ant_ActionWifiNotConnectedScan(
 	)
 {
 	PBTC_BT_LINK_INFO pBtLinkInfo=&pBtCoexist->btLinkInfo;
-	
+
 	halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
 
 	// tdma and coex table
@@ -2684,7 +2684,7 @@ halbtc8703b1ant_ActionWifiNotConnectedScan(
 	 	else
 	 	{
 		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 20);
-			halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);			
+			halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
 		}
 	}
 	else if( (BT_8703B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
@@ -2708,19 +2708,19 @@ halbtc8703b1ant_ActionWifiNotConnectedAssoAuth(
 	)
 {
 	PBTC_BT_LINK_INFO pBtLinkInfo=&pBtCoexist->btLinkInfo;
-	
+
 	halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
 
 	// tdma and coex table
 	if( (pBtLinkInfo->bScoExist)  || (pBtLinkInfo->bHidExist) ||  (pBtLinkInfo->bA2dpExist) )
 	{
 		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 32);
-		halbtc8703b1ant_CoexTableWithType(pBtCoexist, FORCE_EXEC, 4);		
+		halbtc8703b1ant_CoexTableWithType(pBtCoexist, FORCE_EXEC, 4);
 	}
-	else if (pBtLinkInfo->bPanExist)   			
+	else if (pBtLinkInfo->bPanExist)
 	{
 		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 20);
-		halbtc8703b1ant_CoexTableWithType(pBtCoexist, FORCE_EXEC, 4);		
+		halbtc8703b1ant_CoexTableWithType(pBtCoexist, FORCE_EXEC, 4);
 	}
 	else
 	{
@@ -2736,7 +2736,7 @@ halbtc8703b1ant_ActionWifiConnectedScan(
 	)
 {
 	PBTC_BT_LINK_INFO pBtLinkInfo=&pBtCoexist->btLinkInfo;
-	
+
 	halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
 
 	// tdma and coex table
@@ -2785,7 +2785,7 @@ halbtc8703b1ant_ActionWifiConnectedSpecialPacket(
 
 	//no special packet process for both WiFi and BT very busy
 	if ((bWifiBusy) && ((pBtLinkInfo->bPanExist) || (pCoexSta->nNumOfProfile >= 2)))
-	 return;	
+	 return;
 
 	halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
 
@@ -2793,17 +2793,17 @@ halbtc8703b1ant_ActionWifiConnectedSpecialPacket(
 	if((pBtLinkInfo->bScoExist) || (pBtLinkInfo->bHidExist))
 	{
 		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 32);
-		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 5);		
+		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 5);
 	}
 	else if  (pBtLinkInfo->bA2dpExist)
 	{
 		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 32);
-		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);		
+		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
 	}
 	else if(pBtLinkInfo->bPanExist)
 	{
 		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, TRUE, 20);
-		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);		
+		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
 	}
 	else
 	{
@@ -2832,13 +2832,13 @@ halbtc8703b1ant_ActionWifiConnected(
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], CoexForWifiConnect(), return for wifi is under 4way<===\n"));
 		return;
 	}
-	
+
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_SCAN, &bScan);
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_LINK, &bLink);
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_ROAM, &bRoam);
 	if(bScan || bLink || bRoam)
 	{
-		if(bScan)	
+		if(bScan)
 			halbtc8703b1ant_ActionWifiConnectedScan(pBtCoexist);
 		else
 			halbtc8703b1ant_ActionWifiConnectedSpecialPacket(pBtCoexist);
@@ -2848,14 +2848,14 @@ halbtc8703b1ant_ActionWifiConnected(
 
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_AP_MODE_ENABLE, &bApEnable);
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_BUSY, &bWifiBusy);
-	
+
 	// power save state
 	if(!bApEnable && BT_8703B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus && !pBtCoexist->btLinkInfo.bHidOnly)
 	{
 		if(pBtCoexist->btLinkInfo.bA2dpOnly)	//A2DP
-			{			
+			{
 			if(!bWifiBusy)
-				halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);				
+				halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
 			else //busy
 			{
 				if  (pCoexSta->nScanAPNum >= BT_8703B_1ANT_WIFI_NOISY_THRESH)  //no force LPS, no PS-TDMA, use pure TDMA
@@ -2864,7 +2864,7 @@ halbtc8703b1ant_ActionWifiConnected(
 				}
 				else
 				{
-					halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_LPS_ON, 0x50, 0x4);					
+					halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_LPS_ON, 0x50, 0x4);
 				}
 			}
 		}
@@ -2881,7 +2881,7 @@ halbtc8703b1ant_ActionWifiConnected(
 	{
 		if(BT_8703B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus)
 		{
-			halbtc8703b1ant_ActionWifiConnectedBtAclBusy(pBtCoexist, 
+			halbtc8703b1ant_ActionWifiConnectedBtAclBusy(pBtCoexist,
 				BT_8703B_1ANT_WIFI_STATUS_CONNECTED_IDLE);
 		}
 		else if( (BT_8703B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
@@ -2897,7 +2897,7 @@ halbtc8703b1ant_ActionWifiConnected(
 			if ( (pCoexSta->highPriorityTx) + (pCoexSta->highPriorityRx) <= 60 )
 				halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 2);
 			else
-				halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 7); 		 
+				halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 7);
 		}
 	}
 	else
@@ -2913,14 +2913,14 @@ halbtc8703b1ant_ActionWifiConnected(
 			halbtc8703b1ant_ActionBtScoHidOnlyBusy(pBtCoexist,
 				BT_8703B_1ANT_WIFI_STATUS_CONNECTED_BUSY);
 		}
-		else 
+		else
 		{
 			halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, FALSE, 8);
-			halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_PTA, NORMAL_EXEC, FALSE, FALSE);	
+			halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_PTA, NORMAL_EXEC, FALSE, FALSE);
 			if ( (pCoexSta->highPriorityTx) + (pCoexSta->highPriorityRx) <= 60 )
 				halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 2);
 			else
-				halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 7); 
+				halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 7);
 		}
 	}
 }
@@ -3047,7 +3047,7 @@ halbtc8703b1ant_RunCoexistMechanism(
 
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_U4_WIFI_LINK_STATUS, &wifiLinkStatus);
 	numOfWifiLink = wifiLinkStatus>>16;
-	
+
 	if((numOfWifiLink>=2) || (wifiLinkStatus&WIFI_P2P_GO_CONNECTED))
 	{
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("############# [BTCoex],  Multi-Port numOfWifiLink = %d, wifiLinkStatus = 0x%x\n", numOfWifiLink,wifiLinkStatus) );
@@ -3067,12 +3067,12 @@ halbtc8703b1ant_RunCoexistMechanism(
 
 		if ( (pBtLinkInfo->bA2dpExist) && (pCoexSta->bC2hBtInquiryPage) )
 		{
-			RT_TRACE(COMP_COEX, DBG_LOUD, ("############# [BTCoex],  BT Is Inquirying \n") );	
+			RT_TRACE(COMP_COEX, DBG_LOUD, ("############# [BTCoex],  BT Is Inquirying \n") );
 			halbtc8703b1ant_ActionBtInquiry(pBtCoexist);
 		}
 		else
 		halbtc8703b1ant_ActionWifiMultiPort(pBtCoexist);
-		
+
 		return;
 	}
 	else
@@ -3085,14 +3085,14 @@ halbtc8703b1ant_RunCoexistMechanism(
 
 	if ( (pBtLinkInfo->bBtLinkExist) && (bWifiConnected) )
 	{
-		halbtc8703b1ant_LimitedTx(pBtCoexist, NORMAL_EXEC, 1, 1, 0, 1); 
+		halbtc8703b1ant_LimitedTx(pBtCoexist, NORMAL_EXEC, 1, 1, 0, 1);
 
 		pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_U1_IOT_PEER, &iotPeer);
 
 		if(BTC_IOT_PEER_CISCO != iotPeer)
 		{
 			if(pBtLinkInfo->bScoExist)//if (pBtLinkInfo->bBtHiPriLinkExist)
-				halbtc8703b1ant_LimitedRx(pBtCoexist, NORMAL_EXEC, TRUE, FALSE, 0x5);	
+				halbtc8703b1ant_LimitedRx(pBtCoexist, NORMAL_EXEC, TRUE, FALSE, 0x5);
 			else
 				halbtc8703b1ant_LimitedRx(pBtCoexist, NORMAL_EXEC, FALSE, FALSE, 0x5);
 		}
@@ -3103,7 +3103,7 @@ halbtc8703b1ant_RunCoexistMechanism(
 			else
 			{
 				if (BTC_WIFI_BW_HT40==wifiBw)
-					halbtc8703b1ant_LimitedRx(pBtCoexist, NORMAL_EXEC, FALSE, TRUE, 0x10);	
+					halbtc8703b1ant_LimitedRx(pBtCoexist, NORMAL_EXEC, FALSE, TRUE, 0x10);
 				else
 					halbtc8703b1ant_LimitedRx(pBtCoexist, NORMAL_EXEC, FALSE, TRUE, 0x8);
 			}
@@ -3121,11 +3121,11 @@ halbtc8703b1ant_RunCoexistMechanism(
 		halbtc8703b1ant_SwMechanism(pBtCoexist, FALSE);
 		halbtc8703b1ant_RunSwCoexistMechanism(pBtCoexist); ////just print debug message
 	}
-	
+
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_HS_OPERATION, &bBtHsOn);
 	if(pCoexSta->bC2hBtInquiryPage)
 	{
-		RT_TRACE(COMP_COEX, DBG_LOUD, ("############# [BTCoex],  BT Is Inquirying \n") );		
+		RT_TRACE(COMP_COEX, DBG_LOUD, ("############# [BTCoex],  BT Is Inquirying \n") );
 		halbtc8703b1ant_ActionBtInquiry(pBtCoexist);
 		return;
 	}
@@ -3135,11 +3135,11 @@ halbtc8703b1ant_RunCoexistMechanism(
 		return;
 	}
 
-	
+
 	if(!bWifiConnected)
 	{
 		BOOLEAN	bScan=FALSE, bLink=FALSE, bRoam=FALSE;
-		
+
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], wifi is non connected-idle !!!\n"));
 
 		pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_SCAN, &bScan);
@@ -3148,10 +3148,10 @@ halbtc8703b1ant_RunCoexistMechanism(
 
 		if(bScan || bLink || bRoam)
 		{
-			 if (bScan)	
-		   		halbtc8703b1ant_ActionWifiNotConnectedScan(pBtCoexist);	
+			 if (bScan)
+		   		halbtc8703b1ant_ActionWifiNotConnectedScan(pBtCoexist);
 			 else
-		    		halbtc8703b1ant_ActionWifiNotConnectedAssoAuth(pBtCoexist);	
+		    		halbtc8703b1ant_ActionWifiNotConnectedAssoAuth(pBtCoexist);
 		}
 		else
 			halbtc8703b1ant_ActionWifiNotConnected(pBtCoexist);
@@ -3166,7 +3166,7 @@ u4Byte
 halbtc8703b1ant_PSD_Log2Base(
 	IN	PBTC_COEXIST		pBtCoexist,
 	IN	u4Byte				val
-	
+
 	)
 {
 	u1Byte 	i,j;
@@ -3183,21 +3183,21 @@ halbtc8703b1ant_PSD_Log2Base(
 	while(1)
 	{
 		if (tmp == 1)
-			break;	
+			break;
 		else
 		{
 			tmp = (tmp >> 1);
-			shiftcount++;				
+			shiftcount++;
 		}
 	}
-	
+
 
 	val_integerdB = shiftcount+1;
 
 	tmp2=1;
 	for (j=1; j<= val_integerdB;j++)
-	  tmp2 = tmp2*2; 		
-	
+	  tmp2 = tmp2*2;
+
 	tmp = (val*100) /tmp2;
 	tindex = tmp/5;
 
@@ -3206,7 +3206,7 @@ halbtc8703b1ant_PSD_Log2Base(
 
 	val_fractiondB = Table_fraction[tindex];
 
-	result = val_integerdB*100 - val_fractiondB;			
+	result = val_integerdB*100 - val_fractiondB;
 
 	return (result);
 
@@ -3217,12 +3217,12 @@ VOID
 halbtc8703b1ant_InitCoexDm(
 	IN	PBTC_COEXIST		pBtCoexist
 	)
-{	
+{
 	// force to reset coex mechanism
 
 	// sw all off
 	halbtc8703b1ant_SwMechanism(pBtCoexist, FALSE);
-	
+
 	//halbtc8703b1ant_PsTdma(pBtCoexist, FORCE_EXEC, FALSE, 8);
 	//halbtc8703b1ant_CoexTableWithType(pBtCoexist, FORCE_EXEC, 0);
 
@@ -3244,7 +3244,7 @@ halbtc8703b1ant_InitHwConfig(
 
 	u4Byte				u4Tmp1=0, u4Tmp2=0;
 
-			
+
 	u4Tmp1 = halbtc8703b1ant_LTECoex_InDirectReadReg(pBtCoexist, 0x38);
 	u4Tmp2 = halbtc8703b1ant_LTECoex_InDirectReadReg(pBtCoexist, 0x54);
 
@@ -3255,11 +3255,11 @@ halbtc8703b1ant_InitHwConfig(
 
 	pBtCoexist->fBtcWrite1ByteBitMask(pBtCoexist, 0x550, 0x8, 0x1);  //enable TBTT nterrupt
 
-	//BT report packet sample rate	
+	//BT report packet sample rate
 	pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x790, 0x5);
-	
+
 	// Enable BT counter statistics
-	pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x778, 0x1);		
+	pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x778, 0x1);
 
 	//Enable PTA (3-wire function form BT side)
 	pBtCoexist->fBtcWrite1ByteBitMask(pBtCoexist, 0x40, 0x20, 0x1);
@@ -3275,7 +3275,7 @@ halbtc8703b1ant_InitHwConfig(
 	pBtCoexist->fBtcWrite1ByteBitMask(pBtCoexist, 0x67, 0x1, 0x0);
 
 	halbtc8703b1ant_PsTdma(pBtCoexist, FORCE_EXEC, FALSE, 8);
-	
+
 	//Antenna config
 	if(bWifiOnly)
 	{
@@ -3285,7 +3285,7 @@ halbtc8703b1ant_InitHwConfig(
 	}
 	else
 	{
-		pCoexSta->bConCurrentRxModeOn = true;		
+		pCoexSta->bConCurrentRxModeOn = true;
 	   	pBtCoexist->fBtcWrite1ByteBitMask(pBtCoexist, 0x953, 0x2, 0x1);
 		//RF 0x1[0] = 0 -> Set GNT_WL_RF_Rx always = 1 for con-current Rx
 		pBtCoexist->fBtcSetRfReg(pBtCoexist, BTC_RF_A, 0x1, 0x1, 0x0);
@@ -3307,7 +3307,7 @@ halbtc8703b1ant_PSD_ShowData(
 	pu1Byte		cliBuf=pBtCoexist->cliBuf;
 	u4Byte		nDeltaFreqPerPoint;
 	u4Byte		freq,freq1,freq2,n=0,i=0, j=0, m=0, PsdRep1, PsdRep2;
-	
+
 	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n\n============[PSD info]  (%d)============\n",
 		 	pPsdScan->nPSDGenCount);
 	CL_PRINTF(cliBuf);
@@ -3321,33 +3321,33 @@ halbtc8703b1ant_PSD_ShowData(
 
 	if (pPsdScan->nPSDPoint == 0)
 		nDeltaFreqPerPoint = 0;
-	else			
-		nDeltaFreqPerPoint = pPsdScan->nPSDBandWidth/pPsdScan->nPSDPoint;		
+	else
+		nDeltaFreqPerPoint = pPsdScan->nPSDBandWidth/pPsdScan->nPSDPoint;
 
 	//if (pPsdScan->bIsPSDShowMaxOnly)
 	if (0)
-	{	
+	{
 		PsdRep1 = pPsdScan->nPSDMaxValue/100;
 		PsdRep2 = pPsdScan->nPSDMaxValue - PsdRep1 * 100;
-				
+
 		freq = ((pPsdScan->nRealCentFreq-20) * 1000000 + pPsdScan->nPSDMaxValuePoint * nDeltaFreqPerPoint);
 		freq1 = freq/1000000;
 		freq2 = freq/1000 - freq1 * 1000;
 
-		if (freq2 < 100)	
-			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n Freq = %d.0%d MHz",  
+		if (freq2 < 100)
+			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n Freq = %d.0%d MHz",
 			  freq1, freq2);
 		else
-			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n Freq = %d.%d MHz",  
+			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n Freq = %d.%d MHz",
 			  freq1, freq2);
 
-		if (PsdRep2 < 10)	
-			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, ", Value = %d.0%d dB, (%d) \n",  
+		if (PsdRep2 < 10)
+			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, ", Value = %d.0%d dB, (%d) \n",
 			  PsdRep1, PsdRep2, pPsdScan->nPSDMaxValue);
 		else
-			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, ", Value = %d.%d dB, (%d)\n",  
+			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, ", Value = %d.%d dB, (%d)\n",
 			  PsdRep1, PsdRep2, pPsdScan->nPSDMaxValue);
-		
+
 		CL_PRINTF(cliBuf);
 	}
 	else
@@ -3355,7 +3355,7 @@ halbtc8703b1ant_PSD_ShowData(
 		m = pPsdScan->nPSDStartPoint;
 		n = pPsdScan->nPSDStartPoint;
 		i = 1;
-		j = 1;				
+		j = 1;
 
 	 while(1)
 	 {
@@ -3364,12 +3364,12 @@ halbtc8703b1ant_PSD_ShowData(
 			freq = ((pPsdScan->nRealCentFreq-20) * 1000000 + m * nDeltaFreqPerPoint);
 			freq1 = freq/1000000;
 			freq2 = freq/1000 - freq1 * 1000;
-			
+
 			if (i ==1)
 			{
 				if (freq2 == 0)
 					CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n Freq%6d.000", freq1);
-				else if (freq2 < 100)	
+				else if (freq2 < 100)
 					CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n Freq%6d.0%2d", freq1,freq2);
 				else
 					CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n Freq%6d.%3d", freq1,freq2);
@@ -3378,33 +3378,33 @@ halbtc8703b1ant_PSD_ShowData(
 			{
 				if (freq2 == 0)
 					CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "%6d.000\n", freq1);
-				else if (freq2 < 100)	
+				else if (freq2 < 100)
 					CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "%6d.0%2d\n", freq1,freq2);
 				else
 					CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "%6d.%3d\n", freq1,freq2);
-			}			
+			}
 			else
 			{
 				if (freq2 == 0)
 					CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "%6d.000", freq1);
-				else if (freq2 < 100)	
+				else if (freq2 < 100)
 					CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "%6d.0%2d", freq1,freq2);
 				else
 					CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "%6d.%3d", freq1,freq2);
 			}
 
-			i++;					
+			i++;
 			m++;
 			CL_PRINTF(cliBuf);
 
-		}while(  (i <= 8) && (m <= pPsdScan->nPSDStopPoint));	
-		
-		
+		}while(  (i <= 8) && (m <= pPsdScan->nPSDStopPoint));
+
+
 		do
 		{
 			PsdRep1 = pPsdScan->nPSDReport_MaxHold[n]/100;
 			PsdRep2 = pPsdScan->nPSDReport_MaxHold[n] - PsdRep1 * 100;
-				
+
 			if (j ==1)
 			{
 				if (PsdRep2 <10)
@@ -3430,8 +3430,8 @@ halbtc8703b1ant_PSD_ShowData(
 			j++;
 			n++;
 			CL_PRINTF(cliBuf);
-			
-		} while(  (j <= 8) && (n <= pPsdScan->nPSDStopPoint));		
+
+		} while(  (j <= 8) && (n <= pPsdScan->nPSDStopPoint));
 
 		if  ( (m > pPsdScan->nPSDStopPoint) || (n > pPsdScan->nPSDStopPoint) )
 		 break;
@@ -3440,8 +3440,8 @@ halbtc8703b1ant_PSD_ShowData(
 			i = 1;
 			j = 1;
 		}
-		
-	 }	
+
+	 }
 	}
 
 
@@ -3454,7 +3454,7 @@ halbtc8703b1ant_PSD_MaxHoldData(
 	)
 {
 		 u4Byte	i=0, i_max=0, val_max=0, j;
-		 
+
 		if (GenCount== 1)
 		{
 			memcpy(pPsdScan->nPSDReport_MaxHold, pPsdScan->nPSDReport, BT_8703B_1ANT_ANTDET_PSD_POINTS*sizeof(u4Byte));
@@ -3467,13 +3467,13 @@ halbtc8703b1ant_PSD_MaxHoldData(
 			pPsdScan->nPSDMaxValuePoint = 0;
 			pPsdScan->nPSDMaxValue = 0;
 
-		}	
+		}
 		else
 		{
 			for (i= pPsdScan->nPSDStartPoint; i<=pPsdScan->nPSDStopPoint; i++)
 			{
 				if (pPsdScan->nPSDReport[i] > pPsdScan->nPSDReport_MaxHold[i])
-				 	pPsdScan->nPSDReport_MaxHold[i] = pPsdScan->nPSDReport[i];	
+				 	pPsdScan->nPSDReport_MaxHold[i] = pPsdScan->nPSDReport[i];
 
 				//search Max Value
 				if (i ==pPsdScan->nPSDStartPoint )
@@ -3493,7 +3493,7 @@ halbtc8703b1ant_PSD_MaxHoldData(
 				//RT_TRACE(COMP_COEX, DBG_LOUD, ("xxxxxxxxxxxxxxxx SweepPSDPoint(), Max_Hold i = %d, PSDReport = %d dB\n", i,  pPsdScan->nPSDReport_MaxHold[i]));
 
 			}
-	
+
 			pPsdScan->nPSDMaxValuePoint = i_max;
 			pPsdScan->nPSDMaxValue = val_max;
 
@@ -3515,12 +3515,12 @@ halbtc8703b1ant_PSD_GetData(
 	//reg 0x8b4[15:0]: FFT data y report
 
 	u4Byte val = 0, psd_report =0;
-	
+
 	val = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x808);
 
 	val &= 0xffbffc00;
 	val |= nPoint;
-	
+
 	 pBtCoexist->fBtcWrite4Byte(pBtCoexist, 0x808, val);
 
 	val |= 0x00400000;
@@ -3530,7 +3530,7 @@ halbtc8703b1ant_PSD_GetData(
 	val = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x8b4);
 
 	psd_report = val & 0x0000ffff;
-	 
+
 	return psd_report;
 }
 
@@ -3548,69 +3548,69 @@ IN	PBTC_COEXIST			pBtCoexist,
 	u4Byte	 i,val,n,k=0;
 	u4Byte	nPoints=0, psd_report=0;
 	u4Byte	nStartP=0, nStopP=0, nDeltaFreqPerPoint=156250;
-	u4Byte    nPSDCenterFreq=20*10^6, freq,freq1,freq2;	
+	u4Byte    nPSDCenterFreq=20*10^6, freq,freq1,freq2;
 	BOOLEAN outloop = FALSE;
-	u1Byte	 flag = 0;	
+	u1Byte	 flag = 0;
 	u4Byte 	tmp, PsdRep1, PsdRep2;
 	u4Byte	WiFi_OriginalChannel = 1;
 
 	pPsdScan->bIsPSDRunning = TRUE;
-	
+
 	do
 	{
 		switch(flag)
 		{
 		   case 0:  //Get PSD parameters
-		   default:	
-			//RT_TRACE(COMP_COEX, DBG_LOUD, ("xxxxxxxxxxxxxxxx SweepPSDPoint(), centFreq=0x%x, offset=0x%x, span=0x%x\n", 
+		   default:
+			//RT_TRACE(COMP_COEX, DBG_LOUD, ("xxxxxxxxxxxxxxxx SweepPSDPoint(), centFreq=0x%x, offset=0x%x, span=0x%x\n",
 		       //     centFreq, offset, span));
 
 			pPsdScan->nPSDBandWidth = 40*1000000;
 			pPsdScan->nPSDPoint = points;
-			pPsdScan->nPSDStartBase = points/2; 
+			pPsdScan->nPSDStartBase = points/2;
 			pPsdScan->nPSDAvgNum = avgnum;
 			pPsdScan->nRealCentFreq = centFreq;
 			pPsdScan->nRealOffset = offset;
 			pPsdScan->nRealSpan = span;
-		
-			
+
+
 			nPoints = pPsdScan->nPSDPoint;
 			nDeltaFreqPerPoint = pPsdScan->nPSDBandWidth/pPsdScan->nPSDPoint;
 
 			//PSD point setup
 			val = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x808);
-			val &= 0xffff0fff;				
-			
+			val &= 0xffff0fff;
+
 			switch(pPsdScan->nPSDPoint)
 			{
 				case 128:
 					val |= 0x0;
 					break;
 				case 256:
-				default:	
+				default:
 					val |=0x00004000;
 				 	break;
-				case 512:	
+				case 512:
 					val |= 0x00008000;
 					break;
-				case 1024:	
+				case 1024:
 					val |= 0x0000c000;
 					break;
-			}			
-					
+			}
+
 			switch(pPsdScan->nPSDAvgNum)
 			{
 				case 1:
 					val |= 0x0;
 					break;
-				case 8:				
+				case 8:
 					val |=0x00001000;
 				 	break;
-				case 16:	
+				case 16:
 					val |= 0x00002000;
 					break;
 				case 32:
-				default:	
+				default:
 					val |= 0x00003000;
 					break;
 			}
@@ -3623,7 +3623,7 @@ IN	PBTC_COEXIST			pBtCoexist,
 		  case 1:	  //calculate the PSD point index from freq/offset/span
 		  	nPSDCenterFreq = pPsdScan->nPSDBandWidth /2 +offset*(1000000);
 			//RT_TRACE(COMP_COEX, DBG_LOUD, ("xxxxxxxxxxxxxxxx SweepPSDPoint(), PSD Center Freq = %d\n", (centFreq + offset)));
-			
+
 			nStartP = pPsdScan->nPSDStartBase + (nPSDCenterFreq - span *(1000000)/2) /nDeltaFreqPerPoint;
 			pPsdScan->nPSDStartPoint = nStartP - pPsdScan->nPSDStartBase;
 			//RT_TRACE(COMP_COEX, DBG_LOUD, ("xxxxxxxxxxxxxxxx SweepPSDPoint(), Start PSD Poin Matrix Index = %d\n", pPsdScan->nPSDStartPoint));
@@ -3644,14 +3644,14 @@ IN	PBTC_COEXIST			pBtCoexist,
 			//CCK off
 			val = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x800);
 			val &= 0xfeffffff;
-			pBtCoexist->fBtcWrite4Byte(pBtCoexist,0x800,val);		
+			pBtCoexist->fBtcWrite4Byte(pBtCoexist,0x800,val);
 
 			//store WiFi original channel
 			WiFi_OriginalChannel = pBtCoexist->fBtcGetRfReg(pBtCoexist, BTC_RF_A, 0x18, 0x3ff);
 
 			//Set RF channel
 		       if (centFreq == 2484)
-				pBtCoexist->fBtcSetRfReg(pBtCoexist, BTC_RF_A, 0x18, 0x3ff, 0xe); 
+				pBtCoexist->fBtcSetRfReg(pBtCoexist, BTC_RF_A, 0x18, 0x3ff, 0xe);
 			else
 				pBtCoexist->fBtcSetRfReg(pBtCoexist, BTC_RF_A, 0x18, 0x3ff, (centFreq-2412)/5 + 1); //WiFi TRx Mask on
 
@@ -3674,7 +3674,7 @@ IN	PBTC_COEXIST			pBtCoexist,
 		  	memset(pPsdScan->nPSDReport,0, pPsdScan->nPSDPoint*sizeof(u4Byte));
 			nStartP = pPsdScan->nPSDStartPoint + pPsdScan->nPSDStartBase;
 			nStopP = pPsdScan->nPSDStopPoint +  pPsdScan->nPSDStartBase + 1;
-				
+
 			i = nStartP;
 
 			while (i < nStopP)
@@ -3693,13 +3693,13 @@ IN	PBTC_COEXIST			pBtCoexist,
 				else
 					//tmp =  20*log10((double)psd_report);
 					//20*log2(x)/log2(10), log2Base return theresult of the psd_report*100
-					tmp = 6 * halbtc8703b1ant_PSD_Log2Base(pBtCoexist, psd_report);				
+					tmp = 6 * halbtc8703b1ant_PSD_Log2Base(pBtCoexist, psd_report);
 
 				n = i-pPsdScan->nPSDStartBase;
 				pPsdScan->nPSDReport[n] =  tmp;
 				PsdRep1 = pPsdScan->nPSDReport[n] /100;
 				PsdRep2 = pPsdScan->nPSDReport[n] - PsdRep1 * 100;
-				
+
 				freq =  ((centFreq-20) * 1000000 + n * nDeltaFreqPerPoint);
 				freq1 = freq/1000000;
 				freq2 = freq/1000 - freq1 * 1000;
@@ -3712,7 +3712,7 @@ IN	PBTC_COEXIST			pBtCoexist,
 				if (PsdRep2 < 10)
 					RT_TRACE(COMP_COEX, DBG_LOUD, (", PSDReport = %d (%d.0%d dB)\n",psd_report, PsdRep1, PsdRep2));
 				else
-					RT_TRACE(COMP_COEX, DBG_LOUD, (", PSDReport = %d (%d.%d dB)\n",psd_report, PsdRep1,PsdRep2));	
+					RT_TRACE(COMP_COEX, DBG_LOUD, (", PSDReport = %d (%d.%d dB)\n",psd_report, PsdRep1,PsdRep2));
 */
 				i++;
 
@@ -3726,7 +3726,7 @@ IN	PBTC_COEXIST			pBtCoexist,
 				}
 
 				//RT_TRACE(COMP_COEX, DBG_LOUD, ("xxxxxxxxxxxxxxxx SweepPSDPoint()==============\n"));
-			}	
+			}
 
 			flag = 100;
 			break;
@@ -3734,7 +3734,7 @@ IN	PBTC_COEXIST			pBtCoexist,
 
 			outloop = TRUE;
 			break;
-		  case 100: //recovery 
+		  case 100: //recovery
 
 		  	//set 3-wire on
 		  	val = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x88c);
@@ -3744,13 +3744,13 @@ IN	PBTC_COEXIST			pBtCoexist,
 			//CCK on
 			val = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x800);
 			val |= 0x01000000;
-			pBtCoexist->fBtcWrite4Byte(pBtCoexist,0x800,val);	
+			pBtCoexist->fBtcWrite4Byte(pBtCoexist,0x800,val);
 
 			//PSD off
 			val = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x808);
 			val &=0xffbfffff;
 			pBtCoexist->fBtcWrite4Byte(pBtCoexist,0x808,val);
-			
+
 		  	//TRx Mask on
 			pBtCoexist->fBtcSetRfReg(pBtCoexist, BTC_RF_A, 0x1, 0xfffff, 0x780);
 
@@ -3762,13 +3762,13 @@ IN	PBTC_COEXIST			pBtCoexist,
 			pBtCoexist->fBtcSetRfReg(pBtCoexist, BTC_RF_A, 0x1e, 0xfffff, 0x0);
 
 			//restore WiFi original channel
-			pBtCoexist->fBtcSetRfReg(pBtCoexist, BTC_RF_A, 0x18, 0x3ff, WiFi_OriginalChannel); 
-			
+			pBtCoexist->fBtcSetRfReg(pBtCoexist, BTC_RF_A, 0x18, 0x3ff, WiFi_OriginalChannel);
+
 			outloop = TRUE;
 			break;
 
-		}		
-			
+		}
+
 	}while (!outloop);
 
 
@@ -3795,7 +3795,7 @@ EXhalbtc8703b1ant_PowerOnSetting(
 
 	RT_TRACE(COMP_COEX, DBG_LOUD, ("xxxxxxxxxxxxxxxx Execute 8703b 1-Ant PowerOn Setting xxxxxxxxxxxxxxxx!!\n"));
 
-	RT_TRACE(COMP_COEX, DBG_LOUD, ("Ant Det Finish = %s, Ant Det Number  = %d\n",  
+	RT_TRACE(COMP_COEX, DBG_LOUD, ("Ant Det Finish = %s, Ant Det Number  = %d\n",
 		 (pBoardInfo->btdmAntDetFinish? "Yes":"No"), pBoardInfo->btdmAntNumByAntDet));
 
 	pBtCoexist->bStopCoexDm = TRUE;
@@ -3813,12 +3813,12 @@ EXhalbtc8703b1ant_PowerOnSetting(
 	halbtc8703b1ant_LTECoex_Set_GNT_WL(pBtCoexist, RFC_AND_BB, CONTROL_BY_SW, SET_TO_LOW);
 
 	// set WLAN_ACT = 0
-	pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x76e, 0x4);	
+	pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x76e, 0x4);
 
-	// 
+	//
 	// S0 or S1 setting and Local register setting(By the setting fw can get ant number, S0/S1, ... info)
 	// Local setting bit define
-	//	BIT0: "0" for no antenna inverse; "1" for antenna inverse 
+	//	BIT0: "0" for no antenna inverse; "1" for antenna inverse
 	//	BIT1: "0" for internal switch; "1" for external switch
 	//	BIT2: "0" for one antenna; "1" for two antenna
 	// NOTE: here default all internal switch and 1-antenna ==> BIT1=0 and BIT2=0
@@ -3827,7 +3827,7 @@ EXhalbtc8703b1ant_PowerOnSetting(
 	pBoardInfo->btdmAntPos = BTC_ANTENNA_AT_MAIN_PORT;
 
 	if(pBtCoexist->chipInterface == BTC_INTF_USB)
-	{		
+	{
 		pBtCoexist->fBtcWriteLocalReg1Byte(pBtCoexist, 0xfe08, u1Tmp);
 	}
 	else if(pBtCoexist->chipInterface == BTC_INTF_SDIO)
@@ -3836,9 +3836,9 @@ EXhalbtc8703b1ant_PowerOnSetting(
 	}
 
 	RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], **********  LTE coex Reg 0x38 (Power-On) = 0x%x**********\n", halbtc8703b1ant_LTECoex_InDirectReadReg(pBtCoexist, 0x38)));
-		
 
-#if 0	
+
+#if 0
 	if(pBtCoexist->chipInterface == BTC_INTF_USB)
 	{
 		// fixed at S0 for USB interface
@@ -3870,16 +3870,16 @@ EXhalbtc8703b1ant_PowerOnSetting(
 
 
 		if(pBtCoexist->chipInterface == BTC_INTF_PCI)
-		{	
+		{
 			pBtCoexist->fBtcWriteLocalReg1Byte(pBtCoexist, 0x384, u1Tmp);
 		}
 		else if(pBtCoexist->chipInterface == BTC_INTF_SDIO)
 		{
 			pBtCoexist->fBtcWriteLocalReg1Byte(pBtCoexist, 0x60, u1Tmp);
-		}	
+		}
 	}
 
-#endif	
+#endif
 }
 
 VOID
@@ -3907,7 +3907,7 @@ EXhalbtc8703b1ant_InitCoexDm(
 	RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], Coex Mechanism Init!!\n"));
 
 	pBtCoexist->bStopCoexDm = FALSE;
-	
+
 	halbtc8703b1ant_InitCoexDm(pBtCoexist);
 
 	halbtc8703b1ant_QueryBtInfo(pBtCoexist);
@@ -3927,7 +3927,7 @@ EXhalbtc8703b1ant_DisplayCoexInfo(
 	u4Byte				u4Tmp[4];
 	u4Byte				faOfdm, faCck;
 	u4Byte				fwVer=0, btPatchVer=0;
-	static u1Byte			PopReportIn10s = 0;	
+	static u1Byte			PopReportIn10s = 0;
 
 	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n ============[BT Coexist info]============");
 	CL_PRINTF(cliBuf);
@@ -3951,22 +3951,22 @@ EXhalbtc8703b1ant_DisplayCoexInfo(
 	{
 		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d/ %d/ %d", "Ant PG Num/ Mech/ Pos",
 		pBoardInfo->pgAntNum, pBoardInfo->btdmAntNum, pBoardInfo->btdmAntPos);
-	CL_PRINTF(cliBuf);	
+	CL_PRINTF(cliBuf);
 	}
 	else
 	{
-		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d/ %d/ %d  (%d/%d/%d)", "Ant PG Num/ Mech(Ant_Det)/ Pos", 
-		pBoardInfo->pgAntNum, pBoardInfo->btdmAntNumByAntDet, pBoardInfo->btdmAntPos, 
-		pPsdScan->bAntDet_TryCount, pPsdScan->bAntDet_FailCount, pPsdScan->nAntDet_Result);		
+		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d/ %d/ %d  (%d/%d/%d)", "Ant PG Num/ Mech(Ant_Det)/ Pos",
+		pBoardInfo->pgAntNum, pBoardInfo->btdmAntNumByAntDet, pBoardInfo->btdmAntPos,
+		pPsdScan->bAntDet_TryCount, pPsdScan->bAntDet_FailCount, pPsdScan->nAntDet_Result);
 		CL_PRINTF(cliBuf);
 
 		if (pBoardInfo->btdmAntDetFinish)
 		{
-			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %s", "Ant Det PSD Value",  pPsdScan->nAntDet_PeakVal);		
+			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %s", "Ant Det PSD Value",  pPsdScan->nAntDet_PeakVal);
 			CL_PRINTF(cliBuf);
 		}
 	}
-	
+
 	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %s / %d", "BT stack/ hci ext ver", \
 		((pStackInfo->bProfileNotified)? "Yes":"No"), pStackInfo->hciVersion);
 	CL_PRINTF(cliBuf);
@@ -3994,42 +3994,42 @@ EXhalbtc8703b1ant_DisplayCoexInfo(
 
 	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s", "============[BT Status]============");
 	CL_PRINTF(cliBuf);
-	
+
 	PopReportIn10s++;
 	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = [%s/ %d/ %d/ %d] ", "BT [status/ rssi/ retryCnt/ popCnt]", \
 		((pBtCoexist->btInfo.bBtDisabled)? ("disabled"):	((pCoexSta->bC2hBtInquiryPage)?("inquiry/page scan"):((BT_8703B_1ANT_BT_STATUS_NON_CONNECTED_IDLE == pCoexDm->btStatus)? "non-connected idle":
 		(  (BT_8703B_1ANT_BT_STATUS_CONNECTED_IDLE == pCoexDm->btStatus)? "connected-idle":"busy")))),
 		pCoexSta->btRssi, pCoexSta->btRetryCnt, pCoexSta->popEventCnt);
 	CL_PRINTF(cliBuf);
-	
+
 	if (PopReportIn10s >= 5)
 	{
-		pCoexSta->popEventCnt = 0;	
+		pCoexSta->popEventCnt = 0;
 		PopReportIn10s = 0;
 	}
-	
+
 	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d / %d / %d / %d / %d", "SCO/HID/PAN/A2DP/Hi-Pri", \
 		pBtLinkInfo->bScoExist, pBtLinkInfo->bHidExist, pBtLinkInfo->bPanExist, pBtLinkInfo->bA2dpExist, pBtLinkInfo->bBtHiPriLinkExist);
 	CL_PRINTF(cliBuf);
 
 	if (pStackInfo->bProfileNotified)
 	{
-		pBtCoexist->fBtcDispDbgMsg(pBtCoexist, BTC_DBG_DISP_BT_LINK_INFO);	
+		pBtCoexist->fBtcDispDbgMsg(pBtCoexist, BTC_DBG_DISP_BT_LINK_INFO);
 	}
 	else
 	{
 		btInfoExt = pCoexSta->btInfoExt;
-		
+
 		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %s/ %s", "BT Role/A2DP rate", \
 		(pBtLinkInfo->bSlaveRole )? "Slave":"Master", (btInfoExt&BIT0)? "BR":"EDR");
-		CL_PRINTF(cliBuf);	
-	}	
+		CL_PRINTF(cliBuf);
+	}
 
 
 	for(i=0; i<BT_INFO_SRC_8703B_1ANT_MAX; i++)
 	{
 		if(pCoexSta->btInfoC2hCnt[i])
-		{				
+		{
 			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %02x %02x %02x %02x %02x %02x %02x(%d)", GLBtInfoSrc8703b1Ant[i], \
 				pCoexSta->btInfoC2h[i][0], pCoexSta->btInfoC2h[i][1],
 				pCoexSta->btInfoC2h[i][2], pCoexSta->btInfoC2h[i][3],
@@ -4039,18 +4039,18 @@ EXhalbtc8703b1ant_DisplayCoexInfo(
 		}
 	}
 
-	
+
 	if(pBtCoexist->bManualControl)
-	{			
-		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s", "============[Sw mechanism] (before Manual)============");			
+	{
+		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s", "============[Sw mechanism] (before Manual)============");
 	}
 	else
 	{
 		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s", "============[Sw mechanism]============");
-	}	
+	}
 
 		CL_PRINTF(cliBuf);
-	
+
 		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d/ 0x%x", "SM[LowPenaltyRA]/RA Mask", \
 			pCoexDm->bCurLowPenaltyRa, pBtCoexist->btInfo.raMask);
 		CL_PRINTF(cliBuf);
@@ -4059,29 +4059,29 @@ EXhalbtc8703b1ant_DisplayCoexInfo(
 			(pBtCoexist->btInfo.bRejectAggPkt? "Yes":"No"), (pBtCoexist->btInfo.bBtCtrlAggBufSize? "Yes":"No"),
 				pBtCoexist->btInfo.aggBufSize);
 		CL_PRINTF(cliBuf);
-		
-		// Fw mechanism		
+
+		// Fw mechanism
 		if(pBtCoexist->bManualControl)
 		{
-			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s", "============[Fw mechanism] (before Manual) ============");			
+			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s", "============[Fw mechanism] (before Manual) ============");
 		}
 		else
 		{
 			CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s", "============[Fw mechanism]============");
 		}
-		
-		CL_PRINTF(cliBuf);	
+
+		CL_PRINTF(cliBuf);
 
 		psTdmaCase = pCoexDm->curPsTdma;
 		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %02x %02x %02x %02x %02x case-%d (%s,%s)", "PS TDMA", \
 			pCoexDm->psTdmaPara[0], pCoexDm->psTdmaPara[1],
 			pCoexDm->psTdmaPara[2], pCoexDm->psTdmaPara[3],
-			pCoexDm->psTdmaPara[4], psTdmaCase, 
+			pCoexDm->psTdmaPara[4], psTdmaCase,
 			(pCoexDm->bCurPsTdmaOn? "On":"Off"),
 			(pCoexDm->bAutoTdmaAdjust? "Adj":"Fix") );
-		
+
 		CL_PRINTF(cliBuf);
-		
+
 		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d", "WL/BT Coex Table Type", \
 			pCoexSta->nCoexTableType);
 		CL_PRINTF(cliBuf);
@@ -4114,11 +4114,11 @@ EXhalbtc8703b1ant_DisplayCoexInfo(
 		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x/ 0x%x/ 0x%x/ 0x%x", "LTE Break Table W_L/B_L/L_W/L_B", \
 			u4Tmp[0]&0xffff, u4Tmp[1]&0xffff, u4Tmp[2]&0xffff, u4Tmp[3]&0xffff);
 		CL_PRINTF(cliBuf);
-				
-		// Hw setting		
+
+		// Hw setting
 		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s", "============[Hw setting]============");
 		CL_PRINTF(cliBuf);
-	
+
 
 	u4Tmp[0] = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x430);
 	u4Tmp[1] = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x434);
@@ -4143,7 +4143,7 @@ EXhalbtc8703b1ant_DisplayCoexInfo(
 	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d/ %d/ %s", "GNT_WL_SWCtrl/GNT_BT_SWCtrl/Dbg", \
 	 ((u4Tmp[0]&BIT12)>> 12), ((u4Tmp[0]&BIT14)>> 14), ((u1Tmp[0]&BIT3)? "On":"Off"));
 	CL_PRINTF(cliBuf);
-	
+
 	u4Tmp[0] = halbtc8703b1ant_LTECoex_InDirectReadReg(pBtCoexist, 0x54);
 
 	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d/ %d/ %d/ %d", "GNT_WL/GNT_BT/LTE_Busy/UART_Busy", \
@@ -4178,7 +4178,7 @@ EXhalbtc8703b1ant_DisplayCoexInfo(
 	faCck = (u1Tmp[0] << 8) + u1Tmp[1];
 
 	u4Tmp[1] = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0xc50);
-	
+
 	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x/ 0x%x/ 0x%x/ 0x%x", "0xc50/OFDM-CCA/OFDM-FA/CCK-FA", \
 		u4Tmp[1]&0xff, u4Tmp[0]&0xffff, faOfdm, faCck);
 	CL_PRINTF(cliBuf);
@@ -4190,7 +4190,7 @@ EXhalbtc8703b1ant_DisplayCoexInfo(
 
 	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d/ %d/ %d/ %d", "CRC_Err CCK/11g/11n/11n-Agg", \
 		pCoexSta->nCRCErr_CCK, pCoexSta->nCRCErr_11g, pCoexSta->nCRCErr_11n, pCoexSta->nCRCErr_11nAgg);
-	CL_PRINTF(cliBuf);	
+	CL_PRINTF(cliBuf);
 
 	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d/ %d", "0x770(high-pri rx/tx)", \
 		pCoexSta->highPriorityRx, pCoexSta->highPriorityTx);
@@ -4220,10 +4220,10 @@ EXhalbtc8703b1ant_IpsNotify(
 	{
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], IPS ENTER notify\n"));
 		pCoexSta->bUnderIps = TRUE;
-		
+
 		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, FALSE, 0);
 		halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_BT, FORCE_EXEC, FALSE, TRUE);
-		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 0);	
+		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 0);
 	}
 	else if(BTC_IPS_LEAVE == type)
 	{
@@ -4264,7 +4264,7 @@ EXhalbtc8703b1ant_ScanNotify(
 	IN	u1Byte			type
 	)
 {
-	BOOLEAN bWifiConnected=FALSE, bBtHsOn=FALSE;	
+	BOOLEAN bWifiConnected=FALSE, bBtHsOn=FALSE;
 	u4Byte	wifiLinkStatus=0;
 	u4Byte	numOfWifiLink=0;
 	BOOLEAN	bBtCtrlAggBufSize=FALSE;
@@ -4282,14 +4282,14 @@ EXhalbtc8703b1ant_ScanNotify(
 		pCoexSta->bWiFiIsHighPriTask = TRUE;
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], SCAN START notify\n"));
 		halbtc8703b1ant_PsTdma(pBtCoexist, FORCE_EXEC, FALSE, 8);  //Force antenna setup for no scan result issue
-		halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_PTA, FORCE_EXEC, FALSE, FALSE);		
+		halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_PTA, FORCE_EXEC, FALSE, FALSE);
 	}
 	else
 	{
-		pCoexSta->bWiFiIsHighPriTask = FALSE;	
+		pCoexSta->bWiFiIsHighPriTask = FALSE;
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], SCAN FINISH notify\n"));
 
-		pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_U1_AP_NUM, &pCoexSta->nScanAPNum);		
+		pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_U1_AP_NUM, &pCoexSta->nScanAPNum);
 	}
 
 	if(pBtCoexist->btInfo.bBtDisabled)
@@ -4299,7 +4299,7 @@ EXhalbtc8703b1ant_ScanNotify(
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_CONNECTED, &bWifiConnected);
 
 	halbtc8703b1ant_QueryBtInfo(pBtCoexist);
-	
+
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_U4_WIFI_LINK_STATUS, &wifiLinkStatus);
 	numOfWifiLink = wifiLinkStatus>>16;
 	if(numOfWifiLink >= 2)
@@ -4309,7 +4309,7 @@ EXhalbtc8703b1ant_ScanNotify(
 		halbtc8703b1ant_ActionWifiMultiPort(pBtCoexist);
 		return;
 	}
-	
+
 	if(pCoexSta->bC2hBtInquiryPage)
 	{
 		halbtc8703b1ant_ActionBtInquiry(pBtCoexist);
@@ -4322,7 +4322,7 @@ EXhalbtc8703b1ant_ScanNotify(
 	}
 
 	if(BTC_SCAN_START == type)
-	{	
+	{
 		//RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], SCAN START notify\n"));
 		if(!bWifiConnected)	// non-connected scan
 		{
@@ -4353,7 +4353,7 @@ EXhalbtc8703b1ant_ConnectNotify(
 	IN	u1Byte			type
 	)
 {
-	BOOLEAN	bWifiConnected=FALSE, bBtHsOn=FALSE;	
+	BOOLEAN	bWifiConnected=FALSE, bBtHsOn=FALSE;
 	u4Byte	wifiLinkStatus=0;
 	u4Byte	numOfWifiLink=0;
 	BOOLEAN	bBtCtrlAggBufSize=FALSE;
@@ -4369,13 +4369,13 @@ EXhalbtc8703b1ant_ConnectNotify(
 		pCoexSta->bWiFiIsHighPriTask = TRUE;
 		halbtc8703b1ant_PsTdma(pBtCoexist, FORCE_EXEC, FALSE, 8);  //Force antenna setup for no scan result issue
 		halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_PTA, FORCE_EXEC, FALSE, FALSE);
-		 RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], CONNECT START notify\n"));	
+		 RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], CONNECT START notify\n"));
 		 pCoexDm->nArpCnt = 0;
 	}
 	else
 	{
-		pCoexSta->bWiFiIsHighPriTask = FALSE;	
-		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], CONNECT FINISH notify\n"));	
+		pCoexSta->bWiFiIsHighPriTask = FALSE;
+		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], CONNECT FINISH notify\n"));
 		//pCoexDm->nArpCnt = 0;
 	}
 
@@ -4403,13 +4403,13 @@ EXhalbtc8703b1ant_ConnectNotify(
 
 	if(BTC_ASSOCIATE_START == type)
 	{
-		//RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], CONNECT START notify\n"));		
+		//RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], CONNECT START notify\n"));
 		halbtc8703b1ant_ActionWifiNotConnectedAssoAuth(pBtCoexist);
 	}
 	else if(BTC_ASSOCIATE_FINISH == type)
 	{
 		//RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], CONNECT FINISH notify\n"));
-		
+
 		pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_CONNECTED, &bWifiConnected);
 		if(!bWifiConnected) // non-connected scan
 		{
@@ -4458,7 +4458,7 @@ EXhalbtc8703b1ant_MediaStatusNotify(
 			pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x6cd, 0x00); //CCK Tx
 			pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x6cf, 0x10); //CCK Rx
 		}
-		
+
 		pCoexDm->backupArfrCnt1 = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x430);
 		pCoexDm->backupArfrCnt2 = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x434);
 		pCoexDm->backupRetryLimit = pBtCoexist->fBtcRead2Byte(pBtCoexist, 0x42a);
@@ -4475,8 +4475,8 @@ EXhalbtc8703b1ant_MediaStatusNotify(
 		pCoexSta->bCCKEverLock = FALSE;
 	}
 
-	halbtc8703b1ant_UpdateWifiChannelInfo(pBtCoexist, type);	
-	
+	halbtc8703b1ant_UpdateWifiChannelInfo(pBtCoexist, type);
+
 }
 
 VOID
@@ -4490,7 +4490,7 @@ EXhalbtc8703b1ant_SpecialPacketNotify(
 	u4Byte	numOfWifiLink=0;
 	BOOLEAN	bBtCtrlAggBufSize=FALSE, bUnder4way=FALSE;
 	u1Byte	aggBufSize=5;
-	
+
 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_4_WAY_PROGRESS, &bUnder4way);
 
 	if(pBtCoexist->bManualControl ||
@@ -4498,21 +4498,21 @@ EXhalbtc8703b1ant_SpecialPacketNotify(
 		pBtCoexist->btInfo.bBtDisabled )
 		return;
 
-	if( BTC_PACKET_DHCP == type || 
+	if( BTC_PACKET_DHCP == type ||
 		BTC_PACKET_EAPOL == type ||
 		BTC_PACKET_ARP == type )
 	{
 		if (BTC_PACKET_ARP == type)
 		{
-			RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], special Packet ARP notify\n"));		 
+			RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], special Packet ARP notify\n"));
 
 			pCoexDm->nArpCnt++;
 			RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], ARP Packet Count = %d\n", pCoexDm->nArpCnt));
-			
-			if((pCoexDm->nArpCnt >= 10) && (!bUnder4way)) // if APR PKT > 10 after connect, do not go to ActionWifiConnectedSpecialPacket(pBtCoexist) 
+
+			if((pCoexDm->nArpCnt >= 10) && (!bUnder4way)) // if APR PKT > 10 after connect, do not go to ActionWifiConnectedSpecialPacket(pBtCoexist)
 			{
-				pCoexSta->bWiFiIsHighPriTask = FALSE;					
-			}			
+				pCoexSta->bWiFiIsHighPriTask = FALSE;
+			}
 			else
 			{
 				pCoexSta->bWiFiIsHighPriTask = TRUE;
@@ -4521,9 +4521,9 @@ EXhalbtc8703b1ant_SpecialPacketNotify(
 		else
 		{
 			pCoexSta->bWiFiIsHighPriTask = TRUE;
-			RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], special Packet DHCP or EAPOL notify\n"));		 
+			RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], special Packet DHCP or EAPOL notify\n"));
 		}
-	} 
+	}
 	else
 	{
 		pCoexSta->bWiFiIsHighPriTask = FALSE;
@@ -4555,7 +4555,7 @@ EXhalbtc8703b1ant_SpecialPacketNotify(
 	}
 
 	if( BTC_PACKET_DHCP == type ||
-		BTC_PACKET_EAPOL == type || 
+		BTC_PACKET_EAPOL == type ||
 		( (BTC_PACKET_ARP == type ) && (pCoexSta->bWiFiIsHighPriTask) ) )
 		{
 		halbtc8703b1ant_ActionWifiConnectedSpecialPacket(pBtCoexist);
@@ -4575,7 +4575,7 @@ EXhalbtc8703b1ant_BtInfoNotify(
 	BOOLEAN				bWifiConnected=FALSE;
 	BOOLEAN				bBtBusy=FALSE;
 	PBTC_BOARD_INFO 	pBoardInfo=&pBtCoexist->boardInfo;
-	
+
 	pCoexSta->bC2hBtInfoReqSent = FALSE;
 
 	rspSource = tmpBuf[0]&0xf;
@@ -4616,35 +4616,35 @@ EXhalbtc8703b1ant_BtInfoNotify(
 		if (pCoexSta->btInfoC2h[rspSource][2]&0x20)
 			pCoexSta->bC2hBtPage = TRUE;
 		else
-			pCoexSta->bC2hBtPage = FALSE;			
+			pCoexSta->bC2hBtPage = FALSE;
 
 		pCoexSta->btRssi =
 			pCoexSta->btInfoC2h[rspSource][3]*2-90;
 			//pCoexSta->btInfoC2h[rspSource][3]*2+10;
 
-		pCoexSta->btInfoExt = 
+		pCoexSta->btInfoExt =
 			pCoexSta->btInfoC2h[rspSource][4];
-		
+
 		pCoexSta->bBtTxRxMask = (pCoexSta->btInfoC2h[rspSource][2]&0x40);
 		pBtCoexist->fBtcSet(pBtCoexist, BTC_SET_BL_BT_TX_RX_MASK, &pCoexSta->bBtTxRxMask);
 
-				
+
 		// Here we need to resend some wifi info to BT
 		// because bt is reset and loss of the info.
 		if(pCoexSta->btInfoExt & BIT1)
-		{			
+		{
 			RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], BT ext info bit1 check, send wifi BW&Chnl to BT!!\n"));
 			pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_CONNECTED, &bWifiConnected);
 			if(bWifiConnected)
 			{
-				halbtc8703b1ant_UpdateWifiChannelInfo(pBtCoexist, BTC_MEDIA_CONNECT);				
+				halbtc8703b1ant_UpdateWifiChannelInfo(pBtCoexist, BTC_MEDIA_CONNECT);
 			}
 			else
 			{
-				halbtc8703b1ant_UpdateWifiChannelInfo(pBtCoexist, BTC_MEDIA_DISCONNECT);					
+				halbtc8703b1ant_UpdateWifiChannelInfo(pBtCoexist, BTC_MEDIA_DISCONNECT);
 			}
 		}
-				
+
 		if(pCoexSta->btInfoExt & BIT3)
 		{
 			if(!pBtCoexist->bManualControl && !pBtCoexist->bStopCoexDm)
@@ -4668,7 +4668,7 @@ EXhalbtc8703b1ant_BtInfoNotify(
 		}
 #endif
 	}
-		
+
 	// check BIT2 first ==> check if bt is under inquiry or page scan
 	if(btInfo & BT_INFO_8703B_1ANT_B_INQ_PAGE)
 		pCoexSta->bC2hBtInquiryPage = TRUE;
@@ -4686,10 +4686,10 @@ EXhalbtc8703b1ant_BtInfoNotify(
 		pCoexSta->bHidExist = FALSE;
 		pCoexSta->bScoExist = FALSE;
 
-		pCoexSta->bBtHiPriLinkExist = FALSE;		
+		pCoexSta->bBtHiPriLinkExist = FALSE;
 	}
 	else	// connection exists
-	{		
+	{
 		pCoexSta->bBtLinkExist = TRUE;
 		if(btInfo & BT_INFO_8703B_1ANT_B_FTP)
 		{
@@ -4722,7 +4722,7 @@ EXhalbtc8703b1ant_BtInfoNotify(
 
 		if ((pCoexSta->bHidExist == FALSE) && (pCoexSta->bC2hBtInquiryPage == FALSE) &&( pCoexSta->bScoExist == FALSE))
 		{
-			if (pCoexSta->highPriorityTx  + pCoexSta->highPriorityRx >= 160) 		
+			if (pCoexSta->highPriorityTx  + pCoexSta->highPriorityRx >= 160)
 			{
 				pCoexSta->bHidExist = TRUE;
 				pCoexSta->wrongProfileNotification++;
@@ -4738,7 +4738,7 @@ EXhalbtc8703b1ant_BtInfoNotify(
 			pCoexSta->bBtHiPriLinkExist = TRUE;
 		else
 			pCoexSta->bBtHiPriLinkExist = FALSE;
-			
+
 		if((btInfo&BT_INFO_8703B_1ANT_B_ACL_BUSY) && (pCoexSta->nNumOfProfile == 0))
 		{
 			if (pCoexSta->lowPriorityTx + pCoexSta->lowPriorityRx >= 160)
@@ -4746,15 +4746,15 @@ EXhalbtc8703b1ant_BtInfoNotify(
 				pCoexSta->bPanExist = TRUE;
 				pCoexSta->nNumOfProfile++;
 				pCoexSta->wrongProfileNotification++;
-				btInfo = btInfo | 0x88;				
+				btInfo = btInfo | 0x88;
 			}
 		}
 	}
 
 	halbtc8703b1ant_UpdateBtLinkInfo(pBtCoexist);
-	
+
 	btInfo = btInfo & 0x1f;  //mask profile bit for connect-ilde identification ( for CSR case: A2DP idle --> 0x41)
-	
+
 	if(!(btInfo&BT_INFO_8703B_1ANT_B_CONNECTION))
 	{
 		pCoexDm->btStatus = BT_8703B_1ANT_BT_STATUS_NON_CONNECTED_IDLE;
@@ -4803,7 +4803,7 @@ EXhalbtc8703b1ant_RfStatusNotify(
 {
 	u4Byte	u4Tmp;
 	u1Byte	u1Tmpa,u1Tmpb, u1Tmpc;
-	
+
 	RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], RF Status notify\n"));
 
 	if(BTC_RF_ON == type)
@@ -4814,10 +4814,10 @@ EXhalbtc8703b1ant_RfStatusNotify(
 	else if(BTC_RF_OFF == type)
 	{
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], RF is turned OFF!!\n"));
-		
+
 		halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
 		halbtc8703b1ant_PsTdma(pBtCoexist, FORCE_EXEC, FALSE, 0);
-		halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_BT, FORCE_EXEC, FALSE, TRUE);		
+		halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_BT, FORCE_EXEC, FALSE, TRUE);
 		halbtc8703b1ant_IgnoreWlanAct(pBtCoexist, FORCE_EXEC, TRUE);
 		pBtCoexist->bStopCoexDm = TRUE;
 
@@ -4830,18 +4830,18 @@ EXhalbtc8703b1ant_HaltNotify(
 	)
 {
 	u4Byte	u4Tmp;
-	
+
 	RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], Halt notify\n"));
 
 	halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
 	halbtc8703b1ant_PsTdma(pBtCoexist, FORCE_EXEC, FALSE, 0);
-	halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_BT, FORCE_EXEC, FALSE, TRUE);	
+	halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_BT, FORCE_EXEC, FALSE, TRUE);
 
 	halbtc8703b1ant_IgnoreWlanAct(pBtCoexist, FORCE_EXEC, TRUE);
 
 	EXhalbtc8703b1ant_MediaStatusNotify(pBtCoexist, BTC_MEDIA_DISCONNECT);
 
-	pBtCoexist->bStopCoexDm = TRUE;	
+	pBtCoexist->bStopCoexDm = TRUE;
 }
 
 VOID
@@ -4859,7 +4859,7 @@ EXhalbtc8703b1ant_PnpNotify(
 		halbtc8703b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
 		halbtc8703b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, FALSE, 0);
 		halbtc8703b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_BT, FORCE_EXEC, FALSE, TRUE);
-		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 2);		
+		halbtc8703b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 2);
 
 		pBtCoexist->bStopCoexDm = TRUE;
 	}
@@ -4902,9 +4902,9 @@ EXhalbtc8703b1ant_Periodical(
 	{
 		disVerInfoCnt += 1;
 		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], ****************************************************************\n"));
-		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], Ant PG Num/ Ant Mech/ Ant Pos = %d/ %d/ %d\n", 
+		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], Ant PG Num/ Ant Mech/ Ant Pos = %d/ %d/ %d\n",
 			pBoardInfo->pgAntNum, pBoardInfo->btdmAntNum, pBoardInfo->btdmAntPos));
-		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], BT stack/ hci ext ver = %s / %d\n", 
+		RT_TRACE(COMP_COEX, DBG_LOUD, ("[BTCoex], BT stack/ hci ext ver = %s / %d\n",
 			((pStackInfo->bProfileNotified)? "Yes":"No"), pStackInfo->hciVersion));
 		pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_U4_BT_PATCH_VER, &btPatchVer);
 		pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_U4_WIFI_FW_VER, &fwVer);
@@ -4927,7 +4927,7 @@ EXhalbtc8703b1ant_Periodical(
 		pCoexDm->bAutoTdmaAdjust )
 	{
 
-		halbtc8703b1ant_RunCoexistMechanism(pBtCoexist);	
+		halbtc8703b1ant_RunCoexistMechanism(pBtCoexist);
 	}
 
 	pCoexSta->specialPktPeriodCnt++;
@@ -4939,12 +4939,12 @@ EXhalbtc8703b1ant_Periodical(
 	{
 		 if (pPsdScan->nPSDGenCount > pPsdScan->realseconds)
 			pPsdScan->nPSDGenCount = 0;
-		 
-		halbtc8703b1ant_AntennaDetection(pBtCoexist, pPsdScan->realcentFreq,  pPsdScan->realoffset, pPsdScan->realspan,  pPsdScan->realseconds);	
+
+		halbtc8703b1ant_AntennaDetection(pBtCoexist, pPsdScan->realcentFreq,  pPsdScan->realoffset, pPsdScan->realspan,  pPsdScan->realseconds);
 		pPsdScan->nPSDGenTotalCount +=2;
 		pPsdScan->nPSDGenCount += 2;
 	}
-*/	 	
+*/
 #endif
 }
 

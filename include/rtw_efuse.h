@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -81,11 +81,11 @@ enum _EFUSE_DEF_TYPE {
 /*--------------------------Define Parameters-------------------------------*/
 #define		EFUSE_MAX_WORD_UNIT			4
 
-/*------------------------------Define structure----------------------------*/ 
+/*------------------------------Define structure----------------------------*/
 typedef struct PG_PKT_STRUCT_A{
 	u8 offset;
 	u8 word_en;
-	u8 data[8];	
+	u8 data[8];
 	u8 word_cnts;
 }PGPKT_STRUCT,*PPGPKT_STRUCT;
 
@@ -104,7 +104,7 @@ typedef enum
 	ERR_OUT_OF_RANGE
 } ERROR_CODE;
 
-/*------------------------------Define structure----------------------------*/ 
+/*------------------------------Define structure----------------------------*/
 typedef struct _EFUSE_HAL{
 	u8	fakeEfuseBank;
 	u32	fakeEfuseUsedBytes;
@@ -113,7 +113,7 @@ typedef struct _EFUSE_HAL{
 	u8	fakeEfuseModifiedMap[EFUSE_MAX_MAP_LEN];
 	u32	EfuseUsedBytes;
 	u8	EfuseUsedPercentage;
-	
+
 	u16	BTEfuseUsedBytes;
 	u8	BTEfuseUsedPercentage;
 	u8	BTEfuseContent[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
@@ -127,26 +127,26 @@ typedef struct _EFUSE_HAL{
 
 	// EFUSE Configuration, initialized in HAL_CmnInitPGData().
 	const u16  MaxSecNum_WiFi;
-	const u16  MaxSecNum_BT;	
-	const u16  WordUnit;	
+	const u16  MaxSecNum_BT;
+	const u16  WordUnit;
 	const u16  PhysicalLen_WiFi;
-	const u16  PhysicalLen_BT;	
+	const u16  PhysicalLen_BT;
 	const u16  LogicalLen_WiFi;
-	const u16  LogicalLen_BT;	
+	const u16  LogicalLen_BT;
 	const u16  BankSize;
 	const u16  TotalBankNum;
 	const u16  BankNum_WiFi;
-	const u16  BankNum_BT;	
+	const u16  BankNum_BT;
 	const u16  OOBProtectBytes;
 	const u16  ProtectBytes;
-	const u16  BankAvailBytes;	
+	const u16  BankAvailBytes;
 	const u16  TotalAvailBytes_WiFi;
-	const u16  TotalAvailBytes_BT;	
-	const u16  HeaderRetry;	
-	const u16  DataRetry;	
+	const u16  TotalAvailBytes_BT;
+	const u16  HeaderRetry;
+	const u16  DataRetry;
 
 	ERROR_CODE 	  Status;
-	
+
 }EFUSE_HAL, *PEFUSE_HAL;
 
 extern u8 maskfileBuffer[32];

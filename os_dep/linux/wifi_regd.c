@@ -14,7 +14,7 @@ static struct country_code_to_enum_rd allCountries[] = {
 	{COUNTRY_CODE_USER, "RD"},
 };
 
-/* 
+/*
  * REG_RULE(freq start, freq end, bandwidth, max gain, eirp, reg_flags)
  */
 
@@ -500,7 +500,7 @@ static void _rtw_regd_init_wiphy(struct rtw_regulatory *reg, struct wiphy *wiphy
 	wiphy->regulatory_flags &= ~REGULATORY_STRICT_REG;
 	wiphy->regulatory_flags &= ~REGULATORY_DISABLE_BEACON_HINTS;
 	#endif
-	
+
 	regd = _rtw_regdomain_select(reg);
 	wiphy_apply_custom_regulatory(wiphy, regd);
 

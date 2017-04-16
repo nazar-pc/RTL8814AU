@@ -28,7 +28,7 @@
 #define	WBIQK_delay 10
 #define 	TX_IQK 0
 #define 	RX_IQK 1
-#define	NUM 4	
+#define	NUM 4
 /*---------------------------End Define Parameters-------------------------------*/
 
 typedef struct _IQK_INFORMATION{
@@ -41,25 +41,25 @@ typedef struct _IQK_INFORMATION{
 
 
 #if !(DM_ODM_SUPPORT_TYPE & ODM_AP)
-VOID 
+VOID
 DoIQK_8814A(
 	PVOID	pDM_VOID,
 	u1Byte		DeltaThermalIndex,
-	u1Byte		ThermalValue,	
+	u1Byte		ThermalValue,
 	u1Byte		Threshold
 	);
 #else
-VOID 
+VOID
 DoIQK_8814A(
 	PVOID		pDM_VOID,
 	u1Byte 		DeltaThermalIndex,
-	u1Byte		ThermalValue,	
+	u1Byte		ThermalValue,
 	u1Byte 		Threshold
 	);
 #endif
 
-VOID	
-PHY_IQCalibrate_8814A(	
+VOID
+PHY_IQCalibrate_8814A(
 	IN	PVOID		pDM_VOID,
 	IN	BOOLEAN 	bReCovery
 	);

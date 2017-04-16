@@ -45,7 +45,7 @@
 	#define RTL8703B_PHY_REG					"rtl8703b/PHY_REG.txt"
 	#define RTL8703B_PHY_RADIO_A				"rtl8703b/RadioA.txt"
 	#define RTL8703B_PHY_RADIO_B				"rtl8703b/RadioB.txt"
-	#define RTL8703B_TXPWR_TRACK				"rtl8703b/TxPowerTrack.txt" 
+	#define RTL8703B_TXPWR_TRACK				"rtl8703b/TxPowerTrack.txt"
 	#define RTL8703B_AGC_TAB					"rtl8703b/AGC_TAB.txt"
 	#define RTL8703B_PHY_MACREG 				"rtl8703b/MAC_REG.txt"
 	#define RTL8703B_PHY_REG_PG				"rtl8703b/PHY_REG_PG.txt"
@@ -130,7 +130,7 @@ typedef struct _RT_8703B_FIRMWARE_HDR
 #define RESV_FMWF	0
 #endif
 
-#ifdef CONFIG_FW_C2H_DEBUG 
+#ifdef CONFIG_FW_C2H_DEBUG
 #define RX_DMA_RESERVED_SIZE_8703B	0x100	// 256B, reserved for c2h debug message
 #else
 #define RX_DMA_RESERVED_SIZE_8703B	0x80	// 128B, reserved for tx report
@@ -204,8 +204,8 @@ typedef struct _RT_8703B_FIRMWARE_HDR
 #define EFUSE_IC_ID_OFFSET			506	//For some inferiority IC purpose. added by Roger, 2009.09.02.
 #define AVAILABLE_EFUSE_ADDR(addr) 	(addr < EFUSE_REAL_CONTENT_LEN_8703B)
 
-#define EFUSE_ACCESS_ON			0x69	
-#define EFUSE_ACCESS_OFF			0x00	
+#define EFUSE_ACCESS_ON			0x69
+#define EFUSE_ACCESS_OFF			0x00
 
 //========================================================
 //			EFUSE for BT definition
@@ -264,7 +264,7 @@ void Hal_EfuseParseAntennaDiversity_8703B(PADAPTER padapter, u8 *hwinfo, BOOLEAN
 void Hal_EfuseParseXtal_8703B(PADAPTER pAdapter, u8 *hwinfo, u8 AutoLoadFail);
 void Hal_EfuseParseThermalMeter_8703B(PADAPTER padapter, u8 *hwinfo, u8 AutoLoadFail);
 VOID Hal_EfuseParsePackageType_8703B(PADAPTER pAdapter,u8* hwinfo,BOOLEAN AutoLoadFail);
-VOID Hal_EfuseParseVoltage_8703B(PADAPTER pAdapter,u8* hwinfo,BOOLEAN 	AutoLoadFail); 
+VOID Hal_EfuseParseVoltage_8703B(PADAPTER pAdapter,u8* hwinfo,BOOLEAN 	AutoLoadFail);
 VOID Hal_EfuseParseBoardType_8703B(PADAPTER Adapter,	u8*	PROMContent,BOOLEAN AutoloadFail);
 
 #ifdef CONFIG_C2H_PACKET_EN

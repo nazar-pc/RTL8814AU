@@ -132,7 +132,7 @@
 #define REG_RXDMA_AGG_PG_TH_8703B		0x0280
 #define REG_FW_UPD_RDPTR_8703B		0x0284 // FW shall update this register before FW write RXPKT_RELEASE_POLL to 1
 #define REG_RXDMA_CONTROL_8703B		0x0286 // Control the RX DMA.
-#define REG_RXPKT_NUM_8703B			0x0287 // The number of packets in RXPKTBUF.	
+#define REG_RXPKT_NUM_8703B			0x0287 // The number of packets in RXPKTBUF.
 #define REG_RXDMA_STATUS_8703B			0x0288
 #define REG_RXDMA_MODE_CTRL_8703B		0x0290
 #define REG_EARLY_MODE_CONTROL_8703B	0x02BC
@@ -145,7 +145,7 @@
 //
 //-----------------------------------------------------
 #define	REG_PCIE_CTRL_REG_8703B		0x0300
-#define	REG_INT_MIG_8703B				0x0304	// Interrupt Migration 
+#define	REG_INT_MIG_8703B				0x0304	// Interrupt Migration
 #define	REG_BCNQ_DESA_8703B			0x0308	// TX Beacon Descriptor Address
 #define	REG_HQ_DESA_8703B				0x0310	// TX High Queue Descriptor Address
 #define	REG_MGQ_DESA_8703B			0x0318	// TX Manage Queue Descriptor Address
@@ -273,7 +273,7 @@
 #define REG_USTIME_TSF_8703B			0x055C
 #define REG_BCN_MAX_ERR_8703B			0x055D
 #define REG_RXTSF_OFFSET_CCK_8703B		0x055E
-#define REG_RXTSF_OFFSET_OFDM_8703B	0x055F	
+#define REG_RXTSF_OFFSET_OFDM_8703B	0x055F
 #define REG_TSFTR_8703B					0x0560
 #define REG_CTWND_8703B					0x0572
 #define REG_SECONDARY_CCA_CTRL_8703B	0x0577
@@ -346,7 +346,7 @@
 
 // LTE_COEX
 #define REG_LTECOEX_CTRL			0x07C0
-#define REG_LTECOEX_WRITE_DATA		0x07C4	
+#define REG_LTECOEX_WRITE_DATA		0x07C4
 #define REG_LTECOEX_READ_DATA		0x07C8
 #define REG_LTECOEX_PATH_CONTROL	0x70
 
@@ -411,28 +411,28 @@
 #define	IMR_DISABLED_8703B					0
 // IMR DW0(0x00B0-00B3) Bit 0-31
 #define	IMR_TIMER2_8703B					BIT31		// Timeout interrupt 2
-#define	IMR_TIMER1_8703B					BIT30		// Timeout interrupt 1	
+#define	IMR_TIMER1_8703B					BIT30		// Timeout interrupt 1
 #define	IMR_PSTIMEOUT_8703B				BIT29		// Power Save Time Out Interrupt
-#define	IMR_GTINT4_8703B					BIT28		// When GTIMER4 expires, this bit is set to 1	
-#define	IMR_GTINT3_8703B					BIT27		// When GTIMER3 expires, this bit is set to 1	
-#define	IMR_TXBCN0ERR_8703B				BIT26		// Transmit Beacon0 Error			
-#define	IMR_TXBCN0OK_8703B				BIT25		// Transmit Beacon0 OK			
-#define	IMR_TSF_BIT32_TOGGLE_8703B		BIT24		// TSF Timer BIT32 toggle indication interrupt			
-#define	IMR_BCNDMAINT0_8703B				BIT20		// Beacon DMA Interrupt 0			
-#define	IMR_BCNDERR0_8703B				BIT16		// Beacon Queue DMA OK0			
+#define	IMR_GTINT4_8703B					BIT28		// When GTIMER4 expires, this bit is set to 1
+#define	IMR_GTINT3_8703B					BIT27		// When GTIMER3 expires, this bit is set to 1
+#define	IMR_TXBCN0ERR_8703B				BIT26		// Transmit Beacon0 Error
+#define	IMR_TXBCN0OK_8703B				BIT25		// Transmit Beacon0 OK
+#define	IMR_TSF_BIT32_TOGGLE_8703B		BIT24		// TSF Timer BIT32 toggle indication interrupt
+#define	IMR_BCNDMAINT0_8703B				BIT20		// Beacon DMA Interrupt 0
+#define	IMR_BCNDERR0_8703B				BIT16		// Beacon Queue DMA OK0
 #define	IMR_HSISR_IND_ON_INT_8703B		BIT15		// HSISR Indicator (HSIMR & HSISR is true, this bit is set to 1)
-#define	IMR_BCNDMAINT_E_8703B			BIT14		// Beacon DMA Interrupt Extension for Win7			
+#define	IMR_BCNDMAINT_E_8703B			BIT14		// Beacon DMA Interrupt Extension for Win7
 #define	IMR_ATIMEND_8703B				BIT12		// CTWidnow End or ATIM Window End
-#define	IMR_C2HCMD_8703B					BIT10		// CPU to Host Command INT Status, Write 1 clear	
-#define	IMR_CPWM2_8703B					BIT9			// CPU power Mode exchange INT Status, Write 1 clear	
-#define	IMR_CPWM_8703B					BIT8			// CPU power Mode exchange INT Status, Write 1 clear	
-#define	IMR_HIGHDOK_8703B				BIT7			// High Queue DMA OK	
-#define	IMR_MGNTDOK_8703B				BIT6			// Management Queue DMA OK	
-#define	IMR_BKDOK_8703B					BIT5			// AC_BK DMA OK		
-#define	IMR_BEDOK_8703B					BIT4			// AC_BE DMA OK	
-#define	IMR_VIDOK_8703B					BIT3			// AC_VI DMA OK		
-#define	IMR_VODOK_8703B					BIT2			// AC_VO DMA OK	
-#define	IMR_RDU_8703B					BIT1			// Rx Descriptor Unavailable	
+#define	IMR_C2HCMD_8703B					BIT10		// CPU to Host Command INT Status, Write 1 clear
+#define	IMR_CPWM2_8703B					BIT9			// CPU power Mode exchange INT Status, Write 1 clear
+#define	IMR_CPWM_8703B					BIT8			// CPU power Mode exchange INT Status, Write 1 clear
+#define	IMR_HIGHDOK_8703B				BIT7			// High Queue DMA OK
+#define	IMR_MGNTDOK_8703B				BIT6			// Management Queue DMA OK
+#define	IMR_BKDOK_8703B					BIT5			// AC_BK DMA OK
+#define	IMR_BEDOK_8703B					BIT4			// AC_BE DMA OK
+#define	IMR_VIDOK_8703B					BIT3			// AC_VI DMA OK
+#define	IMR_VODOK_8703B					BIT2			// AC_VO DMA OK
+#define	IMR_RDU_8703B					BIT1			// Rx Descriptor Unavailable
 #define	IMR_ROK_8703B					BIT0			// Receive DMA OK
 
 // IMR DW1(0x00B4-00B7) Bit 0-31

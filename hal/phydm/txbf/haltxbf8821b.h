@@ -39,5 +39,5 @@ HalTxbf8821B_FwTxBF(
 
 #endif
 
-#endif	// #ifndef __HAL_TXBF_8821B_H__								
+#endif	// #ifndef __HAL_TXBF_8821B_H__
 

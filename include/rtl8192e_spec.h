@@ -35,17 +35,17 @@
 //	0x0000h ~ 0x00FFh	System Configuration
 //
 //-----------------------------------------------------
-#define REG_SYS_SWR_CTRL1_8192E		0x0010	// 1 Byte        
-#define REG_SYS_SWR_CTRL2_8192E		0x0014	// 1 Byte      
+#define REG_SYS_SWR_CTRL1_8192E		0x0010	// 1 Byte
+#define REG_SYS_SWR_CTRL2_8192E		0x0014	// 1 Byte
 #define REG_AFE_CTRL1_8192E			0x0024
 #define REG_AFE_CTRL2_8192E			0x0028
 #define REG_AFE_CTRL3_8192E			0x002c
 
-#define REG_PAD_CTRL1_8192E			0x0064           
+#define REG_PAD_CTRL1_8192E			0x0064
 #define REG_SDIO_CTRL_8192E			0x0070
 #define REG_OPT_CTRL_8192E				0x0074
 #define REG_RF_B_CTRL_8192E			0x0076
-#define REG_AFE_CTRL4_8192E			0x0078 
+#define REG_AFE_CTRL4_8192E			0x0078
 #define REG_LDO_SWR_CTRL				0x007C
 #define REG_FW_DRV_MSG_8192E			0x0088
 #define REG_HMEBOX_E2_E3_8192E		0x008C
@@ -55,7 +55,7 @@
 #define REG_HISR1_8192E					0x00BC
 
 #define REG_SYS_CFG1_8192E				0x00F0
-#define REG_SYS_CFG2_8192E				0x00FC 
+#define REG_SYS_CFG2_8192E				0x00FC
 //-----------------------------------------------------
 //
 //	0x0100h ~ 0x01FFh	MACTOP General Configuration
@@ -103,7 +103,7 @@
 //
 //-----------------------------------------------------
 #define	REG_PCIE_CTRL_REG_8192E			0x0300
-#define	REG_INT_MIG_8192E					0x0304	// Interrupt Migration 
+#define	REG_INT_MIG_8192E					0x0304	// Interrupt Migration
 #define	REG_BCNQ_TXBD_DESA_8192E		0x0308	// TX Beacon Descriptor Address
 #define	REG_MGQ_TXBD_DESA_8192E			0x0310	// TX Manage Queue Descriptor Address
 #define	REG_VOQ_TXBD_DESA_8192E			0x0318	// TX VO Queue Descriptor Address
@@ -232,28 +232,28 @@
 #define	IMR_DISABLED_8192E					0
 // IMR DW0(0x00B0-00B3) Bit 0-31
 #define	IMR_TIMER2_8192E					BIT31		// Timeout interrupt 2
-#define	IMR_TIMER1_8192E					BIT30		// Timeout interrupt 1	
+#define	IMR_TIMER1_8192E					BIT30		// Timeout interrupt 1
 #define	IMR_PSTIMEOUT_8192E				BIT29		// Power Save Time Out Interrupt
-#define	IMR_GTINT4_8192E					BIT28		// When GTIMER4 expires, this bit is set to 1	
-#define	IMR_GTINT3_8192E					BIT27		// When GTIMER3 expires, this bit is set to 1	
-#define	IMR_TXBCN0ERR_8192E				BIT26		// Transmit Beacon0 Error			
-#define	IMR_TXBCN0OK_8192E					BIT25		// Transmit Beacon0 OK			
-#define	IMR_TSF_BIT32_TOGGLE_8192E		BIT24		// TSF Timer BIT32 toggle indication interrupt			
-#define	IMR_BCNDMAINT0_8192E				BIT20		// Beacon DMA Interrupt 0			
-#define	IMR_BCNDERR0_8192E					BIT16		// Beacon Queue DMA OK0			
+#define	IMR_GTINT4_8192E					BIT28		// When GTIMER4 expires, this bit is set to 1
+#define	IMR_GTINT3_8192E					BIT27		// When GTIMER3 expires, this bit is set to 1
+#define	IMR_TXBCN0ERR_8192E				BIT26		// Transmit Beacon0 Error
+#define	IMR_TXBCN0OK_8192E					BIT25		// Transmit Beacon0 OK
+#define	IMR_TSF_BIT32_TOGGLE_8192E		BIT24		// TSF Timer BIT32 toggle indication interrupt
+#define	IMR_BCNDMAINT0_8192E				BIT20		// Beacon DMA Interrupt 0
+#define	IMR_BCNDERR0_8192E					BIT16		// Beacon Queue DMA OK0
 #define	IMR_HSISR_IND_ON_INT_8192E		BIT15		// HSISR Indicator (HSIMR & HSISR is true, this bit is set to 1)
-#define	IMR_BCNDMAINT_E_8192E				BIT14		// Beacon DMA Interrupt Extension for Win7			
+#define	IMR_BCNDMAINT_E_8192E				BIT14		// Beacon DMA Interrupt Extension for Win7
 #define	IMR_ATIMEND_8192E					BIT12		// CTWidnow End or ATIM Window End
-#define	IMR_C2HCMD_8192E					BIT10		// CPU to Host Command INT Status, Write 1 clear	
-#define	IMR_CPWM2_8192E					BIT9			// CPU power Mode exchange INT Status, Write 1 clear	
-#define	IMR_CPWM_8192E						BIT8			// CPU power Mode exchange INT Status, Write 1 clear	
-#define	IMR_HIGHDOK_8192E					BIT7			// High Queue DMA OK	
-#define	IMR_MGNTDOK_8192E					BIT6			// Management Queue DMA OK	
-#define	IMR_BKDOK_8192E					BIT5			// AC_BK DMA OK		
-#define	IMR_BEDOK_8192E					BIT4			// AC_BE DMA OK	
-#define	IMR_VIDOK_8192E					BIT3			// AC_VI DMA OK		
-#define	IMR_VODOK_8192E					BIT2			// AC_VO DMA OK	
-#define	IMR_RDU_8192E						BIT1			// Rx Descriptor Unavailable	
+#define	IMR_C2HCMD_8192E					BIT10		// CPU to Host Command INT Status, Write 1 clear
+#define	IMR_CPWM2_8192E					BIT9			// CPU power Mode exchange INT Status, Write 1 clear
+#define	IMR_CPWM_8192E						BIT8			// CPU power Mode exchange INT Status, Write 1 clear
+#define	IMR_HIGHDOK_8192E					BIT7			// High Queue DMA OK
+#define	IMR_MGNTDOK_8192E					BIT6			// Management Queue DMA OK
+#define	IMR_BKDOK_8192E					BIT5			// AC_BK DMA OK
+#define	IMR_BEDOK_8192E					BIT4			// AC_BE DMA OK
+#define	IMR_VIDOK_8192E					BIT3			// AC_VI DMA OK
+#define	IMR_VODOK_8192E					BIT2			// AC_VO DMA OK
+#define	IMR_RDU_8192E						BIT1			// Rx Descriptor Unavailable
 #define	IMR_ROK_8192E						BIT0			// Receive DMA OK
 
 // IMR DW1(0x00B4-00B7) Bit 0-31
@@ -301,7 +301,7 @@
 #define BIT_BCN_PORT_SEL		BIT5
 
 //============================================================================
-//       Regsiter Bit and Content definition 
+//       Regsiter Bit and Content definition
 //============================================================================
 
 //2 ACMHWCTRL 0x05C0

@@ -37,11 +37,11 @@
 
 /*--------------------------Define Parameters-------------------------------*/
 
-/*------------------------------Define structure----------------------------*/ 
+/*------------------------------Define structure----------------------------*/
 
 /* BB/RF related */
 
-/*------------------------------Define structure----------------------------*/ 
+/*------------------------------Define structure----------------------------*/
 
 
 /*------------------------Export global variable----------------------------*/
@@ -95,7 +95,7 @@ VOID
 PHY_SetTxPowerIndex_8192E(
 	IN	PADAPTER			Adapter,
 	IN	u32					PowerIndex,
-	IN	u8					RFPath,	
+	IN	u8					RFPath,
 	IN	u8					Rate
 	);
 
@@ -103,8 +103,8 @@ u8
 PHY_GetTxPowerIndex_8192E(
 	IN	PADAPTER			pAdapter,
 	IN	u8					RFPath,
-	IN	u8					Rate,	
-	IN	CHANNEL_WIDTH		BandWidth,	
+	IN	u8					Rate,
+	IN	CHANNEL_WIDTH		BandWidth,
 	IN	u8					Channel
 	);
 
@@ -142,7 +142,7 @@ PHY_SetRFEReg_8192E(
 	IN PADAPTER		Adapter
 );
 
-void 
+void
 phy_SpurCalibration_8192E(
 	IN	PADAPTER			Adapter,
 	IN	SPUR_CAL_METHOD	Method
@@ -150,7 +150,7 @@ phy_SpurCalibration_8192E(
 void PHY_SpurCalibration_8192E(IN PADAPTER Adapter);
 
 #ifdef CONFIG_SPUR_CAL_NBI
-void 
+void
 phy_SpurCalibration_8192E_NBI(
 	IN	PADAPTER			Adapter
 );

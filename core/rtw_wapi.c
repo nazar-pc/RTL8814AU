@@ -376,7 +376,7 @@ u8 rtw_wapi_is_wai_packet(_adapter* padapter,u8 *pkt_data)
 	PRT_WAPI_STA_INFO pWapiSta = NULL;
 	u8 WaiPkt = 0, *pTaddr, bFind = false;
 	u8 Offset_TypeWAI = 0 ;	// (mac header len + llc length)
-	
+
 	WAPI_TRACE(WAPI_TX|WAPI_RX, "===========> %s\n", __FUNCTION__);
 
 	if ((!padapter->WapiSupport) || (!pWapiInfo->bWapiEnable))
@@ -393,7 +393,7 @@ u8 rtw_wapi_is_wai_packet(_adapter* padapter,u8 *pkt_data)
 		//DBG_871X("data is privacy \n");
 	    	return 0;
 	}
-	
+
 	pTaddr = GetAddr2Ptr(pkt_data);
 	if(list_empty(&pWapiInfo->wapiSTAUsedList)){
 		bFind = false;

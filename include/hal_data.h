@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -47,7 +47,7 @@ typedef enum _RT_MULTI_FUNC{
 //
 typedef enum _RT_POLARITY_CTL {
 	RT_POLARITY_LOW_ACT 	= 0,
-	RT_POLARITY_HIGH_ACT 	= 1,	
+	RT_POLARITY_HIGH_ACT 	= 1,
 } RT_POLARITY_CTL, *PRT_POLARITY_CTL;
 
 // For RTL8723 regulator mode. by tynli. 2011.01.14.
@@ -213,7 +213,7 @@ typedef struct hal_com_data
 	u16	FirmwareVersionRev;
 	u16	FirmwareSubVersion;
 	u16	FirmwareSignature;
-	u8	RegFWOffload;	
+	u8	RegFWOffload;
 	u8	fw_ractrl;
 	u8	FwRsvdPageStartOffset; /* 2010.06.23. Added by tynli. Reserve page start offset except beacon in TxQ.*/
 	u8	LastHMEBoxNum;	/* H2C - for host message to fw */
@@ -227,9 +227,9 @@ typedef struct hal_com_data
 	u8				CurrentCenterFrequencyIndex1;
 	u8				nCur40MhzPrimeSC;	/* Control channel sub-carrier */
 	u8				nCur80MhzPrimeSC;   /* used for primary 40MHz of 80MHz mode */
-	BOOLEAN 		bSwChnlAndSetBWInProgress;	
+	BOOLEAN 		bSwChnlAndSetBWInProgress;
 	u8				bDisableSWChannelPlan; /* flag of disable software change channel plan	 */
-	u16				BasicRateSet;	
+	u16				BasicRateSet;
 	u32				ReceiveConfig;
 	BOOLEAN			bSwChnl;
 	BOOLEAN			bSetChnlBW;
@@ -248,13 +248,13 @@ typedef struct hal_com_data
 
 	/****** Debug ******/
 	u16	ForcedDataRate;	/* Force Data Rate. 0: Auto, 0x02: 1M ~ 0x6C: 54M. */
-	u8	u1ForcedIgiLb;	/* forced IGI lower bound */	
+	u8	u1ForcedIgiLb;	/* forced IGI lower bound */
 	u8	bDumpRxPkt;
 	u8	bDumpTxPkt;
 	u8 	bDisableTXPowerTraining;
 
-	
-	/****** EEPROM setting.******/	
+
+	/****** EEPROM setting.******/
 	u8	bautoload_fail_flag;
 	u8	efuse_file_status;
 	u8	macaddr_file_status;
@@ -262,7 +262,7 @@ typedef struct hal_com_data
 	u8	efuse_eeprom_data[EEPROM_MAX_SIZE]; /*92C:256bytes, 88E:512bytes, we use union set (512bytes)*/
 	u8	InterfaceSel; /* board type kept in eFuse */
 	u16	CustomerID;
-	
+
 	u16	EEPROMVID;
 	u16	EEPROMSVID;
 #ifdef CONFIG_USB_HCI
@@ -271,7 +271,7 @@ typedef struct hal_com_data
 #endif
 #ifdef CONFIG_PCI_HCI
  	u16	EEPROMDID;
-	u16	EEPROMSMID;	
+	u16	EEPROMSMID;
 #endif
 
 	u8	EEPROMCustomerID;
@@ -279,14 +279,14 @@ typedef struct hal_com_data
 	u8	EEPROMVersion;
 	u8	EEPROMRegulatory;
 	u8	EEPROMThermalMeter;
-	u8	EEPROMBluetoothCoexist;	
+	u8	EEPROMBluetoothCoexist;
 	u8	EEPROMBluetoothType;
 	u8	EEPROMBluetoothAntNum;
 	u8	EEPROMBluetoothAntIsolation;
 	u8	EEPROMBluetoothRadioShared;
 	u8	bTXPowerDataReadFromEEPORM;
 	u8	EEPROMMACAddr[ETH_ALEN];
-	
+
 #ifdef CONFIG_RF_GAIN_OFFSET
 	u8	EEPROMRFGainOffset;
 	u8	EEPROMRFGainVal;
@@ -306,7 +306,7 @@ typedef struct hal_com_data
 	u8	Index24G_CCK_Base[MAX_RF_PATH][CENTER_CH_2G_NUM];
 	u8	Index24G_BW40_Base[MAX_RF_PATH][CENTER_CH_2G_NUM];
 	//If only one tx, only BW20 and OFDM are used.
-	s8	CCK_24G_Diff[MAX_RF_PATH][MAX_TX_COUNT];	
+	s8	CCK_24G_Diff[MAX_RF_PATH][MAX_TX_COUNT];
 	s8	OFDM_24G_Diff[MAX_RF_PATH][MAX_TX_COUNT];
 	s8	BW20_24G_Diff[MAX_RF_PATH][MAX_TX_COUNT];
 	s8	BW40_24G_Diff[MAX_RF_PATH][MAX_TX_COUNT];
@@ -325,12 +325,12 @@ typedef struct hal_com_data
 
 	/********************************
 	*	TX power by rate table at most 4RF path.
-	*	The register is 
+	*	The register is
 	*
-	*	VHT TX power by rate off setArray = 
+	*	VHT TX power by rate off setArray =
 	*	Band:-2G&5G = 0 / 1
 	*	RF: at most 4*4 = ABCD=0/1/2/3
-	*	CCK=0 OFDM=1/2 HT-MCS 0-15=3/4/56 VHT=7/8/9/10/11			
+	*	CCK=0 OFDM=1/2 HT-MCS 0-15=3/4/56 VHT=7/8/9/10/11
 	**********************************/
 	u8	TxPwrByRateTable;
 	u8	TxPwrByRateBand;
@@ -341,7 +341,7 @@ typedef struct hal_com_data
 	//---------------------------------------------------------------------------------//
 
 	/*
-	//2 Power Limit Table 
+	//2 Power Limit Table
 	u8	TxPwrLevelCck[RF_PATH_MAX_92C_88E][CHANNEL_MAX_NUMBER];
 	u8	TxPwrLevelHT40_1S[RF_PATH_MAX_92C_88E][CHANNEL_MAX_NUMBER];	// For HT 40MHZ pwr
 	u8	TxPwrLevelHT40_2S[RF_PATH_MAX_92C_88E][CHANNEL_MAX_NUMBER];	// For HT 40MHZ pwr
@@ -365,7 +365,7 @@ typedef struct hal_com_data
 						[CENTER_CH_5G_ALL_NUM]
 						[MAX_RF_PATH];
 
-	
+
 	// Store the original power by rate value of the base of each rate section of rf path A & B
 	u8	TxPwrByRateBase2_4G[TX_PWR_BY_RATE_NUM_RF]
 						[TX_PWR_BY_RATE_NUM_RF]
@@ -380,20 +380,20 @@ typedef struct hal_com_data
 	u8	PwrGroupHT40[RF_PATH_MAX_92C_88E][CHANNEL_MAX_NUMBER];
 	*/
 	u8	PGMaxGroup;
-	
+
 	// The current Tx Power Level
 	u8	CurrentCckTxPwrIdx;
 	u8	CurrentOfdm24GTxPwrIdx;
 	u8	CurrentBW2024GTxPwrIdx;
 	u8	CurrentBW4024GTxPwrIdx;
-	
-	// Read/write are allow for following hardware information variables	
+
+	// Read/write are allow for following hardware information variables
 	u8	pwrGroupCnt;
 	u32	MCSTxPowerLevelOriginalOffset[MAX_PG_GROUP][16];
 	u32	CCKTxPowerLevelOriginalOffset;
 
 	u8	CrystalCap;
-	
+
 	u8	PAType_2G;
 	u8	PAType_5G;
 	u8	LNAType_2G;
@@ -426,25 +426,25 @@ typedef struct hal_com_data
 	u8	RegCR_1;
 	u8	Reg837;
 	u16	RegRRSR;
-	
+
 	/****** antenna diversity ******/
 	u8	CurAntenna;
 	u8	AntDivCfg;
 	u8	AntDetection;
 	u8	TRxAntDivType;
-	u8	ant_path; //for 8723B s0/s1 selection	
+	u8	ant_path; //for 8723B s0/s1 selection
 	u32	AntennaTxPath;					/* Antenna path Tx */
 	u32	AntennaRxPath;					/* Antenna path Rx */
 
 	/******** PHY DM & DM Section **********/
 	u8			DM_Type;
-	_lock		IQKSpinLock;	
+	_lock		IQKSpinLock;
 	u8			INIDATA_RATE[MACID_NUM_SW_LIMIT];
-	/* Upper and Lower Signal threshold for Rate Adaptive*/	
+	/* Upper and Lower Signal threshold for Rate Adaptive*/
 	int			EntryMinUndecoratedSmoothedPWDB;
 	int			EntryMaxUndecoratedSmoothedPWDB;
 	int			MinUndecoratedPWDBForDM;
-	DM_ODM_T	odmpriv;	
+	DM_ODM_T	odmpriv;
 	u8			bIQKInitialized;
 	u8 			bNeedIQK;
 	/******** PHY DM & DM Section **********/
@@ -463,14 +463,14 @@ typedef struct hal_com_data
 	/* Auto FSM to Turn On, include clock, isolation, power control for MAC only */
 	u8	bMacPwrCtrlOn;
 	u8 hci_sus_state;
-	
+
 	u8	RegIQKFWOffload;
 	struct submit_ctx 	iqk_sctx;
 
 	RT_AMPDU_BRUST		AMPDUBurstMode; //92C maybe not use, but for compile successfully
 
 	u8	OutEpQueueSel;
-	u8	OutEpNumber;	
+	u8	OutEpNumber;
 
 #if defined (CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
 	//
@@ -520,7 +520,7 @@ typedef struct hal_com_data
 	u8			UsbTxAggMode;
 	u8			UsbTxAggDescNum;
 	#endif // CONFIG_USB_TX_AGGREGATION
-	
+
 	#ifdef CONFIG_USB_RX_AGGREGATION
 	u16			HwRxPageSize;				// Hardware setting
 	u32			MaxUsbRxAggBlock;
@@ -554,13 +554,13 @@ typedef struct hal_com_data
 	BOOLEAN 	bSupportBackDoor;
 
 	u8			bDefaultAntenna;
-	
+
 	u8			bInterruptMigration;
 	u8			bDisableTxInt;
 
-	u16			RxTag;	
+	u16			RxTag;
 #endif //CONFIG_PCI_HCI
-	
+
 
 #ifdef DBG_CONFIG_ERROR_DETECT
 	struct sreset_priv srestpriv;
@@ -572,7 +572,7 @@ typedef struct hal_com_data
 #endif // CONFIG_BT_COEXIST
 
 #if defined(CONFIG_RTL8723B) || defined(CONFIG_RTL8703B) || defined(CONFIG_RTL8188F)
-	#ifndef CONFIG_PCI_HCI	// mutual exclusive with PCI -- so they're SDIO and GSPI 
+	#ifndef CONFIG_PCI_HCI	// mutual exclusive with PCI -- so they're SDIO and GSPI
 	// Interrupt relatd register information.
 	u32			SysIntrStatus;
 	u32			SysIntrMask;

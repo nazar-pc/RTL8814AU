@@ -26,16 +26,16 @@ int rtw_os_alloc_recvframe(_adapter *padapter, union recv_frame *precvframe, u8 
 	int res = _SUCCESS;
 	u8	shift_sz = 0;
 	u32	skb_len, alloc_sz;
-	_pkt	 *pkt_copy = NULL;	
+	_pkt	 *pkt_copy = NULL;
 	struct rx_pkt_attrib *pattrib = &precvframe->u.hdr.attrib;
 
 
 	if(pdata == NULL)
-	{		
+	{
 		precvframe->u.hdr.pkt = NULL;
 		res = _FAIL;
 		return res;
-	}	
+	}
 
 
 	//	Modified by Albert 20101213
@@ -49,15 +49,15 @@ int rtw_os_alloc_recvframe(_adapter *padapter, union recv_frame *precvframe, u8 
 	if((pattrib->mfrag == 1)&&(pattrib->frag_num == 0))
 	{
 		//alloc_sz = 1664;	//1664 is 128 alignment.
-		alloc_sz = (skb_len <= 1650) ? 1664:(skb_len + 14);		
+		alloc_sz = (skb_len <= 1650) ? 1664:(skb_len + 14);
 	}
-	else 
+	else
 	{
 		alloc_sz = skb_len;
 		//	6 is for IP header 8 bytes alignment in QoS packet case.
 		//	8 is for skb->data 4 bytes alignment.
 		alloc_sz += 14;
-	}	
+	}
 
 	pkt_copy = rtw_skb_alloc(alloc_sz);
 
@@ -82,10 +82,10 @@ int rtw_os_alloc_recvframe(_adapter *padapter, union recv_frame *precvframe, u8 
 		//rtw_free_recvframe(precvframe, pfree_recv_queue);
 		//goto _exit_recvbuf2recvframe;
 
-		res = _FAIL;	
+		res = _FAIL;
 #else
 		if((pattrib->mfrag == 1)&&(pattrib->frag_num == 0))
-		{				
+		{
 			DBG_871X("%s: alloc_skb fail , drop frag frame \n", __FUNCTION__);
 			//rtw_free_recvframe(precvframe, pfree_recv_queue);
 			res = _FAIL;
@@ -97,7 +97,7 @@ int rtw_os_alloc_recvframe(_adapter *padapter, union recv_frame *precvframe, u8 
 			res = _FAIL;
 			goto exit_rtw_os_recv_resource_alloc;
 		}
-			
+
 		precvframe->u.hdr.pkt = rtw_skb_clone(pskb);
 		if(precvframe->u.hdr.pkt)
 		{
@@ -111,8 +111,8 @@ int rtw_os_alloc_recvframe(_adapter *padapter, union recv_frame *precvframe, u8 
 			//goto _exit_recvbuf2recvframe;
 			res = _FAIL;
 		}
-#endif			
-	}		
+#endif
+	}
 
 exit_rtw_os_recv_resource_alloc:
 
@@ -142,7 +142,7 @@ int rtw_os_recv_resource_init(struct recv_priv *precvpriv, _adapter *padapter)
 int rtw_os_recv_resource_alloc(_adapter *padapter, union recv_frame *precvframe)
 {
 	int	res=_SUCCESS;
-	
+
 	precvframe->u.hdr.pkt_newalloc = precvframe->u.hdr.pkt = NULL;
 
 	return res;
@@ -197,7 +197,7 @@ int rtw_os_recvbuf_resource_alloc(_adapter *padapter, struct recv_buf *precvbuf)
 	if(precvbuf->pallocated_buf == NULL)
 		return _FAIL;
 	#endif //CONFIG_USE_USB_BUFFER_ALLOC_RX
-	
+
 #endif //CONFIG_USB_HCI
 
 	return res;
@@ -298,7 +298,7 @@ _pkt *rtw_os_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubframe_Length, u8 
 }
 
 #ifdef DBG_UDP_PKT_LOSE_11AC
-#define PAYLOAD_LEN_LOC_OF_IP_HDR 0x10 /*ethernet payload length location of ip header (DA+SA+eth_type+(version&hdr_len)) */	
+#define PAYLOAD_LEN_LOC_OF_IP_HDR 0x10 /*ethernet payload length location of ip header (DA+SA+eth_type+(version&hdr_len)) */
 #endif
 
 void rtw_os_recv_indicate_pkt(_adapter *padapter, _pkt *pkt, struct rx_pkt_attrib *pattrib)
@@ -335,12 +335,12 @@ void rtw_os_recv_indicate_pkt(_adapter *padapter, _pkt *pkt, struct rx_pkt_attri
 
 				if(psta)
 				{
-					struct net_device *pnetdev= (struct net_device*)padapter->pnetdev;			
+					struct net_device *pnetdev= (struct net_device*)padapter->pnetdev;
 
 					//DBG_871X("directly forwarding to the rtw_xmit_entry\n");
 
 					//skb->ip_summed = CHECKSUM_NONE;
-					pkt->dev = pnetdev;				
+					pkt->dev = pnetdev;
 #if (LINUX_VERSION_CODE>=KERNEL_VERSION(2,6,35))
 					skb_set_queue_mapping(pkt, rtw_recv_select_queue(pkt));
 #endif //LINUX_VERSION_CODE>=KERNEL_VERSION(2,6,35)
@@ -362,7 +362,7 @@ void rtw_os_recv_indicate_pkt(_adapter *padapter, _pkt *pkt, struct rx_pkt_attri
 				DBG_COUNTER(padapter->rx_logs.os_indicate_ap_self);
 			}
 		}
-		
+
 #ifdef CONFIG_BR_EXT
 		// Insert NAT2.5 RX here!
 #if (LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 35))
@@ -381,32 +381,32 @@ void rtw_os_recv_indicate_pkt(_adapter *padapter, _pkt *pkt, struct rx_pkt_attri
 				//priv->ext_stats.rx_data_drops++;
 				//DEBUG_ERR("RX DROP: nat25_handle_frame fail!\n");
 				//return FAIL;
-				
+
 #if 1
 				// bypass this frame to upper layer!!
 #else
 				rtw_skb_free(sub_skb);
 				continue;
 #endif
-			}							
+			}
 		}
 #endif	// CONFIG_BR_EXT
 		if( precvpriv->sink_udpport > 0)
 			rtw_sink_rtp_seq_dbg(padapter,pkt);
 #ifdef DBG_UDP_PKT_LOSE_11AC
-		/* After eth_type_trans process , pkt->data pointer will move from ethrnet header to ip header ,  
+		/* After eth_type_trans process , pkt->data pointer will move from ethrnet header to ip header ,
 		*	we have to check ethernet type , so this debug must be print before eth_type_trans
 		*/
 		if (*((unsigned short *)(pkt->data+ETH_ALEN*2)) == htons(ETH_P_ARP)) {
 			/* ARP Payload length will be 42bytes or 42+18(tailer)=60bytes*/
-			if (pkt->len != 42 && pkt->len != 60) 
+			if (pkt->len != 42 && pkt->len != 60)
 				DBG_871X("Error !!%s,ARP Payload length %u not correct\n" , __func__ , pkt->len);
-		} else if (*((unsigned short *)(pkt->data+ETH_ALEN*2)) == htons(ETH_P_IP)) { 
+		} else if (*((unsigned short *)(pkt->data+ETH_ALEN*2)) == htons(ETH_P_IP)) {
 			if (be16_to_cpu(*((u16 *)(pkt->data+PAYLOAD_LEN_LOC_OF_IP_HDR))) != (pkt->len)-ETH_HLEN) {
 				DBG_871X("Error !!%s,Payload length not correct\n" , __func__);
 				DBG_871X("%s, IP header describe Total length=%u\n" , __func__ , be16_to_cpu(*((u16 *)(pkt->data+PAYLOAD_LEN_LOC_OF_IP_HDR))));
 				DBG_871X("%s, Pkt real length=%u\n" , __func__ , (pkt->len)-ETH_HLEN);
-			} 
+			}
 		}
 #endif
 		/* After eth_type_trans process , pkt->data pointer will move from ethrnet header to ip header */
@@ -439,7 +439,7 @@ void rtw_handle_tkip_mic_err(_adapter *padapter, struct sta_info *sta, u8 bgroup
 	union iwreq_data wrqu;
 	struct iw_michaelmicfailure    ev;
 	struct mlme_priv*              pmlmepriv  = &padapter->mlmepriv;
-	struct security_priv	*psecuritypriv = &padapter->securitypriv;	
+	struct security_priv	*psecuritypriv = &padapter->securitypriv;
 	u32 cur_time = 0;
 
 	if( psecuritypriv->last_mic_err_time == 0 )
@@ -539,20 +539,20 @@ void rtw_hostapd_mlme_rx(_adapter *padapter, union recv_frame *precv_frame)
 
 #ifdef CONFIG_AUTO_AP_MODE
 static void rtw_os_ksocket_send(_adapter *padapter, union recv_frame *precv_frame)
-{	
-	_pkt *skb = precv_frame->u.hdr.pkt;	
+{
+	_pkt *skb = precv_frame->u.hdr.pkt;
 	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
 	struct sta_info *psta = precv_frame->u.hdr.psta;
-		
-	DBG_871X("eth rx: got eth_type=0x%x\n", pattrib->eth_type);					
-		
+
+	DBG_871X("eth rx: got eth_type=0x%x\n", pattrib->eth_type);
+
 	if (psta && psta->isrc && psta->pid>0)
 	{
 		u16 rx_pid;
 
 		rx_pid = *(u16*)(skb->data+ETH_HLEN);
-			
-		DBG_871X("eth rx(pid=0x%x): sta("MAC_FMT") pid=0x%x\n", 
+
+		DBG_871X("eth rx(pid=0x%x): sta("MAC_FMT") pid=0x%x\n",
 			rx_pid, MAC_ARG(psta->hwaddr), psta->pid);
 
 		if(rx_pid == psta->pid)
@@ -561,24 +561,24 @@ static void rtw_os_ksocket_send(_adapter *padapter, union recv_frame *precv_fram
 			u16 len = *(u16*)(skb->data+ETH_HLEN+2);
 			//u16 ctrl_type = *(u16*)(skb->data+ETH_HLEN+4);
 
-			//DBG_871X("eth, RC: len=0x%x, ctrl_type=0x%x\n", len, ctrl_type); 
+			//DBG_871X("eth, RC: len=0x%x, ctrl_type=0x%x\n", len, ctrl_type);
 			DBG_871X("eth, RC: len=0x%x\n", len);
 
 			for(i=0;i<len;i++)
 				DBG_871X("0x%x\n", *(skb->data+ETH_HLEN+4+i));
 				//DBG_871X("0x%x\n", *(skb->data+ETH_HLEN+6+i));
 
-			DBG_871X("eth, RC-end\n"); 
+			DBG_871X("eth, RC-end\n");
 
 #if 0
-			//send_sz = ksocket_send(padapter->ksock_send, &padapter->kaddr_send, (skb->data+ETH_HLEN+2), len);				
+			//send_sz = ksocket_send(padapter->ksock_send, &padapter->kaddr_send, (skb->data+ETH_HLEN+2), len);
 			rtw_recv_ksocket_send_cmd(padapter, (skb->data+ETH_HLEN+2), len);
 
-			//DBG_871X("ksocket_send size=%d\n", send_sz); 
-#endif			
+			//DBG_871X("ksocket_send size=%d\n", send_sz);
+#endif
 		}
-		
-	}		
+
+	}
 
 }
 #endif //CONFIG_AUTO_AP_MODE
@@ -636,7 +636,7 @@ int rtw_recv_indicatepkt(_adapter *padapter, union recv_frame *precv_frame)
 	_pkt *skb;
 	struct mlme_priv*pmlmepriv = &padapter->mlmepriv;
 	struct rx_pkt_attrib *pattrib;
-	
+
 	if(NULL == precv_frame)
 		goto _recv_indicatepkt_drop;
 
@@ -667,7 +667,7 @@ int rtw_recv_indicatepkt(_adapter *padapter, union recv_frame *precv_frame)
 		goto _recv_indicatepkt_drop;
 	}
 
-	RT_TRACE(_module_recv_osdep_c_,_drv_info_,("rtw_recv_indicatepkt():skb != NULL !!!\n"));		
+	RT_TRACE(_module_recv_osdep_c_,_drv_info_,("rtw_recv_indicatepkt():skb != NULL !!!\n"));
 	RT_TRACE(_module_recv_osdep_c_,_drv_info_,("rtw_recv_indicatepkt():precv_frame->u.hdr.rx_head=%p  precv_frame->hdr.rx_data=%p\n", precv_frame->u.hdr.rx_head, precv_frame->u.hdr.rx_data));
 	RT_TRACE(_module_recv_osdep_c_,_drv_info_,("precv_frame->hdr.rx_tail=%p precv_frame->u.hdr.rx_end=%p precv_frame->hdr.len=%d \n", precv_frame->u.hdr.rx_tail, precv_frame->u.hdr.rx_end, precv_frame->u.hdr.len));
 
@@ -682,7 +682,7 @@ int rtw_recv_indicatepkt(_adapter *padapter, union recv_frame *precv_frame)
 	if (pattrib->eth_type == 0x888e)
 		DBG_871X_LEVEL(_drv_always_, "recv eapol packet\n");
 
-#ifdef CONFIG_AUTO_AP_MODE	
+#ifdef CONFIG_AUTO_AP_MODE
 #if 1 //for testing
 #if 1
 	if (0x8899 == pattrib->eth_type)
@@ -695,7 +695,7 @@ int rtw_recv_indicatepkt(_adapter *padapter, union recv_frame *precv_frame)
 	if (0x8899 == pattrib->eth_type)
 	{
 		rtw_auto_ap_mode_rx(padapter, precv_frame);
-		
+
 		goto _recv_indicatepkt_end;
 	}
 #endif

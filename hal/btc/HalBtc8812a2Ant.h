@@ -157,7 +157,7 @@ typedef struct _COEX_STA_8812A_2ANT{
 	u4Byte					nCRCOK_11g;
 	u4Byte					nCRCOK_11n;
 	u4Byte					nCRCOK_11nAgg;
-	
+
 	u4Byte					nCRCErr_CCK;
 	u4Byte					nCRCErr_11g;
 	u4Byte					nCRCErr_11n;
@@ -244,6 +244,6 @@ EXhalbtc8812a2ant_DbgControl(
 VOID
 EXhalbtc8812a2ant_BTOffOnNotify(
 	IN	PBTC_COEXIST			pBtCoexist,
-	IN	u1Byte			BTstatus 
+	IN	u1Byte			BTstatus
 	);
 

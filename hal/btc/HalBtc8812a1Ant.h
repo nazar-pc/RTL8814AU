@@ -153,11 +153,11 @@ typedef struct _COEX_STA_8812A_1ANT{
 	u4Byte					nCRCOK_11g;
 	u4Byte					nCRCOK_11n;
 	u4Byte					nCRCOK_11nAgg;
-	
+
 	u4Byte					nCRCErr_CCK;
 	u4Byte					nCRCErr_11g;
 	u4Byte					nCRCErr_11n;
-	u4Byte					nCRCErr_11nAgg;	
+	u4Byte					nCRCErr_11nAgg;
 
 	BOOLEAN					bCCKLock;
 	BOOLEAN					bPreCCKLock;

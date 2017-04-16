@@ -76,7 +76,7 @@ typedef struct txdescriptor_8814
 
 //=========================================================
 
-//TX buffer 
+//TX buffer
 //=============
 // Dword 0
 #define SET_TX_BUFF_DESC_LEN_0_8814A(__pTxDesc, __Valeu) 			SET_BITS_TO_LE_4BYTE(__pTxDesc, 0, 16, __Valeu)
@@ -152,7 +152,7 @@ typedef struct txdescriptor_8814
 
 
 // Dword 2
-#define SET_TX_DESC_PAID_8814A(__pTxDesc, __Value) SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 0,  9, __Value) 
+#define SET_TX_DESC_PAID_8814A(__pTxDesc, __Value) SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 0,  9, __Value)
 #define SET_TX_DESC_CCA_RTS_8814A(__pTxDesc, __Value) SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 10, 2, __Value)
 #define SET_TX_DESC_AGG_ENABLE_8814A(__pTxDesc, __Value) 		SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 12, 1, __Value)
 #define SET_TX_DESC_RDG_ENABLE_8814A(__pTxDesc, __Value) 		SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 13, 1, __Value)
@@ -292,13 +292,13 @@ void rtl8814ae_xmit_tasklet(void *priv);
 #endif
 
 void _dbg_dump_tx_info(_adapter	*padapter,int frame_tag, u8 *ptxdesc);
-u8 
+u8
 SCMapping_8814(
 	IN	PADAPTER		Adapter,
 	IN	struct pkt_attrib	*pattrib
 );
 
-u8 
+u8
 BWMapping_8814(
 	IN	PADAPTER		Adapter,
 	IN	struct pkt_attrib	*pattrib

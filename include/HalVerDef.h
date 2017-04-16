@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -20,7 +20,7 @@
 #ifndef __HAL_VERSION_DEF_H__
 #define __HAL_VERSION_DEF_H__
 
-#define TRUE 	_TRUE	
+#define TRUE 	_TRUE
 #define FALSE	_FALSE
 
 // HAL_IC_TYPE_E
@@ -59,7 +59,7 @@ typedef enum tag_HAL_Cut_Version_Definition
 	E_CUT_VERSION 		=	4,
 	F_CUT_VERSION 		=	5,
 	G_CUT_VERSION 		=	6,
-	H_CUT_VERSION 		=	7,	
+	H_CUT_VERSION 		=	7,
 	I_CUT_VERSION 		=	8,
 	J_CUT_VERSION 		=	9,
 	K_CUT_VERSION 		=	10,
@@ -70,7 +70,7 @@ typedef enum tag_HAL_Manufacturer_Version_Definition
 {
 	CHIP_VENDOR_TSMC 	=	0,
 	CHIP_VENDOR_UMC 	=	1,
-	CHIP_VENDOR_SMIC 	=	2, 
+	CHIP_VENDOR_SMIC 	=	2,
 }HAL_VENDOR_E;
 
 typedef enum tag_HAL_RF_Type_Definition
@@ -91,7 +91,7 @@ typedef	struct tag_HAL_VERSION
 	HAL_CHIP_TYPE_E		ChipType;
 	HAL_CUT_VERSION_E	CUTVersion;
 	HAL_VENDOR_E		VendorType;
-	HAL_RF_TYPE_E		RFType;	
+	HAL_RF_TYPE_E		RFType;
 	u8					ROMVer;
 }HAL_VERSION,*PHAL_VERSION;
 

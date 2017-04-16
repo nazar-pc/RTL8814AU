@@ -51,26 +51,26 @@ PHY_RF6052SetBandwidth8814A(
 			PHY_SetRFReg(Adapter, RF_PATH_C, RF_CHNLBW_Jaguar, BIT11|BIT10, 3);
 			PHY_SetRFReg(Adapter, RF_PATH_D, RF_CHNLBW_Jaguar, BIT11|BIT10, 3);
 		break;
-			
+
 		case CHANNEL_WIDTH_40:
 			/*DBG_871X("PHY_RF6052SetBandwidth8814A(), set 40MHz\n");*/
-			PHY_SetRFReg(Adapter, RF_PATH_A, RF_CHNLBW_Jaguar, BIT11|BIT10, 1);	
-			PHY_SetRFReg(Adapter, RF_PATH_B, RF_CHNLBW_Jaguar, BIT11|BIT10, 1);	
-			PHY_SetRFReg(Adapter, RF_PATH_C, RF_CHNLBW_Jaguar, BIT11|BIT10, 1);	
-			PHY_SetRFReg(Adapter, RF_PATH_D, RF_CHNLBW_Jaguar, BIT11|BIT10, 1);			
+			PHY_SetRFReg(Adapter, RF_PATH_A, RF_CHNLBW_Jaguar, BIT11|BIT10, 1);
+			PHY_SetRFReg(Adapter, RF_PATH_B, RF_CHNLBW_Jaguar, BIT11|BIT10, 1);
+			PHY_SetRFReg(Adapter, RF_PATH_C, RF_CHNLBW_Jaguar, BIT11|BIT10, 1);
+			PHY_SetRFReg(Adapter, RF_PATH_D, RF_CHNLBW_Jaguar, BIT11|BIT10, 1);
 		break;
-		
+
 		case CHANNEL_WIDTH_80:
 			/*DBG_871X("PHY_RF6052SetBandwidth8814A(), set 80MHz\n");*/
-			PHY_SetRFReg(Adapter, RF_PATH_A, RF_CHNLBW_Jaguar, BIT11|BIT10, 0);	
-			PHY_SetRFReg(Adapter, RF_PATH_B, RF_CHNLBW_Jaguar, BIT11|BIT10, 0);	
-			PHY_SetRFReg(Adapter, RF_PATH_C, RF_CHNLBW_Jaguar, BIT11|BIT10, 0);	
+			PHY_SetRFReg(Adapter, RF_PATH_A, RF_CHNLBW_Jaguar, BIT11|BIT10, 0);
+			PHY_SetRFReg(Adapter, RF_PATH_B, RF_CHNLBW_Jaguar, BIT11|BIT10, 0);
+			PHY_SetRFReg(Adapter, RF_PATH_C, RF_CHNLBW_Jaguar, BIT11|BIT10, 0);
 			PHY_SetRFReg(Adapter, RF_PATH_D, RF_CHNLBW_Jaguar, BIT11|BIT10, 0);
 		break;
-			
+
 		default:
 			DBG_871X("PHY_RF6052SetBandwidth8814A(): unknown Bandwidth: %#X\n",Bandwidth );
-			break;			
+			break;
 	}
 }
 
@@ -160,14 +160,14 @@ phy_RF6052_Config_ParaFile_8814A(
 		}
 
 	}
-	
+
 	u4RegValue = PHY_QueryRFReg(Adapter, RF_PATH_A, RF_RCK1_Jaguar, bRFRegOffsetMask);
 	PHY_SetRFReg(Adapter, RF_PATH_B,  RF_RCK1_Jaguar, bRFRegOffsetMask, u4RegValue);
 	PHY_SetRFReg(Adapter, RF_PATH_C,  RF_RCK1_Jaguar, bRFRegOffsetMask, u4RegValue);
 	PHY_SetRFReg(Adapter, RF_PATH_D,  RF_RCK1_Jaguar, bRFRegOffsetMask, u4RegValue);
-	
+
 	//3 -----------------------------------------------------------------
-	//3 Configuration of Tx Power Tracking 
+	//3 Configuration of Tx Power Tracking
 	//3 -----------------------------------------------------------------
 
 #ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE

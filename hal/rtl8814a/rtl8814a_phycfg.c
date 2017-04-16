@@ -72,7 +72,7 @@ PHY_SetBBReg8814A(
 
 #if(SIC_ENABLE == 1)
 	SIC_SetBBReg(Adapter, RegAddr, BitMask, Data);
-	return; 
+	return;
 #endif
 
 	if(BitMask!= bMaskDWord)
@@ -83,7 +83,7 @@ PHY_SetBBReg8814A(
 	}
 
 	rtw_write32(Adapter, RegAddr, Data);
-	
+
 	//DBG_871X("BBW MASK=0x%x Addr[0x%x]=0x%x\n", BitMask, RegAddr, Data);
 }
 
@@ -98,8 +98,8 @@ phy_RFRead_8814A(
 	)
 {
 	u32	DataAndAddr = 0;
-	u32	Readback_Value, Direct_Addr;	
-	
+	u32	Readback_Value, Direct_Addr;
+
 	RegAddr &= 0xff;
 	switch(eRFPath){
 		case ODM_RF_PATH_A:
@@ -118,11 +118,11 @@ phy_RFRead_8814A(
 			Direct_Addr = 0x2800+RegAddr*4;
 		break;
 	}
-	
+
 
 	BitMask &= bRFRegOffsetMask;
-	
-	Readback_Value = PHY_QueryBBReg(Adapter, Direct_Addr, BitMask);		
+
+	Readback_Value = PHY_QueryBBReg(Adapter, Direct_Addr, BitMask);
 	//DBG_871X("RFR-%d Addr[0x%x]=0x%x\n", eRFPath, RegAddr, Readback_Value);
 
 	return Readback_Value;
@@ -154,9 +154,9 @@ phy_RFWrite_8814A(
 	//PHY_RFShadowWrite(Adapter, eRFPath, Offset, Data);
 
 	// Put write addr in [27:20]  and write data in [19:00]
-	DataAndAddr = ((Offset<<20) | (Data&0x000fffff)) & 0x0fffffff;	
+	DataAndAddr = ((Offset<<20) | (Data&0x000fffff)) & 0x0fffffff;
 
-	// Write Operation 
+	// Write Operation
 	PHY_SetBBReg(Adapter, pPhyReg->rf3wireOffset, bMaskDWord, DataAndAddr);
 	//DBG_871X("RFW-%d Addr[0x%x]=0x%x\n", eRFPath, pPhyReg->rf3wireOffset, DataAndAddr);
 }
@@ -170,12 +170,12 @@ PHY_QueryRFReg8814A(
 	IN	u32				BitMask
 	)
 {
-	u32	Readback_Value;	
+	u32	Readback_Value;
 
 #if (DISABLE_BB_RF == 1)
 	return 0;
 #endif
-	
+
 	Readback_Value = phy_RFRead_8814A(Adapter, eRFPath, RegAddr, BitMask);
 
 	return (Readback_Value);
@@ -208,7 +208,7 @@ PHY_SetRFReg8814A(
 		BitShift =  PHY_CalculateBitShift(BitMask);
 		Data = ((Original_Value) & (~BitMask)) | (Data<< BitShift);
 	}
-	
+
 	phy_RFWrite_8814A(Adapter, eRFPath, RegAddr, Data);
 
 
@@ -251,7 +251,7 @@ phy_InitBBRFRegisterDefinition(
 	IN	PADAPTER		Adapter
 )
 {
-	HAL_DATA_TYPE		*pHalData = GET_HAL_DATA(Adapter);	
+	HAL_DATA_TYPE		*pHalData = GET_HAL_DATA(Adapter);
 
 	// RF Interface Sowrtware Control
 	pHalData->PHYRegDef[ODM_RF_PATH_A].rfintfs = rFPGA0_XAB_RFInterfaceSW; // 16 LSBs if read 32-bit from 0x870
@@ -290,10 +290,10 @@ phy_InitBBRFRegisterDefinition(
 		pHalData->PHYRegDef[ODM_RF_PATH_C].rfHSSIPara2 = rHSSIRead_Jaguar;  //wire control parameter2
 		pHalData->PHYRegDef[ODM_RF_PATH_D].rfHSSIPara2 = rHSSIRead_Jaguar;  //wire control parameter2
 	}
-	
+
 	if(IS_HARDWARE_TYPE_JAGUAR_AND_JAGUAR2(Adapter))
 	{
-		 // Tranceiver Readback LSSI/HSPI mode 
+		 // Tranceiver Readback LSSI/HSPI mode
 		pHalData->PHYRegDef[ODM_RF_PATH_A].rfLSSIReadBack = rA_SIRead_Jaguar;
 		pHalData->PHYRegDef[ODM_RF_PATH_B].rfLSSIReadBack = rB_SIRead_Jaguar;
 		pHalData->PHYRegDef[ODM_RF_PATH_A].rfLSSIReadBackPi = rA_PIRead_Jaguar;
@@ -301,7 +301,7 @@ phy_InitBBRFRegisterDefinition(
 	}
 	else
 	{
-		// Tranceiver Readback LSSI/HSPI mode 
+		// Tranceiver Readback LSSI/HSPI mode
 		pHalData->PHYRegDef[ODM_RF_PATH_A].rfLSSIReadBack = rFPGA0_XA_LSSIReadBack;
 		pHalData->PHYRegDef[ODM_RF_PATH_B].rfLSSIReadBack = rFPGA0_XB_LSSIReadBack;
 		pHalData->PHYRegDef[ODM_RF_PATH_A].rfLSSIReadBackPi = TransceiverA_HSPI_Readback;
@@ -310,7 +310,7 @@ phy_InitBBRFRegisterDefinition(
 
 	if(IS_HARDWARE_TYPE_8814A(Adapter))
 	{
-		// Tranceiver Readback LSSI/HSPI mode 
+		// Tranceiver Readback LSSI/HSPI mode
 		pHalData->PHYRegDef[ODM_RF_PATH_C].rfLSSIReadBack = rC_SIRead_Jaguar2;
 		pHalData->PHYRegDef[ODM_RF_PATH_D].rfLSSIReadBack = rD_SIRead_Jaguar2;
 		pHalData->PHYRegDef[ODM_RF_PATH_C].rfLSSIReadBackPi = rC_PIRead_Jaguar2;
@@ -349,7 +349,7 @@ PHY_BBConfig8814(
 	PlatformEFIOWrite1Byte(Adapter, REG_RF_CTRL0_8814A , 0x07);//RF_SDMRSTB,RF_RSTB,RF_EN same with 8723a
 	//7. 0x20[7:0] = 0x07 PathB RF Power On
 	//8. 0x21[7:0] = 0x07 PathC RF Power On
-	PlatformEFIOWrite2Byte(Adapter, REG_RF_CTRL1_8814A , 0x0707);//RF_SDMRSTB,RF_RSTB,RF_EN same with 8723a    
+	PlatformEFIOWrite2Byte(Adapter, REG_RF_CTRL1_8814A , 0x0707);//RF_SDMRSTB,RF_RSTB,RF_EN same with 8723a
 	//9. 0x76[7:0] = 0x07 PathD RF Power On
 	PlatformEFIOWrite1Byte(Adapter, REG_RF_CTRL3_8814A , 0x7);
 
@@ -359,7 +359,7 @@ PHY_BBConfig8814(
 	rtStatus = phy_BB8814A_Config_ParaFile(Adapter);
 
 	hal_set_crystal_cap(Adapter, pHalData->CrystalCap);
-	
+
 	switch (Adapter->registrypriv.rf_config) {
 	case RF_1T1R:
 	case RF_2T4R:
@@ -381,8 +381,8 @@ PHY_BBConfig8814(
 		DBG_871X("%s, unknown rf_config: %d\n", __func__, Adapter->registrypriv.rf_config);
 		break;
 	}
-	
-	return rtStatus;	
+
+	return rtStatus;
 }
 
 s32
@@ -393,13 +393,13 @@ phy_BB8814A_Config_ParaFile(
 	HAL_DATA_TYPE		*pHalData = GET_HAL_DATA(Adapter);
 	int			rtStatus = _SUCCESS;
 
-	s8				sz8814ABBRegFile[] = RTL8814A_PHY_REG;	
+	s8				sz8814ABBRegFile[] = RTL8814A_PHY_REG;
 	s8				sz8814AAGCTableFile[] = RTL8814A_AGC_TAB;
 	s8				sz8814ABBRegPgFile[] = RTL8814A_PHY_REG_PG;
 	s8				sz8814RFTxPwrLmtFile[] = RTL8814A_TXPWR_LMT;
-	s8				*pszBBRegFile = NULL, *pszAGCTableFile = NULL, 
+	s8				*pszBBRegFile = NULL, *pszAGCTableFile = NULL,
 						*pszBBRegPgFile = NULL, *pszRFTxPwrLmtFile = NULL, *pszBBRegMpFile=NULL;
-	
+
 	//DBG_871X("==>phy_BB8814A_Config_ParaFile\n");
 
 	pszBBRegFile=sz8814ABBRegFile ;
@@ -416,9 +416,9 @@ phy_BB8814A_Config_ParaFile(
 	//DBG_871X(" ===> phy_BB8814A_Config_ParaFile() agc_table:%s\n",pszAGCTableFile);
 
 
-	// Read Tx Power Limit 
+	// Read Tx Power Limit
 	PHY_InitTxPowerLimit( Adapter );
-	if ( Adapter->registrypriv.RegEnableTxPowerLimit == 1 || 
+	if ( Adapter->registrypriv.RegEnableTxPowerLimit == 1 ||
 	     ( Adapter->registrypriv.RegEnableTxPowerLimit == 2 && pHalData->EEPROMRegulatory == 1 ) )
 	{
 #ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
@@ -475,7 +475,7 @@ phy_BB8814A_Config_ParaFile(
 
 	// If EEPROM or EFUSE autoload OK, We must config by PHY_REG_PG.txt
 	PHY_InitTxPowerByRate( Adapter );
-	if ( Adapter->registrypriv.RegEnableTxPowerByRate == 1 || 
+	if ( Adapter->registrypriv.RegEnableTxPowerByRate == 1 ||
 	     ( Adapter->registrypriv.RegEnableTxPowerByRate == 2 && pHalData->EEPROMRegulatory != 2 ) )
 	{
 #ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
@@ -491,7 +491,7 @@ phy_BB8814A_Config_ParaFile(
 		if ( pHalData->odmpriv.PhyRegPgValueType == PHY_REG_PG_EXACT_VALUE )
 			PHY_TxPowerByRateConfiguration( Adapter );
 
-		if ( Adapter->registrypriv.RegEnableTxPowerLimit == 1 || 
+		if ( Adapter->registrypriv.RegEnableTxPowerLimit == 1 ||
 	         ( Adapter->registrypriv.RegEnableTxPowerLimit == 2 && pHalData->EEPROMRegulatory == 1 ) )
 			PHY_ConvertTxPowerLimitToPowerIndex( Adapter );
 
@@ -541,7 +541,7 @@ phy_ADC_CLK_8814A(
 	BB_REG_8FC = PHY_QueryBBReg( Adapter, 0x8fc, bMaskDWord);
 	BB_REG_808 = PHY_QueryBBReg( Adapter, 0x808, bMaskDWord);
 	PHY_SetBBReg(Adapter, 0x520, bMaskByte2, 0x3f);
-	
+
 //1 Step 2. Backup RXIQC & RXIQC = 0
 	for(Search_index = 0; Search_index<4; Search_index++){
 		RXIQC[Search_index] = PHY_QueryBBReg( Adapter, RXIQC_REG[0][Search_index], bMaskDWord);
@@ -550,7 +550,7 @@ phy_ADC_CLK_8814A(
 	}
 	PHY_SetBBReg(Adapter, 0xa14, 0x00000300, 0x3);
 	Search_index = 0;
-	
+
 //1 Step 3. Monitor MAC IDLE
 	PHY_SetBBReg(Adapter, 0x8fc, bMaskDWord, 0x0);
 	while(MAC_Active){
@@ -567,56 +567,56 @@ phy_ADC_CLK_8814A(
 	PHY_SetBBReg(Adapter, 0x764, BIT(10)|BIT(9), 0x3);
 	PHY_SetBBReg(Adapter, 0x804, BIT(2), 0x1);
 
-	// 0xc1c/0xe1c/0x181c/0x1a1c[4] must=1 to ensure table can be written when bbrstb=0         
-	// 0xc60/0xe60/0x1860/0x1a60[15] always = 1 after this line              
-	// 0xc60/0xe60/0x1860/0x1a60[14] always = 0 bcz its error in A-cut          
+	// 0xc1c/0xe1c/0x181c/0x1a1c[4] must=1 to ensure table can be written when bbrstb=0
+	// 0xc60/0xe60/0x1860/0x1a60[15] always = 1 after this line
+	// 0xc60/0xe60/0x1860/0x1a60[14] always = 0 bcz its error in A-cut
 
 	// power_off/clk_off @ anapar_state=idle mode
-	PHY_SetBBReg(Adapter, 0xc60, bMaskDWord, 0x15800002);	//0xc60       0x15808002    
+	PHY_SetBBReg(Adapter, 0xc60, bMaskDWord, 0x15800002);	//0xc60       0x15808002
 	PHY_SetBBReg(Adapter, 0xc60, bMaskDWord, 0x01808003);	//0xc60       0x01808003
-	PHY_SetBBReg(Adapter, 0xe60, bMaskDWord, 0x15800002);	//0xe60      0x15808002    
-	PHY_SetBBReg(Adapter, 0xe60, bMaskDWord, 0x01808003);	//0xe60      0x01808003    
-	PHY_SetBBReg(Adapter, 0x1860, bMaskDWord, 0x15800002);	//0x1860    0x15808002    
-	PHY_SetBBReg(Adapter, 0x1860, bMaskDWord, 0x01808003);	//0x1860    0x01808003    
-	PHY_SetBBReg(Adapter, 0x1a60, bMaskDWord, 0x15800002);	//0x1a60    0x15808002        
-	PHY_SetBBReg(Adapter, 0x1a60, bMaskDWord, 0x01808003);	//0x1a60    0x01808003     
- 
+	PHY_SetBBReg(Adapter, 0xe60, bMaskDWord, 0x15800002);	//0xe60      0x15808002
+	PHY_SetBBReg(Adapter, 0xe60, bMaskDWord, 0x01808003);	//0xe60      0x01808003
+	PHY_SetBBReg(Adapter, 0x1860, bMaskDWord, 0x15800002);	//0x1860    0x15808002
+	PHY_SetBBReg(Adapter, 0x1860, bMaskDWord, 0x01808003);	//0x1860    0x01808003
+	PHY_SetBBReg(Adapter, 0x1a60, bMaskDWord, 0x15800002);	//0x1a60    0x15808002
+	PHY_SetBBReg(Adapter, 0x1a60, bMaskDWord, 0x01808003);	//0x1a60    0x01808003
+
 	PHY_SetBBReg(Adapter, 0x764, BIT(10), 0x0);
 	PHY_SetBBReg(Adapter, 0x804, BIT(2), 0x0);
-	PHY_SetBBReg(Adapter, 0xc5c, bMaskDWord,  0x0D080058);	//0xc5c       0x00080058  // [19] =1 to turn off ADC  
-	PHY_SetBBReg(Adapter, 0xe5c, bMaskDWord,  0x0D080058);	//0xe5c       0x00080058  // [19] =1 to turn off ADC     
-	PHY_SetBBReg(Adapter, 0x185c, bMaskDWord,  0x0D080058);	//0x185c     0x00080058 // [19] =1 to turn off ADC    
-	PHY_SetBBReg(Adapter, 0x1a5c, bMaskDWord,  0x0D080058);	//0x1a5c     0x00080058 // [19] =1 to turn off ADC       
- 
-	// power_on/clk_off 
+	PHY_SetBBReg(Adapter, 0xc5c, bMaskDWord,  0x0D080058);	//0xc5c       0x00080058  // [19] =1 to turn off ADC
+	PHY_SetBBReg(Adapter, 0xe5c, bMaskDWord,  0x0D080058);	//0xe5c       0x00080058  // [19] =1 to turn off ADC
+	PHY_SetBBReg(Adapter, 0x185c, bMaskDWord,  0x0D080058);	//0x185c     0x00080058 // [19] =1 to turn off ADC
+	PHY_SetBBReg(Adapter, 0x1a5c, bMaskDWord,  0x0D080058);	//0x1a5c     0x00080058 // [19] =1 to turn off ADC
+
+	// power_on/clk_off
 	//PHY_SetBBReg(Adapter, 0x764, BIT(10), 0x1);
-	PHY_SetBBReg(Adapter, 0xc5c, bMaskDWord,  0x0D000058);	//0xc5c       0x0D000058   // [19] =0 to turn on ADC    
-	PHY_SetBBReg(Adapter, 0xe5c, bMaskDWord,  0x0D000058);	//0xe5c       0x0D000058  // [19] =0 to turn on ADC     
-	PHY_SetBBReg(Adapter, 0x185c, bMaskDWord,  0x0D000058);	//0x185c     0x0D000058  // [19] =0 to turn on ADC     
-	PHY_SetBBReg(Adapter, 0x1a5c, bMaskDWord,  0x0D000058);	//0x1a5c     0x0D000058 // [19] =0 to turn on ADC       
+	PHY_SetBBReg(Adapter, 0xc5c, bMaskDWord,  0x0D000058);	//0xc5c       0x0D000058   // [19] =0 to turn on ADC
+	PHY_SetBBReg(Adapter, 0xe5c, bMaskDWord,  0x0D000058);	//0xe5c       0x0D000058  // [19] =0 to turn on ADC
+	PHY_SetBBReg(Adapter, 0x185c, bMaskDWord,  0x0D000058);	//0x185c     0x0D000058  // [19] =0 to turn on ADC
+	PHY_SetBBReg(Adapter, 0x1a5c, bMaskDWord,  0x0D000058);	//0x1a5c     0x0D000058 // [19] =0 to turn on ADC
 
 	// power_on/clk_on @ anapar_state=BT mode
-	PHY_SetBBReg(Adapter, 0xc60, bMaskDWord, 0x05808032);	//0xc60 0x05808002 
-	PHY_SetBBReg(Adapter, 0xe60, bMaskDWord, 0x05808032);	//0xe60 0x05808002           
-	PHY_SetBBReg(Adapter, 0x1860, bMaskDWord, 0x05808032);	//0x1860 0x05808002    
-	PHY_SetBBReg(Adapter, 0x1a60, bMaskDWord, 0x05808032);	//0x1a60 0x05808002            
+	PHY_SetBBReg(Adapter, 0xc60, bMaskDWord, 0x05808032);	//0xc60 0x05808002
+	PHY_SetBBReg(Adapter, 0xe60, bMaskDWord, 0x05808032);	//0xe60 0x05808002
+	PHY_SetBBReg(Adapter, 0x1860, bMaskDWord, 0x05808032);	//0x1860 0x05808002
+	PHY_SetBBReg(Adapter, 0x1a60, bMaskDWord, 0x05808032);	//0x1a60 0x05808002
        PHY_SetBBReg(Adapter, 0x764, BIT(10), 0x1);
 	PHY_SetBBReg(Adapter, 0x804, BIT(2), 0x1);
 
-	// recover original setting @ anapar_state=BT mode                              
-	PHY_SetBBReg(Adapter, 0xc60, bMaskDWord, 0x05808032);	//0xc60       0x05808036    
-	PHY_SetBBReg(Adapter, 0xe60, bMaskDWord, 0x05808032);	//0xe60      0x05808036    
-	PHY_SetBBReg(Adapter, 0x1860, bMaskDWord, 0x05808032);	//0x1860    0x05808036    
-	PHY_SetBBReg(Adapter, 0x1a60, bMaskDWord, 0x05808032);	//0x1a60    0x05808036        
+	// recover original setting @ anapar_state=BT mode
+	PHY_SetBBReg(Adapter, 0xc60, bMaskDWord, 0x05808032);	//0xc60       0x05808036
+	PHY_SetBBReg(Adapter, 0xe60, bMaskDWord, 0x05808032);	//0xe60      0x05808036
+	PHY_SetBBReg(Adapter, 0x1860, bMaskDWord, 0x05808032);	//0x1860    0x05808036
+	PHY_SetBBReg(Adapter, 0x1a60, bMaskDWord, 0x05808032);	//0x1a60    0x05808036
 
-	PHY_SetBBReg(Adapter, 0xc60, bMaskDWord, 0x05800002);	//0xc60       0x05800002    
+	PHY_SetBBReg(Adapter, 0xc60, bMaskDWord, 0x05800002);	//0xc60       0x05800002
 	PHY_SetBBReg(Adapter, 0xc60, bMaskDWord, 0x07808003);	//0xc60       0x07808003
-	PHY_SetBBReg(Adapter, 0xe60, bMaskDWord, 0x05800002);	//0xe60      0x05800002    
-	PHY_SetBBReg(Adapter, 0xe60, bMaskDWord, 0x07808003);	//0xe60      0x07808003    
-	PHY_SetBBReg(Adapter, 0x1860, bMaskDWord, 0x05800002);	//0x1860    0x05800002    
-	PHY_SetBBReg(Adapter, 0x1860, bMaskDWord, 0x07808003);	//0x1860    0x07808003    
-	PHY_SetBBReg(Adapter, 0x1a60, bMaskDWord, 0x05800002);	//0x1a60    0x05800002        
-	PHY_SetBBReg(Adapter, 0x1a60, bMaskDWord, 0x07808003);	//0x1a60    0x07808003     
+	PHY_SetBBReg(Adapter, 0xe60, bMaskDWord, 0x05800002);	//0xe60      0x05800002
+	PHY_SetBBReg(Adapter, 0xe60, bMaskDWord, 0x07808003);	//0xe60      0x07808003
+	PHY_SetBBReg(Adapter, 0x1860, bMaskDWord, 0x05800002);	//0x1860    0x05800002
+	PHY_SetBBReg(Adapter, 0x1860, bMaskDWord, 0x07808003);	//0x1860    0x07808003
+	PHY_SetBBReg(Adapter, 0x1a60, bMaskDWord, 0x05800002);	//0x1a60    0x05800002
+	PHY_SetBBReg(Adapter, 0x1a60, bMaskDWord, 0x07808003);	//0x1a60    0x07808003
 
 	PHY_SetBBReg(Adapter, 0x764, BIT(10)|BIT(9), 0x0);
 	PHY_SetBBReg(Adapter, 0x804, BIT(2), 0x0);
@@ -666,7 +666,7 @@ PHY_RFConfig8814A(
 		case RF_PSEUDO_11N:
 			DBG_871X("%s(): RF_PSEUDO_11N\n",__FUNCTION__);
 			break;
-		default: 
+		default:
 			rtStatus = PHY_RF6052_Config_8814A(Adapter);
 			break;
 	}
@@ -687,7 +687,7 @@ RT_STATUS PHY_BBConfigMP_8814A(PADAPTER	Adapter)
 	pszBBRegMpFile = sz8814ABBRegMpFile;
 
 	DBG_871X(" ===> PHY_BBConfigMP_8814A() phy_reg_mp:%s\n",pszBBRegMpFile);
-	
+
 	//3 Read PHY_REG_MP.TXT BB INIT!!
 //#if	LOAD_PHY_PARA_FROM_HEADER
 #ifdef CONFIG_EMBEDDED_FWIMG
@@ -760,7 +760,7 @@ phy_SetRFPowerState_8814E(
 	BOOLEAN			bResult = TRUE;
 	u8			i, QueueID;
 	PRT_POWER_SAVE_CONTROL	pPSC = GET_POWER_SAVE_CONTROL(pMgntInfo);
-	
+
 	pHalData->SetRFPowerStateInProgress = TRUE;
 
 	switch( eRFPowerState )
@@ -780,7 +780,7 @@ phy_SetRFPowerState_8814E(
 					s32 rtstatus;
 					u32 InitializeCount = 0;
 					do
-					{	
+					{
 						InitializeCount++;
 						rtstatus = NicIFEnableNIC( Adapter );
 					}while( (rtstatus != _SUCCESS) &&(InitializeCount <10) );
@@ -791,8 +791,8 @@ phy_SetRFPowerState_8814E(
 				{ // This is the normal case, we just turn on the RF.
 					phy_SetRTL8814ERfOn(Adapter);
 				}
-		
-				// Turn on RF we are still linked, which might happen when 
+
+				// Turn on RF we are still linked, which might happen when
 				// we quickly turn off and on HW RF. 2006.05.12, by rcnjko.
 				if( pMgntInfo->bMediaConnect == TRUE )
 					Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_LINK);
@@ -803,7 +803,7 @@ phy_SetRFPowerState_8814E(
 
 		// Card Disable/SW radio off/HW radio off/IPS enter call
 		case eRfOff:
-			{					
+			{
 				// Make sure BusyQueue is empty befor turn off RFE pwoer.
 				for(QueueID = 0, i = 0; QueueID < MAX_TX_QUEUE; )
 				{
@@ -814,18 +814,18 @@ phy_SetRFPowerState_8814E(
 					}
 					else if(IsLowPowerState(Adapter))
 					{
-							RT_TRACE((COMP_POWER|COMP_RF), DBG_LOUD, 
+							RT_TRACE((COMP_POWER|COMP_RF), DBG_LOUD,
 							("eRf Off/Sleep: %d times TcbBusyQueue[%d] !=0 but lower power state!\n", (i+1), QueueID));
 						break;
 					}
 					else
 					{
-						RT_TRACE((COMP_POWER|COMP_RF), DBG_LOUD, 
+						RT_TRACE((COMP_POWER|COMP_RF), DBG_LOUD,
 							("eRf Off/Sleep: %d times TcbBusyQueue[%d] !=0 before doze!\n", (i+1), QueueID));
 							PlatformStallExecution(10);
 						i++;
 					}
-					
+
 					if(i >= MAX_DOZE_WAITING_TIMES_9x)
 					{
 						RT_TRACE((COMP_POWER|COMP_RF), DBG_WARNING, ("\n\n\n SetZebraRFPowerState8185B(): eRfOff: %d times TcbBusyQueue[%d] != 0 !!!\n\n\n", MAX_DOZE_WAITING_TIMES_9x, QueueID));
@@ -840,14 +840,14 @@ phy_SetRFPowerState_8814E(
 					if(IS_HARDWARE_TYPE_8814AE(Adapter))
 						NicIFEnableInterrupt(Adapter);
 					RT_SET_PS_LEVEL(Adapter, RT_RF_OFF_LEVL_HALT_NIC);
-				} 
+				}
 				else
 				{ // Normal case.
 					//If Rf off reason is from IPS, Led should blink with no link, by Maddest 071015
 					if(pMgntInfo->RfOffReason==RF_CHANGE_BY_IPS )
-						Adapter->HalFunc.LedControlHandler(Adapter,LED_CTL_NO_LINK); 
+						Adapter->HalFunc.LedControlHandler(Adapter,LED_CTL_NO_LINK);
 					else // Turn off LED if RF is not ON.
-						Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_POWER_OFF); 
+						Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_POWER_OFF);
 				}
 			}
 			break;
@@ -857,14 +857,14 @@ phy_SetRFPowerState_8814E(
 			bResult = FALSE;
 			RT_ASSERT(FALSE, ("phy_SetRFPowerState_8814E(): unknow state to set: 0x%X!!!\n", eRFPowerState));
 			break;
-	} 
+	}
 
 	if(bResult)
 	{
 		// Update current RF state variable.
 		pHalData->eRFPowerState = eRFPowerState;
 	}
-	
+
 	pHalData->SetRFPowerStateInProgress = FALSE;
 
 	return bResult;
@@ -883,10 +883,10 @@ phy_SetRFPowerState_8814U(
 	BOOLEAN			bResult = TRUE;
 	u8			i, QueueID;
 	PRT_USB_DEVICE				pDevice = GET_RT_USB_DEVICE(Adapter);
-	
+
 	if(pHalData->SetRFPowerStateInProgress == TRUE)
 		return FALSE;
-	
+
 	pHalData->SetRFPowerStateInProgress = TRUE;
 	RT_TRACE(COMP_INIT, DBG_LOUD, ("======> phy_SetRFPowerState_8814U .\n"));
 
@@ -896,7 +896,7 @@ phy_SetRFPowerState_8814U(
 			if((pHalData->eRFPowerState == eRfOff) &&
 				RT_IN_PS_LEVEL(Adapter, RT_RF_OFF_LEVL_HALT_NIC))
 			{ // The current RF state is OFF and the RF OFF level is halting the NIC, re-initialize the NIC.
-				RT_TRACE(COMP_RF, DBG_LOUD, ("======> phy_SetRFPowerState_8814U-eRfOn .\n"));			
+				RT_TRACE(COMP_RF, DBG_LOUD, ("======> phy_SetRFPowerState_8814U-eRfOn .\n"));
 
 				if(!Adapter->bInHctTest)
 				{
@@ -907,8 +907,8 @@ phy_SetRFPowerState_8814U(
 				}
 			}
 			break;
-	    
-		// 
+
+		//
 		// In current solution, RFSleep=RFOff in order to save power under 802.11 power save.
 		// By Bruce, 2008-01-16.
 		//
@@ -917,7 +917,7 @@ phy_SetRFPowerState_8814U(
 				// ToDo:
 			}
 			break;
-			
+
 		case eRfOff:
 			// HW setting had been configured.
 			// Both of these RF configures are the same, configuring twice may cause HW abnormal.
@@ -931,34 +931,34 @@ phy_SetRFPowerState_8814U(
 				{
 					QueueID++;
 					continue;
-				}					
+				}
 				else
 				{
 					RT_TRACE(COMP_POWER, DBG_LOUD, ("eRf Off/Sleep: %d times TcbBusyQueue[%d] !=0 before doze!\n", (i+1), QueueID));
 					PlatformSleepUs(10);
 					i++;
 				}
-				
+
 				if(i >= MAX_DOZE_WAITING_TIMES_9x)
 				{
 					RT_TRACE(COMP_POWER, DBG_LOUD, ("\n\n\n SetZebraRFPowerState8185B(): eRfOff: %d times TcbBusyQueue[%d] != 0 !!!\n\n\n", MAX_DOZE_WAITING_TIMES_9x, QueueID));
 					break;
 				}
-			}				
+			}
 
-			// 
-			//RF Off/Sleep sequence. Designed/tested from SD4 Scott, SD1 Grent and Jonbon.
-			// Added by 
 			//
-			//==================================================================				
+			//RF Off/Sleep sequence. Designed/tested from SD4 Scott, SD1 Grent and Jonbon.
+			// Added by
+			//
+			//==================================================================
 			// CU will call card disable flow to set RF off, such that we call halt directly
 			// and set the PS_LEVEL to HALT_NIC or we might call halt twice in N6usbHalt in some cases.
-			// 2010.03.05. Added by tynli. 				
+			// 2010.03.05. Added by tynli.
 			if(pMgntInfo->RfOffReason & RF_CHANGE_BY_IPS ||
 				pMgntInfo->RfOffReason & RF_CHANGE_BY_HW ||
 				pMgntInfo->RfOffReason & RF_CHANGE_BY_SW)
 			{	//for HW/Sw radio off and IPS flow
-				//RT_TRACE(COMP_INIT, DBG_LOUD, ("======> CardDisableWithoutHWSM -eRfOff.\n"));				
+				//RT_TRACE(COMP_INIT, DBG_LOUD, ("======> CardDisableWithoutHWSM -eRfOff.\n"));
 				if(!Adapter->bInHctTest)
 				{
 					// 2010/09/01 MH For 92CU, we do not make sure the RF B short initialize sequence
@@ -966,23 +966,23 @@ phy_SetRFPowerState_8814U(
 					NicIFDisableNIC(Adapter);
 					RT_SET_PS_LEVEL(Adapter, RT_RF_OFF_LEVL_HALT_NIC);
 				}
-			}				
+			}
 			break;
 
 		default:
 			bResult = FALSE;
 			RT_ASSERT(FALSE, ("phy_SetRFPowerState_8814U(): unknow state to set: 0x%X!!!\n", eRFPowerState));
 			break;
-	} 
-			
+	}
+
 	if(bResult)
 	{
 		// Update current RF state variable.
 		pHalData->eRFPowerState = eRFPowerState;
-		
+
 		switch(pHalData->rf_chip )
 		{
-			default:		
+			default:
 			switch(pHalData->eRFPowerState)
 			{
 				case eRfOff:
@@ -990,20 +990,20 @@ phy_SetRFPowerState_8814U(
 					//If Rf off reason is from IPS, Led should blink with no link, by Maddest 071015
 					//
 					if(pMgntInfo->RfOffReason==RF_CHANGE_BY_IPS )
-						Adapter->HalFunc.LedControlHandler(Adapter,LED_CTL_NO_LINK); 
+						Adapter->HalFunc.LedControlHandler(Adapter,LED_CTL_NO_LINK);
 					else		// Turn off LED if RF is not ON.
-						Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_POWER_OFF); 
+						Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_POWER_OFF);
 					break;
-        		
+
 				case eRfOn:
-					// Turn on RF we are still linked, which might happen when 
+					// Turn on RF we are still linked, which might happen when
 					// we quickly turn off and on HW RF. 2006.05.12, by rcnjko.
 					if( pMgntInfo->bMediaConnect == TRUE )
-						Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_LINK); 
+						Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_LINK);
 					else		// Turn off LED if RF is not ON.
 						Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_NO_LINK);
 					break;
-        		
+
 				default:
 					// do nothing.
 					break;
@@ -1012,7 +1012,7 @@ phy_SetRFPowerState_8814U(
 			break;
 		}// Switch rf_chip
 	}
-	
+
 	pHalData->SetRFPowerStateInProgress = FALSE;
 	RT_TRACE(COMP_INIT, DBG_LOUD, ("<====== phy_SetRFPowerState_8814U .\n"));
 	return bResult;
@@ -1031,23 +1031,23 @@ phy_SetRFPowerState_8814Sdio(
 	BOOLEAN			bResult = TRUE;
 	u8			i, QueueID;
 	PRT_SDIO_DEVICE				pDevice = GET_RT_SDIO_DEVICE(Adapter);
-	
+
 	if(pHalData->SetRFPowerStateInProgress == TRUE)
 		return FALSE;
-	
+
 	pHalData->SetRFPowerStateInProgress = TRUE;
 	RT_TRACE(COMP_INIT, DBG_LOUD, ("======> phy_SetRFPowerState_8814Sdio .\n"))
-		
+
 	switch( eRFPowerState )
 	{
 		case eRfOn:
 			if((pHalData->eRFPowerState == eRfOff) &&
 				RT_IN_PS_LEVEL(Adapter, RT_RF_OFF_LEVL_HALT_NIC))
 			{ // The current RF state is OFF and the RF OFF level is halting the NIC, re-initialize the NIC.
-				RT_TRACE(COMP_RF, DBG_LOUD, ("======> phy_SetRFPowerState_8814Sdio-eRfOn .\n"));			
+				RT_TRACE(COMP_RF, DBG_LOUD, ("======> phy_SetRFPowerState_8814Sdio-eRfOn .\n"));
 
 				if(!Adapter->bInHctTest)
-				{													
+				{
 					// 2010/09/01 MH For 92CU, we do not make sure the RF B short initialize sequence
 					// So disable the different RF on/off sequence for hidden AP.
 					NicIFEnableNIC(Adapter);
@@ -1064,8 +1064,8 @@ phy_SetRFPowerState_8814Sdio(
 				pHalData->bIQKInitialized = _TRUE;
 			}
 			break;
-	    
-		// 
+
+		//
 		// In current solution, RFSleep=RFOff in order to save power under 802.11 power save.
 		// By Bruce, 2008-01-16.
 		//
@@ -1074,7 +1074,7 @@ phy_SetRFPowerState_8814Sdio(
 				// ToDo:
 			}
 			break;
-			
+
 		case eRfOff:
 			// HW setting had been configured.
 			// Both of these RF configures are the same, configuring twice may cause HW abnormal.
@@ -1089,59 +1089,59 @@ phy_SetRFPowerState_8814Sdio(
 					//DbgPrint("QueueID = %d", QueueID);
 					QueueID++;
 					continue;
-				}					
+				}
 				else
 				{
 					RT_TRACE(COMP_POWER, DBG_LOUD, ("eRf Off/Sleep: %d times TcbBusyQueue[%d] !=0 before doze!\n", (i+1), QueueID));
 					PlatformSleepUs(10);
 					i++;
 				}
-				
+
 				if(i >= MAX_DOZE_WAITING_TIMES_9x)
 				{
 					RT_TRACE(COMP_POWER, DBG_LOUD, ("\n\n\n SetZebraRFPowerState8185B(): eRfOff: %d times TcbBusyQueue[%d] != 0 !!!\n\n\n", MAX_DOZE_WAITING_TIMES_9x, QueueID));
 					break;
 				}
-			}				
+			}
 
-			// 
-			//RF Off/Sleep sequence. Designed/tested from SD4 Scott, SD1 Grent and Jonbon.
-			// Added by 
 			//
-			//==================================================================				
+			//RF Off/Sleep sequence. Designed/tested from SD4 Scott, SD1 Grent and Jonbon.
+			// Added by
+			//
+			//==================================================================
 			// CU will call card disable flow to set RF off, such that we call halt directly
 			// and set the PS_LEVEL to HALT_NIC or we might call halt twice in N6usbHalt in some cases.
-			// 2010.03.05. Added by tynli. 				
+			// 2010.03.05. Added by tynli.
 			if(pMgntInfo->RfOffReason & RF_CHANGE_BY_IPS ||
 				pMgntInfo->RfOffReason & RF_CHANGE_BY_HW ||
 				pMgntInfo->RfOffReason & RF_CHANGE_BY_SW)
 			{	//for HW/Sw radio off and IPS flow
-				//RT_TRACE(COMP_INIT, DBG_LOUD, ("======> CardDisableWithoutHWSM -eRfOff.\n"));				
+				//RT_TRACE(COMP_INIT, DBG_LOUD, ("======> CardDisableWithoutHWSM -eRfOff.\n"));
 				if(!Adapter->bInHctTest)
-				{											
+				{
 					// 2010/09/01 MH For 92CU, we do not make sure the RF B short initialize sequence
 					// So disable the different RF on/off sequence for hidden AP.
-					NicIFDisableNIC(Adapter);		
-					
+					NicIFDisableNIC(Adapter);
+
 					RT_SET_PS_LEVEL(Adapter, RT_RF_OFF_LEVL_HALT_NIC);
 				}
-			}				
+			}
 			break;
 
 		default:
 			bResult = FALSE;
 			RT_ASSERT(FALSE, ("phy_SetRFPowerState_8814Sdio(): unknow state to set: 0x%X!!!\n", eRFPowerState));
 			break;
-	} 
-			
+	}
+
 	if(bResult)
 	{
 		// Update current RF state variable.
 		pHalData->eRFPowerState = eRFPowerState;
-		
+
 		switch(pHalData->rf_chip )
 		{
-			default:		
+			default:
 			switch(pHalData->eRFPowerState)
 			{
 				case eRfOff:
@@ -1149,20 +1149,20 @@ phy_SetRFPowerState_8814Sdio(
 					//If Rf off reason is from IPS, Led should blink with no link, by Maddest 071015
 					//
 					if(pMgntInfo->RfOffReason==RF_CHANGE_BY_IPS )
-						Adapter->HalFunc.LedControlHandler(Adapter,LED_CTL_NO_LINK); 
+						Adapter->HalFunc.LedControlHandler(Adapter,LED_CTL_NO_LINK);
 					else		// Turn off LED if RF is not ON.
-						Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_POWER_OFF); 
+						Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_POWER_OFF);
 					break;
-        		
+
 				case eRfOn:
-					// Turn on RF we are still linked, which might happen when 
+					// Turn on RF we are still linked, which might happen when
 					// we quickly turn off and on HW RF. 2006.05.12, by rcnjko.
 					if( pMgntInfo->bMediaConnect == TRUE )
-						Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_LINK); 
+						Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_LINK);
 					else		// Turn off LED if RF is not ON.
-						Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_NO_LINK); 
+						Adapter->HalFunc.LedControlHandler(Adapter, LED_CTL_NO_LINK);
 					break;
-        		
+
 				default:
 					// do nothing.
 					break;
@@ -1171,7 +1171,7 @@ phy_SetRFPowerState_8814Sdio(
 				break;
 		}// Switch rf_chip
 	}
-	
+
 	pHalData->SetRFPowerStateInProgress = FALSE;
 
 	return bResult;
@@ -1183,7 +1183,7 @@ phy_SetRFPowerState_8814Sdio(
 
 BOOLEAN
 PHY_SetRFPowerState8814A(
-	IN	PADAPTER			Adapter, 
+	IN	PADAPTER			Adapter,
 	IN	rt_rf_power_state	eRFPowerState
 	)
 {
@@ -1203,7 +1203,7 @@ PHY_SetRFPowerState8814A(
 #elif (DEV_BUS_TYPE == RT_SDIO_INTERFACE)
 	bResult = phy_SetRFPowerState_8814Sdio(Adapter, eRFPowerState);
 #endif
-		
+
 	RT_TRACE(COMP_RF, DBG_LOUD, ("<--------- PHY_SetRFPowerState8814(): bResult(%d)\n", bResult));
 
 	return bResult;
@@ -1242,25 +1242,25 @@ PHY_SetTxPowerLevel8814(
 
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
 
-	u8	jaguar2Rates[][4] =	{ {MGN_1M, MGN_2M, MGN_5_5M, MGN_11M}, 
-								{MGN_6M, MGN_9M, MGN_12M, MGN_18M}, 
-						  		{MGN_24M, MGN_36M, MGN_48M, MGN_54M}, 
+	u8	jaguar2Rates[][4] =	{ {MGN_1M, MGN_2M, MGN_5_5M, MGN_11M},
+								{MGN_6M, MGN_9M, MGN_12M, MGN_18M},
+						  		{MGN_24M, MGN_36M, MGN_48M, MGN_54M},
 						  		{MGN_MCS0, MGN_MCS1, MGN_MCS2, MGN_MCS3},
-						  		{MGN_MCS4, MGN_MCS5, MGN_MCS6, MGN_MCS7}, 
+						  		{MGN_MCS4, MGN_MCS5, MGN_MCS6, MGN_MCS7},
 						  		{MGN_MCS8, MGN_MCS9, MGN_MCS10, MGN_MCS11},
 						   		{MGN_MCS12, MGN_MCS13, MGN_MCS14, MGN_MCS15},
-						   		{MGN_MCS16, MGN_MCS17, MGN_MCS18, MGN_MCS19}, 
+						   		{MGN_MCS16, MGN_MCS17, MGN_MCS18, MGN_MCS19},
 								{MGN_MCS20, MGN_MCS21, MGN_MCS22, MGN_MCS23},
-						   		{MGN_VHT1SS_MCS0, MGN_VHT1SS_MCS1, MGN_VHT1SS_MCS2, MGN_VHT1SS_MCS3}, 
-						   		{MGN_VHT1SS_MCS4, MGN_VHT1SS_MCS5, MGN_VHT1SS_MCS6, MGN_VHT1SS_MCS7}, 
-						 		{MGN_VHT2SS_MCS8, MGN_VHT2SS_MCS9, MGN_VHT2SS_MCS0, MGN_VHT2SS_MCS1}, 
-						 		{MGN_VHT2SS_MCS2, MGN_VHT2SS_MCS3, MGN_VHT2SS_MCS4, MGN_VHT2SS_MCS5}, 
+						   		{MGN_VHT1SS_MCS0, MGN_VHT1SS_MCS1, MGN_VHT1SS_MCS2, MGN_VHT1SS_MCS3},
+						   		{MGN_VHT1SS_MCS4, MGN_VHT1SS_MCS5, MGN_VHT1SS_MCS6, MGN_VHT1SS_MCS7},
+						 		{MGN_VHT2SS_MCS8, MGN_VHT2SS_MCS9, MGN_VHT2SS_MCS0, MGN_VHT2SS_MCS1},
+						 		{MGN_VHT2SS_MCS2, MGN_VHT2SS_MCS3, MGN_VHT2SS_MCS4, MGN_VHT2SS_MCS5},
 								{MGN_VHT2SS_MCS6, MGN_VHT2SS_MCS7, MGN_VHT2SS_MCS8, MGN_VHT2SS_MCS9},
-						   		{MGN_VHT3SS_MCS0, MGN_VHT3SS_MCS1, MGN_VHT3SS_MCS2, MGN_VHT3SS_MCS3}, 
-						   		{MGN_VHT3SS_MCS4, MGN_VHT3SS_MCS5, MGN_VHT3SS_MCS6, MGN_VHT3SS_MCS7}, 
-						 		{MGN_VHT3SS_MCS8, MGN_VHT3SS_MCS9, 0, 0}};	
+						   		{MGN_VHT3SS_MCS0, MGN_VHT3SS_MCS1, MGN_VHT3SS_MCS2, MGN_VHT3SS_MCS3},
+						   		{MGN_VHT3SS_MCS4, MGN_VHT3SS_MCS5, MGN_VHT3SS_MCS6, MGN_VHT3SS_MCS7},
+						 		{MGN_VHT3SS_MCS8, MGN_VHT3SS_MCS9, 0, 0}};
 
-	
+
 	for( path = ODM_RF_PATH_A; path <= ODM_RF_PATH_D; ++path )
 	{
 			PHY_SetTxPowerLevelByPath(Adapter, Channel, (u8)path);
@@ -1274,7 +1274,7 @@ PHY_SetTxPowerLevel8814(
 }
 
 /**************************************************************************************************************
- *   Description: 
+ *   Description:
  *       The low-level interface to get the FINAL Tx Power Index , called  by both MP and Normal Driver.
  *
  *                                                                                    <20120830, Kordan>
@@ -1283,8 +1283,8 @@ u8
 PHY_GetTxPowerIndex_8814A(
 	IN	PADAPTER			pAdapter,
 	IN	u8				RFPath,
-	IN	u8				Rate,	
-	IN	CHANNEL_WIDTH		BandWidth,	
+	IN	u8				Rate,
+	IN	CHANNEL_WIDTH		BandWidth,
 	IN	u8				Channel
 	)
 {
@@ -1295,7 +1295,7 @@ PHY_GetTxPowerIndex_8814A(
 	BOOLEAN				bIn24G = FALSE;
 
 	/* DBG_871X( "===>%s\n", __FUNCTION__ ); */
-	
+
 	txPower = (s8) PHY_GetTxPowerIndexBase( pAdapter, RFPath, Rate, BandWidth, Channel, &bIn24G );
 
 	powerDiffByRate = PHY_GetTxPowerByRate( pAdapter, (u8)(!bIn24G), RFPath, tx_num, Rate );
@@ -1306,7 +1306,7 @@ PHY_GetTxPowerIndex_8814A(
 	/* DBG_871X("Rate-0x%x: (TxPower, PowerDiffByRate Path-%c) = (0x%X, %d)\n", Rate, ((RFPath==0)?'A':(RFPath==1)?'B':(RFPath==2)?'C':'D'), txPower, powerDiffByRate); */
 
 	txPower += powerDiffByRate;
-	
+
 	//txPower += PHY_GetTxPowerTrackingOffset( pAdapter, RFPath, Rate );
 #if 0 //todo ?
 #if CCX_SUPPORT
@@ -1316,14 +1316,14 @@ PHY_GetTxPowerIndex_8814A(
 	if(txPower > MAX_POWER_INDEX)
 		txPower = MAX_POWER_INDEX;
 
-	//if (Adapter->registrypriv.mp_mode==0 && 
+	//if (Adapter->registrypriv.mp_mode==0 &&
 		//(pHalData->bautoload_fail_flag || pHalData->EfuseMap[EFUSE_INIT_MAP][EEPROM_TX_PWR_INX_JAGUAR] == 0xFF))
 		//txPower = 0x12;
 
 	/* DBG_871X("Final Tx Power(RF-%c, Channel: %d) = %d(0x%X)\n", ((RFPath==0)?'A':(RFPath==1)?'B':(RFPath==2)?'C':'D'), Channel,
 		txPower, txPower); */
 
-	return (u8) txPower;	
+	return (u8) txPower;
 }
 
 
@@ -1331,7 +1331,7 @@ VOID
 PHY_SetTxPowerIndex_8814A(
 	IN	PADAPTER			Adapter,
 	IN	u32				PowerIndex,
-	IN	u8				RFPath,	
+	IN	u8				RFPath,
 	IN	u8				Rate
 	)
 {
@@ -1357,7 +1357,7 @@ PHY_UpdateTxPowerDbm8814A(
 }
 
 
-u32 
+u32
 PHY_GetTxBBSwing_8814A(
 	IN	PADAPTER	Adapter,
 	IN	BAND_TYPE 	Band,
@@ -1372,57 +1372,57 @@ PHY_GetTxBBSwing_8814A(
     u32          		out = 0x200;
     const s8		AUTO = -1;
 
-	RT_TRACE(COMP_MP, DBG_LOUD, ("===> PHY_GetTxBBSwing_8814A, bbSwing_2G: %d, bbSwing_5G: %d\n", 
+	RT_TRACE(COMP_MP, DBG_LOUD, ("===> PHY_GetTxBBSwing_8814A, bbSwing_2G: %d, bbSwing_5G: %d\n",
 										  (s4Byte)bbSwing_2G, (s4Byte)bbSwing_5G));
 
     if ( pHalData->bautoload_fail_flag )
     {
-		if ( Band == BAND_ON_2_4G ) 
+		if ( Band == BAND_ON_2_4G )
 		{
 			pRFCalibrateInfo->BBSwingDiff2G = bbSwing_2G;
 			if      (bbSwing_2G == 0)  out = 0x200; //  0 dB
 			else if (bbSwing_2G == -3) out = 0x16A; // -3 dB
 			else if (bbSwing_2G == -6) out = 0x101; // -6 dB
 			else if (bbSwing_2G == -9) out = 0x0B6; // -9 dB
-			else 
+			else
 			{
-				if ( pHalData->ExternalPA_2G ) 
+				if ( pHalData->ExternalPA_2G )
 				{
 					pRFCalibrateInfo->BBSwingDiff2G = -3;
 					out = 0x16A;
-				} 
-				else  
+				}
+				else
 				{
 					pRFCalibrateInfo->BBSwingDiff2G = 0;
 					out = 0x200;
 				}
 	            }
-	        } 
-		else if ( Band == BAND_ON_5G ) 
+	        }
+		else if ( Band == BAND_ON_5G )
 		{
 			pRFCalibrateInfo->BBSwingDiff5G = bbSwing_5G;
 			if(bbSwing_5G == 0)  out = 0x200; //  0 dB
 			else if (bbSwing_5G == -3) out = 0x16A; // -3 dB
 			else if (bbSwing_5G == -6) out = 0x101; // -6 dB
 			else if (bbSwing_5G == -9) out = 0x0B6; // -9 dB
-			else 
+			else
 			{
-				if (pHalData->ExternalPA_5G) 
+				if (pHalData->ExternalPA_5G)
 				{
 					pRFCalibrateInfo->BBSwingDiff5G = -3;
 					out = 0x16A;
-				} 
-				else 
+				}
+				else
 				{
 					pRFCalibrateInfo->BBSwingDiff5G = 0;
 					out = 0x200;
 				}
 			}
 		}
-		else  
+		else
 		{
 			pRFCalibrateInfo->BBSwingDiff2G = -3;
-			pRFCalibrateInfo->BBSwingDiff5G = -3;			
+			pRFCalibrateInfo->BBSwingDiff5G = -3;
 			out = 0x16A; // -3 dB
 		}
 	}
@@ -1435,15 +1435,15 @@ PHY_GetTxBBSwing_8814A(
 			if (GetRegTxBBSwing_2G(Adapter) == AUTO)
 			{
 				EFUSE_ShadowRead(Adapter, 1, EEPROM_TX_BBSWING_2G_8814, (u32 *)&swing);
-				if (swing == 0xFF) 
+				if (swing == 0xFF)
 				{
 					if(bbSwing_2G ==  0) swing = 0x00; //  0 dB
 					else if (bbSwing_2G == -3) swing = 0x55; // -3 dB
 					else if (bbSwing_2G == -6) swing = 0xAA; // -6 dB
 					else if (bbSwing_2G == -9) swing = 0xFF; // -9 dB
-					else swing = 0x00;					
+					else swing = 0x00;
 				}
-			}			
+			}
 			else if (bbSwing_2G ==  0) swing = 0x00; //  0 dB
 			else if (bbSwing_2G == -3) swing = 0x55; // -3 dB
 			else if (bbSwing_2G == -6) swing = 0xAA; // -6 dB
@@ -1455,7 +1455,7 @@ PHY_GetTxBBSwing_8814A(
 			if (GetRegTxBBSwing_5G(Adapter) == AUTO)
 			{
 				EFUSE_ShadowRead(Adapter, 1, EEPROM_TX_BBSWING_5G_8814, (u32 *)&swing);
-				if (swing == 0xFF) 
+				if (swing == 0xFF)
 				{
 					if(bbSwing_5G ==  0) swing = 0x00; //  0 dB
 					else if (bbSwing_5G == -3) swing = 0x55; // -3 dB
@@ -1473,40 +1473,40 @@ PHY_GetTxBBSwing_8814A(
 
 		if (RFPath == ODM_RF_PATH_A)
 			onePathSwing = (swing & 0x3) >> 0; // 0xC6/C7[1:0]
-		else if(RFPath == ODM_RF_PATH_B)		
+		else if(RFPath == ODM_RF_PATH_B)
 			onePathSwing = (swing & 0xC) >> 2; // 0xC6/C7[3:2]
 		else if(RFPath == ODM_RF_PATH_C)
 			onePathSwing = (swing & 0x30) >> 4; // 0xC6/C7[5:4]
 		else if(RFPath == ODM_RF_PATH_D)
 			onePathSwing = (swing & 0xC0) >> 6; // 0xC6/C7[7:6]
 
-		if (onePathSwing == 0x0) 
+		if (onePathSwing == 0x0)
 		{
-			if (Band == BAND_ON_2_4G) 
+			if (Band == BAND_ON_2_4G)
 				pRFCalibrateInfo->BBSwingDiff2G = 0;
 			else
 				pRFCalibrateInfo->BBSwingDiff5G = 0;
 			out = 0x200; // 0 dB
-		} 
-		else if (onePathSwing == 0x1) 
+		}
+		else if (onePathSwing == 0x1)
 		{
-			if (Band == BAND_ON_2_4G) 
+			if (Band == BAND_ON_2_4G)
 				pRFCalibrateInfo->BBSwingDiff2G = -3;
 			else
 				pRFCalibrateInfo->BBSwingDiff5G = -3;
 			out = 0x16A; // -3 dB
-		} 
-		else if (onePathSwing == 0x2) 
+		}
+		else if (onePathSwing == 0x2)
 		{
-			if (Band == BAND_ON_2_4G) 
+			if (Band == BAND_ON_2_4G)
 				pRFCalibrateInfo->BBSwingDiff2G = -6;
 			else
 				pRFCalibrateInfo->BBSwingDiff5G = -6;
 			out = 0x101; // -6 dB
-		} 
-		else if (onePathSwing == 0x3) 
+		}
+		else if (onePathSwing == 0x3)
 		{
-			if (Band == BAND_ON_2_4G) 
+			if (Band == BAND_ON_2_4G)
 				pRFCalibrateInfo->BBSwingDiff2G = -9;
 			else
 				pRFCalibrateInfo->BBSwingDiff5G = -9;
@@ -1525,7 +1525,7 @@ phy_SetBwRegAdc_8814A(
 	IN	PADAPTER		Adapter,
 	IN	u8			Band,
 	IN	CHANNEL_WIDTH 	CurrentBW
-)	
+)
 {
 	switch(CurrentBW)
 	{
@@ -1567,7 +1567,7 @@ phy_SetBwRegAgc_8814A(
 	IN	PADAPTER		Adapter,
 	IN	u8			Band,
 	IN	CHANNEL_WIDTH 	CurrentBW
-)	
+)
 {
 	u32 AgcValue = 7;
 	switch(CurrentBW)
@@ -1595,7 +1595,7 @@ phy_SetBwRegAgc_8814A(
 			break;
 	}
 
-	PHY_SetBBReg(Adapter, rAGC_table_Jaguar, 0xf000, AgcValue);	// 0x82C[15:12] = AgcValue				
+	PHY_SetBBReg(Adapter, rAGC_table_Jaguar, 0xf000, AgcValue);	// 0x82C[15:12] = AgcValue
 }
 
 
@@ -1604,7 +1604,7 @@ phy_SwBand8814A(
 	IN	PADAPTER	pAdapter,
 	IN	u8			channelToSW)
 {
-	u8			u1Btmp; 
+	u8			u1Btmp;
 	BOOLEAN		ret_value = _TRUE;
 	u8			Band = BAND_ON_5G, BandToSW;
 
@@ -1628,7 +1628,7 @@ phy_SwBand8814A(
 	{
 		PHY_SwitchWirelessBand8814A(pAdapter,BandToSW);
 	}
-		
+
 	return ret_value;
 }
 
@@ -1644,7 +1644,7 @@ PHY_SetRFEReg8814A(
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
 
 	if(bInit)
-	{	
+	{
 		switch(pHalData->RFEType){
 		case 2:case 1:
 			PHY_SetBBReg(Adapter, 0x1994, 0xf, 0xf);								// 0x1994[3:0] = 0xf
@@ -1684,7 +1684,7 @@ PHY_SetRFEReg8814A(
 			PHY_SetBBReg(Adapter, rC_RFE_Pinmux_Jaguar, bMaskDWord, 0x77777777);	// 0x18B4 = 0x77777777
 			PHY_SetBBReg(Adapter, 0x1ABC, 0x0ff00000, 0x77);						// 0x1ABC[27:20] = 0x77
 			break;
-			
+
 		}
 	}
 	else
@@ -1697,7 +1697,7 @@ PHY_SetRFEReg8814A(
 			PHY_SetBBReg(Adapter, rD_RFE_Pinmux_Jaguar, bMaskDWord, 0x77177717);	// 0x1AB4 = 0x77177717
 			PHY_SetBBReg(Adapter, 0x1ABC, 0x0ff00000, 0x37);						// 0x1ABC[27:20] = 0x37
 			break;
-			
+
 		case 1:
 			PHY_SetBBReg(Adapter, rA_RFE_Pinmux_Jaguar, bMaskDWord, 0x33173317);	// 0xCB0 = 0x33173317
 			PHY_SetBBReg(Adapter, rB_RFE_Pinmux_Jaguar, bMaskDWord, 0x33173317);	// 0xEB0 = 0x33173317
@@ -1718,7 +1718,7 @@ PHY_SetRFEReg8814A(
 	}
 }
 
-VOID 
+VOID
 phy_SetBBSwingByBand_8814A(
 	IN PADAPTER		Adapter,
 	IN u8		Band,
@@ -1727,29 +1727,29 @@ phy_SetBBSwingByBand_8814A(
 {
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
 
-	s8 			BBDiffBetweenBand = 0; 		
+	s8 			BBDiffBetweenBand = 0;
 	PDM_ODM_T		pDM_Odm = &pHalData->odmpriv;
 	PODM_RF_CAL_T  	pRFCalibrateInfo = &(pDM_Odm->RFCalibrateInfo);
-	
-	PHY_SetBBReg(Adapter, rA_TxScale_Jaguar, 0xFFE00000, 
+
+	PHY_SetBBReg(Adapter, rA_TxScale_Jaguar, 0xFFE00000,
 				 PHY_GetTxBBSwing_8814A(Adapter, (BAND_TYPE)Band, ODM_RF_PATH_A)); // 0xC1C[31:21]
-	PHY_SetBBReg(Adapter, rB_TxScale_Jaguar, 0xFFE00000, 
+	PHY_SetBBReg(Adapter, rB_TxScale_Jaguar, 0xFFE00000,
 				 PHY_GetTxBBSwing_8814A(Adapter, (BAND_TYPE)Band, ODM_RF_PATH_B)); // 0xE1C[31:21]
-	PHY_SetBBReg(Adapter, rC_TxScale_Jaguar2, 0xFFE00000, 
+	PHY_SetBBReg(Adapter, rC_TxScale_Jaguar2, 0xFFE00000,
 				 PHY_GetTxBBSwing_8814A(Adapter, (BAND_TYPE)Band, ODM_RF_PATH_C)); // 0x181C[31:21]
-	PHY_SetBBReg(Adapter, rD_TxScale_Jaguar2, 0xFFE00000, 
+	PHY_SetBBReg(Adapter, rD_TxScale_Jaguar2, 0xFFE00000,
 				 PHY_GetTxBBSwing_8814A(Adapter, (BAND_TYPE)Band, ODM_RF_PATH_D)); // 0x1A1C[31:21]
-				 
+
 	// <20121005, Kordan> When TxPowerTrack is ON, we should take care of the change of BB swing.
 	// That is, reset all info to trigger Tx power tracking.
-		
-	if (Band != PreviousBand) 
+
+	if (Band != PreviousBand)
 	{
 		BBDiffBetweenBand = (pRFCalibrateInfo->BBSwingDiff2G - pRFCalibrateInfo->BBSwingDiff5G);
 		BBDiffBetweenBand = (Band == BAND_ON_2_4G) ? BBDiffBetweenBand : (-1 * BBDiffBetweenBand);
-		pRFCalibrateInfo->DefaultOfdmIndex += BBDiffBetweenBand*2;				
+		pRFCalibrateInfo->DefaultOfdmIndex += BBDiffBetweenBand*2;
 	}
-	
+
 	ODM_ClearTxPowerTrackingState(pDM_Odm);
 }
 
@@ -1762,7 +1762,7 @@ PHY_SwitchWirelessBand8814A(
 {
 	HAL_DATA_TYPE	*pHalData	= GET_HAL_DATA(Adapter);
 	u8	PreBand = pHalData->CurrentBandType, tepReg = 0;
-			
+
 	DBG_871X("==>PHY_SwitchWirelessBand8814() %s\n", ((Band==0)?"2.4G":"5G"));
 
 	pHalData->CurrentBandType =(BAND_TYPE)Band;
@@ -1770,14 +1770,14 @@ PHY_SwitchWirelessBand8814A(
 	/*clear 0x1000[16],	When this bit is set to 0, CCK and OFDM are disabled, and clock are gated. Otherwise, CCK and OFDM are enabled. */
 	tepReg = rtw_read8(Adapter, REG_SYS_CFG3_8814A+2);
 	rtw_write8(Adapter, REG_SYS_CFG3_8814A+2, tepReg & (~BIT0));
-	
+
 	// STOP Tx/Rx
-	//PHY_SetBBReg(Adapter, rOFDMCCKEN_Jaguar, bOFDMEN_Jaguar|bCCKEN_Jaguar, 0x00);	
+	//PHY_SetBBReg(Adapter, rOFDMCCKEN_Jaguar, bOFDMEN_Jaguar|bCCKEN_Jaguar, 0x00);
 
 	if(Band == BAND_ON_2_4G)
 	{// 2.4G band
 
-		// AGC table select 
+		// AGC table select
 		PHY_SetBBReg(Adapter, rAGC_table_Jaguar2, 0x1F, 0);									// 0x958[4:0] = 5b'00000
 
 		PHY_SetRFEReg8814A(Adapter, FALSE, Band);
@@ -1794,21 +1794,21 @@ PHY_SwitchWirelessBand8814A(
 
 		PHY_SetBBReg(Adapter, rOFDMCCKEN_Jaguar, bOFDMEN_Jaguar|bCCKEN_Jaguar, 0x3);
 
-		
+
 		// CCK_CHECK_en
 		rtw_write8(Adapter, REG_CCK_CHECK_8814A, 0x0);
 		/* after 5G swicth 2G , set A82[2] = 0 */
 		PHY_SetBBReg(Adapter, 0xa80, BIT18, 0x0);
-			
+
 	}
 	else	//5G band
-	{		
+	{
 		// CCK_CHECK_en
 		rtw_write8(Adapter, REG_CCK_CHECK_8814A, 0x80);
 		/* Enable CCK Tx function, even when CCK is off */
 		PHY_SetBBReg(Adapter, 0xa80, BIT18, 0x1);
-	
-		// AGC table select 
+
+		// AGC table select
 		// Postpone to channel switch
 		//PHY_SetBBReg(Adapter, rAGC_table_Jaguar2, 0x1F, 1);									// 0x958[4:0] = 5b'00001
 
@@ -1830,13 +1830,13 @@ PHY_SwitchWirelessBand8814A(
 	/* set 0x1000[16], When this bit is set to 0, CCK and OFDM are disabled, and clock are gated. Otherwise, CCK and OFDM are enabled.*/
 	tepReg = rtw_read8(Adapter, REG_SYS_CFG3_8814A+2);
 	rtw_write8(Adapter, REG_SYS_CFG3_8814A+2, tepReg | BIT0);
-	
+
 	DBG_871X("<==PHY_SwitchWirelessBand8814():Switch Band OK.\n");
-	return _SUCCESS;	
+	return _SUCCESS;
 }
 
 
-u8 
+u8
 phy_GetSecondaryChnl_8814A(
 	IN	PADAPTER	Adapter
 )
@@ -1853,7 +1853,7 @@ phy_GetSecondaryChnl_8814A(
 			SCSettingOf40 = VHT_DATA_SC_40_UPPER_OF_80MHZ;
 		else
 			DBG_871X("SCMapping: DONOT CARE Mode Setting\n");
-		
+
 		if((pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER) && (pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER))
 			SCSettingOf20 = VHT_DATA_SC_20_LOWEST_OF_80MHZ;
 		else if((pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER) && (pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER))
@@ -1870,7 +1870,7 @@ phy_GetSecondaryChnl_8814A(
 				SCSettingOf20 = VHT_DATA_SC_40_UPPER_OF_80MHZ;
 			else
 				DBG_871X("SCMapping: DONOT CARE Mode Setting\n");
-		}	
+		}
 	}
 	else if(pHalData->CurrentChannelBW == CHANNEL_WIDTH_40)
 	{
@@ -1893,7 +1893,7 @@ VOID
 phy_SetBwRegMac_8814A(
 	IN	PADAPTER		Adapter,
 	CHANNEL_WIDTH 	CurrentBW
-)	
+)
 {
 	u16		RegRfMod_BW, u2tmp = 0;
 	RegRfMod_BW = PlatformEFIORead2Byte(Adapter, REG_TRXPTCL_CTL_8814A);
@@ -1958,7 +1958,7 @@ void PHY_Set_SecCCATH_by_RXANT_8814A(PADAPTER	pAdapter,u4Byte	ulAntennaRx)
 
 		case ANTENNA_AB:
 		case ANTENNA_AC:
-		case ANTENNA_AD:	
+		case ANTENNA_AD:
 		case ANTENNA_BC:
 		case ANTENNA_BD:
 		case ANTENNA_CD:
@@ -2040,11 +2040,11 @@ void PHY_Set_SecCCATH_by_RXANT_8814A(PADAPTER	pAdapter,u4Byte	ulAntennaRx)
 		PHY_SetBBReg(pAdapter, rCCAonSec_Jaguar, 0x0FFF0000, 0x7aa); /* 838[27:24]=6, RF80_secondary40, 838[23:20]=6, RF80_secondary20, 838[19:16]=6, RF80_primary*/
 		PHY_SetBBReg(pAdapter, rL1_Weight_Jaguar, 0x0000F000, 0x7); /* 840[15:12]=7, L1_square_Pk_weight_80M*/
 	}
-	
+
 }
 
 
-VOID PHY_SetRXSC_by_TXSC_8814A(PADAPTER	Adapter, u1Byte SubChnlNum)	
+VOID PHY_SetRXSC_by_TXSC_8814A(PADAPTER	Adapter, u1Byte SubChnlNum)
 {
 	PHAL_DATA_TYPE pHalData = GET_HAL_DATA(Adapter);
 
@@ -2063,7 +2063,7 @@ VOID PHY_SetRXSC_by_TXSC_8814A(PADAPTER	Adapter, u1Byte SubChnlNum)
 			PHY_SetBBReg(Adapter, rRFMOD_Jaguar, 0x00000003c, 0x1);
 		else if (SubChnlNum == 10)
 			PHY_SetBBReg(Adapter, rRFMOD_Jaguar, 0x00000003c, 0x2);
-	} else if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_40) { 
+	} else if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_40) {
 		if (SubChnlNum == 1)
 			PHY_SetBBReg(Adapter, rRFMOD_Jaguar, 0x00000003c, 0x1);
 		else if (SubChnlNum == 2)
@@ -2083,7 +2083,7 @@ VOID phy_SpurCalibration_8814A(PADAPTER	Adapter)
 
 	/*DBG_871X("%s(),RFE Type =%d, CurrentCh = %d ,ChannelBW =%d\n", __func__, pHalData->RFEType, pHalData->CurrentChannel, pHalData->CurrentChannelBW);*/
 	/*DBG_871X("%s(),Before RrNBI_Setting_Jaguar= %x\n", __func__, PHY_QueryBBReg(Adapter, rNBI_Setting_Jaguar, bMaskDWord));*/
-	
+
 	if (pHalData->RFEType == 0) {
 		switch (pHalData->CurrentChannelBW) {
 		case CHANNEL_WIDTH_40:
@@ -2136,7 +2136,7 @@ VOID phy_SpurCalibration_8814A(PADAPTER	Adapter)
 					Reset_NBI_CSI = FALSE;
 					}
 		break;
-			
+
 		default:
 		break;
 		}
@@ -2180,7 +2180,7 @@ VOID phy_SpurCalibration_8814A(PADAPTER	Adapter)
 			break;
 			}
 	}
-	
+
 	if (Reset_NBI_CSI) {
 		PHY_SetBBReg(Adapter, rNBI_Setting_Jaguar, 0x000fe000, 0xfc >> 1);
 		PHY_SetBBReg(Adapter, rCSI_Mask_Setting1_Jaguar, BIT(0), 0);
@@ -2189,7 +2189,7 @@ VOID phy_SpurCalibration_8814A(PADAPTER	Adapter)
 		PHY_SetBBReg(Adapter, rCSI_Fix_Mask6_Jaguar, bMaskDWord, 0);
 		PHY_SetBBReg(Adapter, rCSI_Fix_Mask7_Jaguar, bMaskDWord, 0);
 	}
-	
+
 	phydm_spur_nbi_setting_8814a(pDM_Odm);
 	/*DBG_871X("%s(),After RrNBI_Setting_Jaguar= %x\n", __func__, PHY_QueryBBReg(Adapter, rNBI_Setting_Jaguar, bMaskDWord));*/
 }
@@ -2295,14 +2295,14 @@ VOID phy_SetBwMode8814A(PADAPTER	Adapter)
 			DBG_871X("%s():unknown Bandwidth:%#X\n", __func__, pHalData->CurrentChannelBW);
 			break;
 	}
-	
+
 #if (MP_DRIVER == 1)
 if (Adapter->registrypriv.mp_mode == 1) {
 	/* 2 Set Reg 0x8AC */
 	PHY_SetRXSC_by_TXSC_8814A(Adapter, (SubChnlNum & 0xf));
 	PHY_Set_SecCCATH_by_RXANT_8814A(Adapter, pHalData->AntennaRxPath);
 }
-#endif	
+#endif
 	/* 3 Set RF related register */
 	PHY_RF6052SetBandwidth8814A(Adapter, pHalData->CurrentChannelBW);
 
@@ -2324,7 +2324,7 @@ phy_SetKfreeToRF_8814A(
 	IN	u8				Data
 	)
 {
-	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(GetDefaultAdapter(Adapter));	
+	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(GetDefaultAdapter(Adapter));
 	PDM_ODM_T	pDM_Odm = &pHalData->odmpriv;
 	BOOLEAN bOdd;
 	PODM_RF_CAL_T	pRFCalibrateInfo = &(pDM_Odm->RFCalibrateInfo);
@@ -2398,7 +2398,7 @@ phy_SetKfreeToRF_8814A(
 	}
 	else
 		RT_TRACE(COMP_MP, DBG_LOUD, ("phy_ConfigKFree8814A(): KfreeOffset = %d\n", pRFCalibrateInfo->KfreeOffset[eRFPath]));
-	
+
 }
 
 
@@ -2414,9 +2414,9 @@ phy_ConfigKFree8814A(
 	u8			targetval_C = 0xFF;
 	u8			targetval_D = 0xFF;
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
-	
+
 	//DBG_871X("===>phy_ConfigKFree8814A()\n");
-	
+
 	if (Adapter->registrypriv.RegRfKFreeEnable == 2)
 	{
 		//DBG_871X("phy_ConfigKFree8814A(): RegRfKFreeEnable == 2, Disable \n");
@@ -2433,7 +2433,7 @@ phy_ConfigKFree8814A(
 				efuse_OneByteRead(Adapter, 0x3F4, &targetval_A, FALSE);	// for Path A and B
 				efuse_OneByteRead(Adapter, 0x3F5, &targetval_B, FALSE);	// for Path C and D
 			}
-			
+
 		}
 		else if (bandType == BAND_ON_5G)
 		{
@@ -2478,7 +2478,7 @@ phy_ConfigKFree8814A(
 		DBG_871X("phy_ConfigKFree8814A(): targetval_B= %#x \n", targetval_B);
 		DBG_871X("phy_ConfigKFree8814A(): targetval_C= %#x \n", targetval_C);
 		DBG_871X("phy_ConfigKFree8814A(): targetval_D= %#x \n", targetval_D);
-		
+
 		// Make sure the targetval is defined
 		if ((Adapter->registrypriv.RegRfKFreeEnable == 1) && ((targetval_A != 0xFF) || (pHalData->RfKFreeEnable == TRUE)))
 		{
@@ -2515,7 +2515,7 @@ phy_ConfigKFree8814A(
 }
 
 VOID
-phy_SwChnl8814A(	
+phy_SwChnl8814A(
 	IN	PADAPTER					pAdapter
 	)
 {
@@ -2526,7 +2526,7 @@ phy_SwChnl8814A(
 #endif
 	u8 			channelToSW = pHalData->CurrentChannel;
 	u32			RFValToWR , RFTmpVal, BitShift, BitMask;
-	  
+
 	//DBG_871X("[BW:CHNL], phy_SwChnl8814A(), switch to channel %d !!\n", channelToSW);
 
 	if (phy_SwBand8814A(pAdapter, channelToSW) == FALSE)
@@ -2539,7 +2539,7 @@ phy_SwChnl8814A(
 		RT_TRACE(COMP_MLME, DBG_LOUD, ("phy_SwChnl8814A: return for PSEUDO\n"));
 		return;
 	}
-	
+
 #ifdef CONFIG_RF_GAIN_OFFSET
 	/* <YuChen, 140529> Add for KFree Feature Requested by RF David. */
 	if (kfree_data->flag & KFREE_FLAG_ON) {
@@ -2564,15 +2564,15 @@ phy_SwChnl8814A(
 	}
 	else
 	{
-		// fc_area		
-		if (36 <= channelToSW && channelToSW <= 48) 
-			PHY_SetBBReg(pAdapter, rFc_area_Jaguar, 0x1ffe0000, 0x494); 
-		else if (50 <= channelToSW && channelToSW <= 64) 
-			PHY_SetBBReg(pAdapter, rFc_area_Jaguar, 0x1ffe0000, 0x453);  
-		else if (100 <= channelToSW && channelToSW <= 116) 
-			PHY_SetBBReg(pAdapter, rFc_area_Jaguar, 0x1ffe0000, 0x452);  
-		else if (118 <= channelToSW) 
-			PHY_SetBBReg(pAdapter, rFc_area_Jaguar, 0x1ffe0000, 0x412);  
+		// fc_area
+		if (36 <= channelToSW && channelToSW <= 48)
+			PHY_SetBBReg(pAdapter, rFc_area_Jaguar, 0x1ffe0000, 0x494);
+		else if (50 <= channelToSW && channelToSW <= 64)
+			PHY_SetBBReg(pAdapter, rFc_area_Jaguar, 0x1ffe0000, 0x453);
+		else if (100 <= channelToSW && channelToSW <= 116)
+			PHY_SetBBReg(pAdapter, rFc_area_Jaguar, 0x1ffe0000, 0x452);
+		else if (118 <= channelToSW)
+			PHY_SetBBReg(pAdapter, rFc_area_Jaguar, 0x1ffe0000, 0x412);
 		else
 			PHY_SetBBReg(pAdapter, rFc_area_Jaguar, 0x1ffe0000, 0x96a);
 
@@ -2581,11 +2581,11 @@ phy_SwChnl8814A(
 			// RF_MOD_AG
 			if (36 <= channelToSW && channelToSW <= 64)
 				RFValToWR = 0x101;	 //5'b00101
-			else if (100 <= channelToSW && channelToSW <= 140) 
+			else if (100 <= channelToSW && channelToSW <= 140)
 				RFValToWR = 0x301; 	//5'b01101
-			else if (140 < channelToSW) 
+			else if (140 < channelToSW)
 				RFValToWR = 0x501; 	//5'b10101
-			else	
+			else
 				RFValToWR = 0x000; 	//5'b00000
 
 			// Channel to switch
@@ -2612,7 +2612,7 @@ phy_SwChnl8814A(
 		phy_SpurCalibration_8814A(pAdapter);
 		phy_ModifyInitialGain_8814A(pAdapter);
 	}
-	
+
 	/* 2.4G CCK TX DFIR  */
 	if (channelToSW >= 1 && channelToSW <= 11) {
 		PHY_SetBBReg(pAdapter, rCCK0_TxFilter1, bMaskDWord, 0x1a1b0030);
@@ -2638,29 +2638,29 @@ PHY_SwChnlTimerCallback8814A(
 {
 	PADAPTER		pAdapter = (PADAPTER)pTimer->Adapter;
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(pAdapter);
-	
+
 	RT_TRACE(COMP_SCAN, DBG_LOUD, ("==>PHY_SwChnlTimerCallback8814A(), switch to channel %d\n", pHalData->CurrentChannel));
-	
+
 	if (rtw_is_drv_stopped(padapter))
 		return;
-	
+
 	if(pHalData->rf_chip == RF_PSEUDO_11N)
 	{
 		pHalData->SwChnlInProgress=FALSE;
-		return; 								//return immediately if it is peudo-phy	
+		return; 								//return immediately if it is peudo-phy
 	}
 
 
 	PlatformAcquireSpinLock(pAdapter, RT_CHANNEL_AND_BANDWIDTH_SPINLOCK);
 	pHalData->SwChnlInProgress=TRUE;
 	PlatformReleaseSpinLock(pAdapter, RT_CHANNEL_AND_BANDWIDTH_SPINLOCK);
-	
+
 	phy_SwChnl8814A(pAdapter);
 
 	PlatformAcquireSpinLock(pAdapter, RT_CHANNEL_AND_BANDWIDTH_SPINLOCK);
 	pHalData->SwChnlInProgress=FALSE;
 	PlatformReleaseSpinLock(pAdapter, RT_CHANNEL_AND_BANDWIDTH_SPINLOCK);
-	
+
 	RT_TRACE(COMP_SCAN, DBG_LOUD, ("<==PHY_SwChnlTimerCallback8814()\n"));
 }
 
@@ -2677,30 +2677,30 @@ PHY_SwChnlWorkItemCallback8814A(
 	if(pAdapter->bInSetPower && RT_USB_CANNOT_IO(pAdapter))
 	{
 		RT_TRACE(COMP_SCAN, DBG_LOUD, ("<== PHY_SwChnlWorkItemCallback8814A() SwChnlInProgress FALSE driver sleep or unload\n"));
-	
-		pHalData->SwChnlInProgress = FALSE;		
+
+		pHalData->SwChnlInProgress = FALSE;
 		return;
 	}
-	
+
 	if (rtw_is_drv_stopped(padapter))
 		return;
-	
+
 	if(pHalData->rf_chip == RF_PSEUDO_11N)
 	{
 		pHalData->SwChnlInProgress=FALSE;
-		return; 								//return immediately if it is peudo-phy	
+		return; 								//return immediately if it is peudo-phy
 	}
 
 	PlatformAcquireSpinLock(pAdapter, RT_CHANNEL_AND_BANDWIDTH_SPINLOCK);
 	pHalData->SwChnlInProgress=TRUE;
 	PlatformReleaseSpinLock(pAdapter, RT_CHANNEL_AND_BANDWIDTH_SPINLOCK);
-		
+
 	phy_SwChnl8814A(pAdapter);
 
-	PlatformAcquireSpinLock(pAdapter, RT_CHANNEL_AND_BANDWIDTH_SPINLOCK);	
+	PlatformAcquireSpinLock(pAdapter, RT_CHANNEL_AND_BANDWIDTH_SPINLOCK);
 	pHalData->SwChnlInProgress=FALSE;
 	PlatformReleaseSpinLock(pAdapter, RT_CHANNEL_AND_BANDWIDTH_SPINLOCK);
-	
+
 	RT_TRACE(COMP_P2P, DBG_LOUD, ("PHY_SwChnlWorkItemCallback8814A(), switch to channel %d\n", pHalData->CurrentChannel));
 	RT_TRACE(COMP_SCAN, DBG_LOUD, ("<==PHY_SwChnlWorkItemCallback8814A()\n"));
 }
@@ -2719,7 +2719,7 @@ HAL_HandleSwChnl8814A(	// Call after initialization
 	phy_SwChnl8814A(Adapter);
 
 
-#if (MP_DRIVER == 1) 
+#if (MP_DRIVER == 1)
 	// <20120712, Kordan> IQK on each channel, asked by James.
 	PHY_IQCalibrate_8814A(pAdapter, FALSE);
 #endif
@@ -2739,14 +2739,14 @@ phy_SwChnlAndSetBwMode8814A(
 	//DBG_871X("phy_SwChnlAndSetBwMode8814A(): bSwChnl %d, bSetChnlBW %d \n", pHalData->bSwChnl, pHalData->bSetChnlBW);
 	if ( Adapter->bNotifyChannelChange )
 	{
-		DBG_871X( "[%s] bSwChnl=%d, ch=%d, bSetChnlBW=%d, bw=%d\n", 
-			__FUNCTION__, 
+		DBG_871X( "[%s] bSwChnl=%d, ch=%d, bSetChnlBW=%d, bw=%d\n",
+			__FUNCTION__,
 			pHalData->bSwChnl,
 			pHalData->CurrentChannel,
 			pHalData->bSetChnlBW,
 			pHalData->CurrentChannelBW);
 	}
-	
+
 	if (RTW_CANNOT_RUN(Adapter)) {
 		pHalData->bSwChnlAndSetBWInProgress= FALSE;
 		return;
@@ -2756,13 +2756,13 @@ phy_SwChnlAndSetBwMode8814A(
 	{
 		phy_SwChnl8814A(Adapter);
 		pHalData->bSwChnl = FALSE;
-	}	
+	}
 
 	if (pHalData->bSetChnlBW)
 	{
 		phy_SetBwMode8814A(Adapter);
 		pHalData->bSetChnlBW = FALSE;
-	}	
+	}
 
 	if (Adapter->registrypriv.mp_mode == 0) {
 		ODM_ClearTxPowerTrackingState(pDM_Odm);
@@ -2774,19 +2774,19 @@ phy_SwChnlAndSetBwMode8814A(
 	} else
 		PHY_IQCalibrate_8814A(pDM_Odm, _FALSE);
 #if 0 //todo
-#if (AUTO_CHNL_SEL_NHM == 1)	
-	if(IS_AUTO_CHNL_SUPPORT(Adapter) && 
+#if (AUTO_CHNL_SEL_NHM == 1)
+	if(IS_AUTO_CHNL_SUPPORT(Adapter) &&
 		P2PIsSocialChannel(pHalData->CurrentChannel))
-	{	
+	{
 		RT_TRACE(COMP_SCAN, DBG_TRACE, ("[ACS] phy_SwChnlAndSetBwMode8723B(): CurrentChannel %d Reset NHM counter!!\n", pHalData->CurrentChannel));
-		RT_TRACE(COMP_SCAN, DBG_TRACE, ("[ACS] phy_SwChnlAndSetBwMode8723B(): AutoChnlSelPeriod(%d)\n", 
+		RT_TRACE(COMP_SCAN, DBG_TRACE, ("[ACS] phy_SwChnlAndSetBwMode8723B(): AutoChnlSelPeriod(%d)\n",
 			GetDefaultAdapter(Adapter)->MgntInfo.AutoChnlSel.AutoChnlSelPeriod));
 
-		// Reset NHM counter		
+		// Reset NHM counter
     		odm_AutoChannelSelectReset(GET_PDM_ODM(Adapter));
-		
+
 		SET_AUTO_CHNL_STATE(Adapter, ACS_BEFORE_NHM);// Before NHM measurement
-	}	
+	}
 #endif
 #endif //0
 	pHalData->bSwChnlAndSetBWInProgress= FALSE;
@@ -2811,7 +2811,7 @@ PHY_SwChnlAndSetBWModeCallback8814A(
 // The following procedure is operted according to SwChanlCallback8190Pci().
 // However, this procedure is performed synchronously  which should be running under
 // passive level.
-// 
+//
 VOID
 PHY_SwChnlSynchronously8814A(	// Only called during initialize
 	IN	PADAPTER	Adapter,
@@ -2829,7 +2829,7 @@ PHY_SwChnlSynchronously8814A(	// Only called during initialize
 	// Channel Switching is in progress.
 	if(pHalData->bSwChnlAndSetBWInProgress)
 		return;
-	
+
 	//return immediately if it is peudo-phy
 	if(pHalData->rf_chip == RF_PSEUDO_11N)
 	{
@@ -2846,9 +2846,9 @@ PHY_SwChnlSynchronously8814A(	// Only called during initialize
 			//FIX ME!!!
 			if(channel <=14)
 				return;
-			RT_ASSERT((channel>14), ("WIRELESS_MODE_A but channel<=14"));		
+			RT_ASSERT((channel>14), ("WIRELESS_MODE_A but channel<=14"));
 			break;
-			
+
 		case WIRELESS_MODE_B:
 		case WIRELESS_MODE_G:
 		case WIRELESS_MODE_N_24G:
@@ -2863,8 +2863,8 @@ PHY_SwChnlSynchronously8814A(	// Only called during initialize
 		default:
 			RT_ASSERT(FALSE, ("Invalid WirelessMode(%#x)!!\n", pHalData->CurrentWirelessMode));
 			break;
-	
-	}	
+
+	}
 
 	pHalData->bSwChnlAndSetBWInProgress = TRUE;
 	if( channel == 0)
@@ -2877,7 +2877,7 @@ PHY_SwChnlSynchronously8814A(	// Only called during initialize
 	phy_SwChnlAndSetBwMode8814A(Adapter);
 
 	RT_TRACE(COMP_SCAN | COMP_RM, DBG_LOUD, ("<==PHY_SwChnlSynchronously(), switch from channel %d to channel %d.\n", pHalData->CurrentChannel, channel));
-	
+
 }
 */
 
@@ -2929,7 +2929,7 @@ PHY_HandleSwChnlAndSetBW8814A(
 			pHalData->bSetChnlBW = _TRUE;
 		}
 		else if((pHalData->CurrentChannelBW != ChnlWidth) ||
-			(pHalData->nCur40MhzPrimeSC != ChnlOffsetOf40MHz) || 
+			(pHalData->nCur40MhzPrimeSC != ChnlOffsetOf40MHz) ||
 			(pHalData->nCur80MhzPrimeSC != ChnlOffsetOf80MHz) ||
 			(pHalData->CurrentCenterFrequencyIndex1!= CenterFrequencyIndex1))
 		{
@@ -2949,7 +2949,7 @@ PHY_HandleSwChnlAndSetBW8814A(
 		pHalData->CurrentChannel=ChannelNum;
 		pHalData->CurrentCenterFrequencyIndex1 = ChannelNum;
 	}
-	
+
 
 	if(pHalData->bSetChnlBW)
 	{
@@ -2973,7 +2973,7 @@ PHY_HandleSwChnlAndSetBW8814A(
 		pHalData->nCur80MhzPrimeSC = ChnlOffsetOf80MHz;
 #endif
 
-		pHalData->CurrentCenterFrequencyIndex1 = CenterFrequencyIndex1;		
+		pHalData->CurrentCenterFrequencyIndex1 = CenterFrequencyIndex1;
 	}
 
 	//Switch workitem or set timer to do switch channel or setbandwidth operation
@@ -2984,7 +2984,7 @@ PHY_HandleSwChnlAndSetBW8814A(
 		{
 			pHalData->CurrentChannel = tmpChannel;
 			pHalData->CurrentCenterFrequencyIndex1 = tmpChannel;
-		}	
+		}
 		if(pHalData->bSetChnlBW)
 		{
 			pHalData->CurrentChannelBW = tmpBW;
@@ -3007,7 +3007,7 @@ PHY_HandleSwChnlAndSetBW8814A(
 //
 //	Description:
 //		Configure H/W functionality to enable/disable Monitor mode.
-//		Note, because we possibly need to configure BB and RF in this function, 
+//		Note, because we possibly need to configure BB and RF in this function,
 //		so caller should in PASSIVE_LEVEL. 080118, by rcnjko.
 //
 VOID

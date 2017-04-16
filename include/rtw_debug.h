@@ -322,7 +322,7 @@ extern void rtl871x_cedbg(const char *fmt, ...);
 #ifdef CONFIG_DBG_COUNTER
 #define DBG_COUNTER(counter) counter++
 #else
-#define DBG_COUNTER(counter) 
+#define DBG_COUNTER(counter)
 #endif
 
 void dump_drv_version(void *sel);
@@ -393,10 +393,10 @@ int proc_get_wifi_spec(struct seq_file *m, void *v);
 ssize_t proc_set_rate_ctl(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data);
 #ifdef DBG_RX_COUNTER_DUMP
 int proc_get_rx_cnt_dump(struct seq_file *m, void *v);
-ssize_t proc_set_rx_cnt_dump(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data);	
+ssize_t proc_set_rx_cnt_dump(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data);
 #endif
 int proc_get_dis_pwt(struct seq_file *m, void *v);
-ssize_t proc_set_dis_pwt(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data);	
+ssize_t proc_set_dis_pwt(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data);
 
 int proc_get_suspend_resume_info(struct seq_file *m, void *v);
 

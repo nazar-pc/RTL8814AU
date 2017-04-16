@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -17,7 +17,7 @@
  *
  *
  ******************************************************************************/
-#ifndef	__RTW_RF_H_ 
+#ifndef	__RTW_RF_H_
 #define __RTW_RF_H_
 
 
@@ -63,11 +63,11 @@ u8 center_chs_5g(u8 bw, u8 id);
 
 //Country codes
 #define USA							0x555320
-#define EUROPE						0x1 //temp, should be provided later	
-#define JAPAN						0x2 //temp, should be provided later	
+#define EUROPE						0x1 //temp, should be provided later
+#define JAPAN						0x2 //temp, should be provided later
 
 struct	regulatory_class {
-	u32	starting_freq;					//MHz, 
+	u32	starting_freq;					//MHz,
 	u8	channel_set[MAX_CHANNEL_NUM];
 	u8	channel_cck_power[MAX_CHANNEL_NUM];//dbm
 	u8	channel_ofdm_power[MAX_CHANNEL_NUM];//dbm
@@ -195,7 +195,7 @@ typedef	enum _RT_RF_TYPE_DEFINITION
 	RF_2T2R = 2,
 	RF_1T1R = 3,
 	RF_2T2R_GREEN = 4,
-	RF_2T3R = 5,	
+	RF_2T3R = 5,
 	RF_3T3R = 6,
 	RF_3T4R	= 7,
 	RF_4T4R	= 8,

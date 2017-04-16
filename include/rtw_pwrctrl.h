@@ -21,13 +21,13 @@
 #define __RTW_PWRCTRL_H_
 
 
-#define FW_PWR0	0	
+#define FW_PWR0	0
 #define FW_PWR1 	1
 #define FW_PWR2 	2
 #define FW_PWR3 	3
 
 
-#define HW_PWR0	7	
+#define HW_PWR0	7
 #define HW_PWR1 	6
 #define HW_PWR2 	2
 #define HW_PWR3	0
@@ -134,7 +134,7 @@ struct reportpwrstate_parm {
 	unsigned char mode;
 	unsigned char state; //the CPWM value
 	unsigned short rsvd;
-}; 
+};
 
 
 typedef _sema _pwrlock;
@@ -210,7 +210,7 @@ enum _PS_BBRegBackup_ {
 enum { // for ips_mode
 	IPS_NONE=0,
 	IPS_NORMAL,
-	IPS_LEVEL_2,	
+	IPS_LEVEL_2,
 	IPS_NUM
 };
 
@@ -311,8 +311,8 @@ struct pwrctrl_priv
 	uint 	lps_enter_cnts;
 	uint 	lps_leave_cnts;
 
-	u8	ips_mode; 
-	u8	ips_org_mode; 
+	u8	ips_mode;
+	u8	ips_org_mode;
 	u8	ips_mode_req; // used to accept the mode setting request, will update to ipsmode later
 	uint bips_processing;
 	u32 ips_deny_time; /* will deny IPS when system time is smaller than this */
@@ -343,7 +343,7 @@ struct pwrctrl_priv
 	u8		bAutoResume;
 	u8		autopm_cnt;
 #endif
-	u8		bSupportRemoteWakeup;	
+	u8		bSupportRemoteWakeup;
 	u8		wowlan_wake_reason;
 	u8		wowlan_ap_mode;
 	u8		wowlan_mode;
@@ -371,7 +371,7 @@ struct pwrctrl_priv
 	u8		pwr_state_check_cnts;
 
 	int 		ps_flag; /* used by autosuspend */
-	
+
 	rt_rf_power_state	rf_pwrstate;//cur power state, only for IPS
 	//rt_rf_power_state 	current_rfpwrstate;
 	rt_rf_power_state	change_rfpwrstate;
@@ -391,7 +391,7 @@ struct pwrctrl_priv
 	struct early_suspend early_suspend;
 	u8 do_late_resume;
 	#endif //CONFIG_HAS_EARLYSUSPEND
-	
+
 	#ifdef CONFIG_ANDROID_POWER
 	android_early_suspend_t early_suspend;
 	u8 do_late_resume;
@@ -415,7 +415,7 @@ struct pwrctrl_priv
 		/*DBG_871X("%s _rtw_set_pwr_state_check_timer(%p, %d)\n", __FUNCTION__, (pwrctl), (ms));*/ \
 		_set_timer(&(pwrctl)->pwr_state_check_timer, (ms)); \
 	} while(0)
-	
+
 #define rtw_set_pwr_state_check_timer(pwrctl) \
 	_rtw_set_pwr_state_check_timer((pwrctl), (pwrctl)->pwr_state_check_interval)
 

@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2012 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -74,7 +74,7 @@ void dump_drv_version(void *sel)
 void dump_drv_cfg(void *sel)
 {
 	char *kernel_version = utsname()->release;
-	
+
 	DBG_871X_SEL_NL(sel, "\nKernel Version: %s\n", kernel_version);
 	DBG_871X_SEL_NL(sel, "Driver Version: %s\n", DRIVERVERSION);
 	DBG_871X_SEL_NL(sel, "------------------------------------------------\n");
@@ -136,10 +136,10 @@ void dump_drv_cfg(void *sel)
 #endif
 
 #ifdef CONFIG_USB_HCI
-	#ifdef CONFIG_SUPPORT_USB_INT	
+	#ifdef CONFIG_SUPPORT_USB_INT
 	DBG_871X_SEL_NL(sel, "CONFIG_SUPPORT_USB_INT\n");
 	#endif
-	#ifdef CONFIG_USB_INTERRUPT_IN_PIPE		
+	#ifdef CONFIG_USB_INTERRUPT_IN_PIPE
 	DBG_871X_SEL_NL(sel, "CONFIG_USB_INTERRUPT_IN_PIPE\n");
 	#endif
 	#ifdef CONFIG_USB_TX_AGGREGATION
@@ -153,7 +153,7 @@ void dump_drv_cfg(void *sel)
 	#endif
 	#ifdef CONFIG_USE_USB_BUFFER_ALLOC_RX
 	DBG_871X_SEL_NL(sel, "CONFIG_USE_USB_BUFFER_ALLOC_RX\n");
-	#endif	
+	#endif
 	#ifdef CONFIG_PREALLOC_RECV_SKB
 	DBG_871X_SEL_NL(sel, "CONFIG_PREALLOC_RECV_SKB\n");
 	#endif
@@ -161,7 +161,7 @@ void dump_drv_cfg(void *sel)
 	DBG_871X_SEL_NL(sel, "CONFIG_FIX_NR_BULKIN_BUFFER\n");
 	#endif
 #endif /*CONFIG_USB_HCI*/
-	
+
 #ifdef CONFIG_SDIO_HCI
 	#ifdef CONFIG_TX_AGGREGATION
 	DBG_871X_SEL_NL(sel, "CONFIG_TX_AGGREGATION\n");
@@ -173,10 +173,10 @@ void dump_drv_cfg(void *sel)
 
 #ifdef CONFIG_PCI_HCI
 #endif
-	
+
 	DBG_871X_SEL_NL(sel, "MAX_XMITBUF_SZ = %d\n", MAX_XMITBUF_SZ);
 	DBG_871X_SEL_NL(sel, "MAX_RECVBUF_SZ = %d\n", MAX_RECVBUF_SZ);
-	
+
 }
 
 void dump_log_level(void *sel)
@@ -190,7 +190,7 @@ void sd_f0_reg_dump(void *sel, _adapter *adapter)
 	int i;
 
 	for(i=0x0;i<=0xff;i++)
-	{	
+	{
 		if(i%16==0)
 			DBG_871X_SEL_NL(sel, "0x%02x ",i);
 
@@ -231,7 +231,7 @@ void mac_reg_dump(void *sel, _adapter *adapter)
 		if((j++)%4 == 0)
 			DBG_871X_SEL(sel, "\n");
 	}
-	
+
 #ifdef CONFIG_RTL8814A
 	{
 		for(i=0x1000;i<0x1650;i+=4)
@@ -487,7 +487,7 @@ ssize_t proc_set_write_reg(struct file *file, const char __user *buffer, size_t 
 	{
 		DBG_871X("argument size is less than 3\n");
 		return -EFAULT;
-	}	
+	}
 
 	if (count > sizeof(tmp)) {
 		rtw_warn_on(1);
@@ -506,23 +506,23 @@ ssize_t proc_set_write_reg(struct file *file, const char __user *buffer, size_t 
 		switch(len)
 		{
 			case 1:
-				rtw_write8(padapter, addr, (u8)val);				
+				rtw_write8(padapter, addr, (u8)val);
 				break;
 			case 2:
-				rtw_write16(padapter, addr, (u16)val);				
+				rtw_write16(padapter, addr, (u16)val);
 				break;
 			case 4:
-				rtw_write32(padapter, addr, val);				
+				rtw_write32(padapter, addr, val);
 				break;
 			default:
 				DBG_871X("error write length=%d", len);
 				break;
-		}			
-		
+		}
+
 	}
-	
+
 	return count;
-	
+
 }
 
 static u32 proc_get_read_addr=0xeeeeeeee;
@@ -536,11 +536,11 @@ int proc_get_read_reg(struct seq_file *m, void *v)
 	if (proc_get_read_addr==0xeeeeeeee) {
 		DBG_871X_SEL_NL(m, "address not initialized\n");
 		return 0;
-	}	
+	}
 
 	switch(proc_get_read_len)
 	{
-		case 1:			
+		case 1:
 			DBG_871X_SEL_NL(m, "rtw_read8(0x%x)=0x%x\n", proc_get_read_addr, rtw_read8(padapter, proc_get_read_addr));
 			break;
 		case 2:
@@ -567,7 +567,7 @@ ssize_t proc_set_read_reg(struct file *file, const char __user *buffer, size_t c
 	{
 		DBG_871X("argument size is less than 2\n");
 		return -EFAULT;
-	}	
+	}
 
 	if (count > sizeof(tmp)) {
 		rtw_warn_on(1);
@@ -584,10 +584,10 @@ ssize_t proc_set_read_reg(struct file *file, const char __user *buffer, size_t c
 		}
 
 		proc_get_read_addr = addr;
-		
+
 		proc_get_read_len = len;
 	}
-	
+
 	return count;
 
 }
@@ -606,10 +606,10 @@ int proc_get_fwstate(struct seq_file *m, void *v)
 int proc_get_sec_info(struct seq_file *m, void *v)
 {
 	struct net_device *dev = m->private;
-	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);	
+	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct security_priv *sec = &padapter->securitypriv;
 
-	DBG_871X_SEL_NL(m, "auth_alg=0x%x, enc_alg=0x%x, auth_type=0x%x, enc_type=0x%x\n", 
+	DBG_871X_SEL_NL(m, "auth_alg=0x%x, enc_alg=0x%x, auth_type=0x%x, enc_type=0x%x\n",
 						sec->dot11AuthAlgrthm, sec->dot11PrivacyAlgrthm,
 						sec->ndisauthtype, sec->ndisencryptstatus);
 
@@ -622,7 +622,7 @@ int proc_get_sec_info(struct seq_file *m, void *v)
 		, sec->wep_sw_dec_cnt_bc , sec->wep_sw_dec_cnt_mc, sec->wep_sw_dec_cnt_uc);
 
 	DBG_871X_SEL_NL(m, "tkip_sw_enc_cnt=%llu, %llu, %llu\n"
-		, sec->tkip_sw_enc_cnt_bc , sec->tkip_sw_enc_cnt_mc, sec->tkip_sw_enc_cnt_uc);	
+		, sec->tkip_sw_enc_cnt_bc , sec->tkip_sw_enc_cnt_mc, sec->tkip_sw_enc_cnt_uc);
 	DBG_871X_SEL_NL(m, "tkip_sw_dec_cnt=%llu, %llu, %llu\n"
 		, sec->tkip_sw_dec_cnt_bc , sec->tkip_sw_dec_cnt_mc, sec->tkip_sw_dec_cnt_uc);
 
@@ -638,7 +638,7 @@ int proc_get_sec_info(struct seq_file *m, void *v)
 int proc_get_mlmext_state(struct seq_file *m, void *v)
 {
 	struct net_device *dev = m->private;
-	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);	
+	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
 	struct mlme_ext_info	*pmlmeinfo = &(pmlmeext->mlmext_info);
 
@@ -681,9 +681,9 @@ ssize_t proc_set_roam_flags(struct file *file, const char __user *buffer, size_t
 		if (num == 1)
 			rtw_assign_roam_flags(adapter, flags);
 	}
-	
+
 	return count;
-	
+
 }
 
 int proc_get_roam_param(struct seq_file *m, void *v)
@@ -732,9 +732,9 @@ ssize_t proc_set_roam_param(struct file *file, const char __user *buffer, size_t
 		if (num >= 3)
 			mlme->roam_scan_int_ms = scan_int_ms;
 	}
-	
+
 	return count;
-	
+
 }
 
 ssize_t proc_set_roam_tgt_addr(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
@@ -782,7 +782,7 @@ int proc_get_ht_option(struct seq_file *m, void *v)
 	struct net_device *dev = m->private;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
-	
+
 #ifdef CONFIG_80211N_HT
 	DBG_871X_SEL_NL(m, "ht_option=%d\n", pmlmepriv->htpriv.ht_option);
 #endif //CONFIG_80211N_HT
@@ -793,13 +793,13 @@ int proc_get_ht_option(struct seq_file *m, void *v)
 int proc_get_rf_info(struct seq_file *m, void *v)
 {
 	struct net_device *dev = m->private;
-	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);	
-	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;	
+	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
+	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
 
-	DBG_871X_SEL_NL(m, "cur_ch=%d, cur_bw=%d, cur_ch_offet=%d\n", 
+	DBG_871X_SEL_NL(m, "cur_ch=%d, cur_bw=%d, cur_ch_offet=%d\n",
 					pmlmeext->cur_channel, pmlmeext->cur_bwmode, pmlmeext->cur_ch_offset);
-	
-	DBG_871X_SEL_NL(m, "oper_ch=%d, oper_bw=%d, oper_ch_offet=%d\n", 
+
+	DBG_871X_SEL_NL(m, "oper_ch=%d, oper_bw=%d, oper_ch_offet=%d\n",
 					rtw_get_oper_ch(padapter), rtw_get_oper_bw(padapter),  rtw_get_oper_choffset(padapter));
 
 	return 0;
@@ -927,8 +927,8 @@ u16 scan_ch_ms;
 			ss->scan_cnt_max = scan_cnt_max;
 		#endif
 	}
-	
-	return count;	
+
+	return count;
 }
 
 int proc_get_scan_abort(struct seq_file *m, void *v)
@@ -980,7 +980,7 @@ ssize_t proc_set_backop_flags_sta(struct file *file, const char __user *buffer, 
 		if (num == 1)
 			mlmeext_assign_scan_backop_flags_sta(mlmeext, flags);
 	}
-	
+
 	return count;
 }
 
@@ -1019,7 +1019,7 @@ ssize_t proc_set_backop_flags_ap(struct file *file, const char __user *buffer, s
 		if (num == 1)
 			mlmeext_assign_scan_backop_flags_ap(mlmeext, flags);
 	}
-	
+
 	return count;
 }
 
@@ -1043,7 +1043,7 @@ int proc_get_survey_info(struct seq_file *m, void *v)
 	int ielen = 0;
 	u32 wpsielen = 0;
 
-	_enter_critical_bh(&(pmlmepriv->scanned_queue.lock), &irqL);	
+	_enter_critical_bh(&(pmlmepriv->scanned_queue.lock), &irqL);
 	phead = get_list_head(queue);
 	if(!phead)
 		return 0;
@@ -1060,7 +1060,7 @@ int proc_get_survey_info(struct seq_file *m, void *v)
 		pnetwork = LIST_CONTAINOR(plist, struct wlan_network, list);
                 if (!pnetwork)
 			break;
-	
+
 		if ( check_fwstate(pmlmepriv, _FW_LINKED)== _TRUE &&
 			is_same_network(&pmlmepriv->cur_network.network, &pnetwork->network, 0)) {
 			notify_signal = translate_percentage_to_dbm(padapter->recvpriv.signal_strength);//dbm
@@ -1071,8 +1071,8 @@ int proc_get_survey_info(struct seq_file *m, void *v)
 		#if defined(CONFIG_SIGNAL_DISPLAY_DBM) && defined(CONFIG_BACKGROUND_NOISE_MONITOR)
 		rtw_hal_get_odm_var(padapter, HAL_ODM_NOISE_MONITOR,&(pnetwork->network.Configuration.DSConfig), &(notify_noise));
 		#endif
-	
-		ie_wpa = rtw_get_wpa_ie(&pnetwork->network.IEs[12], &ielen, pnetwork->network.IELength-12);	
+
+		ie_wpa = rtw_get_wpa_ie(&pnetwork->network.IEs[12], &ielen, pnetwork->network.IELength-12);
 		ie_wpa2 = rtw_get_wpa2_ie(&pnetwork->network.IEs[12], &ielen, pnetwork->network.IELength-12);
 		ie_cap = rtw_get_capability(&pnetwork->network);
 		ie_wps = rtw_get_wps_ie(&pnetwork->network.IEs[12], pnetwork->network.IELength-12, NULL, &wpsielen);
@@ -1086,9 +1086,9 @@ int proc_get_survey_info(struct seq_file *m, void *v)
 					(pnetwork->network.InfrastructureMode == Ndis802_11IBSS) ? "[IBSS]":"",
 					(ie_cap & BIT(0)) ? "[ESS]":"",
 					(ie_p2p) ? "[P2P]":"");
-		DBG_871X_SEL_NL(m, "%5d  "MAC_FMT"  %3d  %3d  %4d  %4d    %5d  %32s  %32s\n", 
+		DBG_871X_SEL_NL(m, "%5d  "MAC_FMT"  %3d  %3d  %4d  %4d    %5d  %32s  %32s\n",
 			++index,
-			MAC_ARG(pnetwork->network.MacAddress), 
+			MAC_ARG(pnetwork->network.MacAddress),
 			pnetwork->network.Configuration.DSConfig,
 			(int)pnetwork->network.Rssi,
 			notify_signal,
@@ -1120,9 +1120,9 @@ ssize_t proc_set_survey_info(struct file *file, const char __user *buffer, size_
 		if ((padapter->registrypriv.mp_mode == 1)
 #ifdef CONFIG_CONCURRENT_MODE
 		|| ((padapter->pbuddy_adapter) && (padapter->pbuddy_adapter->registrypriv.mp_mode == 1))
-#endif			
+#endif
 		){
-			DBG_871X(FUNC_ADPT_FMT ": MP mode block Scan request\n", FUNC_ADPT_ARG(padapter));	
+			DBG_871X(FUNC_ADPT_FMT ": MP mode block Scan request\n", FUNC_ADPT_ARG(padapter));
 			goto exit;
 		}
 #endif
@@ -1134,22 +1134,22 @@ ssize_t proc_set_survey_info(struct file *file, const char __user *buffer, size_
 		DBG_871X("scan abort!! bDriverStopped=_TRUE\n");
 		goto exit;
 	}
-	
+
 	if (!padapter->bup) {
 		DBG_871X("scan abort!! bup=%d\n", padapter->bup);
 		goto exit;
 	}
-	
+
 	if (!rtw_is_hw_init_completed(padapter)) {
 		DBG_871X("scan abort!! hw_init_completed=FALSE\n");
 		goto exit;
 	}
-	
+
 	if (rtw_is_scan_deny(padapter)) {
 		DBG_871X(FUNC_ADPT_FMT  ": scan deny\n", FUNC_ADPT_ARG(padapter));
 		goto exit;
 	}
-	
+
 	if ((pmlmepriv->LinkDetectInfo.bBusyTraffic == _TRUE)
 #ifdef CONFIG_CONCURRENT_MODE
 	|| (rtw_get_buddy_bBusyTraffic(padapter) == _TRUE)
@@ -1194,16 +1194,16 @@ int proc_get_ap_info(struct seq_file *m, void *v)
 	{
 		int i;
 		struct recv_reorder_ctrl *preorder_ctrl;
-					
-		DBG_871X_SEL_NL(m, "SSID=%s\n", cur_network->network.Ssid.Ssid);		
+
+		DBG_871X_SEL_NL(m, "SSID=%s\n", cur_network->network.Ssid.Ssid);
 		DBG_871X_SEL_NL(m, "sta's macaddr:" MAC_FMT "\n", MAC_ARG(psta->hwaddr));
-		DBG_871X_SEL_NL(m, "cur_channel=%d, cur_bwmode=%d, cur_ch_offset=%d\n", pmlmeext->cur_channel, pmlmeext->cur_bwmode, pmlmeext->cur_ch_offset);		
+		DBG_871X_SEL_NL(m, "cur_channel=%d, cur_bwmode=%d, cur_ch_offset=%d\n", pmlmeext->cur_channel, pmlmeext->cur_bwmode, pmlmeext->cur_ch_offset);
 		DBG_871X_SEL_NL(m, "wireless_mode=0x%x, rtsen=%d, cts2slef=%d\n", psta->wireless_mode, psta->rtsen, psta->cts2self);
 		DBG_871X_SEL_NL(m, "state=0x%x, aid=%d, macid=%d, raid=%d\n", psta->state, psta->aid, psta->mac_id, psta->raid);
 #ifdef CONFIG_80211N_HT
-		DBG_871X_SEL_NL(m, "qos_en=%d, ht_en=%d, init_rate=%d\n", psta->qos_option, psta->htpriv.ht_option, psta->init_rate);		
+		DBG_871X_SEL_NL(m, "qos_en=%d, ht_en=%d, init_rate=%d\n", psta->qos_option, psta->htpriv.ht_option, psta->init_rate);
 		DBG_871X_SEL_NL(m, "bwmode=%d, ch_offset=%d, sgi_20m=%d,sgi_40m=%d\n", psta->bw_mode, psta->htpriv.ch_offset, psta->htpriv.sgi_20m, psta->htpriv.sgi_40m);
-		DBG_871X_SEL_NL(m, "ampdu_enable = %d\n", psta->htpriv.ampdu_enable);	
+		DBG_871X_SEL_NL(m, "ampdu_enable = %d\n", psta->htpriv.ampdu_enable);
 		DBG_871X_SEL_NL(m, "agg_enable_bitmap=%x, candidate_tid_bitmap=%x\n", psta->htpriv.agg_enable_bitmap, psta->htpriv.candidate_tid_bitmap);
 		DBG_871X_SEL_NL(m, "ldpc_cap=0x%x, stbc_cap=0x%x, beamform_cap=0x%x\n", psta->htpriv.ldpc_cap, psta->htpriv.stbc_cap, psta->htpriv.beamform_cap);
 #endif //CONFIG_80211N_HT
@@ -1216,7 +1216,7 @@ int proc_get_ap_info(struct seq_file *m, void *v)
 		sta_rx_reorder_ctl_dump(m, psta);
 	}
 	else
-	{							
+	{
 		DBG_871X_SEL_NL(m, "can't get sta's macaddr, cur_network's macaddr:" MAC_FMT "\n", MAC_ARG(cur_network->network.MacAddress));
 	}
 
@@ -1252,7 +1252,7 @@ ssize_t proc_reset_trx_info(struct file *file, const char __user *buffer, size_t
 
 	return count;
 }
-	
+
 int proc_get_trx_info(struct seq_file *m, void *v)
 {
 	struct net_device *dev = m->private;
@@ -1273,7 +1273,7 @@ int proc_get_trx_info(struct seq_file *m, void *v)
 	DBG_871X_SEL_NL(m, "free_recvframe_cnt=%d\n"
 		, precvpriv->free_recvframe_cnt);
 
-	for(i = 0; i < 4; i++) 
+	for(i = 0; i < 4; i++)
 	{
 		phwxmit = pxmitpriv->hwxmits + i;
 		DBG_871X_SEL_NL(m, "%d, hwq.accnt=%d\n", i, phwxmit->accnt);
@@ -1312,7 +1312,7 @@ ssize_t proc_set_dis_pwt(struct file *file, const char __user *buffer, size_t co
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	char tmp[4]={0};
 	u8 dis_pwt = 0;
-	
+
 	if (count < 1)
 		return -EFAULT;
 
@@ -1325,13 +1325,13 @@ ssize_t proc_set_dis_pwt(struct file *file, const char __user *buffer, size_t co
 
 		int num = sscanf(tmp, "%hhx", &dis_pwt);
 		DBG_871X("Set Tx Power training mode:%s\n", (dis_pwt == _TRUE)?"Disable":"Enable");
-		
+
 		if (num >= 1)
 			rtw_hal_set_def_var(padapter, HAL_DEF_DBG_DIS_PWT, &(dis_pwt));
 	}
 
 	return count;
-	
+
 }
 
 int proc_get_rate_ctl(struct seq_file *m, void *v)
@@ -1340,7 +1340,7 @@ int proc_get_rate_ctl(struct seq_file *m, void *v)
 	int i;
 	_adapter *adapter = (_adapter *)rtw_netdev_priv(dev);
 	u8 data_rate = 0, sgi=0, data_fb = 0;
-		
+
 	if (adapter->fix_rate != 0xff) {
 		data_rate = adapter->fix_rate & 0x7F;
 		sgi = adapter->fix_rate >>7;
@@ -1422,7 +1422,7 @@ ssize_t proc_set_rx_cnt_dump(struct file *file, const char __user *buffer, size_
 
 		rtw_dump_phy_rxcnts_preprocess(adapter,dump_rx_cnt_mode);
 		adapter->dump_rx_cnt_mode = dump_rx_cnt_mode;
-		
+
 	}
 
 	return count;
@@ -1584,7 +1584,7 @@ int proc_get_rx_logs(struct seq_file *m, void *v)
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct rx_logs *rx_logs = &padapter->rx_logs;
 
-	DBG_871X_SEL_NL(m, 
+	DBG_871X_SEL_NL(m,
 		"intf_rx=%d\n"
 		"intf_rx_err_recvframe=%d\n"
 		"intf_rx_err_skb=%d\n"
@@ -1681,7 +1681,7 @@ int proc_get_tx_logs(struct seq_file *m, void *v)
 	struct net_device *dev = m->private;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct tx_logs *tx_logs = &padapter->tx_logs;
-	
+
 	DBG_871X_SEL_NL(m,
 		"os_tx=%d\n"
 		"os_tx_err_up=%d\n"
@@ -1899,10 +1899,10 @@ ssize_t proc_set_rx_signal(struct file *file, const char __user *buffer, size_t 
 		int num = sscanf(tmp, "%u %u", &is_signal_dbg, &signal_strength);
 
 		is_signal_dbg = is_signal_dbg==0?0:1;
-		
+
 		if(is_signal_dbg && num!=2)
 			return count;
-			
+
 		signal_strength = signal_strength>100?100:signal_strength;
 
 		padapter->recvpriv.is_signal_dbg = is_signal_dbg;
@@ -1912,11 +1912,11 @@ ssize_t proc_set_rx_signal(struct file *file, const char __user *buffer, size_t 
 			DBG_871X("set %s %u\n", "DBG_SIGNAL_STRENGTH", signal_strength);
 		else
 			DBG_871X("set %s\n", "HW_SIGNAL_STRENGTH");
-		
+
 	}
-	
+
 	return count;
-	
+
 }
 #ifdef CONFIG_80211N_HT
 
@@ -1958,9 +1958,9 @@ ssize_t proc_set_ht_enable(struct file *file, const char __user *buffer, size_t 
 			DBG_871X("ht_enable=%d\n", pregpriv->ht_enable);
 		}
 	}
-	
+
 	return count;
-	
+
 }
 
 int proc_get_bw_mode(struct seq_file *m, void *v)
@@ -2003,9 +2003,9 @@ ssize_t proc_set_bw_mode(struct file *file, const char __user *buffer, size_t co
 
 		}
 	}
-	
+
 	return count;
-	
+
 }
 
 int proc_get_ampdu_enable(struct seq_file *m, void *v)
@@ -2047,9 +2047,9 @@ ssize_t proc_set_ampdu_enable(struct file *file, const char __user *buffer, size
 		}
 
 	}
-	
+
 	return count;
-	
+
 }
 
 int proc_get_mac_rptbuf(struct seq_file *m, void *v)
@@ -2152,7 +2152,7 @@ int proc_get_rx_ampdu_factor(struct seq_file *m, void *v)
 	{
 		DBG_871X_SEL_NL(m,"rx ampdu factor = %x\n",padapter->driver_rx_ampdu_factor);
 	}
-	
+
 	return 0;
 }
 
@@ -2183,7 +2183,7 @@ ssize_t proc_set_rx_ampdu_factor(struct file *file, const char __user *buffer
 			if(factor  > 0x03)
 				padapter->driver_rx_ampdu_factor = 0xFF;
 			else
-				padapter->driver_rx_ampdu_factor = factor;			
+				padapter->driver_rx_ampdu_factor = factor;
 		}
 	}
 
@@ -2385,9 +2385,9 @@ ssize_t proc_set_rx_stbc(struct file *file, const char __user *buffer, size_t co
 			printk("rx_stbc=%d\n", mode);
 		}
 	}
-	
+
 	return count;
-	
+
 }
 #endif //CONFIG_80211N_HT
 
@@ -2409,7 +2409,7 @@ ssize_t proc_set_rx_stbc(struct file *file, const char __user *buffer, size_t co
 	{
 		DBG_8192C("argument size is less than 1\n");
 		return -EFAULT;
-	}	
+	}
 
 	if (count > sizeof(tmp)) {
 		rtw_warn_on(1);
@@ -2424,25 +2424,25 @@ ssize_t proc_set_rx_stbc(struct file *file, const char __user *buffer, size_t co
 			DBG_8192C("invalid set_rssi_disp parameter!\n");
 			return count;
 		}
-		
+
 		if(enable)
-		{			
+		{
 			DBG_8192C("Linked info Function Enable\n");
-			padapter->bLinkInfoDump = enable ;			
+			padapter->bLinkInfoDump = enable ;
 		}
 		else
 		{
 			DBG_8192C("Linked info Function Disable\n");
 			padapter->bLinkInfoDump = 0 ;
 		}
-	
-	}
-	
-	return count;
-	
-}	
 
-*/		
+	}
+
+	return count;
+
+}
+
+*/
 #ifdef CONFIG_AP_MODE
 
 int proc_get_all_sta_info(struct seq_file *m, void *v)
@@ -2463,7 +2463,7 @@ int proc_get_all_sta_info(struct seq_file *m, void *v)
 	{
 		phead = &(pstapriv->sta_hash[i]);
 		plist = get_next(phead);
-		
+
 		while ((rtw_end_of_queue_search(phead, plist)) == _FALSE)
 		{
 			psta = LIST_CONTAINOR(plist, struct sta_info, hash_list);
@@ -2477,9 +2477,9 @@ int proc_get_all_sta_info(struct seq_file *m, void *v)
 				DBG_871X_SEL_NL(m, "rtsen=%d, cts2slef=%d\n", psta->rtsen, psta->cts2self);
 				DBG_871X_SEL_NL(m, "state=0x%x, aid=%d, macid=%d, raid=%d\n", psta->state, psta->aid, psta->mac_id, psta->raid);
 #ifdef CONFIG_80211N_HT
-				DBG_871X_SEL_NL(m, "qos_en=%d, ht_en=%d, init_rate=%d\n", psta->qos_option, psta->htpriv.ht_option, psta->init_rate);	
+				DBG_871X_SEL_NL(m, "qos_en=%d, ht_en=%d, init_rate=%d\n", psta->qos_option, psta->htpriv.ht_option, psta->init_rate);
 				DBG_871X_SEL_NL(m, "bwmode=%d, ch_offset=%d, sgi_20m=%d,sgi_40m=%d\n", psta->bw_mode, psta->htpriv.ch_offset, psta->htpriv.sgi_20m, psta->htpriv.sgi_40m);
-				DBG_871X_SEL_NL(m, "ampdu_enable = %d\n", psta->htpriv.ampdu_enable);									
+				DBG_871X_SEL_NL(m, "ampdu_enable = %d\n", psta->htpriv.ampdu_enable);
 				DBG_871X_SEL_NL(m, "agg_enable_bitmap=%x, candidate_tid_bitmap=%x\n", psta->htpriv.agg_enable_bitmap, psta->htpriv.candidate_tid_bitmap);
 #endif //CONFIG_80211N_HT
 				DBG_871X_SEL_NL(m, "sleepq_len=%d\n", psta->sleepq_len);
@@ -2518,7 +2518,7 @@ int proc_get_all_sta_info(struct seq_file *m, void *v)
 	return 0;
 }
 
-#endif		
+#endif
 
 #ifdef CONFIG_PREALLOC_RX_SKB_BUFFER
 int proc_get_rtkm_info(struct seq_file *m, void *v)
@@ -2527,7 +2527,7 @@ int proc_get_rtkm_info(struct seq_file *m, void *v)
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct recv_priv	*precvpriv = &padapter->recvpriv;
 	struct recv_buf *precvbuf;
-	
+
 	precvbuf = (struct recv_buf *)precvpriv->precv_buf;
 
 	DBG_871X_SEL_NL(m, "============[RTKM Info]============\n");
@@ -2569,8 +2569,8 @@ int proc_get_best_channel(struct seq_file *m, void *v)
 			index_24G = i;
 		if ( pmlmeext->channel_set[i].ChannelNum == 36)
 			index_5G = i;
-	}	
-	
+	}
+
 	for (i=0; (i < MAX_CHANNEL_NUM) && (pmlmeext->channel_set[i].ChannelNum !=0) ; i++) {
 		// 2.4G
 		if ( pmlmeext->channel_set[i].ChannelNum == 6 ) {
@@ -2601,11 +2601,11 @@ int proc_get_best_channel(struct seq_file *m, void *v)
 			}
 		}
 #if 1 // debug
-		DBG_871X_SEL_NL(m, "The rx cnt of channel %3d = %d\n", 
+		DBG_871X_SEL_NL(m, "The rx cnt of channel %3d = %d\n",
 					pmlmeext->channel_set[i].ChannelNum, pmlmeext->channel_set[i].rx_count);
 #endif
 	}
-	
+
 	DBG_871X_SEL_NL(m, "best_channel_5G = %d\n", best_channel_5G);
 	DBG_871X_SEL_NL(m, "best_channel_24G = %d\n", best_channel_24G);
 
@@ -2672,7 +2672,7 @@ ssize_t proc_set_btcoex_dbg(struct file *file, const char __user *buffer, size_t
 	{
 		DBG_871X(FUNC_ADPT_FMT ": input buffer is NULL!\n",
 			FUNC_ADPT_ARG(padapter));
-		
+
 		return -EFAULT;
 	}
 
@@ -2737,7 +2737,7 @@ int proc_get_btcoex_info(struct seq_file *m, void *v)
 	rtw_btcoex_DisplayBtCoexInfo(padapter, pbuf, bufsize);
 
 	DBG_871X_SEL(m, "%s\n", pbuf);
-	
+
 	rtw_mfree(pbuf, bufsize);
 
 	return 0;
@@ -2778,9 +2778,9 @@ ssize_t proc_set_sreset(struct file *file, const char __user *buffer, size_t cou
 		else
 			sreset_set_trigger_point(padapter, trigger_point);
 	}
-	
+
 	return count;
-	
+
 }
 #endif /* DBG_CONFIG_ERROR_DETECT */
 
@@ -2921,7 +2921,7 @@ ssize_t proc_set_wowlan_gpio_info(struct file *file, const char __user *buffer,
 		DBG_871X("%s: set GPIO_%d %d as default.\n",
 			 __func__, WAKEUP_GPIO_IDX, val8);
 	}
-	
+
 	return count;
 }
 #endif /* CONFIG_GPIO_WAKEUP */
@@ -2992,7 +2992,7 @@ ssize_t proc_set_new_bcn_max(struct file *file, const char __user *buffer, size_
 
 #ifdef CONFIG_POWER_SAVING
 int proc_get_ps_info(struct seq_file *m, void *v)
-{	
+{
 	struct net_device *dev = m->private;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
@@ -3056,7 +3056,7 @@ static int proc_tdls_display_tdls_function_info(struct seq_file *m)
 	u8 SpaceBtwnItemAndValueTmp = 0;
 	BOOLEAN FirstMatchFound = _FALSE;
 	int j= 0;
-	
+
 	DBG_871X_SEL_NL(m, "============[TDLS Function Info]============\n");
 	DBG_871X_SEL_NL(m, "%-*s = %s\n", SpaceBtwnItemAndValue, "TDLS Prohibited", (ptdlsinfo->ap_prohibited == _TRUE) ? "_TRUE" : "_FALSE");
 	DBG_871X_SEL_NL(m, "%-*s = %s\n", SpaceBtwnItemAndValue, "TDLS Channel Switch Prohibited", (ptdlsinfo->ch_switch_prohibited == _TRUE) ? "_TRUE" : "_FALSE");
@@ -3096,22 +3096,22 @@ static int proc_tdls_display_tdls_function_info(struct seq_file *m)
 					case TDLS_LINKED_STATE:
 						DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValueTmp, " ", "TDLS_LINKED_STATE");
 						break;
-					case TDLS_WAIT_PTR_STATE:		
+					case TDLS_WAIT_PTR_STATE:
 						DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValueTmp, " ", "TDLS_WAIT_PTR_STATE");
 						break;
-					case TDLS_ALIVE_STATE:		
+					case TDLS_ALIVE_STATE:
 						DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValueTmp, " ", "TDLS_ALIVE_STATE");
 						break;
-					case TDLS_CH_SWITCH_ON_STATE:	
+					case TDLS_CH_SWITCH_ON_STATE:
 						DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValueTmp, " ", "TDLS_CH_SWITCH_ON_STATE");
 						break;
-					case TDLS_PEER_AT_OFF_STATE:		
+					case TDLS_PEER_AT_OFF_STATE:
 						DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValueTmp, " ", "TDLS_PEER_AT_OFF_STATE");
 						break;
-					case TDLS_CH_SW_INITIATOR_STATE:		
+					case TDLS_CH_SW_INITIATOR_STATE:
 						DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValueTmp, " ", "TDLS_CH_SW_INITIATOR_STATE");
 						break;
-					case TDLS_WAIT_CH_RSP_STATE:		
+					case TDLS_WAIT_CH_RSP_STATE:
 						DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValue, " ", "TDLS_WAIT_CH_RSP_STATE");
 						break;
 					default:
@@ -3133,7 +3133,7 @@ static int proc_tdls_display_tdls_function_info(struct seq_file *m)
 	DBG_871X_SEL_NL(m, "%-*s = %s\n", SpaceBtwnItemAndValue, "TDLS Device Discovered", (ptdlsinfo->dev_discovered == _TRUE) ? "_TRUE" : "_FALSE");
 	DBG_871X_SEL_NL(m, "%-*s = %s\n", SpaceBtwnItemAndValue, "TDLS Enable", (ptdlsinfo->tdls_enable == _TRUE) ? "_TRUE" : "_FALSE");
 	DBG_871X_SEL_NL(m, "%-*s = %s\n", SpaceBtwnItemAndValue, "TDLS Driver Setup", (ptdlsinfo->driver_setup == _TRUE) ? "_TRUE" : "_FALSE");
-	
+
 	return 0;
 }
 
@@ -3149,12 +3149,12 @@ static int proc_tdls_display_network_info(struct seq_file *m)
 
 	/* Display the linked AP/GO info */
 	DBG_871X_SEL_NL(m, "============[Associated AP/GO Info]============\n");
-	
+
 	if ((pmlmepriv->fw_state & WIFI_STATION_STATE) && (pmlmepriv->fw_state & _FW_LINKED))
 	{
 		DBG_871X_SEL_NL(m, "%-*s = %s\n", SpaceBtwnItemAndValue, "BSSID", cur_network->network.Ssid.Ssid);
 		DBG_871X_SEL_NL(m, "%-*s = "MAC_FMT"\n", SpaceBtwnItemAndValue, "Mac Address", MAC_ARG(cur_network->network.MacAddress));
-		
+
 		DBG_871X_SEL_NL(m, "%-*s = ", SpaceBtwnItemAndValue, "Wireless Mode");
 		for (i = 0; i < 8; i++)
 		{
@@ -3162,7 +3162,7 @@ static int proc_tdls_display_network_info(struct seq_file *m)
 			{
 				switch (BIT(i))
 				{
-					case WIRELESS_11B: 
+					case WIRELESS_11B:
 						DBG_871X_SEL_NL(m, "%4s", "11B ");
 						break;
 					case WIRELESS_11G:
@@ -3194,7 +3194,7 @@ static int proc_tdls_display_network_info(struct seq_file *m)
 			case _NO_PRIVACY_:
 				DBG_871X_SEL_NL(m, "%s\n", "NO PRIVACY");
 				break;
-			case _WEP40_:	
+			case _WEP40_:
 				DBG_871X_SEL_NL(m, "%s\n", "WEP 40");
 				break;
 			case _TKIP_:
@@ -3203,7 +3203,7 @@ static int proc_tdls_display_network_info(struct seq_file *m)
 			case _TKIP_WTMIC_:
 				DBG_871X_SEL_NL(m, "%s\n", "TKIP WTMIC");
 				break;
-			case _AES_:				
+			case _AES_:
 				DBG_871X_SEL_NL(m, "%s\n", "AES");
 				break;
 			case _WEP104_:
@@ -3218,10 +3218,10 @@ static int proc_tdls_display_network_info(struct seq_file *m)
 #ifdef CONFIG_IEEE80211W
 			case _BIP_:
 				DBG_871X_SEL_NL(m, "%s\n", "BIP");
-				break;	
+				break;
 #endif //CONFIG_IEEE80211W
 		}
-		
+
 		DBG_871X_SEL_NL(m, "%-*s = %d\n", SpaceBtwnItemAndValue, "Channel", pmlmeext->cur_channel);
 		DBG_871X_SEL_NL(m, "%-*s = ", SpaceBtwnItemAndValue, "Channel Offset");
 		switch (pmlmeext->cur_ch_offset)
@@ -3236,7 +3236,7 @@ static int proc_tdls_display_network_info(struct seq_file *m)
 				DBG_871X_SEL_NL(m, "%s\n", "Upper");
 				break;
 		}
-		
+
 		DBG_871X_SEL_NL(m, "%-*s = ", SpaceBtwnItemAndValue, "Bandwidth Mode");
 		switch (pmlmeext->cur_bwmode)
 		{
@@ -3279,13 +3279,13 @@ static int proc_tdls_display_tdls_sta_info(struct seq_file *m)
 	u8 SpaceBtwnItemAndValueTmp = 0;
 	u8 NumOfTdlsStaToShow = 0;
 	BOOLEAN FirstMatchFound = _FALSE;
-	
+
 	/* Search for TDLS sta info to display */
 	_enter_critical_bh(&pstapriv->sta_hash_lock, &irqL);
 	for (i=0; i< NUM_STA; i++)
 	{
 		phead = &(pstapriv->sta_hash[i]);
-		plist = get_next(phead);	
+		plist = get_next(phead);
 		while ((rtw_end_of_queue_search(phead, plist)) == _FALSE)
 		{
 				psta = LIST_CONTAINOR(plist, struct sta_info, hash_list);
@@ -3322,22 +3322,22 @@ static int proc_tdls_display_tdls_sta_info(struct seq_file *m)
 								case TDLS_LINKED_STATE:
 									DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValueTmp, " ", "TDLS_LINKED_STATE");
 									break;
-								case TDLS_WAIT_PTR_STATE:		
+								case TDLS_WAIT_PTR_STATE:
 									DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValueTmp, " ", "TDLS_WAIT_PTR_STATE");
 									break;
-								case TDLS_ALIVE_STATE:		
+								case TDLS_ALIVE_STATE:
 									DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValueTmp, " ", "TDLS_ALIVE_STATE");
 									break;
-								case TDLS_CH_SWITCH_ON_STATE:	
+								case TDLS_CH_SWITCH_ON_STATE:
 									DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValueTmp, " ", "TDLS_CH_SWITCH_ON_STATE");
 									break;
-								case TDLS_PEER_AT_OFF_STATE:		
+								case TDLS_PEER_AT_OFF_STATE:
 									DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValueTmp, " ", "TDLS_PEER_AT_OFF_STATE");
 									break;
-								case TDLS_CH_SW_INITIATOR_STATE:		
+								case TDLS_CH_SW_INITIATOR_STATE:
 									DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValueTmp, " ", "TDLS_CH_SW_INITIATOR_STATE");
 									break;
-								case TDLS_WAIT_CH_RSP_STATE:		
+								case TDLS_WAIT_CH_RSP_STATE:
 									DBG_871X_SEL_NL(m, "%-*s%s\n", SpaceBtwnItemAndValue, " ", "TDLS_WAIT_CH_RSP_STATE");
 									break;
 								default:
@@ -3354,7 +3354,7 @@ static int proc_tdls_display_tdls_sta_info(struct seq_file *m)
 						{
 							switch (BIT(j))
 							{
-								case WIRELESS_11B: 
+								case WIRELESS_11B:
 									DBG_871X_SEL_NL(m, "%4s", "11B ");
 									break;
 								case WIRELESS_11G:
@@ -3406,7 +3406,7 @@ static int proc_tdls_display_tdls_sta_info(struct seq_file *m)
 						case _NO_PRIVACY_:
 							DBG_871X_SEL_NL(m, "%s\n", "NO PRIVACY");
 							break;
-						case _WEP40_:	
+						case _WEP40_:
 							DBG_871X_SEL_NL(m, "%s\n", "WEP 40");
 							break;
 						case _TKIP_:
@@ -3415,7 +3415,7 @@ static int proc_tdls_display_tdls_sta_info(struct seq_file *m)
 						case _TKIP_WTMIC_:
 							DBG_871X_SEL_NL(m, "%s\n", "TKIP WTMIC");
 							break;
-						case _AES_:				
+						case _AES_:
 							DBG_871X_SEL_NL(m, "%s\n", "AES");
 							break;
 						case _WEP104_:
@@ -3470,7 +3470,7 @@ int proc_get_tdls_info(struct seq_file *m, void *v)
 
 	proc_tdls_display_tdls_function_info(m);
 	proc_tdls_display_network_info(m);
-	proc_tdls_display_tdls_sta_info(m);	
+	proc_tdls_display_tdls_sta_info(m);
 
 	return 0;
 }
@@ -3536,27 +3536,27 @@ int proc_get_efuse_map(struct seq_file *m, void *v)
 	struct pwrctrl_priv *pwrctrlpriv  = adapter_to_pwrctl(padapter);
 	PEFUSE_HAL pEfuseHal = &pHalData->EfuseHal;
 	int i, j;
-	u8 ips_mode = IPS_NUM; 
+	u8 ips_mode = IPS_NUM;
 	int mapLen = EFUSE_MAP_SIZE;
 
 	ips_mode = pwrctrlpriv->ips_mode;
 	rtw_pm_set_ips(padapter, IPS_NONE);
 	if (rtw_efuse_map_read(padapter, EFUSE_WIFI, mapLen, pEfuseHal->fakeEfuseInitMap) == _FAIL)
-		DBG_871X_SEL_NL(m, "WARN - Read Realmap Failed\n");	
-	
+		DBG_871X_SEL_NL(m, "WARN - Read Realmap Failed\n");
+
 	DBG_871X_SEL_NL(m, "\n");
 	for (i = 0; i < EFUSE_MAP_SIZE; i += 16) {
 		DBG_871X_SEL_NL(m, "0x%02x\t", i);
-		for (j = 0; j < 8; j++) 
+		for (j = 0; j < 8; j++)
 			DBG_871X_SEL_NL(m, "%02X ", pEfuseHal->fakeEfuseInitMap[i+j]);
-		
+
 		DBG_871X_SEL_NL(m, "\t");
-				
+
 		for (; j < 16; j++)
 			DBG_871X_SEL_NL(m, "%02X ", pEfuseHal->fakeEfuseInitMap[i+j]);
-		
+
 		DBG_871X_SEL_NL(m, "\n");
-				
+
 	}
 	rtw_pm_set_ips(padapter, ips_mode);
 	return 0;
@@ -3568,28 +3568,28 @@ ssize_t proc_set_efuse_map(struct file *file, const char __user *buffer, size_t 
 	char tmp[256] = {0};
 	u32 addr, cnts;
 	u8 efuse_data;
-	
+
 	int jj, kk;
 
 	struct net_device *dev = data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct pwrctrl_priv *pwrctrlpriv  = adapter_to_pwrctl(padapter);
 	u8 ips_mode = IPS_NUM;
-	
+
 	if (count < 3) {
 		DBG_871X("argument size is less than 3\n");
 		return -EFAULT;
 	}
-	
+
 	if (count > sizeof(tmp)) {
 		rtw_warn_on(1);
 		return -EFAULT;
 	}
-	
+
 	if (buffer && !copy_from_user(tmp, buffer, count)) {
 
 		int num = sscanf(tmp, "%x %d %x", &addr, &cnts, &efuse_data);
-	
+
 		if (num != 3) {
 			DBG_871X("invalid write_reg parameter!\n");
 			return count;
@@ -3597,10 +3597,10 @@ ssize_t proc_set_efuse_map(struct file *file, const char __user *buffer, size_t 
 	}
 	ips_mode = pwrctrlpriv->ips_mode;
 	rtw_pm_set_ips(padapter, IPS_NONE);
-	if (rtw_efuse_map_write(padapter, addr, cnts, &efuse_data) == _FAIL) 
-		DBG_871X("WARN - rtw_efuse_map_write error!!\n");		
+	if (rtw_efuse_map_write(padapter, addr, cnts, &efuse_data) == _FAIL)
+		DBG_871X("WARN - rtw_efuse_map_write error!!\n");
 	rtw_pm_set_ips(padapter, ips_mode);
-#endif	
+#endif
 	return count;
 }
 
@@ -3626,9 +3626,9 @@ ssize_t proc_set_tx_sa_query(struct file *file, const char __user *buffer, size_
 	if (count > 2) {
 		DBG_871X("argument size is more than 2\n");
 		return -EFAULT;
-	}	
+	}
 
-	if (buffer && !copy_from_user(tmp, buffer, sizeof(tmp))) {		
+	if (buffer && !copy_from_user(tmp, buffer, sizeof(tmp))) {
 
 		int num = sscanf(tmp, "%x", &key_type);
 
@@ -3638,7 +3638,7 @@ ssize_t proc_set_tx_sa_query(struct file *file, const char __user *buffer, size_
 		}
 		DBG_871X("0: set sa query request , key_type=%d\n", key_type);
 	}
-	
+
 	if ((check_fwstate(pmlmepriv, WIFI_STATION_STATE) == _TRUE)
 		&& (check_fwstate(pmlmepriv, _FW_LINKED) == _TRUE) && padapter->securitypriv.binstallBIPkey == _TRUE) {
 		DBG_871X("STA:"MAC_FMT"\n", MAC_ARG(get_my_bssid(&(pmlmeinfo->network))));
@@ -3649,10 +3649,10 @@ ssize_t proc_set_tx_sa_query(struct file *file, const char __user *buffer, size_
 		_enter_critical_bh(&pstapriv->sta_hash_lock, &irqL);
 		for (index = 0; index < NUM_STA; index++) {
 			psta = NULL;
-			
+
 			phead = &(pstapriv->sta_hash[index]);
 			plist = get_next(phead);
-			
+
 			while ((rtw_end_of_queue_search(phead, plist)) == _FALSE) {
 				psta = LIST_CONTAINOR(plist, struct sta_info, hash_list);
 				plist = get_next(plist);
@@ -3660,10 +3660,10 @@ ssize_t proc_set_tx_sa_query(struct file *file, const char __user *buffer, size_
 			}
 		}
 		_exit_critical_bh(&pstapriv->sta_hash_lock, &irqL);
-		
+
 		for (index = 0; index < macid_ctl->num && index < NUM_STA; index++) {
 			if (rtw_macid_is_used(macid_ctl, index) && !rtw_macid_is_bmc(macid_ctl, index)) {
-				if (!_rtw_memcmp(get_my_bssid(&(pmlmeinfo->network)), &mac_addr[index][0], ETH_ALEN) 
+				if (!_rtw_memcmp(get_my_bssid(&(pmlmeinfo->network)), &mac_addr[index][0], ETH_ALEN)
 					&& !IS_MCAST(&mac_addr[index][0])) {
 					issue_action_SA_Query(padapter, &mac_addr[index][0], 0, 0, (u8)key_type);
 					DBG_871X("STA[%u]:"MAC_FMT"\n", index , MAC_ARG(&mac_addr[index][0]));
@@ -3671,7 +3671,7 @@ ssize_t proc_set_tx_sa_query(struct file *file, const char __user *buffer, size_
 			}
 		}
 	}
-	
+
 	return count;
 }
 
@@ -3679,7 +3679,7 @@ int proc_get_tx_sa_query(struct seq_file *m, void *v)
 {
 	struct net_device *dev = m->private;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
-	
+
 	DBG_871X_SEL_NL(m, "%s\n", __func__);
 	return 0;
 }
@@ -3702,14 +3702,14 @@ ssize_t proc_set_tx_deauth(struct file *file, const char __user *buffer, size_t 
 	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 	u32 key_type;
 	u8 index;
-	
+
 
 	if (count > 2) {
 		DBG_871X("argument size is more than 2\n");
 		return -EFAULT;
-	}	
+	}
 
-	if (buffer && !copy_from_user(tmp, buffer, sizeof(tmp))) {		
+	if (buffer && !copy_from_user(tmp, buffer, sizeof(tmp))) {
 
 		int num = sscanf(tmp, "%x", &key_type);
 
@@ -3721,7 +3721,7 @@ ssize_t proc_set_tx_deauth(struct file *file, const char __user *buffer, size_t 
 	}
 	if (key_type < 0 || key_type > 4)
 		return count;
-	
+
 	if ((check_fwstate(pmlmepriv, WIFI_STATION_STATE) == _TRUE)
 		&& (check_fwstate(pmlmepriv, _FW_LINKED) == _TRUE)) {
 		if (key_type == 3) /* key_type 3 only for AP mode */
@@ -3729,18 +3729,18 @@ ssize_t proc_set_tx_deauth(struct file *file, const char __user *buffer, size_t 
 		/* TX unicast deauth to AP */
 		issue_deauth_11w(padapter, get_my_bssid(&(pmlmeinfo->network)), 0, (u8)key_type);
 	} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == _TRUE) {
-		
+
 		if (key_type == 3)
 			issue_deauth_11w(padapter, bc_addr, 0, IEEE80211W_RIGHT_KEY);
-		
+
 		/* TX unicast deauth to every client STA */
 		_enter_critical_bh(&pstapriv->sta_hash_lock, &irqL);
 		for (index = 0; index < NUM_STA; index++) {
 			psta = NULL;
-			
+
 			phead = &(pstapriv->sta_hash[index]);
 			plist = get_next(phead);
-			
+
 			while ((rtw_end_of_queue_search(phead, plist)) == _FALSE) {
 				psta = LIST_CONTAINOR(plist, struct sta_info, hash_list);
 				plist = get_next(plist);
@@ -3748,35 +3748,35 @@ ssize_t proc_set_tx_deauth(struct file *file, const char __user *buffer, size_t 
 			}
 		}
 		_exit_critical_bh(&pstapriv->sta_hash_lock, &irqL);
-		
+
 		for (index = 0; index < macid_ctl->num && index < NUM_STA; index++) {
 			if (rtw_macid_is_used(macid_ctl, index) && !rtw_macid_is_bmc(macid_ctl, index)) {
 				if (!_rtw_memcmp(get_my_bssid(&(pmlmeinfo->network)), &mac_addr[index][0], ETH_ALEN)) {
 					if (key_type != 3)
 						issue_deauth_11w(padapter, &mac_addr[index][0], 0, (u8)key_type);
-					
-					psta = rtw_get_stainfo(pstapriv, &mac_addr[index][0]);	
+
+					psta = rtw_get_stainfo(pstapriv, &mac_addr[index][0]);
 					if (psta && key_type != IEEE80211W_WRONG_KEY && key_type != IEEE80211W_NO_KEY) {
 						u8 updated = _FALSE;
-					
+
 						_enter_critical_bh(&pstapriv->asoc_list_lock, &irqL);
-						if (rtw_is_list_empty(&psta->asoc_list) == _FALSE) {			
+						if (rtw_is_list_empty(&psta->asoc_list) == _FALSE) {
 							rtw_list_delete(&psta->asoc_list);
 							pstapriv->asoc_list_cnt--;
 							updated = ap_free_sta(padapter, psta, _FALSE, WLAN_REASON_PREV_AUTH_NOT_VALID, _TRUE);
-			
+
 						}
 						_exit_critical_bh(&pstapriv->asoc_list_lock, &irqL);
-			
+
 						associated_clients_update(padapter, updated, STA_INFO_UPDATE_ALL);
 					}
-					
+
 					DBG_871X("STA[%u]:"MAC_FMT"\n", index , MAC_ARG(&mac_addr[index][0]));
 				}
 			}
 		}
 	}
-	
+
 	return count;
 }
 
@@ -3784,7 +3784,7 @@ int proc_get_tx_deauth(struct seq_file *m, void *v)
 {
 	struct net_device *dev = m->private;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
-	
+
 	DBG_871X_SEL_NL(m, "%s\n", __func__);
 	return 0;
 }
@@ -3807,14 +3807,14 @@ ssize_t proc_set_tx_auth(struct file *file, const char __user *buffer, size_t co
 	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 	u32 tx_auth;
 	u8 index;
-	
+
 
 	if (count > 2) {
 		DBG_871X("argument size is more than 2\n");
 		return -EFAULT;
-	}	
+	}
 
-	if (buffer && !copy_from_user(tmp, buffer, sizeof(tmp))) {		
+	if (buffer && !copy_from_user(tmp, buffer, sizeof(tmp))) {
 
 		int num = sscanf(tmp, "%x", &tx_auth);
 
@@ -3824,7 +3824,7 @@ ssize_t proc_set_tx_auth(struct file *file, const char __user *buffer, size_t co
 		}
 		DBG_871X("1: setnd auth, 2: send assoc request. tx_auth=%d\n", tx_auth);
 	}
-	
+
 	if ((check_fwstate(pmlmepriv, WIFI_STATION_STATE) == _TRUE)
 		&& (check_fwstate(pmlmepriv, _FW_LINKED) == _TRUE)) {
 		if (tx_auth == 1) {
@@ -3834,8 +3834,8 @@ ssize_t proc_set_tx_auth(struct file *file, const char __user *buffer, size_t co
 			/* TX unicast auth to AP */
 			issue_assocreq(padapter);
 		}
-	} 
-	
+	}
+
 	return count;
 }
 
@@ -3843,7 +3843,7 @@ int proc_get_tx_auth(struct seq_file *m, void *v)
 {
 	struct net_device *dev = m->private;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
-	
+
 	DBG_871X_SEL_NL(m, "%s\n", __func__);
 	return 0;
 }

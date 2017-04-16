@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -24,17 +24,17 @@
 
 #ifdef CONFIG_SUPPORT_USB_INT
 void interrupt_handler_8814au(_adapter *padapter,u16 pkt_len,u8 *pbuf)
-{	
+{
 	HAL_DATA_TYPE	*pHalData=GET_HAL_DATA(padapter);
 	struct reportpwrstate_parm pwr_rpt;
-	
+
 	if ( pkt_len != INTERRUPT_MSG_FORMAT_LEN )
 	{
 		DBG_8192C("%s Invalid interrupt content length (%d)!\n", __FUNCTION__, pkt_len);
 		return ;
 	}
 
-	// HISR 
+	// HISR
 	_rtw_memcpy(&(pHalData->IntArray[0]), &(pbuf[USB_INTR_CONTENT_HISR_OFFSET]), 4);
 	_rtw_memcpy(&(pHalData->IntArray[1]), &(pbuf[USB_INTR_CONTENT_HISRE_OFFSET]), 4);
 
@@ -42,11 +42,11 @@ void interrupt_handler_8814au(_adapter *padapter,u16 pkt_len,u8 *pbuf)
 	{
 		u32 hisr=0 ,hisr_ex=0;
 		_rtw_memcpy(&hisr,&(pHalData->IntArray[0]),4);
-		hisr = le32_to_cpu(hisr);	
-		
+		hisr = le32_to_cpu(hisr);
+
 		_rtw_memcpy(&hisr_ex,&(pHalData->IntArray[1]),4);
 		hisr_ex = le32_to_cpu(hisr_ex);
-		
+
 		if((hisr != 0) || (hisr_ex!=0))
 			DBG_871X("===> %s hisr:0x%08x ,hisr_ex:0x%08x \n",__FUNCTION__,hisr,hisr_ex);
 	}
@@ -59,8 +59,8 @@ void interrupt_handler_8814au(_adapter *padapter,u16 pkt_len,u8 *pbuf)
 		_rtw_memcpy(&pwr_rpt.state, &(pbuf[USB_INTR_CONTENT_CPWM1_OFFSET]), 1);
 		//_rtw_memcpy(&pwr_rpt.state2, &(pbuf[USB_INTR_CONTENT_CPWM2_OFFSET]), 1);
 
-		//88e's cpwm value only change BIT0, so driver need to add PS_STATE_S2 for LPS flow.		
-		pwr_rpt.state |= PS_STATE_S2;		
+		//88e's cpwm value only change BIT0, so driver need to add PS_STATE_S2 for LPS flow.
+		pwr_rpt.state |= PS_STATE_S2;
 		_set_workitem(&(adapter_to_pwrctl(padapter)->cpwm_event));
 	}
 #endif//CONFIG_LPS_LCLK
@@ -72,8 +72,8 @@ void interrupt_handler_8814au(_adapter *padapter,u16 pkt_len,u8 *pbuf)
 	#endif
 	#ifdef  CONFIG_INTERRUPT_BASED_TXBCN_BCN_OK_ERR
 	if (pHalData->IntArray[0] & (IMR_TBDER_88E|IMR_TBDOK_88E))
-	#endif	
-	{		
+	#endif
+	{
 		struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
 		#if 0
 		if(pHalData->IntArray[0] & IMR_BCNDMAINT0_88E)
@@ -83,7 +83,7 @@ void interrupt_handler_8814au(_adapter *padapter,u16 pkt_len,u8 *pbuf)
 		if(pHalData->IntArray[0] & IMR_TBDER_88E)
 			DBG_8192C("%s: HISR_TXBCNERR\n", __func__);
 		#endif
-		
+
 
 		if(check_fwstate(pmlmepriv, WIFI_AP_STATE))
 		{
@@ -105,7 +105,7 @@ void interrupt_handler_8814au(_adapter *padapter,u16 pkt_len,u8 *pbuf)
 			}
 		}
 #endif
-		
+
 	}
 #endif //CONFIG_INTERRUPT_BASED_TXBCN
 
@@ -120,23 +120,23 @@ void interrupt_handler_8814au(_adapter *padapter,u16 pkt_len,u8 *pbuf)
 	if(  pHalData->IntArray[1]  & IMR_TXFOVW_88E )
 		DBG_871X("===> %s Transmit FIFO Overflow \n",__FUNCTION__);
 	if(  pHalData->IntArray[1]  & IMR_RXFOVW_88E )
-		DBG_871X("===> %s Receive FIFO Overflow \n",__FUNCTION__);	
+		DBG_871X("===> %s Receive FIFO Overflow \n",__FUNCTION__);
 #endif//DBG_CONFIG_ERROR_DETECT_INT
 
 
-	// C2H Event 
+	// C2H Event
 	if(pbuf[0]!= 0){
-		_rtw_memcpy(&(pHalData->C2hArray[0]), &(pbuf[USB_INTR_CONTENT_C2H_OFFSET]), 16);		
+		_rtw_memcpy(&(pHalData->C2hArray[0]), &(pbuf[USB_INTR_CONTENT_C2H_OFFSET]), 16);
 		//rtw_c2h_wk_cmd(padapter); to do..
-	}		
-		
+	}
+
 }
 #endif //CONFIG_SUPPORT_USB_INT
-				
+
 static s32 pre_recv_entry(union recv_frame *precvframe, u8 *pphy_status)
-{	
+{
 	s32 ret=_SUCCESS;
-#ifdef CONFIG_CONCURRENT_MODE	
+#ifdef CONFIG_CONCURRENT_MODE
 	u8 *primary_myid, *secondary_myid, *paddr1;
 	union recv_frame	*precvframe_if2 = NULL;
 	_adapter *primary_padapter = precvframe->u.hdr.adapter;
@@ -144,10 +144,10 @@ static s32 pre_recv_entry(union recv_frame *precvframe, u8 *pphy_status)
 	struct recv_priv *precvpriv = &primary_padapter->recvpriv;
 	_queue *pfree_recv_queue = &precvpriv->free_recv_queue;
 	u8	*pbuf = precvframe->u.hdr.rx_data;
-	
+
 	if(!secondary_padapter)
 		return ret;
-	
+
 	paddr1 = GetAddr1Ptr(pbuf);
 
 	if(IS_MCAST(paddr1) == _FALSE)//unicast packets
@@ -156,31 +156,31 @@ static s32 pre_recv_entry(union recv_frame *precvframe, u8 *pphy_status)
 		secondary_myid = adapter_mac_addr(secondary_padapter);
 
 		if(_rtw_memcmp(paddr1, secondary_myid, ETH_ALEN))
-		{			
+		{
 			//change to secondary interface
 			precvframe->u.hdr.adapter = secondary_padapter;
-		}	
+		}
 
 		//ret = recv_entry(precvframe);
 
 	}
-	else // Handle BC/MC Packets	
+	else // Handle BC/MC Packets
 	{
-		
+
 		u8 clone = _TRUE;
 #if 0
 		u8 type, subtype, *paddr2, *paddr3;
-	
+
 		type =  GetFrameType(pbuf);
 		subtype = GetFrameSubType(pbuf); //bit(7)~bit(2)
-		
+
 		switch (type)
 		{
 			case WIFI_MGT_TYPE: //Handle BC/MC mgnt Packets
 				if(subtype == WIFI_BEACON)
 				{
 					paddr3 = GetAddr3Ptr(precvframe->u.hdr.rx_data);
-				
+
 					if (check_fwstate(&secondary_padapter->mlmepriv, _FW_LINKED) &&
 						_rtw_memcmp(paddr3, get_bssid(&secondary_padapter->mlmepriv), ETH_ALEN))
 					{
@@ -194,23 +194,23 @@ static s32 pre_recv_entry(union recv_frame *precvframe, u8 *pphy_status)
 					{
 						if(clone==_FALSE)
 						{
-							clone = _TRUE;									
-						}	
+							clone = _TRUE;
+						}
 						else
 						{
 							clone = _FALSE;
 						}
 
-						precvframe->u.hdr.adapter = primary_padapter;	
+						precvframe->u.hdr.adapter = primary_padapter;
 					}
 
 					if(check_fwstate(&primary_padapter->mlmepriv, _FW_UNDER_SURVEY|_FW_UNDER_LINKING) ||
 						check_fwstate(&secondary_padapter->mlmepriv, _FW_UNDER_SURVEY|_FW_UNDER_LINKING))
 					{
 						clone = _TRUE;
-						precvframe->u.hdr.adapter = primary_padapter;	
+						precvframe->u.hdr.adapter = primary_padapter;
 					}
-				
+
 				}
 				else if(subtype == WIFI_PROBEREQ)
 				{
@@ -218,14 +218,14 @@ static s32 pre_recv_entry(union recv_frame *precvframe, u8 *pphy_status)
 					//change to secondary interface
 					precvframe->u.hdr.adapter = secondary_padapter;
 					clone = _FALSE;
-				}			
+				}
 				break;
 			case WIFI_CTRL_TYPE: // Handle BC/MC ctrl Packets
-			
+
 				break;
 			case WIFI_DATA_TYPE: //Handle BC/MC data Packets
 					//Notes: AP MODE never rx BC/MC data packets
-			
+
 				paddr2 = GetAddr2Ptr(precvframe->u.hdr.rx_data);
 
 				if(_rtw_memcmp(paddr2, get_bssid(&secondary_padapter->mlmepriv), ETH_ALEN))
@@ -237,22 +237,22 @@ static s32 pre_recv_entry(union recv_frame *precvframe, u8 *pphy_status)
 
 				break;
 			default:
-			
-				break;			
+
+				break;
 		}
 #endif
 
 		if(_TRUE == clone)
 		{
-			//clone/copy to if2		
+			//clone/copy to if2
 			struct rx_pkt_attrib *pattrib = NULL;
-		
+
 			precvframe_if2 = rtw_alloc_recvframe(pfree_recv_queue);
 			if(precvframe_if2)
 			{
 				precvframe_if2->u.hdr.adapter = secondary_padapter;
-		
-				_rtw_init_listhead(&precvframe_if2->u.hdr.list);	
+
+				_rtw_init_listhead(&precvframe_if2->u.hdr.list);
 				precvframe_if2->u.hdr.precvbuf = NULL;	//can't access the precvbuf for new arch.
 				precvframe_if2->u.hdr.len=0;
 
@@ -260,30 +260,30 @@ static s32 pre_recv_entry(union recv_frame *precvframe, u8 *pphy_status)
 
 				pattrib = &precvframe_if2->u.hdr.attrib;
 
-				if(rtw_os_alloc_recvframe(secondary_padapter, precvframe_if2, pbuf, NULL) == _SUCCESS)				
-				{						
+				if(rtw_os_alloc_recvframe(secondary_padapter, precvframe_if2, pbuf, NULL) == _SUCCESS)
+				{
 					recvframe_put(precvframe_if2, pattrib->pkt_len);
 					//recvframe_pull(precvframe_if2, drvinfo_sz + RXDESC_SIZE);
 
 					if (pattrib->physt && pphy_status)
 						rx_query_phy_status(precvframe_if2, pphy_status);
-	
-					ret = rtw_recv_entry(precvframe_if2);				
-				}	
+
+					ret = rtw_recv_entry(precvframe_if2);
+				}
 				else
 				{
 					rtw_free_recvframe(precvframe_if2, pfree_recv_queue);
-					DBG_8192C("%s()-%d: alloc_skb() failed!\n", __FUNCTION__, __LINE__);	
+					DBG_8192C("%s()-%d: alloc_skb() failed!\n", __FUNCTION__, __LINE__);
 				}
 
 			}
-			
+
 		}
-		
+
 	}
 	//if (precvframe->u.hdr.attrib.physt)
 	//	rx_query_phy_status(precvframe, pphy_status);
-	
+
 	//ret = rtw_recv_entry(precvframe);
 
 #endif
@@ -298,7 +298,7 @@ int recvbuf2recvframe(PADAPTER padapter, void *ptr)
 	u8	pkt_cnt = 0;
 	u32	pkt_offset;
 	s32	transfer_len;
-	u8				*pphy_status = NULL;	
+	u8				*pphy_status = NULL;
 	union recv_frame	*precvframe = NULL;
 	struct rx_pkt_attrib	*pattrib = NULL;
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(padapter);
@@ -326,18 +326,18 @@ int recvbuf2recvframe(PADAPTER padapter, void *ptr)
 		if(precvframe==NULL)
 		{
 			RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("recvbuf2recvframe: precvframe==NULL\n"));
-			DBG_8192C("%s()-%d: rtw_alloc_recvframe() failed! RX Drop!\n", __FUNCTION__, __LINE__);	
+			DBG_8192C("%s()-%d: rtw_alloc_recvframe() failed! RX Drop!\n", __FUNCTION__, __LINE__);
 			goto _exit_recvbuf2recvframe;
 		}
 
-		_rtw_init_listhead(&precvframe->u.hdr.list);	
+		_rtw_init_listhead(&precvframe->u.hdr.list);
 		precvframe->u.hdr.precvbuf = NULL;	//can't access the precvbuf for new arch.
 		precvframe->u.hdr.len=0;
 
 		rtl8814_query_rx_desc_status(precvframe, pbuf);
 
-		pattrib = &precvframe->u.hdr.attrib;		
-				
+		pattrib = &precvframe->u.hdr.attrib;
+
 		if ((padapter->registrypriv.mp_mode == 0) && ((pattrib->crc_err) || (pattrib->icv_err)))
 		{
 			DBG_871X("%s: RX Warning! crc_err=%d icv_err=%d, skip!\n", __FUNCTION__, pattrib->crc_err, pattrib->icv_err);
@@ -349,9 +349,9 @@ int recvbuf2recvframe(PADAPTER padapter, void *ptr)
 		pkt_offset = RXDESC_SIZE + pattrib->drvinfo_sz + pattrib->shift_sz + pattrib->pkt_len;
 
 		if((pattrib->pkt_len<=0) || (pkt_offset>transfer_len))
-		{	
+		{
 			RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recvbuf2recvframe: pkt_len<=0\n"));
-			DBG_871X("%s()-%d: RX Warning!,pkt_len<=0 or pkt_offset> transfer_len \n", __FUNCTION__, __LINE__);	
+			DBG_871X("%s()-%d: RX Warning!,pkt_len<=0 or pkt_offset> transfer_len \n", __FUNCTION__, __LINE__);
 			rtw_free_recvframe(precvframe, pfree_recv_queue);
 			goto _exit_recvbuf2recvframe;
 		}
@@ -360,7 +360,7 @@ int recvbuf2recvframe(PADAPTER padapter, void *ptr)
 		if(pattrib->pkt_rpt_type == NORMAL_RX)
 			pattrib->pkt_len -= IEEE80211_FCS_LEN;
 #endif
-		if(rtw_os_alloc_recvframe(padapter, precvframe, 
+		if(rtw_os_alloc_recvframe(padapter, precvframe,
 			(pbuf + pattrib->shift_sz + pattrib->drvinfo_sz + RXDESC_SIZE), pskb) == _FAIL)
 		{
 			rtw_free_recvframe(precvframe, pfree_recv_queue);
@@ -418,12 +418,12 @@ int recvbuf2recvframe(PADAPTER padapter, void *ptr)
 
 _exit_recvbuf2recvframe:
 
-	return _SUCCESS;	
+	return _SUCCESS;
 }
 
 
 void rtl8814au_xmit_tasklet(void *priv)
-{	
+{
 	int ret = _FALSE;
 	_adapter *padapter = (_adapter*)priv;
 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
@@ -443,33 +443,33 @@ void rtl8814au_xmit_tasklet(void *priv)
 
 		if(ret==_FALSE)
 			break;
-		
+
 	}
-	
+
 }
 
 void rtl8814au_set_intf_ops(struct _io_ops	*pops)
-{		
-	_func_enter_;		
+{
+	_func_enter_;
 
-	_rtw_memset((u8 *)pops, 0, sizeof(struct _io_ops));	
+	_rtw_memset((u8 *)pops, 0, sizeof(struct _io_ops));
 
 	pops->_read8 = &usb_read8;
 	pops->_read16 = &usb_read16;
 	pops->_read32 = &usb_read32;
 	pops->_read_mem = &usb_read_mem;
-	pops->_read_port = &usb_read_port;	
-	
+	pops->_read_port = &usb_read_port;
+
 	pops->_write8 = &usb_write8;
 	pops->_write16 = &usb_write16;
 	pops->_write32 = &usb_write32;
 	pops->_writeN = &usb_writeN;
-	
-#ifdef CONFIG_USB_SUPPORT_ASYNC_VDN_REQ	
+
+#ifdef CONFIG_USB_SUPPORT_ASYNC_VDN_REQ
 	pops->_write8_async= &usb_async_write8;
 	pops->_write16_async = &usb_async_write16;
 	pops->_write32_async = &usb_async_write32;
-#endif	
+#endif
 	pops->_write_mem = &usb_write_mem;
 	pops->_write_port = &usb_write_port;
 

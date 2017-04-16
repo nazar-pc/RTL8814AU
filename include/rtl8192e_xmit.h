@@ -36,7 +36,7 @@ typedef struct txdescriptor_8192e
 
 	//Offset 4
 	u32 macid:6;
-	u32 rsvd0406:2;	
+	u32 rsvd0406:2;
 	u32 qsel:5;
 	u32 rd_nav_ext:1;
 	u32 lsig_txop_en:1;
@@ -86,7 +86,7 @@ typedef struct txdescriptor_8192e
 	u32 cts2self:1;
 	u32 rtsen:1;
 	u32 hw_rts_en:1;
-	u32 port_id:1;	
+	u32 port_id:1;
 	u32 pwr_status:3;
 	u32 wait_dcts:1;
 	u32 cts2ap_en:1;
@@ -125,7 +125,7 @@ typedef struct txdescriptor_8192e
 	u32 mcsg5_max_len:4;
 	u32 mcsg6_max_len:4;
 	u32 mcs15_sgi_max_len:4;
-}TXDESC_8192E, *PTXDESC_8192E; 
+}TXDESC_8192E, *PTXDESC_8192E;
 
 
 
@@ -199,7 +199,7 @@ typedef struct txdescriptor_8192e
 
 //=====Tx Desc Buffer content
 
-// config element for each tx buffer 
+// config element for each tx buffer
 /*
 #define SET_TXBUFFER_DESC_LEN_WITH_OFFSET(__pTxDesc, __Offset, __Valeu) SET_BITS_TO_LE_4BYTE(__pTxDesc+(__Offset*16), 0, 16, __Valeu)
 #define SET_TXBUFFER_DESC_AMSDU_WITH_OFFSET(__pTxDesc, __Offset, __Valeu) SET_BITS_TO_LE_4BYTE(__pTxDesc+(__Offset*16), 31, 1, __Valeu)
@@ -223,7 +223,7 @@ typedef struct txdescriptor_8192e
 
 // Dword 2
 #define SET_TX_BUFF_DESC_ADDR_HIGH_0_92E(__pTxDesc, __Value) SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 0, 32, __Value)
-// Dword 3, RESERVED 
+// Dword 3, RESERVED
 
 
 //=====Tx Desc content
@@ -256,7 +256,7 @@ typedef struct txdescriptor_8192e
 
 
 // Dword 2
-#define SET_TX_DESC_PAID_92E(__pTxDesc, __Value) SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 0,  9, __Value) 
+#define SET_TX_DESC_PAID_92E(__pTxDesc, __Value) SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 0,  9, __Value)
 #define SET_TX_DESC_CCA_RTS_92E(__pTxDesc, __Value) SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 10, 2, __Value)
 #define SET_TX_DESC_AGG_ENABLE_92E(__pTxDesc, __Value) 		SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 12, 1, __Value)
 #define SET_TX_DESC_RDG_ENABLE_92E(__pTxDesc, __Value) 		SET_BITS_TO_LE_4BYTE(__pTxDesc+8, 13, 1, __Value)

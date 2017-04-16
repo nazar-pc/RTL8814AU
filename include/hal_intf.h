@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2012 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -96,7 +96,7 @@ typedef enum _HW_VARIABLES{
 	HW_VAR_TDLS_RS_RCR,
 	HW_VAR_TRIGGER_GPIO_0,
 	HW_VAR_BT_SET_COEXIST,
-	HW_VAR_BT_ISSUE_DELBA,	
+	HW_VAR_BT_ISSUE_DELBA,
 	HW_VAR_CURRENT_ANTENNA,
 	HW_VAR_ANTENNA_DIVERSITY_LINK,
 	HW_VAR_ANTENNA_DIVERSITY_SELECT,
@@ -125,7 +125,7 @@ typedef enum _HW_VARIABLES{
 	HW_VAR_NAV_UPPER,
 	HW_VAR_C2H_HANDLE,
 	HW_VAR_RPT_TIMER_SETTING,
-	HW_VAR_TX_RPT_MAX_MACID,	
+	HW_VAR_TX_RPT_MAX_MACID,
 	HW_VAR_H2C_MEDIA_STATUS_RPT,
 	HW_VAR_CHK_HI_QUEUE_EMPTY,
 	HW_VAR_DL_BCN_SEL,
@@ -197,7 +197,7 @@ typedef enum _HAL_DEF_VARIABLE{
 }HAL_DEF_VARIABLE;
 
 typedef enum _HAL_ODM_VARIABLE{
-	HAL_ODM_STA_INFO,	
+	HAL_ODM_STA_INFO,
 	HAL_ODM_P2P_STATE,
 	HAL_ODM_WIFI_DISPLAY_STATE,
 	HAL_ODM_NOISE_MONITOR,
@@ -227,12 +227,12 @@ struct hal_ops {
 	void	(*intf_chip_configure)(_adapter *padapter);
 	void	(*read_adapter_info)(_adapter *padapter);
 	u32	(*hal_power_on)(_adapter *padapter);
-	void	(*hal_power_off)(_adapter *padapter);	
+	void	(*hal_power_off)(_adapter *padapter);
 	u32	(*hal_init)(_adapter *padapter);
 	u32	(*hal_deinit)(_adapter *padapter);
 	void	(*dm_init)(_adapter *padapter);
 	void	(*dm_deinit)(_adapter *padapter);
-	
+
 	/*** xmit section ***/
 	s32	(*init_xmit_priv)(_adapter *padapter);
 	void	(*free_xmit_priv)(_adapter *padapter);
@@ -250,7 +250,7 @@ struct hal_ops {
 
 	/*** recv section ***/
 	s32	(*init_recv_priv)(_adapter *padapter);
-	void	(*free_recv_priv)(_adapter *padapter);	
+	void	(*free_recv_priv)(_adapter *padapter);
 #if defined(CONFIG_USB_HCI)||defined(CONFIG_PCI_HCI)
 	u32	(*inirp_init)(_adapter *padapter);
 	u32	(*inirp_deinit)(_adapter *padapter);
@@ -270,12 +270,12 @@ struct hal_ops {
 #if defined(CONFIG_PCI_HCI)
 	void	(*irp_reset)(_adapter *padapter);
 #endif
-		
+
 	/*** DM section ***/
-	
+
 	void	(*InitSwLeds)(_adapter *padapter);
 	void	(*DeInitSwLeds)(_adapter *padapter);
-		
+
 
 	void	(*set_bwmode_handler)(_adapter *padapter, CHANNEL_WIDTH Bandwidth, u8 Offset);
 	void	(*set_channel_handler)(_adapter *padapter, u8 channel);
@@ -333,10 +333,10 @@ struct hal_ops {
 	int 	(*Efuse_PgPacketWrite)(_adapter *padapter, u8 offset, u8 word_en, u8 *data, BOOLEAN bPseudoTest);
 	u8	(*Efuse_WordEnableDataWrite)(_adapter *padapter, u16 efuse_addr, u8 word_en, u8 *data, BOOLEAN bPseudoTest);
 	BOOLEAN	(*Efuse_PgPacketWrite_BT)(_adapter *padapter, u8 offset, u8 word_en, u8 *data, BOOLEAN bPseudoTest);
-	
+
 #ifdef DBG_CONFIG_ERROR_DETECT
 	void (*sreset_init_value)(_adapter *padapter);
-	void (*sreset_reset_value)(_adapter *padapter);		
+	void (*sreset_reset_value)(_adapter *padapter);
 	void (*silentreset)(_adapter *padapter);
 	void (*sreset_xmit_status_check)(_adapter *padapter);
 	void (*sreset_linked_status_check) (_adapter *padapter);
@@ -354,11 +354,11 @@ struct hal_ops {
 	s32 (*fill_h2c_cmd)(PADAPTER, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
 	void (*fill_fake_txdesc)(PADAPTER, u8 *pDesc, u32 BufferLen,
 			u8 IsPsPoll, u8 IsBTQosNull, u8 bDataFrame);
-	
+
 #if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
 	void (*hal_set_wowlan_fw)(_adapter *adapter, u8 sleep);
 	void (*clear_interrupt)(_adapter *padapter);
-#endif	
+#endif
 	u8 (*hal_get_tx_buff_rsvd_page_num)(_adapter *adapter, bool wowlan);
 #ifdef CONFIG_GPIO_API
 	void (*update_hisr_hsisr_ind)(PADAPTER padapter, u32 flag);

@@ -111,7 +111,7 @@ typedef struct _COEX_DM_8723B_2ANT{
 	BOOLEAN		bIsSwitchTo1dot5Ant;
 } COEX_DM_8723B_2ANT, *PCOEX_DM_8723B_2ANT;
 
-typedef struct _COEX_STA_8723B_2ANT{	
+typedef struct _COEX_STA_8723B_2ANT{
 	BOOLEAN					bBtLinkExist;
 	BOOLEAN					bScoExist;
 	BOOLEAN					bA2dpExist;
@@ -143,7 +143,7 @@ typedef struct _COEX_STA_8723B_2ANT{
 	u4Byte					nCRCOK_11g;
 	u4Byte					nCRCOK_11n;
 	u4Byte					nCRCOK_11nAgg;
-	
+
 	u4Byte					nCRCErr_CCK;
 	u4Byte					nCRCErr_11g;
 	u4Byte					nCRCErr_11n;

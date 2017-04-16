@@ -151,7 +151,7 @@ void rtl8814_set_p2p_ps_offload_cmd(PADAPTER padapter, u8 p2p_ps_state);
 s32
 _C2HContentParsing8814(
 	IN	PADAPTER	Adapter,
-	IN	u8			c2hCmdId, 
+	IN	u8			c2hCmdId,
 	IN	u8			c2hCmdLen,
 	IN	u8 			*tmpBuf
 );

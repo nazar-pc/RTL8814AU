@@ -52,7 +52,7 @@ void rtl8814_query_rx_desc_status(union recv_frame *precvframe, u8 *pdesc)
 	if (GET_RX_STATUS_DESC_RPT_SEL_8814A(pdesc))
 		pattrib->pkt_rpt_type = C2H_PACKET;
 	else
-	
+
 	pattrib->pkt_rpt_type = NORMAL_RX;
 
 	//Offset 12

@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -111,7 +111,7 @@ typedef enum _LED_CTL_MODE{
 	LED_CTL_START_WPS = 9,
 	LED_CTL_STOP_WPS = 10,
 	LED_CTL_START_WPS_BOTTON = 11, //added for runtop
-	LED_CTL_STOP_WPS_FAIL = 12, //added for ALPHA	
+	LED_CTL_STOP_WPS_FAIL = 12, //added for ALPHA
 	LED_CTL_STOP_WPS_FAIL_OVERLAP = 13, //added for BELKIN
 	LED_CTL_CONNECTION_NO_TRANSFER = 14,
 }LED_CTL_MODE;
@@ -168,7 +168,7 @@ typedef	enum _LED_STRATEGY_PCIE{
 	SW_LED_MODE6, //added by vivi, for led new mode, PRONET
 	SW_LED_MODE7, //added by chiyokolin, for Lenovo, PCI Express Minicard Spec Rev.1.2 spec
 	SW_LED_MODE8, //added by chiyokolin, for QMI
-	SW_LED_MODE9, //added by chiyokolin, for BITLAND-LENOVO, PCI Express Minicard Spec Rev.1.1 	
+	SW_LED_MODE9, //added by chiyokolin, for BITLAND-LENOVO, PCI Express Minicard Spec Rev.1.1
 	SW_LED_MODE10, //added by chiyokolin, for Edimax-ASUS
 	SW_LED_MODE11,	//added by hpfan, for Xavi
 	SW_LED_MODE12,	//added by chiyokolin, for Azurewave
@@ -225,7 +225,7 @@ typedef	enum _LED_STRATEGY_USB{
 	SW_LED_MODE2, // SW control 1 LED via GPIO0, customized for AzWave 8187 minicard.
 	SW_LED_MODE3, // SW control 1 LED via GPIO0, customized for Sercomm Printer Server case.
 	SW_LED_MODE4, //for Edimax / Belkin
-	SW_LED_MODE5, //for Sercomm / Belkin	
+	SW_LED_MODE5, //for Sercomm / Belkin
 	SW_LED_MODE6,	//for 88CU minicard, porting from ce SW_LED_MODE7
 	SW_LED_MODE7,	//for Netgear special requirement
 	SW_LED_MODE8, //for LC
@@ -235,7 +235,7 @@ typedef	enum _LED_STRATEGY_USB{
 	SW_LED_MODE12, //for WNC/NEC
 	SW_LED_MODE13, //for Netgear A6100, 8811Au
 	SW_LED_MODE14, //for Buffalo, DNI, 8811Au
-	SW_LED_MODE15, //for DLINK,  8811Au/8812AU	
+	SW_LED_MODE15, //for DLINK,  8811Au/8812AU
 	HW_LED, // HW control 2 LEDs, LED0 and LED1 (there are 4 different control modes, see MAC.CONFIG1 for details.)
 }LED_STRATEGY_USB, *PLED_STRATEGY_USB;
 
@@ -254,10 +254,10 @@ typedef struct _LED_USB{
 	// ALPHA, added by chiyoko, 20090106
 	BOOLEAN				bLedNoLinkBlinkInProgress;
 	BOOLEAN				bLedLinkBlinkInProgress;
-	BOOLEAN				bLedStartToLinkBlinkInProgress;	
+	BOOLEAN				bLedStartToLinkBlinkInProgress;
 	BOOLEAN				bLedScanBlinkInProgress;
 	BOOLEAN				bLedWPSBlinkInProgress;
-	
+
 	u32					BlinkTimes; // Number of times to toggle led state for blinking.
 	u8					BlinkCounter; //Added for turn off overlap led after blinking a while, by page, 20120821
 	LED_STATE			BlinkingLedState; // Next state for blinking, either LED_ON or LED_OFF are.
@@ -296,7 +296,7 @@ typedef	enum _LED_STRATEGY_SDIO{
 	SW_LED_MODE2, // SW control 1 LED via GPIO0, customized for AzWave 8187 minicard.
 	SW_LED_MODE3, // SW control 1 LED via GPIO0, customized for Sercomm Printer Server case.
 	SW_LED_MODE4, //for Edimax / Belkin
-	SW_LED_MODE5, //for Sercomm / Belkin	
+	SW_LED_MODE5, //for Sercomm / Belkin
 	SW_LED_MODE6,	//for 88CU minicard, porting from ce SW_LED_MODE7
 	HW_LED, // HW control 2 LEDs, LED0 and LED1 (there are 4 different control modes, see MAC.CONFIG1 for details.)
 }LED_STRATEGY_SDIO, *PLED_STRATEGY_SDIO;
@@ -315,10 +315,10 @@ typedef struct _LED_SDIO{
 	// ALPHA, added by chiyoko, 20090106
 	BOOLEAN				bLedNoLinkBlinkInProgress;
 	BOOLEAN				bLedLinkBlinkInProgress;
-	BOOLEAN				bLedStartToLinkBlinkInProgress;	
+	BOOLEAN				bLedStartToLinkBlinkInProgress;
 	BOOLEAN				bLedScanBlinkInProgress;
 	BOOLEAN				bLedWPSBlinkInProgress;
-	
+
 	u32					BlinkTimes; // Number of times to toggle led state for blinking.
 	LED_STATE			BlinkingLedState; // Next state for blinking, either LED_ON or LED_OFF are.
 

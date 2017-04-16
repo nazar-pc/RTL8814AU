@@ -135,7 +135,7 @@ typedef struct rxreport_8188e
 	u32 pattern9match:1;
 	u32 patternamatch:1;
 	u32 patternbmatch:1;
-	u32 patterncmatch:1;	
+	u32 patterncmatch:1;
 	u32 rsvd1613:19;
 	*/
 	u32 rsvd16;

@@ -23,7 +23,7 @@
 //#include "hal_com.h"
 #include "hal_data.h"
 
-//include HAL Related header after HAL Related compiling flags 
+//include HAL Related header after HAL Related compiling flags
 #include "rtl8188e_spec.h"
 #include "Hal8188EPhyReg.h"
 #include "Hal8188EPhyCfg.h"
@@ -51,15 +51,15 @@
 
 	#define RTL8188E_FW_IMG					"rtl8188e/FW_NIC.bin"
 	#define RTL8188E_FW_WW_IMG				"rtl8188e/FW_WoWLAN.bin"
-	#define RTL8188E_PHY_REG					"rtl8188e/PHY_REG.txt" 
+	#define RTL8188E_PHY_REG					"rtl8188e/PHY_REG.txt"
 	#define RTL8188E_PHY_RADIO_A				"rtl8188e/RadioA.txt"
 	#define RTL8188E_PHY_RADIO_B				"rtl8188e/RadioB.txt"
-	#define RTL8188E_TXPWR_TRACK				"rtl8188e/TxPowerTrack.txt"			
+	#define RTL8188E_TXPWR_TRACK				"rtl8188e/TxPowerTrack.txt"
 	#define RTL8188E_AGC_TAB					"rtl8188e/AGC_TAB.txt"
 	#define RTL8188E_PHY_MACREG 				"rtl8188e/MAC_REG.txt"
 	#define RTL8188E_PHY_REG_PG				"rtl8188e/PHY_REG_PG.txt"
-	#define RTL8188E_PHY_REG_MP 				"rtl8188e/PHY_REG_MP.txt" 
-	#define RTL8188E_TXPWR_LMT				"rtl8188e/TXPWR_LMT.txt" 
+	#define RTL8188E_PHY_REG_MP 				"rtl8188e/PHY_REG_MP.txt"
+	#define RTL8188E_TXPWR_LMT				"rtl8188e/TXPWR_LMT.txt"
 
 	//---------------------------------------------------------------------
 	//		RTL8188E Power Configuration CMDs for USB/SDIO/PCIE interfaces
@@ -79,7 +79,7 @@
 #define MAX_FW_8188E_SIZE			0x8000 //32768,32k / 16384,16k
 
 #define FW_8188E_SIZE				0x4000 //16384,16k
-#define FW_8188E_SIZE_2			0x8000 //32768,32k 
+#define FW_8188E_SIZE_2			0x8000 //32768,32k
 
 #define FW_8188E_START_ADDRESS	0x1000
 #define FW_8188E_END_ADDRESS		0x1FFF //0x5FFF
@@ -156,7 +156,7 @@ typedef struct _RT_8188E_FIRMWARE_HDR
 // Note: We will divide number of page equally for each queue other than public queue!
 // 22k = 22528 bytes = 176 pages (@page =  128 bytes)
 // must reserved about 7 pages for LPS =>  176-7 = 169 (0xA9)
-// 2*BCN / 1*ps-poll / 1*null-data /1*prob_rsp /1*QOS null-data /1*BT QOS null-data 
+// 2*BCN / 1*ps-poll / 1*null-data /1*prob_rsp /1*QOS null-data /1*BT QOS null-data
 
 #define BCNQ_PAGE_NUM_88E		0x08
 
@@ -167,7 +167,7 @@ typedef struct _RT_8188E_FIRMWARE_HDR
 #define WOWLAN_PAGE_NUM_88E	0x00
 #endif
 
-/* Note: 
+/* Note:
 Tx FIFO Size : previous CUT:22K /I_CUT after:32KB
 Tx page Size : 128B
 Total page numbers : 176(0xB0) / 256(0x100)
@@ -215,7 +215,7 @@ Total page numbers : 176(0xB0) / 256(0x100)
 // leave 1byte and program full section
 // 9bytes + 1byt + 5bytes and pre 1byte.
 // For worst case:
-// | 1byte|----8bytes----|1byte|--5bytes--| 
+// | 1byte|----8bytes----|1byte|--5bytes--|
 // |         |            Reserved(14bytes)	      |
 //
 #define EFUSE_OOB_PROTECT_BYTES 		15	// PG data exclude header, dummy 6 bytes frome CP test and reserved 1byte.
@@ -269,7 +269,7 @@ u8 GetEEPROMSize8188E(PADAPTER padapter);
 void Hal_InitPGData88E(PADAPTER padapter);
 void Hal_EfuseParseIDCode88E(PADAPTER padapter, u8 *hwinfo);
 void Hal_ReadTxPowerInfo88E(PADAPTER padapter,u8* hwinfo,BOOLEAN	AutoLoadFail);
-	
+
 void Hal_EfuseParseEEPROMVer88E(PADAPTER padapter, u8 *hwinfo, BOOLEAN AutoLoadFail);
 void rtl8188e_EfuseParseChnlPlan(PADAPTER padapter, u8 *hwinfo, BOOLEAN AutoLoadFail);
 void Hal_EfuseParseCustomerID88E(PADAPTER padapter, u8 *hwinfo, BOOLEAN AutoLoadFail);
@@ -280,7 +280,7 @@ void Hal_EfuseParseBoardType88E(PADAPTER pAdapter,u8* hwinfo,BOOLEAN AutoLoadFai
 void Hal_ReadPowerSavingMode88E(PADAPTER pAdapter,u8* hwinfo,BOOLEAN AutoLoadFail);
 
 BOOLEAN HalDetectPwrDownMode88E(PADAPTER Adapter);
-	
+
 #if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
 void Hal_DetectWoWMode(PADAPTER pAdapter);
 #endif //CONFIG_WOWLAN

@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2014 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -136,10 +136,10 @@ int dbg_rtw_cfg80211_vendor_cmd_reply(struct sk_buff *skb
 
 #define rtw_cfg80211_vendor_event_alloc(wiphy, len, event_id, gfp) \
 	dbg_rtw_cfg80211_vendor_event_alloc(wiphy, len, event_id, gfp, MSTAT_FUNC_CFG_VENDOR|MSTAT_TYPE_SKB, __FUNCTION__, __LINE__)
-	
+
 #define rtw_cfg80211_vendor_event(skb, gfp) \
 	dbg_rtw_cfg80211_vendor_event(skb, gfp, MSTAT_FUNC_CFG_VENDOR|MSTAT_TYPE_SKB, __FUNCTION__, __LINE__)
-	
+
 #define rtw_cfg80211_vendor_cmd_alloc_reply_skb(wiphy, len) \
 	dbg_rtw_cfg80211_vendor_cmd_alloc_reply_skb(wiphy, len, MSTAT_FUNC_CFG_VENDOR|MSTAT_TYPE_SKB, __FUNCTION__, __LINE__)
 
@@ -164,7 +164,7 @@ struct sk_buff *rtw_cfg80211_vendor_event_alloc(
 
 #define rtw_cfg80211_vendor_event(skb, gfp) \
 	cfg80211_vendor_event(skb, gfp)
-	
+
 #define rtw_cfg80211_vendor_cmd_alloc_reply_skb(wiphy, len) \
 	cfg80211_vendor_cmd_alloc_reply_skb(wiphy, len)
 

@@ -45,7 +45,7 @@
 	#define RTL8188F_PHY_REG					"rtl8188f/PHY_REG.txt"
 	#define RTL8188F_PHY_RADIO_A				"rtl8188f/RadioA.txt"
 	#define RTL8188F_PHY_RADIO_B				"rtl8188f/RadioB.txt"
-	#define RTL8188F_TXPWR_TRACK				"rtl8188f/TxPowerTrack.txt" 
+	#define RTL8188F_TXPWR_TRACK				"rtl8188f/TxPowerTrack.txt"
 	#define RTL8188F_AGC_TAB					"rtl8188f/AGC_TAB.txt"
 	#define RTL8188F_PHY_MACREG 				"rtl8188f/MAC_REG.txt"
 	#define RTL8188F_PHY_REG_PG				"rtl8188f/PHY_REG_PG.txt"
@@ -125,7 +125,7 @@ typedef struct _RT_8188F_FIRMWARE_HDR
 #define PAGE_SIZE_RX_8188F			8
 
 #define RX_DMA_SIZE_8188F			0x4000	// 16K
-#ifdef CONFIG_FW_C2H_DEBUG 
+#ifdef CONFIG_FW_C2H_DEBUG
 #define RX_DMA_RESERVED_SIZE_8188F	0x100	// 256B, reserved for c2h debug message
 #else
 #define RX_DMA_RESERVED_SIZE_8188F	0x80	// 128B, reserved for tx report
@@ -260,7 +260,7 @@ void Hal_EfuseParseKFreeData_8188F(PADAPTER pAdapter, u8 *hwinfo, BOOLEAN AutoLo
 VOID Hal_EfuseParseMacHidden_8188F(PADAPTER pAdapter, u8 *hwinfo, BOOLEAN AutoLoadFail);
 
 #if 0 /* Do not need for rtl8188f */
-VOID Hal_EfuseParseVoltage_8188F(PADAPTER pAdapter,u8* hwinfo,BOOLEAN 	AutoLoadFail); 
+VOID Hal_EfuseParseVoltage_8188F(PADAPTER pAdapter,u8* hwinfo,BOOLEAN 	AutoLoadFail);
 #endif
 
 #ifdef CONFIG_C2H_PACKET_EN

@@ -38,14 +38,14 @@
 
 /*--------------------------Define Parameters-------------------------------*/
 
-/*------------------------------Define structure----------------------------*/ 
+/*------------------------------Define structure----------------------------*/
 
 
 /* BB/RF related */
 
 #define	SIC_ENABLE				0
 
-/*------------------------------Define structure----------------------------*/ 
+/*------------------------------Define structure----------------------------*/
 
 
 /*------------------------Export global variable----------------------------*/
@@ -59,27 +59,27 @@
 /*--------------------------Exported Function prototype---------------------*/
 //1. BB register R/W API
 
-extern	u32	
+extern	u32
 PHY_QueryBBReg8814A(	IN	PADAPTER	Adapter,
 								IN	u32		RegAddr,
 								IN	u32		BitMask	);
 
 
-VOID	
+VOID
 PHY_SetBBReg8814A(	IN	PADAPTER	Adapter,
 								IN	u32		RegAddr,
 								IN	u32		BitMask,
 								IN	u32		Data	);
 
 
-extern	u32	
+extern	u32
 PHY_QueryRFReg8814A(	IN	PADAPTER			Adapter,
 								IN	u8			eRFPath,
 								IN	u32			RegAddr,
 								IN	u32			BitMask	);
 
 
-void	
+void
 PHY_SetRFReg8814A(	IN	PADAPTER			Adapter,
 								IN	u8			eRFPath,
 								IN	u32				RegAddr,
@@ -111,7 +111,7 @@ phy_ADC_CLK_8814A(
 
 s32
 PHY_RFConfig8814A(
-	IN	PADAPTER	Adapter	
+	IN	PADAPTER	Adapter
 	);
 
 //
@@ -121,16 +121,16 @@ PHY_RFConfig8814A(
 
 //1 5. Tx  Power setting API
 
-VOID	
+VOID
 PHY_GetTxPowerLevel8814(
 	IN	PADAPTER		Adapter,
 	OUT ps4Byte			powerlevel
 	);
 
-VOID	
+VOID
 PHY_SetTxPowerLevel8814(
 	IN	PADAPTER		Adapter,
-	IN	u8			Channel 
+	IN	u8			Channel
 	);
 
 u8
@@ -138,7 +138,7 @@ PHY_GetTxPowerIndex_8814A(
 	IN	PADAPTER			Adapter,
 	IN  u8  				RFPath,
 	IN	u8				Rate,
-	IN	CHANNEL_WIDTH		BandWidth,	
+	IN	CHANNEL_WIDTH		BandWidth,
 	IN	u8				Channel
 	);
 
@@ -146,7 +146,7 @@ VOID
 PHY_SetTxPowerIndex_8814A(
 	IN	PADAPTER			Adapter,
 	IN	u32				PowerIndex,
-	IN	u8				RFPath,	
+	IN	u8				RFPath,
 	IN	u8				Rate
 	);
 
@@ -154,11 +154,11 @@ PHY_SetTxPowerIndex_8814A(
 BOOLEAN
 PHY_UpdateTxPowerDbm8814A(
 	IN	PADAPTER	Adapter,
-	IN	s4Byte		powerInDbm	
+	IN	s4Byte		powerInDbm
 	);
 
 
-u32 
+u32
 PHY_GetTxBBSwing_8814A(
 	IN	PADAPTER	Adapter,
 	IN	BAND_TYPE 	Band,
@@ -181,12 +181,12 @@ PHY_SwChnlWorkItemCallback8814A(
 
 
 VOID
-HAL_HandleSwChnl8814A(	
+HAL_HandleSwChnl8814A(
 	IN	PADAPTER	pAdapter,
 	IN	u8		channel
 	);
 
-VOID	
+VOID
 PHY_SwChnlSynchronously8814A(	IN	PADAPTER		pAdapter,
 										IN	u8			channel	);
 
@@ -207,7 +207,7 @@ PHY_HandleSwChnlAndSetBW8814A(
 );
 
 
-BOOLEAN 
+BOOLEAN
 PHY_QueryRFPathSwitch_8814A(	IN	PADAPTER	pAdapter);
 
 
@@ -225,7 +225,7 @@ RtCheckForHangWorkItemCallback8814A(
 BOOLEAN
 SetAntennaConfig8814A(
 	IN	PADAPTER	Adapter,
-	IN	u8		DefaultAnt	
+	IN	u8		DefaultAnt
 	);
 
 VOID

@@ -42,7 +42,7 @@ struct sk_buff *rtw_alloc_skb_premem(u16 in_size)
 
 	printk("%s, rtk_skb_mem_q len : %d\n", __func__, skb_queue_len(&rtk_skb_mem_q));
 
-	return skb;	
+	return skb;
 }
 EXPORT_SYMBOL(rtw_alloc_skb_premem);
 
@@ -51,11 +51,11 @@ int rtw_free_skb_premem(struct sk_buff *pskb)
 	if(!pskb)
 		return -1;
 
-	if (skb_queue_len(&rtk_skb_mem_q) >= MAX_RTKM_NR_PREALLOC_RECV_SKB)	
+	if (skb_queue_len(&rtk_skb_mem_q) >= MAX_RTKM_NR_PREALLOC_RECV_SKB)
 		return -1;
-	
+
 	skb_queue_tail(&rtk_skb_mem_q, pskb);
-	
+
 	printk("%s, rtk_skb_mem_q len : %d\n", __func__, skb_queue_len(&rtk_skb_mem_q));
 
 	return 0;
@@ -86,7 +86,7 @@ static int __init rtw_mem_init(void)
 	{
 		pskb = __dev_alloc_skb(MAX_RTKM_RECVBUF_SZ + RECVBUFF_ALIGN_SZ, in_interrupt() ? GFP_ATOMIC : GFP_KERNEL);
 		if(pskb)
-		{		
+		{
 			tmpaddr = (SIZE_PTR)pskb->data;
 			alignment = tmpaddr & (RECVBUFF_ALIGN_SZ-1);
 			skb_reserve(pskb, (RECVBUFF_ALIGN_SZ - alignment));
@@ -104,7 +104,7 @@ static int __init rtw_mem_init(void)
 	printk("%s, rtk_skb_mem_q len : %d\n", __func__, skb_queue_len(&rtk_skb_mem_q));
 
 	return 0;
-	
+
 }
 
 static void __exit rtw_mem_exit(void)

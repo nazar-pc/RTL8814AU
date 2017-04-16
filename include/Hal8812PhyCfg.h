@@ -38,12 +38,12 @@
 
 /*--------------------------Define Parameters-------------------------------*/
 
-/*------------------------------Define structure----------------------------*/ 
+/*------------------------------Define structure----------------------------*/
 
 
 /* BB/RF related */
 
-/*------------------------------Define structure----------------------------*/ 
+/*------------------------------Define structure----------------------------*/
 
 
 /*------------------------Export global variable----------------------------*/
@@ -102,8 +102,8 @@ BOOLEAN	PHY_UpdateTxPowerDbm8812( IN PADAPTER	Adapter, IN int	powerInDbm	);
 u8 PHY_GetTxPowerIndex_8812A(
 	IN	PADAPTER			pAdapter,
 	IN	u8					RFPath,
-	IN	u8					Rate,	
-	IN	CHANNEL_WIDTH		BandWidth,	
+	IN	u8					Rate,
+	IN	CHANNEL_WIDTH		BandWidth,
 	IN	u8					Channel
 	);
 
@@ -117,7 +117,7 @@ VOID
 PHY_SetTxPowerIndex_8812A(
 	IN	PADAPTER			Adapter,
 	IN	u4Byte				PowerIndex,
-	IN	u1Byte				RFPath, 
+	IN	u1Byte				RFPath,
 	IN	u1Byte				Rate
 	);
 
