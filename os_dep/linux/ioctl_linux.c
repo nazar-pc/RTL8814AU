@@ -13979,25 +13979,6 @@ static int rtw_ioctl_compat_wext_private(struct net_device *dev, struct ifreq *r
 }
 #endif // CONFIG_COMPAT
 
-static int rtw_ioctl_standard_wext_private(struct net_device *dev, struct ifreq *rq)
-{
-	struct iw_point *iwp;
-	struct ifreq ifrq;
-	union iwreq_data wrq_data;
-	int err = 0;
-	iwp = &wrq_data.data;
-	DBG_871X("%s:...\n", __func__);
-	if (copy_from_user(iwp, rq->ifr_ifru.ifru_data, sizeof(struct iw_point)))
-		return -EFAULT;
-
-	err = _rtw_ioctl_wext_private(dev, &wrq_data);
-
-	if (copy_to_user(rq->ifr_ifru.ifru_data, iwp, sizeof(struct iw_point)))
-		return -EFAULT;
-
-	return err;
-}
-
 int rtw_ioctl(struct net_device *dev, struct ifreq *rq, int cmd)
 {
 	struct iwreq *wrq = (struct iwreq *)rq;
