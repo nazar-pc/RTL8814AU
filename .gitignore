@@ -4,5 +4,5 @@
 *.cm
 Module.symvers
 modules.order
-rtl8821au.mod.c
+rtl8814au.mod.c
 .tmp_versions
