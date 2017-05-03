@@ -211,6 +211,7 @@ static struct usb_device_id rtw_usb_id_tbl[] ={
 	{USB_DEVICE(0x056E, 0x400D), .driver_info = RTL8814A}, /* ELECOM - ELECOM */
 	{USB_DEVICE(0x7392, 0xA834), .driver_info = RTL8814A}, /* Edimax - Edimax */
 	{USB_DEVICE(0x7392, 0xA833), .driver_info = RTL8814A}, /* Edimax - Edimax */
+	{USB_DEVICE(0x20f4, 0x809a), .driver_info = RTL8814A}, /* TRENDnet - TAC1900 */
 #endif /* CONFIG_RTL8814A */
 
 #ifdef CONFIG_RTL8188F
