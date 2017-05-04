@@ -29,9 +29,6 @@ u8 rtw_set_hal_ops(_adapter *padapter);
 void rtl8812au_set_hal_ops(_adapter * padapter);
 #endif
 
-#ifdef CONFIG_RTL8192E
-void rtl8192eu_set_hal_ops(_adapter * padapter);
-#endif
 
 
 #ifdef CONFIG_RTL8723B

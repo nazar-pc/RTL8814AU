@@ -289,7 +289,7 @@ struct rx_pkt_attrib	{
 
 #define RECVBUFF_ALIGN_SZ 8
 
-#if (defined(CONFIG_RTL8192E) || defined(CONFIG_RTL8814A)) && defined(CONFIG_PCI_HCI)
+#if (defined(CONFIG_RTL8814A)) && defined(CONFIG_PCI_HCI)
 #define RXBD_SIZE	sizeof(struct recv_stat)
 #endif
 
@@ -302,7 +302,7 @@ struct recv_stat
 
 	unsigned int rxdw1;
 
-#if !((defined(CONFIG_RTL8192E) || defined(CONFIG_RTL8814A)) && defined(CONFIG_PCI_HCI))  /* exclude 8192ee, 8814ae */
+#if !((defined(CONFIG_RTL8814A)) && defined(CONFIG_PCI_HCI))  /* exclude 8192ee, 8814ae */
 	unsigned int rxdw2;
 
 	unsigned int rxdw3;

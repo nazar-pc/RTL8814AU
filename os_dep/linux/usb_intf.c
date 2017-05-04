@@ -176,12 +176,6 @@ static struct usb_device_id rtw_usb_id_tbl[] ={
 	{USB_DEVICE(0x056E, 0x400F) , .driver_info = RTL8821}, /* ELECOM -  ELECOM */
 #endif
 
-#ifdef CONFIG_RTL8192E
-	/*=== Realtek demoboard ===*/
-	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0x818B,0xff,0xff,0xff),.driver_info = RTL8192E},/* Default ID */
-	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0x818C,0xff,0xff,0xff),.driver_info = RTL8192E},/* Default ID */
-#endif
-
 #ifdef CONFIG_RTL8723B
 	//*=== Realtek demoboard ===*/
 	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xB720,0xff,0xff,0xff),.driver_info = RTL8723B}, /* 8723BU 1*1 */
@@ -345,11 +339,6 @@ static void rtw_decide_chip_type_by_usb_info(struct dvobj_priv *pdvobjpriv, cons
 	#if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A)
 	if (pdvobjpriv->chip_type == RTL8812 || pdvobjpriv->chip_type == RTL8821)
 		rtl8812au_set_hw_type(pdvobjpriv);
-	#endif
-
-	#ifdef CONFIG_RTL8192E
-	if (pdvobjpriv->chip_type == RTL8192E)
-		rtl8192eu_set_hw_type(pdvobjpriv);
 	#endif
 
 	#ifdef CONFIG_RTL8723B
@@ -618,10 +607,6 @@ u8 rtw_set_hal_ops(_adapter *padapter)
 		rtl8812au_set_hal_ops(padapter);
 	#endif
 
-	#ifdef CONFIG_RTL8192E
-	if (rtw_get_chip_type(padapter) == RTL8192E)
-		rtl8192eu_set_hal_ops(padapter);
-	#endif
 	#ifdef CONFIG_RTL8723B
 	if (rtw_get_chip_type(padapter) == RTL8723B)
 		rtl8723bu_set_hal_ops(padapter);
@@ -652,11 +637,6 @@ void usb_set_intf_ops(_adapter *padapter,struct _io_ops *pops)
 	#if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A)
 	if (rtw_get_chip_type(padapter) == RTL8812 || rtw_get_chip_type(padapter) == RTL8821)
 		rtl8812au_set_intf_ops(pops);
-	#endif
-
-	#ifdef CONFIG_RTL8192E
-	if (rtw_get_chip_type(padapter) == RTL8192E)
-		rtl8192eu_set_intf_ops(pops);
 	#endif
 
 	#ifdef CONFIG_RTL8723B

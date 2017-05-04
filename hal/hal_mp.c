@@ -23,9 +23,6 @@
 #ifdef CONFIG_RTL8723B
 #include <rtl8723b_hal.h>
 #endif
-#ifdef CONFIG_RTL8192E
-#include <rtl8192e_hal.h>
-#endif
 #ifdef CONFIG_RTL8814A
 #include <rtl8814a_hal.h>
 #endif

@@ -46,11 +46,6 @@
 #define RTL8821A_SUPPORT				1
 #endif
 
-#ifdef CONFIG_RTL8192E
-#undef RTL8192E_SUPPORT
-#define RTL8192E_SUPPORT				1
-#endif
-
 #ifdef CONFIG_RTL8723B
 #undef RTL8723B_SUPPORT
 #define RTL8723B_SUPPORT				1
