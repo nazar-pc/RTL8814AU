@@ -166,9 +166,6 @@ _func_enter_;
 	rtw_indicate_wx_assoc_event(adapter);
 	netif_carrier_on(adapter->pnetdev);
 
-	if(adapter->pid[2] !=0)
-		rtw_signal_process(adapter->pid[2], SIGALRM);
-
 #ifdef RTK_DMP_PLATFORM
 	_set_workitem(&adapter->mlmepriv.Linkup_workitem);
 #endif

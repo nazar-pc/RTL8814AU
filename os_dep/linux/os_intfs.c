@@ -3985,11 +3985,6 @@ _func_enter_;
 		DBG_871X_LEVEL(_drv_always_, "%s: ### ERROR ### wowlan_mode=%d\n", __FUNCTION__, pwrpriv->wowlan_mode);
 	}
 
-	if( padapter->pid[1]!=0) {
-		DBG_871X("pid[1]:%d\n",padapter->pid[1]);
-		rtw_signal_process(padapter->pid[1], SIGUSR2);
-	}
-
 	if (rtw_chk_roam_flags(padapter, RTW_ROAM_ON_RESUME)) {
 		if (pwrpriv->wowlan_wake_reason == FWDecisionDisconnect ||
 			pwrpriv->wowlan_wake_reason == Rx_DisAssoc ||
@@ -4172,11 +4167,6 @@ _func_enter_;
 		rtw_netif_wake_queue(pnetdev);
 	}
 
-	if( padapter->pid[1]!=0) {
-		DBG_871X("pid[1]:%d\n",padapter->pid[1]);
-		rtw_signal_process(padapter->pid[1], SIGUSR2);
-	}
-
 	#ifdef CONFIG_RESUME_IN_WORKQUEUE
 	//rtw_unlock_suspend();
 	#endif //CONFIG_RESUME_IN_WORKQUEUE
@@ -4272,12 +4262,6 @@ _func_enter_;
 		netif_carrier_on(pbuddy_netdev);
 	}
 	#endif
-
-
-	if( padapter->pid[1]!=0) {
-		DBG_871X("pid[1]:%d\n",padapter->pid[1]);
-		rtw_signal_process(padapter->pid[1], SIGUSR2);
-	}
 
 
 	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {

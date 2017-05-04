@@ -201,8 +201,6 @@ void rtw_request_wps_pbc_event(_adapter *padapter)
 		return;
 	}
 
-	rtw_signal_process(padapter->pid[0], SIGUSR1);
-
 #endif
 
 	rtw_led_control(padapter, LED_CTL_START_WPS_BOTTON);
@@ -3997,8 +3995,6 @@ static int rtw_wx_get_nick(struct net_device *dev,
 		wrqu->data.flags = 1;
 		_rtw_memcpy(extra, "<WIFI@REALTEK>", 14);
 	}
-
-	//rtw_signal_process(pid, SIGUSR1); //for test
 
 	//dump debug info here
 /*

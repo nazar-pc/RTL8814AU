@@ -340,7 +340,6 @@ static __inline void thread_enter(char *name)
 	#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0))
 	daemonize("%s", name);
 	#endif
-	allow_signal(SIGTERM);
 #endif
 #ifdef PLATFORM_FREEBSD
 	printf("%s", "RTKTHREAD_enter");
@@ -350,10 +349,6 @@ static __inline void thread_enter(char *name)
 __inline static void flush_signals_thread(void)
 {
 #ifdef PLATFORM_LINUX
-	if (signal_pending (current))
-	{
-		flush_signals(current);
-	}
 #endif
 }
 

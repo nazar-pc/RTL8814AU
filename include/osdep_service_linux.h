@@ -380,13 +380,6 @@ static inline void rtw_merge_string(char *dst, int dst_len, char *src1, char *sr
 	len += snprintf(dst+len, dst_len - len, "%s", src2);
 }
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27))
-#define rtw_signal_process(pid, sig) kill_pid(find_vpid((pid)),(sig), 1)
-#else //(LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27))
-#define rtw_signal_process(pid, sig) kill_proc((pid), (sig), 1)
-#endif //(LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27))
-
-
 // Suspend lock prevent system from going suspend
 #ifdef CONFIG_WAKELOCK
 #include <linux/wakelock.h>
