@@ -99,9 +99,6 @@ int platform_wifi_power_on(void)
 #ifdef CONFIG_RTL8723B
 	type = script_get_item("wifi_para", "rtl8723bs_wl_host_wake", &val);
 #endif
-#ifdef CONFIG_RTL8188E
-	type = script_get_item("wifi_para", "rtl8189es_host_wake", &val);
-#endif
 #endif /* CONFIG_PLATFORM_ARM_SUN8I_W5P1 */
 	if (SCIRPT_ITEM_VALUE_TYPE_PIO != type) {
 		DBG_871X("No definition of wake up host PIN\n");

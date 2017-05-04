@@ -670,47 +670,6 @@ s32 c2h_evt_read(_adapter *adapter, u8 *buf)
 	if (buf == NULL)
 		goto exit;
 
-#if defined (CONFIG_RTL8188E)
-
-	trigger = rtw_read8(adapter, REG_C2HEVT_CLEAR);
-
-	if (trigger == C2H_EVT_HOST_CLOSE) {
-		goto exit; /* Not ready */
-	} else if (trigger != C2H_EVT_FW_CLOSE) {
-		goto clear_evt; /* Not a valid value */
-	}
-
-	c2h_evt = (struct c2h_evt_hdr *)buf;
-
-	_rtw_memset(c2h_evt, 0, 16);
-
-	*buf = rtw_read8(adapter, REG_C2HEVT_MSG_NORMAL);
-	*(buf+1) = rtw_read8(adapter, REG_C2HEVT_MSG_NORMAL + 1);
-
-	RT_PRINT_DATA(_module_hal_init_c_, _drv_info_, "c2h_evt_read(): ",
-		&c2h_evt , sizeof(c2h_evt));
-
-	if (0) {
-		DBG_871X("%s id:%u, len:%u, seq:%u, trigger:0x%02x\n", __func__
-			, c2h_evt->id, c2h_evt->plen, c2h_evt->seq, trigger);
-	}
-
-	/* Read the content */
-	for (i = 0; i < c2h_evt->plen; i++)
-		c2h_evt->payload[i] = rtw_read8(adapter, REG_C2HEVT_MSG_NORMAL + 2 + i);
-
-	RT_PRINT_DATA(_module_hal_init_c_, _drv_info_, "c2h_evt_read(): Command Content:\n",
-		c2h_evt->payload, c2h_evt->plen);
-
-	ret = _SUCCESS;
-
-clear_evt:
-	/*
-	* Clear event to notify FW we have read the command.
-	* If this field isn't clear, the FW won't update the next command message.
-	*/
-	c2h_evt_clear(adapter);
-#endif
 exit:
 	return ret;
 }
@@ -6770,16 +6729,6 @@ int hal_efuse_macaddr_offset(_adapter *adapter)
 			addr_offset = EEPROM_MAC_ADDR_8703BS;
 	break;
 #endif
-#ifdef CONFIG_RTL8188E
-	case RTL8188E:
-		if (interface_type == RTW_USB)
-			addr_offset = EEPROM_MAC_ADDR_88EU;
-		else if (interface_type == RTW_SDIO)
-			addr_offset = EEPROM_MAC_ADDR_88ES;
-		else if (interface_type == RTW_PCIE)
-			addr_offset = EEPROM_MAC_ADDR_88EE;
-		break;
-#endif
 #ifdef CONFIG_RTL8188F
 	case RTL8188F:
 		if (interface_type == RTW_USB)
@@ -7002,32 +6951,6 @@ void rtw_bb_rf_gain_offset(_adapter *padapter)
 		DBG_871X("Using the default RF gain.\n");
 	}
 
-#elif defined(CONFIG_RTL8188E)
-	if (value & BIT4 || (registry_par->RegRfKFreeEnable == 1)) {
-		DBG_871X("8188ES Offset RF Gain.\n");
-		DBG_871X("8188ES Offset RF Gain. EEPROMRFGainVal=0x%x\n",
-				pHalData->EEPROMRFGainVal);
-
-		if (pHalData->EEPROMRFGainVal != 0xff) {
-			res = rtw_hal_read_rfreg(padapter, RF_PATH_A,
-					REG_RF_BB_GAIN_OFFSET, 0xffffffff);
-
-			DBG_871X("Offset RF Gain. reg 0x55=0x%x\n",res);
-			res &= 0xfff87fff;
-
-			res |= (pHalData->EEPROMRFGainVal & 0x0f) << 15;
-			DBG_871X("Offset RF Gain. res=0x%x\n",res);
-
-			rtw_hal_write_rfreg(padapter, RF_PATH_A,
-					REG_RF_BB_GAIN_OFFSET,
-					RF_GAIN_OFFSET_MASK, res);
-		} else {
-			DBG_871X("Offset RF Gain. EEPROMRFGainVal=0x%x == 0xff, didn't run Kfree\n",
-					pHalData->EEPROMRFGainVal);
-		}
-	} else {
-		DBG_871X("Using the default RF gain.\n");
-	}
 #else
 	/* TODO: call this when channel switch */
 	if (kfree_data->flag & KFREE_FLAG_ON)
@@ -7680,11 +7603,7 @@ u8 rtw_get_current_tx_sgi(_adapter *padapter, u8 macid)
 	pRA_T			pRA_Table = &pDM_Odm->DM_RA_Table;
 	u8 curr_tx_sgi = 0;
 
-#if defined(CONFIG_RTL8188E)
-	curr_tx_sgi = ODM_RA_GetDecisionRate_8188E(pDM_Odm, macid);
-#else
 	curr_tx_sgi = ((pRA_Table->link_tx_rate[macid]) & 0x80) >> 7;
-#endif
 
 	return curr_tx_sgi;
 
@@ -7820,7 +7739,7 @@ void hal_set_crystal_cap(_adapter *adapter, u8 crystal_cap)
 	crystal_cap = crystal_cap & 0x3F;
 
 	switch (rtw_get_chip_type(adapter)) {
-#if defined(CONFIG_RTL8188E) || defined(CONFIG_RTL8188F)
+#if defined(CONFIG_RTL8188F)
 	case RTL8188E:
 	case RTL8188F:
 		/* write 0x24[16:11] = 0x24[22:17] = CrystalCap */

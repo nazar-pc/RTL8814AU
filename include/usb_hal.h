@@ -25,10 +25,6 @@ void usb_free_recv_priv (_adapter *padapter, u16 ini_in_buf_sz);
 
 u8 rtw_set_hal_ops(_adapter *padapter);
 
-#ifdef CONFIG_RTL8188E
-void rtl8188eu_set_hal_ops(_adapter * padapter);
-#endif
-
 #if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A)
 void rtl8812au_set_hal_ops(_adapter * padapter);
 #endif

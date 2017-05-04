@@ -131,14 +131,6 @@ static void rtw_dev_shutdown(struct device *dev)
 
 /* DID_USB_v916_20130116 */
 static struct usb_device_id rtw_usb_id_tbl[] ={
-#ifdef CONFIG_RTL8188E
-	/*=== Realtek demoboard ===*/
-	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0x8179),.driver_info = RTL8188E}, /* 8188EUS */
-	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0x0179),.driver_info = RTL8188E}, /* 8188ETV */
-	/*=== Customer ID ===*/
-	/****** 8188EUS ********/
-	{USB_DEVICE(0x07B8, 0x8179),.driver_info = RTL8188E}, /* Abocom - Abocom */
-#endif
 
 #ifdef CONFIG_RTL8812A
 	/*=== Realtek demoboard ===*/
@@ -349,11 +341,6 @@ static u8 rtw_deinit_intf_priv(struct dvobj_priv *dvobj)
 static void rtw_decide_chip_type_by_usb_info(struct dvobj_priv *pdvobjpriv, const struct usb_device_id *pdid)
 {
 	pdvobjpriv->chip_type = pdid->driver_info;
-
-	#ifdef CONFIG_RTL8188E
-	if (pdvobjpriv->chip_type == RTL8188E)
-		rtl8188eu_set_hw_type(pdvobjpriv);
-	#endif
 
 	#if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A)
 	if (pdvobjpriv->chip_type == RTL8812 || pdvobjpriv->chip_type == RTL8821)
@@ -626,11 +613,6 @@ u8 rtw_set_hal_ops(_adapter *padapter)
 	if (rtw_hal_data_init(padapter) == _FAIL)
 		return _FAIL;
 
-	#ifdef CONFIG_RTL8188E
-	if (rtw_get_chip_type(padapter) == RTL8188E)
-		rtl8188eu_set_hal_ops(padapter);
-	#endif
-
 	#if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A)
 	if (rtw_get_chip_type(padapter) == RTL8812 || rtw_get_chip_type(padapter) == RTL8821)
 		rtl8812au_set_hal_ops(padapter);
@@ -667,11 +649,6 @@ u8 rtw_set_hal_ops(_adapter *padapter)
 
 void usb_set_intf_ops(_adapter *padapter,struct _io_ops *pops)
 {
-	#ifdef CONFIG_RTL8188E
-	if (rtw_get_chip_type(padapter) == RTL8188E)
-		rtl8188eu_set_intf_ops(pops);
-	#endif
-
 	#if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A)
 	if (rtw_get_chip_type(padapter) == RTL8812 || rtw_get_chip_type(padapter) == RTL8821)
 		rtl8812au_set_intf_ops(pops);

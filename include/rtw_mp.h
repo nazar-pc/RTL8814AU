@@ -293,9 +293,6 @@ typedef struct _MPT_CONTEXT
 //#endif
 
 /* E-Fuse */
-#ifdef CONFIG_RTL8188E
-#define EFUSE_MAP_SIZE		512
-#endif
 #if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A) || defined(CONFIG_RTL8814A)
 #define EFUSE_MAP_SIZE		512
 #endif
@@ -317,7 +314,7 @@ typedef struct _MPT_CONTEXT
 
 #if defined(CONFIG_RTL8814A)
 #define EFUSE_MAX_SIZE		1024
-#elif defined(CONFIG_RTL8188E) || defined(CONFIG_RTL8188F) || defined(CONFIG_RTL8703B)
+#elif defined(CONFIG_RTL8188F) || defined(CONFIG_RTL8703B)
 #define EFUSE_MAX_SIZE		256
 #else
 #define EFUSE_MAX_SIZE		512
@@ -741,9 +738,6 @@ typedef enum	_MPT_TXPWR_DEF{
 
 #if defined(CONFIG_RTL8723B)
 	#define 	REG_RF_BB_GAIN_OFFSET	0x7f
-	#define 	RF_GAIN_OFFSET_MASK 	0xfffff
-#elif defined(CONFIG_RTL8188E)
-	#define 	REG_RF_BB_GAIN_OFFSET	0x55
 	#define 	RF_GAIN_OFFSET_MASK 	0xfffff
 #else
 	#define 	REG_RF_BB_GAIN_OFFSET	0x55

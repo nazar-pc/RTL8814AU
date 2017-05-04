@@ -20,9 +20,6 @@
 #define _HAL_MP_C_
 #ifdef CONFIG_MP_INCLUDED
 
-#ifdef CONFIG_RTL8188E
-#include <rtl8188e_hal.h>
-#endif
 #ifdef CONFIG_RTL8723B
 #include <rtl8723b_hal.h>
 #endif

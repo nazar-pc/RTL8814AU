@@ -146,10 +146,6 @@ struct spi_more_data {
 	unsigned long len;
 };
 
-#ifdef CONFIG_RTL8188E
-void rtl8188es_set_hal_ops(PADAPTER padapter);
-#define set_hal_ops rtl8188es_set_hal_ops
-#endif
 extern void spi_set_chip_endian(PADAPTER padapter);
 extern unsigned int spi_write8_endian(ADAPTER *Adapter, unsigned int addr, unsigned int buf, u32 big);
 extern void spi_set_intf_ops(_adapter *padapter,struct _io_ops *pops);
@@ -168,16 +164,6 @@ extern void DisableInterrupt8723BSdio(PADAPTER padapter);
 extern u8 HalQueryTxBufferStatus8723BSdio(PADAPTER padapter);
 #endif
 
-#ifdef CONFIG_RTL8188E
-extern void InitInterrupt8188EGspi(PADAPTER padapter);
-extern void EnableInterrupt8188EGspi(PADAPTER padapter);
-extern void DisableInterrupt8188EGspi(PADAPTER padapter);
-extern void UpdateInterruptMask8188EGspi(PADAPTER padapter, u32 AddMSR, u32 RemoveMSR);
-extern u8 HalQueryTxBufferStatus8189EGspi(PADAPTER padapter);
-extern u8 HalQueryTxOQTBufferStatus8189EGspi(PADAPTER padapter);
-extern void ClearInterrupt8188EGspi(PADAPTER padapter);
-extern u8 CheckIPSStatus(PADAPTER padapter);
-#endif // CONFIG_RTL8188E
 #if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
 extern u8 RecvOnePkt(PADAPTER padapter, u32 size);
 #endif // CONFIG_WOWLAN

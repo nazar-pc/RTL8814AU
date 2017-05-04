@@ -22,7 +22,6 @@ EXTRA_CFLAGS += -I$(src)/hal/phydm
 EXTRA_LDFLAGS += --strip-debug
 
 ########################## WIFI IC ############################
-CONFIG_RTL8188E = n
 CONFIG_RTL8812A = n
 CONFIG_RTL8821A = n
 CONFIG_RTL8192E = n
@@ -227,77 +226,6 @@ _OUTSRC_FILES += hal/btc/HalBtc8192e1Ant.o \
 				hal/btc/HalBtc8821aCsr2Ant.o \
 				hal/btc/HalBtc8703b1Ant.o \
 				hal/btc/HalBtc8703b2Ant.o
-endif
-
-
-########### HAL_RTL8188E #################################
-ifeq ($(CONFIG_RTL8188E), y)
-
-RTL871X = rtl8188e
-ifeq ($(CONFIG_SDIO_HCI), y)
-MODULE_NAME = 8189es
-endif
-
-ifeq ($(CONFIG_GSPI_HCI), y)
-MODULE_NAME = 8189es
-endif
-
-ifeq ($(CONFIG_USB_HCI), y)
-MODULE_NAME = 8188eu
-endif
-
-ifeq ($(CONFIG_PCI_HCI), y)
-MODULE_NAME = 8188ee
-endif
-EXTRA_CFLAGS += -DCONFIG_RTL8188E
-
-_HAL_INTFS_FILES +=	hal/HalPwrSeqCmd.o \
-					hal/$(RTL871X)/Hal8188EPwrSeq.o\
- 					hal/$(RTL871X)/$(RTL871X)_xmit.o\
-					hal/$(RTL871X)/$(RTL871X)_sreset.o
-
-_HAL_INTFS_FILES +=	hal/$(RTL871X)/$(RTL871X)_hal_init.o \
-			hal/$(RTL871X)/$(RTL871X)_phycfg.o \
-			hal/$(RTL871X)/$(RTL871X)_rf6052.o \
-			hal/$(RTL871X)/$(RTL871X)_dm.o \
-			hal/$(RTL871X)/$(RTL871X)_rxdesc.o \
-			hal/$(RTL871X)/$(RTL871X)_cmd.o \
-			hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_halinit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_led.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_xmit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_recv.o
-
-ifeq ($(CONFIG_SDIO_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
-else
-ifeq ($(CONFIG_GSPI_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
-else
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops_linux.o
-endif
-endif
-
-ifeq ($(CONFIG_USB_HCI), y)
-_HAL_INTFS_FILES +=hal/efuse/$(RTL871X)/HalEfuseMask8188E_USB.o
-endif
-ifeq ($(CONFIG_PCI_HCI), y)
-_HAL_INTFS_FILES +=hal/efuse/$(RTL871X)/HalEfuseMask8188E_PCIE.o
-endif
-ifeq ($(CONFIG_SDIO_HCI), y)
-_HAL_INTFS_FILES +=hal/efuse/$(RTL871X)/HalEfuseMask8188E_SDIO.o
-endif
-
-#hal/OUTSRC/$(RTL871X)/Hal8188EFWImg_CE.o
-_OUTSRC_FILES += hal/phydm/$(RTL871X)/halhwimg8188e_mac.o\
-		hal/phydm/$(RTL871X)/halhwimg8188e_bb.o\
-		hal/phydm/$(RTL871X)/halhwimg8188e_rf.o\
-		hal/phydm/$(RTL871X)/halhwimg8188e_t_fw.o\
-		hal/phydm/$(RTL871X)/halhwimg8188e_s_fw.o\
-		hal/phydm/$(RTL871X)/halphyrf_8188e_ce.o\
-		hal/phydm/$(RTL871X)/phydm_regconfig8188e.o\
-		hal/phydm/$(RTL871X)/hal8188erateadaptive.o\
-		hal/phydm/$(RTL871X)/phydm_rtl8188e.o
-
 endif
 
 ########### HAL_RTL8192E #################################
