@@ -24,10 +24,6 @@
 void rtl8812ae_set_hal_ops(_adapter *padapter);
 #endif
 
-#ifdef CONFIG_RTL8723B
-void rtl8723be_set_hal_ops(_adapter *padapter);
-#endif
-
 #ifdef CONFIG_RTL8814A
 void rtl8814ae_set_hal_ops(_adapter *padapter);
 #endif

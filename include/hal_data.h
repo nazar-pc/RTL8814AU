@@ -293,7 +293,7 @@ typedef struct hal_com_data
 	struct kfree_data_t kfree_data;
 #endif /*CONFIG_RF_GAIN_OFFSET*/
 
-#if defined(CONFIG_RTL8723B) || defined(CONFIG_RTL8703B)
+#if defined(CONFIG_RTL8703B)
 	u8	adjuseVoltageVal;
 #endif
 	u8	EfuseUsedPercentage;
@@ -571,7 +571,7 @@ typedef struct hal_com_data
 	BT_COEXIST		bt_coexist;
 #endif // CONFIG_BT_COEXIST
 
-#if defined(CONFIG_RTL8723B) || defined(CONFIG_RTL8703B)
+#if defined(CONFIG_RTL8703B)
 	#ifndef CONFIG_PCI_HCI	// mutual exclusive with PCI -- so they're SDIO and GSPI
 	// Interrupt relatd register information.
 	u32			SysIntrStatus;

@@ -1513,13 +1513,6 @@ u8 EXhalbtcoutsrc_IsTfbgaPackageType(PADAPTER padapter)
 {
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(padapter);
 
-#ifdef CONFIG_RTL8723B
-	if ((pHalData->PackageType == PACKAGE_TFBGA79) || (pHalData->PackageType == PACKAGE_TFBGA80)
-		|| (pHalData->PackageType == PACKAGE_TFBGA90)) {
-		return _TRUE;
-	}
-#endif
-
 	return _FALSE;
 }
 

@@ -22,11 +22,7 @@
 #include <drv_types.h>
 #include <rtw_bt_mp.h>
 
-#if defined(CONFIG_RTL8723B)
-#include <rtl8723b_hal.h>
-#endif
-
-#if defined(CONFIG_RTL8723B) || defined(CONFIG_RTL8821A)
+#if defined(CONFIG_RTL8821A)
 void MPh2c_timeout_handle(void *FunctionContext)
 {
 	PADAPTER pAdapter;
@@ -133,9 +129,6 @@ mptbt_SendH2c(
 			pMptCtx->MptH2cRspEvent = _FALSE;
 			pMptCtx->MptBtC2hEvent = _FALSE;
 
-#if defined(CONFIG_RTL8723B)
-			rtl8723b_set_FwBtMpOper_cmd(Adapter, pH2c->opCode, pH2c->opCodeVer, pH2c->reqNum, pH2c->buf);
-#endif
 			pMptCtx->h2cReqNum++;
 			pMptCtx->h2cReqNum %= 16;
 

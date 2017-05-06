@@ -9,10 +9,6 @@
 	#include "rtl8812a/HalEfuseMask8821A_USB.h"
 	#endif
 
-	#if defined(CONFIG_RTL8723B)
-	#include "rtl8723b/HalEfuseMask8723B_USB.h"
-	#endif
-
 	#if defined(CONFIG_RTL8814A)
 	#include "rtl8814a/HalEfuseMask8814A_USB.h"
 	#endif
@@ -29,10 +25,6 @@
 
 	#if defined(CONFIG_RTL8821A)
 	#include "rtl8812a/HalEfuseMask8821A_PCIE.h"
-	#endif
-
-	#if defined(CONFIG_RTL8723B)
-	#include "rtl8723b/HalEfuseMask8723B_PCIE.h"
 	#endif
 
 	#if defined(CONFIG_RTL8814A)

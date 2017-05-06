@@ -689,7 +689,7 @@ s32 c2h_evt_read_88xx(_adapter *adapter, u8 *buf)
 	if (buf == NULL)
 		goto exit;
 
-#if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A) || defined(CONFIG_RTL8723B) || defined(CONFIG_RTL8703B)
+#if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A) || defined(CONFIG_RTL8703B)
 
 	trigger = rtw_read8(adapter, REG_C2HEVT_CLEAR);
 
@@ -1135,7 +1135,7 @@ void hw_var_port_switch(_adapter *adapter)
 
 	/* write bcn ctl */
 #ifdef CONFIG_BT_COEXIST
-#if defined(CONFIG_RTL8723B) || defined(CONFIG_RTL8703B)
+#if defined(CONFIG_RTL8703B)
 	// always enable port0 beacon function for PSTDMA
 	bcn_ctrl_1 |= EN_BCN_FUNCTION;
 	// always disable port1 beacon function for PSTDMA
@@ -6711,16 +6711,6 @@ int hal_efuse_macaddr_offset(_adapter *adapter)
 	interface_type = rtw_get_intf_type(adapter);
 
 	switch (rtw_get_chip_type(adapter)) {
-#ifdef CONFIG_RTL8723B
-	case RTL8723B:
-		if (interface_type == RTW_USB)
-			addr_offset = EEPROM_MAC_ADDR_8723BU;
-		else if (interface_type == RTW_SDIO)
-			addr_offset = EEPROM_MAC_ADDR_8723BS;
-		else if (interface_type == RTW_PCIE)
-			addr_offset = EEPROM_MAC_ADDR_8723BE;
-		break;
-#endif
 #ifdef CONFIG_RTL8703B
 	case RTL8703B:
 		if (interface_type == RTW_USB)
@@ -6890,54 +6880,9 @@ void rtw_bb_rf_gain_offset(_adapter *padapter)
 		return;
 	}
 
-#if defined(CONFIG_RTL8723B)
-	if (value & BIT4 || (registry_par->RegRfKFreeEnable == 1)) {
-		DBG_871X("Offset RF Gain.\n");
-		DBG_871X("Offset RF Gain.  pHalData->EEPROMRFGainVal=0x%x\n",pHalData->EEPROMRFGainVal);
-
-		if(pHalData->EEPROMRFGainVal != 0xff){
-
-			if(pHalData->ant_path == ODM_RF_PATH_A) {
-				GainValue=(pHalData->EEPROMRFGainVal & 0x0f);
-
-			} else {
-				GainValue=(pHalData->EEPROMRFGainVal & 0xf0)>>4;
-			}
-			DBG_871X("Ant PATH_%d GainValue Offset = 0x%x\n",(pHalData->ant_path == ODM_RF_PATH_A) ? (ODM_RF_PATH_A) : (ODM_RF_PATH_B),GainValue);
-
-			for (i = 0; i < ArrayLen; i += 2 )
-			{
-				//DBG_871X("ArrayLen in =%d ,Array 1 =0x%x ,Array2 =0x%x \n",i,Array[i],Array[i]+1);
-				v1 = Array[i];
-				v2 = Array[i+1];
-				 if ( v1 == GainValue ) {
-						DBG_871X("Offset RF Gain. got v1 =0x%x ,v2 =0x%x \n",v1,v2);
-						target=v2;
-						break;
-				 }
-			}
-			DBG_871X("pHalData->EEPROMRFGainVal=0x%x ,Gain offset Target Value=0x%x\n",pHalData->EEPROMRFGainVal,target);
-
-			res = rtw_hal_read_rfreg(padapter, RF_PATH_A, 0x7f, 0xffffffff);
-			DBG_871X("Offset RF Gain. before reg 0x7f=0x%08x\n",res);
-			PHY_SetRFReg(padapter, RF_PATH_A, REG_RF_BB_GAIN_OFFSET, BIT18|BIT17|BIT16|BIT15, target);
-			res = rtw_hal_read_rfreg(padapter, RF_PATH_A, 0x7f, 0xffffffff);
-
-			DBG_871X("Offset RF Gain. After reg 0x7f=0x%08x\n",res);
-
-		}else {
-
-			DBG_871X("Offset RF Gain.  pHalData->EEPROMRFGainVal=0x%x	!= 0xff, didn't run Kfree\n",pHalData->EEPROMRFGainVal);
-		}
-	} else {
-		DBG_871X("Using the default RF gain.\n");
-	}
-
-#else
 	/* TODO: call this when channel switch */
 	if (kfree_data->flag & KFREE_FLAG_ON)
 		rtw_rf_apply_tx_gain_offset(padapter, 6); /* input ch6 to select BB_GAIN_2G */
-#endif
 
 }
 #endif //CONFIG_RF_GAIN_OFFSET
@@ -7727,7 +7672,7 @@ void hal_set_crystal_cap(_adapter *adapter, u8 crystal_cap)
 		PHY_SetBBReg(adapter, REG_MAC_PHY_CTRL, 0x7FF80000, (crystal_cap | (crystal_cap << 6)));
 		break;
 #endif
-#if defined(CONFIG_RTL8723B) || defined(CONFIG_RTL8703B) || defined(CONFIG_RTL8821A)
+#if defined(CONFIG_RTL8703B) || defined(CONFIG_RTL8821A)
 	case RTL8723B:
 	case RTL8703B:
 	case RTL8821:

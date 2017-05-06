@@ -10206,10 +10206,6 @@ static int rtw_mp_efuse_get(struct net_device *dev,
 	else if (strcmp(tmp[0], "vidpid") == 0)
 	{
 
-		#ifdef CONFIG_RTL8723B
-		addr = EEPROM_VID_8723BU;
-		#endif // CONFIG_RTL8192E
-
 		#ifdef CONFIG_RTL8703B
 			#ifdef CONFIG_USB_HCI
 			addr = EEPROM_VID_8703BU;
@@ -10789,10 +10785,6 @@ static int rtw_mp_efuse_set(struct net_device *dev,
 		}
 
 		// pidvid,da0b7881
-
-		#ifdef CONFIG_RTL8723B
-		addr = EEPROM_VID_8723BU;
-		#endif
 
 		#ifdef CONFIG_RTL8703B
 			#ifdef CONFIG_USB_HCI
@@ -11556,12 +11548,6 @@ static int rtw_mp_get(struct net_device *dev,
 			DBG_871X("mp_get MP_RX\n");
 			rtw_mp_rx(dev, info, wdata, extra);
 			break;
-#if defined(CONFIG_RTL8723B)
-	case MP_SetBT:
-			DBG_871X("set MP_SetBT\n");
-			rtw_mp_SetBT(dev, info, wdata, extra);
-			break;
-#endif
 #ifdef CONFIG_SDIO_INDIRECT_ACCESS
 	case MP_SD_IREAD:
 		rtw_mp_sd_iread(dev, info, wrqu, extra);
@@ -12483,13 +12469,6 @@ static int rtw_widi_set_probe_request(struct net_device *dev,
 
 #ifdef CONFIG_MAC_LOOPBACK_DRIVER
 
-#if defined(CONFIG_RTL8723B)
-extern void rtl8723b_cal_txdesc_chksum(struct tx_desc *ptxdesc);
-#define cal_txdesc_chksum rtl8723b_cal_txdesc_chksum
-extern void rtl8723b_fill_default_txdesc(struct xmit_frame *pxmitframe, u8 *pbuf);
-#define fill_default_txdesc rtl8723b_fill_default_txdesc
-#endif // CONFIG_RTL8723B
-
 #if defined(CONFIG_RTL8703B)
 /* extern void rtl8703b_cal_txdesc_chksum(struct tx_desc *ptxdesc); */
 #define cal_txdesc_chksum rtl8703b_cal_txdesc_chksum
@@ -13360,10 +13339,6 @@ static const struct iw_priv_args rtw_private_args[] = {
 		{ EFUSE_FILE, IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "efuse_file" },
 		{ MP_TX, IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "mp_tx" },
 		{ MP_RX, IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "mp_rx" },
-#if defined(CONFIG_RTL8723B)
-		{ MP_SetBT, IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "mp_setbt" },
-        { MP_DISABLE_BT_COEXIST, IW_PRIV_TYPE_CHAR | 1024, 0, "mp_disa_btcoex"},
-#endif
 		{ CTA_TEST, IW_PRIV_TYPE_CHAR | 1024, 0, "cta_test"},
 #endif
 #ifdef CONFIG_WOWLAN

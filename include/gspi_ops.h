@@ -156,13 +156,6 @@ extern void EnableInterrupt8723ASdio(PADAPTER padapter);
 extern void DisableInterrupt8723ASdio(PADAPTER padapter);
 extern void spi_int_hdl(PADAPTER padapter);
 extern u8 HalQueryTxBufferStatus8723ASdio(PADAPTER padapter);
-#ifdef CONFIG_RTL8723B
-extern void InitInterrupt8723BSdio(PADAPTER padapter);
-extern void InitSysInterrupt8723BSdio(PADAPTER padapter);
-extern void EnableInterrupt8723BSdio(PADAPTER padapter);
-extern void DisableInterrupt8723BSdio(PADAPTER padapter);
-extern u8 HalQueryTxBufferStatus8723BSdio(PADAPTER padapter);
-#endif
 
 #if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
 extern u8 RecvOnePkt(PADAPTER padapter, u32 size);

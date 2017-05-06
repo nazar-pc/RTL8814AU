@@ -28,10 +28,6 @@ u8 sd_int_isr(PADAPTER padapter);
 void sd_int_dpc(PADAPTER padapter);
 u8 rtw_set_hal_ops(_adapter *padapter);
 
-#ifdef CONFIG_RTL8723B
-void rtl8723bs_set_hal_ops(PADAPTER padapter);
-#endif
-
 #ifdef CONFIG_RTL8821A
 void rtl8821as_set_hal_ops(PADAPTER padapter);
 #endif

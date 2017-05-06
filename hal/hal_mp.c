@@ -20,9 +20,6 @@
 #define _HAL_MP_C_
 #ifdef CONFIG_MP_INCLUDED
 
-#ifdef CONFIG_RTL8723B
-#include <rtl8723b_hal.h>
-#endif
 #ifdef CONFIG_RTL8814A
 #include <rtl8814a_hal.h>
 #endif
@@ -482,29 +479,6 @@ void hal_mpt_SetDataRate(PADAPTER pAdapter)
 	hal_mpt_SwitchRfSetting(pAdapter);
 
 	hal_mpt_CCKTxPowerAdjust(pAdapter, pHalData->bCCKinCH14);
-#ifdef CONFIG_RTL8723B
-	if (IS_HARDWARE_TYPE_8723B(pAdapter) || IS_HARDWARE_TYPE_8188F(pAdapter)) {
-		if (IS_CCK_RATE(DataRate)) {
-			if (pMptCtx->MptRfPath == ODM_RF_PATH_A)
-				PHY_SetRFReg(pAdapter, ODM_RF_PATH_A, 0x51, 0xF, 0x6);
-			else
-				PHY_SetRFReg(pAdapter, ODM_RF_PATH_A, 0x71, 0xF, 0x6);
-		} else {
-			if (pMptCtx->MptRfPath == ODM_RF_PATH_A)
-				PHY_SetRFReg(pAdapter, ODM_RF_PATH_A, 0x51, 0xF, 0xE);
-			else
-				PHY_SetRFReg(pAdapter, ODM_RF_PATH_A, 0x71, 0xF, 0xE);
-		}
-	}
-
-	if ((IS_HARDWARE_TYPE_8723BS(pAdapter) &&
-		  ((pHalData->PackageType == PACKAGE_TFBGA79) || (pHalData->PackageType == PACKAGE_TFBGA90)))) {
-		if (pMptCtx->MptRfPath == ODM_RF_PATH_A)
-			PHY_SetRFReg(pAdapter, ODM_RF_PATH_A, 0x51, 0xF, 0xE);
-		else
-			PHY_SetRFReg(pAdapter, ODM_RF_PATH_A, 0x71, 0xF, 0xE);
-	}
-#endif
 }
 
 
@@ -941,103 +915,6 @@ void mpt_SetRFPath_8812A(PADAPTER pAdapter)
 #endif
 
 
-#ifdef CONFIG_RTL8723B
-void mpt_SetRFPath_8723B(PADAPTER pAdapter)
-{
-	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(pAdapter);
-	u32		ulAntennaTx, ulAntennaRx;
-	PMPT_CONTEXT	pMptCtx = &(pAdapter->mppriv.MptCtx);
-	PDM_ODM_T	pDM_Odm = &pHalData->odmpriv;
-	PODM_RF_CAL_T	pRFCalibrateInfo = &(pDM_Odm->RFCalibrateInfo);
-
-	ulAntennaTx = pHalData->AntennaTxPath;
-	ulAntennaRx = pHalData->AntennaRxPath;
-
-	if (pHalData->rf_chip >= RF_TYPE_MAX) {
-		DBG_8192C("This RF chip ID is not supported\n");
-		return;
-	}
-
-	switch (pAdapter->mppriv.antenna_tx) {
-		u8 p = 0, i = 0;
-	case ANTENNA_A: /*/ Actually path S1  (Wi-Fi)*/
-			{
-			pMptCtx->MptRfPath = ODM_RF_PATH_A;
-			PHY_SetBBReg(pAdapter, rS0S1_PathSwitch, BIT9|BIT8|BIT7, 0x0);
-			PHY_SetBBReg(pAdapter, 0xB2C, BIT31, 0x0); /* AGC Table Sel*/
-
-			/*/<20130522, Kordan> 0x51 and 0x71 should be set immediately after path switched, or they might be overwritten.*/
-			if ((pHalData->PackageType == PACKAGE_TFBGA79) || (pHalData->PackageType == PACKAGE_TFBGA90))
-				PHY_SetRFReg(pAdapter, ODM_RF_PATH_A, 0x51, bRFRegOffsetMask, 0x6B10E);
-			else
-				PHY_SetRFReg(pAdapter, ODM_RF_PATH_A, 0x51, bRFRegOffsetMask, 0x6B04E);
-
-
-			for (i = 0; i < 3; ++i) {
-				u4Byte offset = pRFCalibrateInfo->TxIQC_8723B[ODM_RF_PATH_A][i][0];
-				u4Byte data = pRFCalibrateInfo->TxIQC_8723B[ODM_RF_PATH_A][i][1];
-
-				if (offset != 0) {
-					PHY_SetBBReg(pAdapter, offset, bMaskDWord, data);
-					DBG_8192C("Switch to S1 TxIQC(offset, data) = (0x%X, 0x%X)\n", offset, data);
-				}
-
-			}
-			for (i = 0; i < 2; ++i) {
-				u4Byte offset = pRFCalibrateInfo->RxIQC_8723B[ODM_RF_PATH_A][i][0];
-				u4Byte data = pRFCalibrateInfo->RxIQC_8723B[ODM_RF_PATH_A][i][1];
-
-				if (offset != 0) {
-					PHY_SetBBReg(pAdapter, offset, bMaskDWord, data);
-					DBG_8192C("Switch to S1 RxIQC (offset, data) = (0x%X, 0x%X)\n", offset, data);
-				}
-			}
-			}
-			break;
-	case ANTENNA_B: /*/ Actually path S0 (BT)*/
-			{
-			u4Byte offset;
-			u4Byte data;
-
-			pMptCtx->MptRfPath = ODM_RF_PATH_B;
-			PHY_SetBBReg(pAdapter, rS0S1_PathSwitch, BIT9|BIT8|BIT7, 0x5);
-			PHY_SetBBReg(pAdapter, 0xB2C, BIT31, 0x1); /*/ AGC Table Sel.*/
-
-			/* <20130522, Kordan> 0x51 and 0x71 should be set immediately after path switched, or they might be overwritten.*/
-			if ((pHalData->PackageType == PACKAGE_TFBGA79) || (pHalData->PackageType == PACKAGE_TFBGA90))
-				PHY_SetRFReg(pAdapter, ODM_RF_PATH_A, 0x51, bRFRegOffsetMask, 0x6B10E);
-			else
-				PHY_SetRFReg(pAdapter, ODM_RF_PATH_A, 0x51, bRFRegOffsetMask, 0x6B04E);
-
-			for (i = 0; i < 3; ++i) {
-				/*/ <20130603, Kordan> Because BB suppors only 1T1R, we restore IQC  to S1 instead of S0.*/
-				offset = pRFCalibrateInfo->TxIQC_8723B[ODM_RF_PATH_A][i][0];
-				data = pRFCalibrateInfo->TxIQC_8723B[ODM_RF_PATH_B][i][1];
-				if (pRFCalibrateInfo->TxIQC_8723B[ODM_RF_PATH_B][i][0] != 0) {
-					PHY_SetBBReg(pAdapter, offset, bMaskDWord, data);
-					DBG_8192C("Switch to S0 TxIQC (offset, data) = (0x%X, 0x%X)\n", offset, data);
-				}
-			}
-			/*/ <20130603, Kordan> Because BB suppors only 1T1R, we restore IQC to S1 instead of S0.*/
-			for (i = 0; i < 2; ++i) {
-				offset = pRFCalibrateInfo->RxIQC_8723B[ODM_RF_PATH_A][i][0];
-				data = pRFCalibrateInfo->RxIQC_8723B[ODM_RF_PATH_B][i][1];
-
-				if (pRFCalibrateInfo->RxIQC_8723B[ODM_RF_PATH_B][i][0] != 0) {
-					PHY_SetBBReg(pAdapter, offset, bMaskDWord, data);
-					DBG_8192C("Switch to S0 RxIQC (offset, data) = (0x%X, 0x%X)\n", offset, data);
-				}
-			}
-			}
-			break;
-	default:
-		pMptCtx->MptRfPath = RF_PATH_AB;
-		RT_TRACE(_module_mp_, _drv_notice_, ("Unknown Tx antenna.\n"));
-		break;
-	}
-	RT_TRACE(_module_mp_, _drv_notice_, ("-SwitchAntenna: finished\n"));
-}
-#endif
 
 #ifdef CONFIG_RTL8703B
 void mpt_SetRFPath_8703B(PADAPTER pAdapter)
@@ -1297,12 +1174,6 @@ void hal_mpt_SetAntenna(PADAPTER	pAdapter)
 #if	defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A)
 	if (IS_HARDWARE_TYPE_JAGUAR(pAdapter)) {
 		mpt_SetRFPath_8812A(pAdapter);
-		return;
-	}
-#endif
-#ifdef	CONFIG_RTL8723B
-	if (IS_HARDWARE_TYPE_8723B(pAdapter)) {
-		mpt_SetRFPath_8723B(pAdapter);
 		return;
 	}
 #endif
