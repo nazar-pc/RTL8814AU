@@ -27,7 +27,6 @@ CONFIG_RTL8821A = n
 CONFIG_RTL8814A = y
 ######################### Interface ###########################
 CONFIG_USB_HCI = y
-CONFIG_PCI_HCI = n
 CONFIG_SDIO_HCI = n
 CONFIG_GSPI_HCI = n
 ########################## Features ###########################
@@ -136,11 +135,6 @@ ifeq ($(CONFIG_USB_HCI), y)
 HCI_NAME = usb
 endif
 
-ifeq ($(CONFIG_PCI_HCI), y)
-HCI_NAME = pci
-endif
-
-
 _OS_INTFS_FILES :=	os_dep/osdep_service.o \
 			os_dep/linux/os_intfs.o \
 			os_dep/linux/$(HCI_NAME)_intf.o \
@@ -214,9 +208,6 @@ RTL871X = rtl8812a
 ifeq ($(CONFIG_USB_HCI), y)
 MODULE_NAME = 8812au
 endif
-ifeq ($(CONFIG_PCI_HCI), y)
-MODULE_NAME = 8812ae
-endif
 ifeq ($(CONFIG_SDIO_HCI), y)
 MODULE_NAME = 8812as
 endif
@@ -252,16 +243,10 @@ ifeq ($(CONFIG_RTL8812A), y)
 ifeq ($(CONFIG_USB_HCI), y)
 _HAL_INTFS_FILES +=hal/efuse/$(RTL871X)/HalEfuseMask8812A_USB.o
 endif
-ifeq ($(CONFIG_PCI_HCI), y)
-_HAL_INTFS_FILES +=hal/efuse/$(RTL871X)/HalEfuseMask8812A_PCIE.o
-endif
 endif
 ifeq ($(CONFIG_RTL8821A), y)
 ifeq ($(CONFIG_USB_HCI), y)
 _HAL_INTFS_FILES +=hal/efuse/$(RTL871X)/HalEfuseMask8821A_USB.o
-endif
-ifeq ($(CONFIG_PCI_HCI), y)
-_HAL_INTFS_FILES +=hal/efuse/$(RTL871X)/HalEfuseMask8821A_PCIE.o
 endif
 endif
 
@@ -284,9 +269,6 @@ ifeq ($(CONFIG_RTL8812A), n)
 RTL871X = rtl8821a
 ifeq ($(CONFIG_USB_HCI), y)
 MODULE_NAME := 8821au
-endif
-ifeq ($(CONFIG_PCI_HCI), y)
-MODULE_NAME := 8821ae
 endif
 ifeq ($(CONFIG_SDIO_HCI), y)
 MODULE_NAME := 8821as
@@ -319,9 +301,6 @@ ifeq ($(CONFIG_RTL8814A), y)
 RTL871X = rtl8814a
 ifeq ($(CONFIG_USB_HCI), y)
 MODULE_NAME = 8814au
-endif
-ifeq ($(CONFIG_PCI_HCI), y)
-MODULE_NAME = 8814ae
 endif
 ifeq ($(CONFIG_SDIO_HCI), y)
 MODULE_NAME = 8814as
@@ -360,9 +339,6 @@ endif
 
 ifeq ($(CONFIG_USB_HCI), y)
 _HAL_INTFS_FILES +=hal/efuse/$(RTL871X)/HalEfuseMask8814A_USB.o
-endif
-ifeq ($(CONFIG_PCI_HCI), y)
-_HAL_INTFS_FILES +=hal/efuse/$(RTL871X)/HalEfuseMask8814A_PCIE.o
 endif
 
 _OUTSRC_FILES += hal/phydm/$(RTL871X)/halhwimg8814a_bb.o\

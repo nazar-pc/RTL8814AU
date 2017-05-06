@@ -2606,10 +2606,6 @@ _func_enter_;
 		pxmitbuf->agg_num = 0;
 		pxmitbuf->pg_num = 0;
 #endif
-#ifdef CONFIG_PCI_HCI
-		pxmitbuf->len = 0;
-		pxmitbuf->desc = NULL;
-#endif
 
 		if (pxmitbuf->sctx) {
 			DBG_871X("%s pxmitbuf->sctx is not NULL\n", __func__);
@@ -2694,10 +2690,6 @@ _func_enter_;
 		pxmitbuf->len = 0;
 		pxmitbuf->pdata = pxmitbuf->ptail = pxmitbuf->phead;
 		pxmitbuf->agg_num = 1;
-#endif
-#ifdef CONFIG_PCI_HCI
-		pxmitbuf->len = 0;
-		pxmitbuf->desc = NULL;
 #endif
 
 		if (pxmitbuf->sctx) {
@@ -2784,10 +2776,6 @@ _func_enter_;
 		pxmitbuf->pdata = pxmitbuf->ptail = pxmitbuf->phead;
 		pxmitbuf->agg_num = 0;
 		pxmitbuf->pg_num = 0;
-#endif
-#ifdef CONFIG_PCI_HCI
-		pxmitbuf->len = 0;
-		pxmitbuf->desc = NULL;
 #endif
 
 		if (pxmitbuf->sctx) {
@@ -3181,7 +3169,7 @@ _func_enter_;
 		}
 #endif
 
-#if defined(CONFIG_USB_HCI) || defined(CONFIG_SDIO_HCI) || defined(CONFIG_PCI_HCI)
+#if defined(CONFIG_USB_HCI) || defined(CONFIG_SDIO_HCI)
 		for(j=0; j<4; j++)
 			inx[j] = pxmitpriv->wmm_para_seq[j];
 #endif

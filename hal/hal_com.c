@@ -5532,11 +5532,7 @@ download_page:
 		pattrib->qsel = QSLT_BEACON;
 		pattrib->pktlen = TotalPacketLen - TxDescOffset;
 		pattrib->last_txcmdsz = TotalPacketLen - TxDescOffset;
-#ifdef CONFIG_PCI_HCI
-		dump_mgntframe(adapter, pcmdframe);
-#else
 		dump_mgntframe_and_wait(adapter, pcmdframe, 100);
-#endif
 	}
 
 	DBG_871X("%s: Set RSVD page location to Fw ,TotalPacketLen(%d), TotalPageNum(%d)\n",

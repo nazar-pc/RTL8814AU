@@ -330,10 +330,6 @@ void SetBcnCtrlReg(PADAPTER padapter, u8 SetBits, u8 ClearBits);
 void rtl8192e_start_thread(_adapter *padapter);
 void rtl8192e_stop_thread(_adapter *padapter);
 
-#ifdef CONFIG_PCI_HCI
-BOOLEAN	InterruptRecognized8192EE(PADAPTER Adapter);
-u16	get_txdesc_buf_addr(u16 ff_hwaddr);
-#endif
 
 #ifdef CONFIG_SDIO_HCI
 #ifdef CONFIG_SDIO_TX_ENABLE_AVAL_INT

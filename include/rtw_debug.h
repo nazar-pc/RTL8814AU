@@ -480,11 +480,6 @@ int proc_get_tx_logs(struct seq_file *m, void *v);
 int proc_get_int_logs(struct seq_file *m, void *v);
 #endif
 
-#ifdef CONFIG_PCI_HCI
-int proc_get_rx_ring(struct seq_file *m, void *v);
-int proc_get_tx_ring(struct seq_file *m, void *v);
-#endif
-
 #ifdef CONFIG_GPIO_WAKEUP
 int proc_get_wowlan_gpio_info(struct seq_file *m, void *v);
 ssize_t proc_set_wowlan_gpio_info(struct file *file, const char __user *buffer,

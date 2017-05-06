@@ -280,16 +280,6 @@ void rtl8814au_xmit_tasklet(void *priv);
 s32 rtl8814au_xmitframe_complete(_adapter *padapter, struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf);
 #endif //CONFIG_USB_HCI
 
-#ifdef CONFIG_PCI_HCI
-s32 rtl8814ae_init_xmit_priv(PADAPTER padapter);
-void rtl8814ae_free_xmit_priv(PADAPTER padapter);
-struct xmit_buf *rtl8814ae_dequeue_xmitbuf(struct rtw_tx_ring *ring);
-void rtl8814ae_xmitframe_resume(_adapter *padapter);
-s32 rtl8814ae_hal_xmit(PADAPTER padapter, struct xmit_frame *pxmitframe);
-s32 rtl8814ae_mgnt_xmit(PADAPTER padapter, struct xmit_frame *pmgntframe);
-s32	rtl8814ae_hal_xmitframe_enqueue(_adapter *padapter, struct xmit_frame *pxmitframe);
-void rtl8814ae_xmit_tasklet(void *priv);
-#endif
 
 void _dbg_dump_tx_info(_adapter	*padapter,int frame_tag, u8 *ptxdesc);
 u8

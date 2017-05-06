@@ -250,10 +250,6 @@ Total page numbers : 176(0xB0) / 256(0x100)
 
 //#define RT_IS_FUNC_DISABLED(__pAdapter, __FuncBits) ( (__pAdapter)->DisabledFunctions & (__FuncBits) )
 
-#ifdef CONFIG_PCI_HCI
-void InterruptRecognized8188EE(PADAPTER Adapter, PRT_ISR_CONTENT pIsrContent);
-void UpdateInterruptMask8188EE(PADAPTER Adapter, u32 AddMSR, u32 AddMSR1, u32 RemoveMSR, u32 RemoveMSR1);
-#endif	//CONFIG_PCI_HCI
 
 // rtl8188e_hal_init.c
 

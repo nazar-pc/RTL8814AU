@@ -318,16 +318,6 @@ s32 rtl8703bu_xmitframe_complete(_adapter *padapter, struct xmit_priv *pxmitpriv
 void _dbg_dump_tx_info(_adapter	*padapter,int frame_tag,struct tx_desc *ptxdesc);
 #endif
 
-#ifdef CONFIG_PCI_HCI
-s32 rtl8703be_init_xmit_priv(PADAPTER padapter);
-void rtl8703be_free_xmit_priv(PADAPTER padapter);
-struct xmit_buf *rtl8703be_dequeue_xmitbuf(struct rtw_tx_ring *ring);
-void	rtl8703be_xmitframe_resume(_adapter *padapter);
-s32 rtl8703be_hal_xmit(PADAPTER padapter, struct xmit_frame *pxmitframe);
-s32 rtl8703be_mgnt_xmit(PADAPTER padapter, struct xmit_frame *pmgntframe);
-s32	rtl8703be_hal_xmitframe_enqueue(_adapter *padapter, struct xmit_frame *pxmitframe);
-void rtl8703be_xmit_tasklet(void *priv);
-#endif
 
 u8	BWMapping_8703B(PADAPTER Adapter, struct pkt_attrib *pattrib);
 u8	SCMapping_8703B(PADAPTER Adapter, struct pkt_attrib	*pattrib);

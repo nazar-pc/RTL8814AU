@@ -266,10 +266,6 @@ typedef struct hal_com_data
 	u16	EEPROMPID;
 	u16	EEPROMSDID;
 #endif
-#ifdef CONFIG_PCI_HCI
- 	u16	EEPROMDID;
-	u16	EEPROMSMID;
-#endif
 
 	u8	EEPROMCustomerID;
 	u8	EEPROMSubCustomerID;
@@ -534,42 +530,15 @@ typedef struct hal_com_data
 #endif //CONFIG_USB_HCI
 
 
-#ifdef CONFIG_PCI_HCI
-	//
-	// EEPROM setting.
-	//
-	u32			TransmitConfig;
-	u32			IntrMaskToSet[2];
-	u32			IntArray[2];
-	u32			IntrMask[2];
-	u32			SysIntArray[1];
-	u32			SysIntrMask[1];
-	u32			IntrMaskReg[2];
-	u32			IntrMaskDefault[2];
-
-	BOOLEAN	 	bL1OffSupport;
-	BOOLEAN 	bSupportBackDoor;
-
-	u8			bDefaultAntenna;
-
-	u8			bInterruptMigration;
-	u8			bDisableTxInt;
-
-	u16			RxTag;
-#endif //CONFIG_PCI_HCI
-
-
 #ifdef DBG_CONFIG_ERROR_DETECT
 	struct sreset_priv srestpriv;
 #endif //#ifdef DBG_CONFIG_ERROR_DETECT
 
 
 #if defined(CONFIG_RTL8703B)
-	#ifndef CONFIG_PCI_HCI	// mutual exclusive with PCI -- so they're SDIO and GSPI
 	// Interrupt relatd register information.
 	u32			SysIntrStatus;
 	u32			SysIntrMask;
-	#endif
 #endif /*endif CONFIG_RTL8723B	*/
 
 #ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
@@ -604,10 +573,6 @@ typedef struct hal_com_data
 	u8	RfKFree_ch_group;
 	BOOLEAN				bCCKinCH14;
 	BB_INIT_REGISTER	RegForRecover[5];
-
-#if defined(CONFIG_PCI_HCI) && defined(RTL8814AE_SW_BCN)
-	BOOLEAN bCorrectBCN;
-#endif
 
 	u32 RxGainOffset[4]; /*{2G, 5G_Low, 5G_Middle, G_High}*/
 	u8 BackUp_IG_REG_4_Chnl_Section[4]; /*{A,B,C,D}*/

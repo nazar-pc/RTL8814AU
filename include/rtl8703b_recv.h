@@ -46,14 +46,6 @@
 #endif
 #endif //!MAX_RECVBUF_SZ
 
-#elif defined(CONFIG_PCI_HCI)
-//#ifndef CONFIG_MINIMAL_MEMORY_USAGE
-//	#define MAX_RECVBUF_SZ (9100)
-//#else
-	#define MAX_RECVBUF_SZ (4000) // about 4K
-//#endif
-
-
 #elif defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
 
 #define MAX_RECVBUF_SZ (10240)
@@ -81,10 +73,6 @@ void rtl8703bu_free_recv_priv (_adapter *padapter);
 void rtl8703bu_init_recvbuf(_adapter *padapter, struct recv_buf *precvbuf);
 #endif
 
-#ifdef CONFIG_PCI_HCI
-s32 rtl8703be_init_recv_priv(PADAPTER padapter);
-void rtl8703be_free_recv_priv(PADAPTER padapter);
-#endif
 
 void rtl8703b_query_rx_desc_status(union recv_frame *precvframe, u8 *pdesc);
 

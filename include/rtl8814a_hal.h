@@ -334,11 +334,6 @@ void rtl8814_start_thread(PADAPTER padapter);
 void rtl8814_stop_thread(PADAPTER padapter);
 
 
-#ifdef CONFIG_PCI_HCI
-BOOLEAN	InterruptRecognized8814AE(PADAPTER Adapter);
-VOID	UpdateInterruptMask8814AE(PADAPTER Adapter, u32 AddMSR, u32 AddMSR1, u32 RemoveMSR, u32 RemoveMSR1);
-u16	get_txbd_idx_addr(u16 ff_hwaddr);
-#endif
 
 #endif //__RTL8188E_HAL_H__
 

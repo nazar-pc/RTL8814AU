@@ -269,17 +269,17 @@ void	rtw_hal_get_odm_var(_adapter *padapter, HAL_ODM_VARIABLE eVariable, PVOID p
 /* FOR SDIO & PCIE */
 void rtw_hal_enable_interrupt(_adapter *padapter)
 {
-#if defined(CONFIG_PCI_HCI) || defined (CONFIG_SDIO_HCI) || defined (CONFIG_GSPI_HCI)
+#if defined (CONFIG_SDIO_HCI) || defined (CONFIG_GSPI_HCI)
 	padapter->HalFunc.enable_interrupt(padapter);
-#endif //#if defined(CONFIG_PCI_HCI) || defined (CONFIG_SDIO_HCI) || defined (CONFIG_GSPI_HCI)
+#endif //#if defined (CONFIG_SDIO_HCI) || defined (CONFIG_GSPI_HCI)
 }
 
 /* FOR SDIO & PCIE */
 void rtw_hal_disable_interrupt(_adapter *padapter)
 {
-#if defined(CONFIG_PCI_HCI) || defined (CONFIG_SDIO_HCI) || defined (CONFIG_GSPI_HCI)
+#if defined (CONFIG_SDIO_HCI) || defined (CONFIG_GSPI_HCI)
 	padapter->HalFunc.disable_interrupt(padapter);
-#endif //#if defined(CONFIG_PCI_HCI) || defined (CONFIG_SDIO_HCI) || defined (CONFIG_GSPI_HCI)
+#endif //#if defined (CONFIG_SDIO_HCI) || defined (CONFIG_GSPI_HCI)
 }
 
 
@@ -308,7 +308,7 @@ void rtw_hal_set_wowlan_fw(_adapter *padapter, u8 sleep)
 
 #endif
 
-#if defined(CONFIG_USB_HCI) || defined (CONFIG_PCI_HCI)
+#if defined(CONFIG_USB_HCI)
 u32	rtw_hal_inirp_init(_adapter *padapter)
 {
 	if (is_primary_adapter(padapter))
@@ -323,14 +323,7 @@ u32	rtw_hal_inirp_deinit(_adapter *padapter)
 
 	return _SUCCESS;
 }
-#endif //#if defined(CONFIG_USB_HCI) || defined (CONFIG_PCI_HCI)
-
-#if defined(CONFIG_PCI_HCI)
-void	rtw_hal_irp_reset(_adapter *padapter)
-{
-	padapter->HalFunc.irp_reset(padapter);
-}
-#endif //#if defined(CONFIG_PCI_HCI)
+#endif //#if defined(CONFIG_USB_HCI)
 
 /* for USB Auto-suspend */
 u8	rtw_hal_intf_ps_func(_adapter *padapter,HAL_INTF_PS_FUNC efunc_id, u8* val)
@@ -500,21 +493,9 @@ void rtw_hal_write_rfreg(_adapter *padapter, u32 eRFPath, u32 RegAddr, u32 BitMa
 
 		padapter->HalFunc.write_rfreg(padapter, eRFPath, RegAddr, BitMask, Data);
 
-#ifdef CONFIG_PCI_HCI
-		if (!IS_HARDWARE_TYPE_JAGUAR_AND_JAGUAR2(padapter)) /*For N-Series IC, suggest by Jenyu*/
-			rtw_udelay_os(2);
-#endif
 	}
 }
 
-#if defined(CONFIG_PCI_HCI)
-s32	rtw_hal_interrupt_handler(_adapter *padapter)
-{
-	s32 ret = _FAIL;
-	ret = padapter->HalFunc.interrupt_handler(padapter);
-	return ret;
-}
-#endif
 #if defined(CONFIG_USB_HCI) && defined(CONFIG_SUPPORT_USB_INT)
 void	rtw_hal_interrupt_handler(_adapter *padapter, u16 pkt_len, u8 *pbuf)
 {
@@ -897,7 +878,7 @@ u8 rtw_hal_ops_check(_adapter *padapter)
 		rtw_hal_error_msg("free_recv_priv");
 		ret = _FAIL;
 	}
-	#if defined(CONFIG_USB_HCI) || defined (CONFIG_PCI_HCI)
+	#if defined(CONFIG_USB_HCI)
 	if (NULL == padapter->HalFunc.inirp_init) {
 		rtw_hal_error_msg("inirp_init");
 		ret = _FAIL;
@@ -906,24 +887,18 @@ u8 rtw_hal_ops_check(_adapter *padapter)
 		rtw_hal_error_msg("inirp_deinit");
 		ret = _FAIL;
 	}
-	#endif //#if defined(CONFIG_USB_HCI) || defined (CONFIG_PCI_HCI)
+	#endif //#if defined(CONFIG_USB_HCI)
 
 
 	/*** interrupt hdl section ***/
-	#if defined(CONFIG_PCI_HCI)
-	if (NULL == padapter->HalFunc.irp_reset) {
-		rtw_hal_error_msg("irp_reset");
-		ret = _FAIL;
-	}
-	#endif/*#if defined(CONFIG_PCI_HCI)*/
-	#if (defined(CONFIG_PCI_HCI)) || (defined(CONFIG_USB_HCI) && defined(CONFIG_SUPPORT_USB_INT))
+	#if (defined(CONFIG_USB_HCI) && defined(CONFIG_SUPPORT_USB_INT))
 	if (NULL == padapter->HalFunc.interrupt_handler) {
 		rtw_hal_error_msg("interrupt_handler");
 		ret = _FAIL;
 	}
-	#endif /*#if (defined(CONFIG_PCI_HCI)) || (defined(CONFIG_USB_HCI) && defined(CONFIG_SUPPORT_USB_INT))*/
+	#endif /*#if (defined(CONFIG_USB_HCI) && defined(CONFIG_SUPPORT_USB_INT))*/
 
-	#if defined(CONFIG_PCI_HCI) || defined (CONFIG_SDIO_HCI) || defined (CONFIG_GSPI_HCI)
+	#if defined (CONFIG_SDIO_HCI) || defined (CONFIG_GSPI_HCI)
 	if (NULL == padapter->HalFunc.enable_interrupt) {
 		rtw_hal_error_msg("enable_interrupt");
 		ret = _FAIL;
@@ -932,7 +907,7 @@ u8 rtw_hal_ops_check(_adapter *padapter)
 		rtw_hal_error_msg("disable_interrupt");
 		ret = _FAIL;
 	}
-	#endif //defined(CONFIG_PCI_HCI) || defined (CONFIG_SDIO_HCI) || defined (CONFIG_GSPI_HCI)
+	#endif //defined (CONFIG_SDIO_HCI) || defined (CONFIG_GSPI_HCI)
 
 
 	/*** DM section ***/

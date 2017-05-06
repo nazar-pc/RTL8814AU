@@ -1293,10 +1293,6 @@ const struct rtw_proc_hdl adapter_proc_hdls [] = {
 	{"int_logs", proc_get_int_logs, NULL},
 #endif
 
-#ifdef CONFIG_PCI_HCI
-	{"rx_ring", proc_get_rx_ring, NULL},
-	{"tx_ring", proc_get_tx_ring, NULL},
-#endif
 #ifdef CONFIG_GPIO_WAKEUP
 	{"wowlan_gpio_info", proc_get_wowlan_gpio_info,
 		proc_set_wowlan_gpio_info},

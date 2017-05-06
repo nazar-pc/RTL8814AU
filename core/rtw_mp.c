@@ -1222,11 +1222,7 @@ void fill_tx_desc_8814a(PADAPTER padapter)
 	offset = TXDESC_SIZE + OFFSET_SZ;
 
 	SET_TX_DESC_OFFSET_8814A(pDesc, offset);
-#if defined(CONFIG_PCI_HCI)
-	SET_TX_DESC_PKT_OFFSET_8814A(pDesc, 0); /* 8814AE pkt_offset is 0 */
-#else
 	SET_TX_DESC_PKT_OFFSET_8814A(pDesc, 1);
-#endif
 
 	if (bmcast) {
 		SET_TX_DESC_BMC_8814A(pDesc, 1);
@@ -1284,11 +1280,7 @@ void fill_tx_desc_8812a(PADAPTER padapter)
 
 	SET_TX_DESC_OFFSET_8812(pDesc, offset);
 
-#if defined(CONFIG_PCI_HCI)
-	SET_TX_DESC_PKT_OFFSET_8812(pDesc, 0);
-#else
 	SET_TX_DESC_PKT_OFFSET_8812(pDesc, 1);
-#endif
 	if (bmcast) {
 		SET_TX_DESC_BMC_8812(pDesc, 1);
 	}
