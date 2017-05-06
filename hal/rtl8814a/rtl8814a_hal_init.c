@@ -6480,12 +6480,6 @@ _func_enter_;
 
 			break;
 
-#ifdef CONFIG_ANTENNA_DIVERSITY
-		case HW_VAR_CURRENT_ANTENNA:
-			*pval = pHalData->CurAntenna;
-			break;
-#endif //CONFIG_ANTENNA_DIVERSITY
-
 		case HW_VAR_EFUSE_BYTES: // To get EFUE total used bytes, added by Roger, 2008.12.22.
 			*(u16*)pval = pHalData->EfuseUsedBytes;
 			break;
@@ -6556,18 +6550,6 @@ u8 GetHalDefVar8814A(PADAPTER padapter, HAL_DEF_VARIABLE variable, void *pval)
 	switch (variable)
 	{
 
-
-#ifdef CONFIG_ANTENNA_DIVERSITY
-		case HAL_DEF_IS_SUPPORT_ANT_DIV:
-			*((u8*)pval) = (pHalData->AntDivCfg==0) ? _FALSE : _TRUE;
-			break;
-#endif //CONFIG_ANTENNA_DIVERSITY
-
-#ifdef CONFIG_ANTENNA_DIVERSITY
-		case HAL_DEF_CURRENT_ANTENNA:
-			*((u8*)pval) = pHalData->CurAntenna;
-			break;
-#endif //CONFIG_ANTENNA_DIVERSITY
 
 		case HAL_DEF_DRVINFO_SZ:
 			*((u32*)pval) = DRVINFO_SZ;
@@ -6765,11 +6747,6 @@ void rtl8814_set_hal_ops(struct hal_ops *pHalFunc)
 
 	pHalFunc->run_thread= &rtl8814_start_thread;
 	pHalFunc->cancel_thread= &rtl8814_stop_thread;
-
-#ifdef CONFIG_ANTENNA_DIVERSITY
-	pHalFunc->AntDivBeforeLinkHandler = &AntDivBeforeLink8812;
-	pHalFunc->AntDivCompareHandler = &AntDivCompare8812;
-#endif //CONFIG_ANTENNA_DIVERSITY
 
 	pHalFunc->read_bbreg = &PHY_QueryBBReg8814A;
 	pHalFunc->write_bbreg = &PHY_SetBBReg8814A;

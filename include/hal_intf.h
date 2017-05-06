@@ -308,10 +308,6 @@ struct hal_ops {
 	void	(*Add_RateATid)(_adapter *padapter, u64 bitmap, u8 *arg, u8 rssi_level);
 
 
-#ifdef CONFIG_ANTENNA_DIVERSITY
-	u8	(*AntDivBeforeLinkHandler)(_adapter *padapter);
-	void	(*AntDivCompareHandler)(_adapter *padapter, WLAN_BSSID_EX *dst, WLAN_BSSID_EX *src);
-#endif
 	u8	(*interface_ps_func)(_adapter *padapter,HAL_INTF_PS_FUNC efunc_id, u8* val);
 
 
@@ -624,11 +620,6 @@ void	rtw_hal_dm_watchdog_in_lps(_adapter *padapter);
 
 void	rtw_hal_set_tx_power_level(_adapter *padapter, u8 channel);
 void	rtw_hal_get_tx_power_level(_adapter *padapter, s32 *powerlevel);
-
-#ifdef CONFIG_ANTENNA_DIVERSITY
-u8	rtw_hal_antdiv_before_linked(_adapter *padapter);
-void	rtw_hal_antdiv_rssi_compared(_adapter *padapter, WLAN_BSSID_EX *dst, WLAN_BSSID_EX *src);
-#endif
 
 #ifdef CONFIG_HOSTAPD_MLME
 s32	rtw_hal_hostap_mgnt_xmit_entry(_adapter *padapter, _pkt *pkt);

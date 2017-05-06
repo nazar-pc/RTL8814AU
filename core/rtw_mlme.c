@@ -734,10 +734,6 @@ void update_network(WLAN_BSSID_EX *dst, WLAN_BSSID_EX *src,
 
 _func_enter_;
 
-#ifdef CONFIG_ANTENNA_DIVERSITY
-	rtw_hal_antdiv_rssi_compared(padapter, dst, src); //this will update src.Rssi, need consider again
-#endif
-
 	#if defined(DBG_RX_SIGNAL_DISPLAY_SSID_MONITORED) && 1
 	if(strcmp(dst->Ssid.Ssid, DBG_RX_SIGNAL_DISPLAY_SSID_MONITORED) == 0) {
 		DBG_871X(FUNC_ADPT_FMT" %s("MAC_FMT", ch%u) ss_ori:%3u, sq_ori:%3u, rssi_ori:%3ld, ss_smp:%3u, sq_smp:%3u, rssi_smp:%3ld\n"
@@ -939,10 +935,6 @@ _func_enter_;
 				RT_TRACE(_module_rtl871x_mlme_c_,_drv_err_,("\n\n\nsomething wrong here\n\n\n"));
 				goto exit;
 			}
-#ifdef CONFIG_ANTENNA_DIVERSITY
-			//target->PhyInfo.Optimum_antenna = pHalData->CurAntenna;//optimum_antenna=>For antenna diversity
-			rtw_hal_get_def_var(adapter, HAL_DEF_CURRENT_ANTENNA, &(target->PhyInfo.Optimum_antenna));
-#endif
 			_rtw_memcpy(&(pnetwork->network), target,  get_WLAN_BSSID_EX_sz(target));
 			//pnetwork->last_scanned = rtw_get_current_time();
 			// variable initialize
@@ -969,10 +961,6 @@ _func_enter_;
 
 			bssid_ex_sz = get_WLAN_BSSID_EX_sz(target);
 			target->Length = bssid_ex_sz;
-#ifdef CONFIG_ANTENNA_DIVERSITY
-			//target->PhyInfo.Optimum_antenna = pHalData->CurAntenna;
-			rtw_hal_get_def_var(adapter, HAL_DEF_CURRENT_ANTENNA, &(target->PhyInfo.Optimum_antenna));
-#endif
 			_rtw_memcpy(&(pnetwork->network), target, bssid_ex_sz );
 
 			pnetwork->last_scanned = rtw_get_current_time();
@@ -3297,18 +3285,6 @@ candidate_exist:
 		}
 	}
 
-	#ifdef CONFIG_ANTENNA_DIVERSITY
-	rtw_hal_get_def_var(adapter, HAL_DEF_IS_SUPPORT_ANT_DIV, &(bSupportAntDiv));
-	if(_TRUE == bSupportAntDiv)
-	{
-		u8 CurrentAntenna;
-		rtw_hal_get_def_var(adapter, HAL_DEF_CURRENT_ANTENNA, &(CurrentAntenna));
-		DBG_871X("#### Opt_Ant_(%s) , cur_Ant(%s)\n",
-			(2==candidate->network.PhyInfo.Optimum_antenna)?"A":"B",
-			(2==CurrentAntenna)?"A":"B"
-		);
-	}
-	#endif
 	set_fwstate(pmlmepriv, _FW_UNDER_LINKING);
 	ret = rtw_joinbss_cmd(adapter, candidate);
 
