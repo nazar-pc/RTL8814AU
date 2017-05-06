@@ -515,14 +515,6 @@ ODM_DMInit(
 		odm_DynamicBBPowerSavingInit(pDM_Odm);
 		odm_DynamicTxPowerInit(pDM_Odm);
 
-#if (RTL8188E_SUPPORT == 1)
-		if(pDM_Odm->SupportICType==ODM_RTL8188E)
-		{
-			odm_PrimaryCCA_Init(pDM_Odm);
-			ODM_RAInfo_Init_all(pDM_Odm);
-		}
-#endif
-
 #if (DM_ODM_SUPPORT_TYPE & (ODM_WIN|ODM_CE))
 
 	#if (RTL8723B_SUPPORT == 1)
@@ -715,10 +707,6 @@ ODM_DMWatchdog(
 	if(pDM_Odm->SupportICType & ODM_IC_11N_SERIES)
 	{
 
-#if (RTL8188E_SUPPORT == 1)
-	        if(pDM_Odm->SupportICType==ODM_RTL8188E)
-	                odm_DynamicPrimaryCCA(pDM_Odm);
-#endif
 
 #if( DM_ODM_SUPPORT_TYPE & (ODM_WIN|ODM_CE))
 

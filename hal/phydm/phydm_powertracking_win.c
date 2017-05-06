@@ -456,14 +456,6 @@ odm_TXPowerTrackingThermalMeterInit(
 
 	}
 #elif (DM_ODM_SUPPORT_TYPE & (ODM_AP))
-	#ifdef RTL8188E_SUPPORT
-	{
-		pRFCalibrateInfo->bTXPowerTracking = _TRUE;
-		pRFCalibrateInfo->TXPowercount = 0;
-		pRFCalibrateInfo->bTXPowerTrackingInit = _FALSE;
-		pRFCalibrateInfo->TxPowerTrackControl = _TRUE;
-	}
-	#endif
 #endif
 
 	pRFCalibrateInfo->TxPowerTrackControl = TRUE;
@@ -550,29 +542,6 @@ odm_TXPowerTrackingCheckCE(
 	rtl8192c_odm_CheckTXPowerTracking(Adapter);
 	#endif
 
-	#if(RTL8188E_SUPPORT==1)
-
-	if(!(pDM_Odm->SupportAbility & ODM_RF_TX_PWR_TRACK))
-	{
-		return;
-	}
-
-	if(!pRFCalibrateInfo->TM_Trigger)		//at least delay 1 sec
-	{
-		ODM_SetRFReg(pDM_Odm, ODM_RF_PATH_A, RF_T_METER, bRFRegOffsetMask, 0x60);
-		//DBG_8192C("Trigger 92C Thermal Meter!!\n");
-
-		pRFCalibrateInfo->TM_Trigger = 1;
-		return;
-
-	}
-	else
-	{
-		//DBG_8192C("Schedule TxPowerTracking direct call!!\n");
-		odm_TXPowerTrackingCallback_ThermalMeter_8188E(Adapter);
-		pRFCalibrateInfo->TM_Trigger = 0;
-	}
-	#endif
 #endif
 }
 

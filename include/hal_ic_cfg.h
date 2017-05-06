@@ -20,7 +20,6 @@
 #ifndef __HAL_IC_CFG_H__
 #define __HAL_IC_CFG_H__
 
-#define RTL8188E_SUPPORT				0
 #define RTL8812A_SUPPORT				0
 #define RTL8821A_SUPPORT				0
 #define RTL8723B_SUPPORT				0
@@ -32,7 +31,6 @@
 #define RTL8822B_SUPPORT				0
 #define RTL8821B_SUPPORT				0
 
-/*#if (RTL8188E_SUPPORT==1)*/
 #define RATE_ADAPTIVE_SUPPORT			0
 #define POWER_TRAINING_ACTIVE			0
 

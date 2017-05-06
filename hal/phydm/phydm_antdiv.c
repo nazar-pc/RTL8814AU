@@ -826,210 +826,6 @@ odm_BDCcoex_BFeeRxDiv_Arbitration(
 #endif
 #endif //#ifdef BEAMFORMING_SUPPORT
 
-
-#if (RTL8188E_SUPPORT == 1)
-
-
-VOID
-odm_RX_HWAntDiv_Init_88E(
-	IN		PVOID		pDM_VOID
-)
-{
-	PDM_ODM_T		pDM_Odm = (PDM_ODM_T)pDM_VOID;
-	u4Byte	value32;
-	pFAT_T	pDM_FatTable = &pDM_Odm->DM_FatTable;
-
-
-	if(pDM_Odm->mp_mode == TRUE)
-	{
-		pDM_Odm->AntDivType = CGCS_RX_SW_ANTDIV;
-		ODM_SetBBReg(pDM_Odm, ODM_REG_IGI_A_11N , BIT7, 0); // disable HW AntDiv
-		ODM_SetBBReg(pDM_Odm, ODM_REG_LNA_SWITCH_11N , BIT31, 1);  // 1:CG, 0:CS
-        	return;
-	}
-
-	ODM_RT_TRACE(pDM_Odm,ODM_COMP_ANT_DIV, ODM_DBG_LOUD, ("***8188E AntDiv_Init =>  AntDivType=[CGCS_RX_HW_ANTDIV]\n"));
-
-	//MAC Setting
-	value32 = ODM_GetMACReg(pDM_Odm, ODM_REG_ANTSEL_PIN_11N, bMaskDWord);
-	ODM_SetMACReg(pDM_Odm, ODM_REG_ANTSEL_PIN_11N, bMaskDWord, value32|(BIT23|BIT25)); //Reg4C[25]=1, Reg4C[23]=1 for pin output
-	//Pin Settings
-	ODM_SetBBReg(pDM_Odm, ODM_REG_PIN_CTRL_11N , BIT9|BIT8, 0);//Reg870[8]=1'b0, Reg870[9]=1'b0 		//antsel antselb by HW
-	ODM_SetBBReg(pDM_Odm, ODM_REG_RX_ANT_CTRL_11N , BIT10, 0);	//Reg864[10]=1'b0 	//antsel2 by HW
-	ODM_SetBBReg(pDM_Odm, ODM_REG_LNA_SWITCH_11N , BIT22, 1);	//Regb2c[22]=1'b0 	//disable CS/CG switch
-	ODM_SetBBReg(pDM_Odm, ODM_REG_LNA_SWITCH_11N , BIT31, 1);	//Regb2c[31]=1'b1	//output at CG only
-	//OFDM Settings
-	ODM_SetBBReg(pDM_Odm, ODM_REG_ANTDIV_PARA1_11N , bMaskDWord, 0x000000a0);
-	//CCK Settings
-	ODM_SetBBReg(pDM_Odm, ODM_REG_BB_PWR_SAV4_11N , BIT7, 1); //Fix CCK PHY status report issue
-	ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_ANTDIV_PARA2_11N , BIT4, 1); //CCK complete HW AntDiv within 64 samples
-
-	ODM_SetBBReg(pDM_Odm, ODM_REG_ANT_MAPPING1_11N , 0xFFFF, 0x0001);	//antenna mapping table
-
-	pDM_FatTable->enable_ctrl_frame_antdiv = 1;
-}
-
-VOID
-odm_TRX_HWAntDiv_Init_88E(
-	IN		PVOID		pDM_VOID
-)
-{
-	PDM_ODM_T		pDM_Odm = (PDM_ODM_T)pDM_VOID;
-	u4Byte	value32;
-	pFAT_T	pDM_FatTable = &pDM_Odm->DM_FatTable;
-
-	if(pDM_Odm->mp_mode == TRUE)
-	{
-		pDM_Odm->AntDivType = CGCS_RX_SW_ANTDIV;
-		ODM_SetBBReg(pDM_Odm, ODM_REG_IGI_A_11N , BIT7, 0); // disable HW AntDiv
-		ODM_SetBBReg(pDM_Odm, ODM_REG_RX_ANT_CTRL_11N , BIT5|BIT4|BIT3, 0); //Default RX   (0/1)
-		return;
-	}
-
-	ODM_RT_TRACE(pDM_Odm,ODM_COMP_ANT_DIV, ODM_DBG_LOUD, ("***8188E AntDiv_Init =>  AntDivType=[CG_TRX_HW_ANTDIV (SPDT)]\n"));
-
-	//MAC Setting
-	value32 = ODM_GetMACReg(pDM_Odm, ODM_REG_ANTSEL_PIN_11N, bMaskDWord);
-	ODM_SetMACReg(pDM_Odm, ODM_REG_ANTSEL_PIN_11N, bMaskDWord, value32|(BIT23|BIT25)); //Reg4C[25]=1, Reg4C[23]=1 for pin output
-	//Pin Settings
-	ODM_SetBBReg(pDM_Odm, ODM_REG_PIN_CTRL_11N , BIT9|BIT8, 0);//Reg870[8]=1'b0, Reg870[9]=1'b0 		//antsel antselb by HW
-	ODM_SetBBReg(pDM_Odm, ODM_REG_RX_ANT_CTRL_11N , BIT10, 0);	//Reg864[10]=1'b0 	//antsel2 by HW
-	ODM_SetBBReg(pDM_Odm, ODM_REG_LNA_SWITCH_11N , BIT22, 0);	//Regb2c[22]=1'b0 	//disable CS/CG switch
-	ODM_SetBBReg(pDM_Odm, ODM_REG_LNA_SWITCH_11N , BIT31, 1);	//Regb2c[31]=1'b1	//output at CG only
-	//OFDM Settings
-	ODM_SetBBReg(pDM_Odm, ODM_REG_ANTDIV_PARA1_11N , bMaskDWord, 0x000000a0);
-	//CCK Settings
-	ODM_SetBBReg(pDM_Odm, ODM_REG_BB_PWR_SAV4_11N , BIT7, 1); //Fix CCK PHY status report issue
-	ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_ANTDIV_PARA2_11N , BIT4, 1); //CCK complete HW AntDiv within 64 samples
-
-	//antenna mapping table
-	if(!pDM_Odm->bIsMPChip) //testchip
-	{
-		ODM_SetBBReg(pDM_Odm, ODM_REG_RX_DEFUALT_A_11N , BIT10|BIT9|BIT8, 1);	//Reg858[10:8]=3'b001
-		ODM_SetBBReg(pDM_Odm, ODM_REG_RX_DEFUALT_A_11N , BIT13|BIT12|BIT11, 2);	//Reg858[13:11]=3'b010
-	}
-	else //MPchip
-		ODM_SetBBReg(pDM_Odm, ODM_REG_ANT_MAPPING1_11N , bMaskDWord, 0x0201);	/*Reg914=3'b010, Reg915=3'b001*/
-
-	pDM_FatTable->enable_ctrl_frame_antdiv = 1;
-}
-
-
-#if( defined(CONFIG_5G_CG_SMART_ANT_DIVERSITY) ) ||( defined(CONFIG_2G_CG_SMART_ANT_DIVERSITY) )
-VOID
-odm_Smart_HWAntDiv_Init_88E(
-	IN		PVOID		pDM_VOID
-)
-{
-	PDM_ODM_T		pDM_Odm = (PDM_ODM_T)pDM_VOID;
-	u4Byte	value32, i;
-	pFAT_T	pDM_FatTable = &pDM_Odm->DM_FatTable;
-
-	ODM_RT_TRACE(pDM_Odm,ODM_COMP_ANT_DIV, ODM_DBG_LOUD, ("***8188E AntDiv_Init =>  AntDivType=[CG_TRX_SMART_ANTDIV]\n"));
-
-	if(pDM_Odm->mp_mode == TRUE)
-	{
-		ODM_RT_TRACE(pDM_Odm, ODM_COMP_INIT, ODM_DBG_LOUD, ("pDM_Odm->AntDivType: %d\n", pDM_Odm->AntDivType));
-		return;
-	}
-
-	pDM_FatTable->TrainIdx = 0;
-	pDM_FatTable->FAT_State = FAT_PREPARE_STATE;
-
-	pDM_Odm->fat_comb_a=5;
-	pDM_Odm->antdiv_intvl = 0x64; // 100ms
-
-	for(i=0; i<6; i++)
-	{
-		pDM_FatTable->Bssid[i] = 0;
-	}
-	for(i=0; i< (pDM_Odm->fat_comb_a) ; i++)
-	{
-		pDM_FatTable->antSumRSSI[i] = 0;
-		pDM_FatTable->antRSSIcnt[i] = 0;
-		pDM_FatTable->antAveRSSI[i] = 0;
-	}
-
-	//MAC Setting
-	value32 = ODM_GetMACReg(pDM_Odm, 0x4c, bMaskDWord);
-	ODM_SetMACReg(pDM_Odm, 0x4c, bMaskDWord, value32|(BIT23|BIT25)); //Reg4C[25]=1, Reg4C[23]=1 for pin output
-	value32 = ODM_GetMACReg(pDM_Odm,  0x7B4, bMaskDWord);
-	ODM_SetMACReg(pDM_Odm, 0x7b4, bMaskDWord, value32|(BIT16|BIT17)); //Reg7B4[16]=1 enable antenna training, Reg7B4[17]=1 enable A2 match
-	//value32 = PlatformEFIORead4Byte(Adapter, 0x7B4);
-	//PlatformEFIOWrite4Byte(Adapter, 0x7b4, value32|BIT18);	//append MACID in reponse packet
-
-	//Match MAC ADDR
-	ODM_SetMACReg(pDM_Odm, 0x7b4, 0xFFFF, 0);
-	ODM_SetMACReg(pDM_Odm, 0x7b0, bMaskDWord, 0);
-
-	ODM_SetBBReg(pDM_Odm, 0x870 , BIT9|BIT8, 0);//Reg870[8]=1'b0, Reg870[9]=1'b0 		//antsel antselb by HW
-	ODM_SetBBReg(pDM_Odm, 0x864 , BIT10, 0);	//Reg864[10]=1'b0 	//antsel2 by HW
-	ODM_SetBBReg(pDM_Odm, 0xb2c , BIT22, 0);	//Regb2c[22]=1'b0 	//disable CS/CG switch
-	ODM_SetBBReg(pDM_Odm, 0xb2c , BIT31, 0);	//Regb2c[31]=1'b1	//output at CS only
-	ODM_SetBBReg(pDM_Odm, 0xca4 , bMaskDWord, 0x000000a0);
-
-	//antenna mapping table
-	if(pDM_Odm->fat_comb_a == 2)
-	{
-		if(!pDM_Odm->bIsMPChip) //testchip
-		{
-			ODM_SetBBReg(pDM_Odm, 0x858 , BIT10|BIT9|BIT8, 1);	//Reg858[10:8]=3'b001
-			ODM_SetBBReg(pDM_Odm, 0x858 , BIT13|BIT12|BIT11, 2);	//Reg858[13:11]=3'b010
-		}
-		else //MPchip
-		{
-			ODM_SetBBReg(pDM_Odm, 0x914 , bMaskByte0, 1);
-			ODM_SetBBReg(pDM_Odm, 0x914 , bMaskByte1, 2);
-		}
-	}
-	else
-	{
-		if(!pDM_Odm->bIsMPChip) //testchip
-		{
-			ODM_SetBBReg(pDM_Odm, 0x858 , BIT10|BIT9|BIT8, 0);	//Reg858[10:8]=3'b000
-			ODM_SetBBReg(pDM_Odm, 0x858 , BIT13|BIT12|BIT11, 1);	//Reg858[13:11]=3'b001
-			ODM_SetBBReg(pDM_Odm, 0x878 , BIT16, 0);
-			ODM_SetBBReg(pDM_Odm, 0x858 , BIT15|BIT14, 2);	//(Reg878[0],Reg858[14:15])=3'b010
-			ODM_SetBBReg(pDM_Odm, 0x878 , BIT19|BIT18|BIT17, 3);//Reg878[3:1]=3b'011
-			ODM_SetBBReg(pDM_Odm, 0x878 , BIT22|BIT21|BIT20, 4);//Reg878[6:4]=3b'100
-			ODM_SetBBReg(pDM_Odm, 0x878 , BIT25|BIT24|BIT23, 5);//Reg878[9:7]=3b'101
-			ODM_SetBBReg(pDM_Odm, 0x878 , BIT28|BIT27|BIT26, 6);//Reg878[12:10]=3b'110
-			ODM_SetBBReg(pDM_Odm, 0x878 , BIT31|BIT30|BIT29, 7);//Reg878[15:13]=3b'111
-		}
-		else //MPchip
-		{
-			ODM_SetBBReg(pDM_Odm, 0x914 , bMaskByte0, 4);     // 0: 3b'000
-			ODM_SetBBReg(pDM_Odm, 0x914 , bMaskByte1, 2);     // 1: 3b'001
-			ODM_SetBBReg(pDM_Odm, 0x914 , bMaskByte2, 0);     // 2: 3b'010
-			ODM_SetBBReg(pDM_Odm, 0x914 , bMaskByte3, 1);     // 3: 3b'011
-			ODM_SetBBReg(pDM_Odm, 0x918 , bMaskByte0, 3);     // 4: 3b'100
-			ODM_SetBBReg(pDM_Odm, 0x918 , bMaskByte1, 5);     // 5: 3b'101
-			ODM_SetBBReg(pDM_Odm, 0x918 , bMaskByte2, 6);     // 6: 3b'110
-			ODM_SetBBReg(pDM_Odm, 0x918 , bMaskByte3, 255); // 7: 3b'111
-		}
-	}
-
-	//Default Ant Setting when no fast training
-	ODM_SetBBReg(pDM_Odm, 0x864 , BIT5|BIT4|BIT3, 0);	//Default RX
-	ODM_SetBBReg(pDM_Odm, 0x864 , BIT8|BIT7|BIT6, 1);	//Optional RX
-	ODM_SetBBReg(pDM_Odm, 0x860 , BIT14|BIT13|BIT12, 0);//Default TX
-
-	//Enter Traing state
-	ODM_SetBBReg(pDM_Odm, 0x864 , BIT2|BIT1|BIT0, (pDM_Odm->fat_comb_a-1));	//Reg864[2:0]=3'd6	//ant combination=reg864[2:0]+1
-
-	//SW Control
-	//PHY_SetBBReg(Adapter, 0x864 , BIT10, 1);
-	//PHY_SetBBReg(Adapter, 0x870 , BIT9, 1);
-	//PHY_SetBBReg(Adapter, 0x870 , BIT8, 1);
-	//PHY_SetBBReg(Adapter, 0x864 , BIT11, 1);
-	//PHY_SetBBReg(Adapter, 0x860 , BIT9, 0);
-	//PHY_SetBBReg(Adapter, 0x860 , BIT8, 0);
-}
-#endif
-
-#endif //#if (RTL8188E_SUPPORT == 1)
-
-
 #if (RTL8192E_SUPPORT == 1)
 VOID
 odm_RX_HWAntDiv_Init_92E(
@@ -3824,27 +3620,6 @@ ODM_AntDivInit(
 	//2 [--88E---]
 	if(pDM_Odm->SupportICType == ODM_RTL8188E)
 	{
-	#if (RTL8188E_SUPPORT == 1)
-		//pDM_Odm->AntDivType = CGCS_RX_HW_ANTDIV;
-		//pDM_Odm->AntDivType = CG_TRX_HW_ANTDIV;
-		//pDM_Odm->AntDivType = CG_TRX_SMART_ANTDIV;
-
-		if( (pDM_Odm->AntDivType != CGCS_RX_HW_ANTDIV)  && (pDM_Odm->AntDivType != CG_TRX_HW_ANTDIV) && (pDM_Odm->AntDivType != CG_TRX_SMART_ANTDIV))
-		{
-			ODM_RT_TRACE(pDM_Odm, ODM_COMP_ANT_DIV,ODM_DBG_LOUD,("[Return!!!]  88E Not Supprrt This AntDiv Type\n"));
-			pDM_Odm->SupportAbility &= ~(ODM_BB_ANT_DIV);
-			return;
-		}
-
-		if(pDM_Odm->AntDivType == CGCS_RX_HW_ANTDIV)
-			odm_RX_HWAntDiv_Init_88E(pDM_Odm);
-		else if(pDM_Odm->AntDivType == CG_TRX_HW_ANTDIV)
-			odm_TRX_HWAntDiv_Init_88E(pDM_Odm);
-		#if( defined(CONFIG_5G_CG_SMART_ANT_DIVERSITY) ) ||( defined(CONFIG_2G_CG_SMART_ANT_DIVERSITY) )
-		else if(pDM_Odm->AntDivType == CG_TRX_SMART_ANTDIV)
-			odm_Smart_HWAntDiv_Init_88E(pDM_Odm);
-	        #endif
-	#endif
 	}
 
 	//2 [--92E---]
@@ -4119,16 +3894,6 @@ ODM_AntDiv(
 	//2 [--88E---]
 	if(pDM_Odm->SupportICType == ODM_RTL8188E)
 	{
-		#if (RTL8188E_SUPPORT == 1)
-		if(pDM_Odm->AntDivType==CG_TRX_HW_ANTDIV ||pDM_Odm->AntDivType==CGCS_RX_HW_ANTDIV)
-			odm_HW_AntDiv(pDM_Odm);
-
-		#if( defined(CONFIG_5G_CG_SMART_ANT_DIVERSITY) ) ||( defined(CONFIG_2G_CG_SMART_ANT_DIVERSITY) )
-		else if (pDM_Odm->AntDivType==CG_TRX_SMART_ANTDIV)
-			odm_FastAntTraining(pDM_Odm);
-		#endif
-
-		#endif
 
 	}
 	//2 [--92E---]
@@ -4448,13 +4213,6 @@ ODM_SetTxAntByTxInfo(
 			macId, pDM_FatTable->antsel_c[macId], pDM_FatTable->antsel_b[macId], pDM_FatTable->antsel_a[macId]));*/
 #endif
 	} else if (pDM_Odm->SupportICType == ODM_RTL8188E) {
-#if (RTL8188E_SUPPORT == 1)
-		SET_TX_DESC_ANTSEL_A_88E(pDesc, pDM_FatTable->antsel_a[macId]);
-		SET_TX_DESC_ANTSEL_B_88E(pDesc, pDM_FatTable->antsel_b[macId]);
-		SET_TX_DESC_ANTSEL_C_88E(pDesc, pDM_FatTable->antsel_c[macId]);
-		/*ODM_RT_TRACE(pDM_Odm,ODM_COMP_ANT_DIV, ODM_DBG_LOUD, ("[8188E] SetTxAntByTxInfo_WIN: MacID=%d, antsel_tr_mux=3'b%d%d%d\n",
-			macId, pDM_FatTable->antsel_c[macId], pDM_FatTable->antsel_b[macId], pDM_FatTable->antsel_a[macId]));*/
-#endif
 	}
 }
 #elif(DM_ODM_SUPPORT_TYPE == ODM_AP)

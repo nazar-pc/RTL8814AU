@@ -838,15 +838,6 @@ odm_TXPowerTrackingThermalMeterInit(
 	}
 #elif (DM_ODM_SUPPORT_TYPE & (ODM_AP))
 
-	#ifdef RTL8188E_SUPPORT
-	{
-		pDM_Odm->RFCalibrateInfo.bTXPowerTracking = _TRUE;
-		pDM_Odm->RFCalibrateInfo.TXPowercount = 0;
-		pDM_Odm->RFCalibrateInfo.bTXPowerTrackingInit = _FALSE;
-		pDM_Odm->RFCalibrateInfo.TxPowerTrackControl = _TRUE;
-		pDM_Odm->RFCalibrateInfo.TM_Trigger = 0;
-	}
-	#endif
 #endif
 
        pDM_Odm->RFCalibrateInfo.TxPowerTrackControl = TRUE;
@@ -857,9 +848,7 @@ odm_TXPowerTrackingThermalMeterInit(
 	pRFCalibrateInfo->DefaultOfdmIndex = 28;
 
 
-#if RTL8188E_SUPPORT
-	pRFCalibrateInfo->DefaultCckIndex = 20;	// -6 dB
-#elif RTL8192E_SUPPORT
+#if RTL8192E_SUPPORT
 	pRFCalibrateInfo->DefaultCckIndex = 8;	// -12 dB
 #endif
 	pRFCalibrateInfo->BbSwingIdxOfdmBase = pRFCalibrateInfo->DefaultOfdmIndex;
@@ -925,32 +914,6 @@ odm_TXPowerTrackingCheckCE(
 	PDM_ODM_T		pDM_Odm = (PDM_ODM_T)pDM_VOID;
 	PADAPTER	Adapter = pDM_Odm->Adapter;
 
-	#if(RTL8188E_SUPPORT==1)
-
-	//if(!pMgntInfo->bTXPowerTracking /*|| (!pdmpriv->TxPowerTrackControl && pdmpriv->bAPKdone)*/)
-	if(!(pDM_Odm->SupportAbility & ODM_RF_TX_PWR_TRACK))
-	{
-		return;
-	}
-
-	if(!pDM_Odm->RFCalibrateInfo.TM_Trigger)		//at least delay 1 sec
-	{
-		//pHalData->TxPowerCheckCnt++;	//cosa add for debug
-		ODM_SetRFReg(pDM_Odm, RF_PATH_A, RF_T_METER, bRFRegOffsetMask, 0x60);
-		//DBG_8192C("Trigger 92C Thermal Meter!!\n");
-
-		pDM_Odm->RFCalibrateInfo.TM_Trigger = 1;
-		return;
-
-	}
-	else
-	{
-		//DBG_8192C("Schedule TxPowerTracking direct call!!\n");
-		odm_TXPowerTrackingCallback_ThermalMeter_8188E(Adapter);
-		pDM_Odm->RFCalibrateInfo.TM_Trigger = 0;
-	}
-	#endif
-
 #endif
 }
 
@@ -982,7 +945,7 @@ odm_TXPowerTrackingCheckAP(
 #if (DM_ODM_SUPPORT_TYPE == ODM_AP)
 	prtl8192cd_priv	priv		= pDM_Odm->priv;
 
-#if ((RTL8188E_SUPPORT == 1) || (RTL8192E_SUPPORT == 1) || (RTL8812A_SUPPORT == 1) || (RTL8881A_SUPPORT == 1) || (RTL8814A_SUPPORT == 1))
+#if ((RTL8192E_SUPPORT == 1) || (RTL8812A_SUPPORT == 1) || (RTL8881A_SUPPORT == 1) || (RTL8814A_SUPPORT == 1))
 	if (pDM_Odm->SupportICType & (ODM_RTL8188E|ODM_RTL8192E|ODM_RTL8812|ODM_RTL8881A|ODM_RTL8814A))
 		ODM_TXPowerTrackingCallback_ThermalMeter(pDM_Odm);
 	else

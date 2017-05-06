@@ -434,7 +434,7 @@ phydm_reset_retry_limit_table(
 	#if (DM_ODM_SUPPORT_TYPE == ODM_WIN) /*support all IC platform*/
 
 	#else
-		#if ((RTL8192E_SUPPORT == 1) || (RTL8723B_SUPPORT == 1) || (RTL8188E_SUPPORT == 1))
+		#if ((RTL8192E_SUPPORT == 1) || (RTL8723B_SUPPORT == 1))
 			u1Byte per_rate_retrylimit_table_20M[ODM_RATEMCS15+1] = {
 				1, 1, 2, 4,					/*CCK*/
 				2, 2, 4, 6, 8, 12, 16, 18,		/*OFDM*/
@@ -1170,16 +1170,8 @@ s8 phydm_rssi_report(PDM_ODM_T pDM_Odm, u8 mac_id)
 	#endif
 
 	if (pHalData->fw_ractrl == _TRUE) {
-		#if (RTL8188E_SUPPORT == 1)
-		if (pDM_Odm->SupportICType == ODM_RTL8188E)
-			cmdlen = 3;
-		#endif
 		ODM_FillH2CCmd(pDM_Odm, ODM_H2C_RSSI_REPORT, cmdlen, H2C_Parameter);
 	} else {
-		#if ((RTL8188E_SUPPORT == 1) && (RATE_ADAPTIVE_SUPPORT == 1))
-		if (pDM_Odm->SupportICType == ODM_RTL8188E)
-			ODM_RA_SetRSSI_8188E(pDM_Odm, (u8)(pEntry->mac_id & 0xFF), pEntry->rssi_stat.UndecoratedSmoothedPWDB & 0x7F);
-		#endif
 	}
 	return _SUCCESS;
 }
@@ -2081,9 +2073,6 @@ ODM_UpdateInitRate(
 #endif
 			}
 		} else if (pDM_Odm->SupportICType == ODM_RTL8188E) {
-#if (RTL8188E_SUPPORT == 1)
-			ODM_TxPwrTrackSetPwr88E(pDM_Odm, MIX_MODE, ODM_RF_PATH_A, 0);
-#endif
 		}
 #endif
 #else

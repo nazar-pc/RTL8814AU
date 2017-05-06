@@ -110,37 +110,6 @@ PHY_SetTxPowerLimit(
 #define RTL8188F_SUPPORT		0
 #endif
 
-#if RTL8188E_SUPPORT == 1
-#define RTL8188E_T_SUPPORT 1
-#ifdef CONFIG_SFW_SUPPORTED
-#define RTL8188E_S_SUPPORT 1
-#else
-#define RTL8188E_S_SUPPORT 0
-#endif
-#endif
-
-#if (RTL8188E_SUPPORT==1)
-#include "rtl8188e/hal8188erateadaptive.h"//for  RA,Power training
-#include "rtl8188e/halhwimg8188e_mac.h"
-#include "rtl8188e/halhwimg8188e_rf.h"
-#include "rtl8188e/halhwimg8188e_bb.h"
-#include "rtl8188e/halhwimg8188e_t_fw.h"
-#include "rtl8188e/halhwimg8188e_s_fw.h"
-#include "rtl8188e/phydm_regconfig8188e.h"
-#include "rtl8188e/phydm_rtl8188e.h"
-#include "rtl8188e/hal8188ereg.h"
-#if (DM_ODM_SUPPORT_TYPE == ODM_CE)
-	#include "rtl8188e_hal.h"
-	#include "rtl8188e/halphyrf_8188e_ce.h"
-#endif
-#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
-	#include "rtl8188e/halphyrf_8188e_win.h"
-#endif
-#if (DM_ODM_SUPPORT_TYPE == ODM_AP)
-	#include "rtl8188e/halphyrf_8188e_ap.h"
-#endif
-#endif  //88E END
-
 #if (RTL8192E_SUPPORT==1)
 
 	#if (DM_ODM_SUPPORT_TYPE == ODM_WIN)

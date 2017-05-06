@@ -64,10 +64,6 @@ void ConfigureTxpowerTrack(
 #endif
 
 
-#if RTL8188E_SUPPORT
-	if(pDM_Odm->SupportICType==ODM_RTL8188E)
-		ConfigureTxpowerTrack_8188E(pConfig);
-#endif
 }
 
 #if (RTL8192E_SUPPORT==1)

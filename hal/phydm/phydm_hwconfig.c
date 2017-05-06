@@ -1997,7 +1997,8 @@ ODM_PhyStatusQuery(
 }
 
 // For future use.
-VOIDODM_MacStatusQuery(
+VOID
+ODM_MacStatusQuery(
 	IN OUT	PDM_ODM_T					pDM_Odm,
 	IN 		pu1Byte						pMacStatus,
 	IN		u1Byte						MacID,
@@ -2133,17 +2134,6 @@ ODM_ConfigRFWithHeaderFile(
 #endif//(DM_ODM_SUPPORT_TYPE !=  ODM_AP)
 
 //1 All platforms support
-#if (RTL8188E_SUPPORT == 1)
-	if (pDM_Odm->SupportICType == ODM_RTL8188E)
-	{
-		if(ConfigType == CONFIG_RF_RADIO) {
-			if(eRFPath == ODM_RF_PATH_A)
-					READ_AND_CONFIG_MP(8188E,_RadioA);
-		}
-		else if(ConfigType == CONFIG_RF_TXPWR_LMT)
-			READ_AND_CONFIG_MP(8188E,_TXPWR_LMT);
-	}
-#endif
 #if (RTL8814A_SUPPORT == 1)
 	if (pDM_Odm->SupportICType == ODM_RTL8814A)
 	{
@@ -2278,17 +2268,6 @@ ODM_ConfigRFWithTxPwrTrackHeaderFile(
 			READ_AND_CONFIG_MP(8723B,_TxPowerTrack_USB);
 		else if (pDM_Odm->SupportInterface == ODM_ITRF_SDIO)
 			READ_AND_CONFIG_MP(8723B,_TxPowerTrack_SDIO);
-	}
-#endif
-#if RTL8188E_SUPPORT
-	if(pDM_Odm->SupportICType == ODM_RTL8188E)
-	{
-		if (pDM_Odm->SupportInterface == ODM_ITRF_PCIE)
-			READ_AND_CONFIG_MP(8188E,_TxPowerTrack_PCIE);
-		else if (pDM_Odm->SupportInterface == ODM_ITRF_USB)
-			READ_AND_CONFIG_MP(8188E,_TxPowerTrack_USB);
-		else if (pDM_Odm->SupportInterface == ODM_ITRF_SDIO)
-			READ_AND_CONFIG_MP(8188E,_TxPowerTrack_SDIO);
 	}
 #endif
 #endif//(DM_ODM_SUPPORT_TYPE !=  ODM_AP)
@@ -2446,17 +2425,6 @@ ODM_ConfigBBWithHeaderFile(
 
 
 //1 All platforms support
-#if (RTL8188E_SUPPORT == 1)
-	if(pDM_Odm->SupportICType == ODM_RTL8188E)
-	{
-		if(ConfigType == CONFIG_BB_PHY_REG)
-			READ_AND_CONFIG_MP(8188E,_PHY_REG);
-		else if(ConfigType == CONFIG_BB_AGC_TAB)
-			READ_AND_CONFIG_MP(8188E,_AGC_TAB);
-		else if(ConfigType == CONFIG_BB_PHY_REG_PG)
-			READ_AND_CONFIG_MP(8188E,_PHY_REG_PG);
-	}
-#endif
 #if (RTL8814A_SUPPORT == 1)
 	if(pDM_Odm->SupportICType == ODM_RTL8814A)
 	{
@@ -2597,11 +2565,6 @@ ODM_ConfigMACWithHeaderFile(
 #endif//(DM_ODM_SUPPORT_TYPE !=  ODM_AP)
 
 //1 All platforms support
-#if (RTL8188E_SUPPORT == 1)
-	if (pDM_Odm->SupportICType == ODM_RTL8188E){
-		READ_AND_CONFIG_MP(8188E,_MAC_REG);
-	}
-#endif
 #if (RTL8814A_SUPPORT == 1)
 	if (pDM_Odm->SupportICType == ODM_RTL8814A){
 		READ_AND_CONFIG_MP(8814A,_MAC_REG);
@@ -2654,36 +2617,6 @@ ODM_ConfigFWWithHeaderFile(
 {
 #if (DM_ODM_SUPPORT_TYPE != ODM_AP)
 
-#if (RTL8188E_SUPPORT == 1)
-	if (pDM_Odm->SupportICType == ODM_RTL8188E)
-	{
-	#ifdef CONFIG_SFW_SUPPORTED
-		if (ConfigType == CONFIG_FW_NIC)
-			READ_FIRMWARE_MP(8188E_T,_FW_NIC);
-		else if (ConfigType == CONFIG_FW_WoWLAN)
-			READ_FIRMWARE_MP(8188E_T,_FW_WoWLAN);
-		else if(ConfigType == CONFIG_FW_NIC_2)
-			READ_FIRMWARE_MP(8188E_S,_FW_NIC);
-		else if (ConfigType == CONFIG_FW_WoWLAN_2)
-			READ_FIRMWARE_MP(8188E_S,_FW_WoWLAN);
-		#ifdef CONFIG_AP_WOWLAN
-		if (ConfigType == CONFIG_FW_AP)
-			READ_FIRMWARE_MP(8188E_T,_FW_AP);
-		else if (ConfigType == CONFIG_FW_AP_2)
-			READ_FIRMWARE_MP(8188E_S,_FW_AP);
-		#endif //CONFIG_AP_WOWLAN
-	#else
-		if (ConfigType == CONFIG_FW_NIC)
-			READ_FIRMWARE_MP(8188E_T,_FW_NIC);
-		else if (ConfigType == CONFIG_FW_WoWLAN)
-			READ_FIRMWARE_MP(8188E_T,_FW_WoWLAN);
-		#ifdef CONFIG_AP_WOWLAN
-		else if (ConfigType == CONFIG_FW_AP)
-			READ_FIRMWARE_MP(8188E_T,_FW_AP);
-		#endif //CONFIG_AP_WOWLAN
-	#endif
-	}
-#endif
 #if (RTL8723B_SUPPORT == 1)
 	if (pDM_Odm->SupportICType == ODM_RTL8723B)
 	{
@@ -2843,10 +2776,6 @@ ODM_GetHWImgVersion(
 #endif //(DM_ODM_SUPPORT_TYPE != ODM_AP)
 
 /*1 All platforms support*/
-#if (RTL8188E_SUPPORT == 1)
-	if (pDM_Odm->SupportICType == ODM_RTL8188E)
-		Version = GET_VERSION_MP(8188E,_MAC_REG);
-#endif
 #if (RTL8814A_SUPPORT == 1)
 	if (pDM_Odm->SupportICType == ODM_RTL8814A)
 		Version = GET_VERSION_MP(8814A,_MAC_REG);
