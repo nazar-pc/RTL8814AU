@@ -121,9 +121,6 @@ void rtl8812_set_wowlan_cmd(_adapter* padapter, u8 enable);
 s32 FillH2CCmd_8812(PADAPTER padapter, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
 u8 GetTxBufferRsvdPageNum8812(_adapter *padapter, bool wowlan);
 
-#ifdef CONFIG_BT_COEXIST
-void rtl8812a_download_BTCoex_AP_mode_rsvd_page(PADAPTER padapter);
-#endif // CONFIG_BT_COEXIST
 #ifdef CONFIG_P2P_PS
 void rtl8812_set_p2p_ps_offload_cmd(PADAPTER padapter, u8 p2p_ps_state);
 #endif //CONFIG_P2P

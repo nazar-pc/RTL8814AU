@@ -196,9 +196,6 @@ void rtl8723b_set_FwMacIdConfig_cmd(_adapter* padapter, u8 mac_id, u8 raid, u8 b
 void rtl8723b_set_FwMediaStatusRpt_cmd(PADAPTER	padapter, u8 mstatus, u8 macid);
 void rtl8723b_set_FwBtMpOper_cmd(PADAPTER padapter, u8 idx, u8 ver, u8 reqnum, u8 *param);
 void rtl8723b_download_rsvd_page(PADAPTER padapter, u8 mstatus);
-#ifdef CONFIG_BT_COEXIST
-void rtl8723b_download_BTCoex_AP_mode_rsvd_page(PADAPTER padapter);
-#endif // CONFIG_BT_COEXIST
 #ifdef CONFIG_P2P
 void rtl8723b_set_p2p_ps_offload_cmd(PADAPTER padapter, u8 p2p_ps_state);
 #endif //CONFIG_P2P

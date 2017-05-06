@@ -152,18 +152,6 @@ int rtw_special_rf_path = 0; //0: 2T2R ,1: only turn on path A 1T1R
 
 int rtw_channel_plan = RTW_CHPLAN_MAX;
 
-#ifdef CONFIG_BT_COEXIST
-int rtw_btcoex_enable = 1;
-module_param(rtw_btcoex_enable, int, 0644);
-MODULE_PARM_DESC(rtw_btcoex_enable, "Enable BT co-existence mechanism");
-int rtw_bt_iso = 2;// 0:Low, 1:High, 2:From Efuse
-int rtw_bt_sco = 3;// 0:Idle, 1:None-SCO, 2:SCO, 3:From Counter, 4.Busy, 5.OtherBusy
-int rtw_bt_ampdu =1 ;// 0:Disable BT control A-MPDU, 1:Enable BT control A-MPDU.
-int rtw_ant_num = -1; // <0: undefined, >0: Antenna number
-module_param(rtw_ant_num, int, 0644);
-MODULE_PARM_DESC(rtw_ant_num, "Antenna number setting");
-#endif
-
 int rtw_AcceptAddbaReq = _TRUE;// 0:Reject AP's Add BA req, 1:Accept AP's Add BA req.
 
 int rtw_antdiv_cfg = 2; // 0:OFF , 1:ON, 2:decide by Efuse config
@@ -569,14 +557,6 @@ _func_enter_;
 
 	registry_par->channel_plan = (u8)rtw_channel_plan;
 	registry_par->special_rf_path = (u8)rtw_special_rf_path;
-
-#ifdef CONFIG_BT_COEXIST
-	registry_par->btcoex = (u8)rtw_btcoex_enable;
-	registry_par->bt_iso = (u8)rtw_bt_iso;
-	registry_par->bt_sco = (u8)rtw_bt_sco;
-	registry_par->bt_ampdu = (u8)rtw_bt_ampdu;
-	registry_par->ant_num = (s8)rtw_ant_num;
-#endif
 
 	registry_par->bAcceptAddbaReq = (u8)rtw_AcceptAddbaReq;
 
@@ -2577,9 +2557,6 @@ int _netdev_open(struct net_device *pnetdev)
 	uint status;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(pnetdev);
 	struct pwrctrl_priv *pwrctrlpriv = adapter_to_pwrctl(padapter);
-#ifdef CONFIG_BT_COEXIST_SOCKET_TRX
-	HAL_DATA_TYPE		*pHalData = GET_HAL_DATA(padapter);
-#endif //CONFIG_BT_COEXIST_SOCKET_TRX
 
 	RT_TRACE(_module_os_intfs_c_,_drv_info_,("+871x_drv - dev_open\n"));
 	DBG_871X("+871x_drv - drv_open, bup=%d\n", padapter->bup);
@@ -2641,9 +2618,6 @@ int _netdev_open(struct net_device *pnetdev)
 		pwrctrlpriv->bips_processing = _FALSE;
 
 #ifdef CONFIG_PLATFORM_INTEL_BYT
-#ifdef CONFIG_BT_COEXIST
-		rtw_btcoex_IpsNotify(padapter, IPS_NONE);
-#endif // CONFIG_BT_COEXIST
 #endif //CONFIG_PLATFORM_INTEL_BYT
 	}
 	padapter->net_closed = _FALSE;
@@ -2660,18 +2634,6 @@ int _netdev_open(struct net_device *pnetdev)
 #ifdef CONFIG_BR_EXT
 	netdev_br_init(pnetdev);
 #endif	// CONFIG_BR_EXT
-
-#ifdef CONFIG_BT_COEXIST_SOCKET_TRX
-	if(is_primary_adapter(padapter) &&  _TRUE == pHalData->EEPROMBluetoothCoexist)
-	{
-		rtw_btcoex_init_socket(padapter);
-		padapter->coex_info.BtMgnt.ExtConfig.HCIExtensionVer = 0x04;
-		rtw_btcoex_SetHciVersion(padapter,0x04);
-	}
-	else
-		DBG_871X("CONFIG_BT_COEXIST: SECONDARY_ADAPTER\n");
-#endif //CONFIG_BT_COEXIST_SOCKET_TRX
-
 
 netdev_open_normal_process:
 
@@ -2855,9 +2817,6 @@ static int netdev_close(struct net_device *pnetdev)
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(pnetdev);
 	struct pwrctrl_priv *pwrctl = adapter_to_pwrctl(padapter);
 	struct mlme_priv	*pmlmepriv = &padapter->mlmepriv;
-#ifdef CONFIG_BT_COEXIST_SOCKET_TRX
-	HAL_DATA_TYPE		*pHalData = GET_HAL_DATA(padapter);
-#endif //CONFIG_BT_COEXIST_SOCKET_TRX
 
 	RT_TRACE(_module_os_intfs_c_,_drv_info_,("+871x_drv - drv_close\n"));
 
@@ -2927,12 +2886,6 @@ static int netdev_close(struct net_device *pnetdev)
 #ifdef CONFIG_WAPI_SUPPORT
 	rtw_wapi_disable_tx(padapter);
 #endif
-#ifdef CONFIG_BT_COEXIST_SOCKET_TRX
-	if(is_primary_adapter(padapter) &&  _TRUE == pHalData->EEPROMBluetoothCoexist)
-		rtw_btcoex_close_socket(padapter);
-	else
-		DBG_871X("CONFIG_BT_COEXIST: SECONDARY_ADAPTER\n");
-#endif //CONFIG_BT_COEXIST_SOCKET_TRX
 #else //!CONFIG_PLATFORM_INTEL_BYT
 
 	if (pwrctl->bInSuspend == _TRUE)
@@ -3336,9 +3289,6 @@ void rtw_dev_unload(PADAPTER padapter)
 		}
 
 		if (!rtw_is_surprise_removed(padapter)) {
-#ifdef CONFIG_BT_COEXIST
-			rtw_btcoex_IpsNotify(padapter, pwrctl->ips_mode_req);
-#endif
 #ifdef CONFIG_WOWLAN
 			if (pwrctl->bSupportRemoteWakeup == _TRUE &&
 				pwrctl->wowlan_mode ==_TRUE) {
@@ -3779,22 +3729,6 @@ int rtw_suspend_common(_adapter *padapter)
 	LeaveAllPowerSaveModeDirect(padapter);
 
 	rtw_stop_cmd_thread(padapter);
-
-#ifdef CONFIG_BT_COEXIST
-	// wait for the latest FW to remove this condition.
-	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == _TRUE) {
-		rtw_btcoex_SuspendNotify(padapter, 0);
-		DBG_871X("WIFI_AP_STATE\n");
-#ifdef CONFIG_CONCURRENT_MODE
-	} else if (check_buddy_fwstate(padapter, WIFI_AP_STATE)) {
-		rtw_btcoex_SuspendNotify(padapter, 0);
-		DBG_871X("P2P_ROLE_GO\n");
-#endif //CONFIG_CONCURRENT_MODE
-	} else if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == _TRUE) {
-		rtw_btcoex_SuspendNotify(padapter, 1);
-		DBG_871X("STATION\n");
-	}
-#endif // CONFIG_BT_COEXIST
 
 	rtw_ps_deny_cancel(padapter, PS_DENY_SUSPEND);
 
@@ -4363,9 +4297,6 @@ int rtw_resume_common(_adapter *padapter)
 		rtw_resume_process_normal(padapter);
 	}
 
-	#ifdef CONFIG_BT_COEXIST
-	rtw_btcoex_SuspendNotify(padapter, 0);
-	#endif // CONFIG_BT_COEXIST
 
 	if (pwrpriv) {
 		pwrpriv->bInSuspend = _FALSE;

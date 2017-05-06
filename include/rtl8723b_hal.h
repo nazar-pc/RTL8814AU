@@ -293,12 +293,6 @@ void Hal_DetectWoWMode(PADAPTER pAdapter);
 void rtl8723b_start_thread(_adapter *padapter);
 void rtl8723b_stop_thread(_adapter *padapter);
 
-#if defined(CONFIG_CHECK_BT_HANG) && defined(CONFIG_BT_COEXIST)
-void rtl8723bs_init_checkbthang_workqueue(_adapter * adapter);
-void rtl8723bs_free_checkbthang_workqueue(_adapter * adapter);
-void rtl8723bs_cancle_checkbthang_workqueue(_adapter * adapter);
-void rtl8723bs_hal_check_bt_hang(_adapter * adapter);
-#endif
 
 #ifdef CONFIG_GPIO_WAKEUP
 void HalSetOutPutGPIO(PADAPTER padapter, u8 index, u8 OutPutValue);

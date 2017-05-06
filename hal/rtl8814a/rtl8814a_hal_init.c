@@ -801,12 +801,6 @@ FirmwareDownload8814A(
 				DBG_871X("%s fw:%s, size: %d\n", __FUNCTION__, "WoWLAN", pFirmware->ulFwLength);
 			} else
 			#endif /* CONFIG_WOWLAN */
-			#ifdef CONFIG_BT_COEXIST
-			if (pHalData->EEPROMBluetoothCoexist == _TRUE) {
-				ODM_ConfigFWWithHeaderFile(&pHalData->odmpriv, CONFIG_FW_BT, (u8 *)&(pFirmware->szFwBuffer), &(pFirmware->ulFwLength));
-				DBG_871X("%s fw:%s, size: %d\n", __FUNCTION__, "NIC-BTCOEX", pFirmware->ulFwLength);
-			} else
-			#endif /* CONFIG_BT_COEXIST */
 			{
 				//ODM_CmnInfoInit(pDM_OutSrc, ODM_CMNINFO_IC_TYPE, ODM_RTL8814A);
 				ODM_ConfigFWWithHeaderFile(&pHalData->odmpriv, CONFIG_FW_NIC, (u8 *)&(pFirmware->szFwBuffer), &(pFirmware->ulFwLength));
@@ -1761,15 +1755,6 @@ HALBT_InitHalVars(
 	)
 {
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
-#ifdef CONFIG_BT_COEXIST
-#if (MP_DRIVER == 1)
-	pHalData->bt_coexist.bBtExist = 0;
-#else
-	pHalData->bt_coexist.bBtExist = pHalData->EEPROMBluetoothCoexist;
-#endif
-	pHalData->bt_coexist.btTotalAntNum = pHalData->EEPROMBluetoothAntNum;
-	pHalData->bt_coexist.btChipType = pHalData->EEPROMBluetoothType;
-#endif //CONFIG_BT_COEXIST
 }
 
 
@@ -4008,13 +3993,6 @@ void UpdateHalRAMask8814A(PADAPTER padapter, u32 mac_id, u8 rssi_level)
 
 	mask &= rate_bitmap;
 
-#ifdef CONFIG_BT_COEXIST
-    if (pHalData->EEPROMBluetoothCoexist == 1)
-    {
-		rate_bitmap = rtw_btcoex_GetRaMask(padapter);
-		mask &= ~rate_bitmap;
-    }
-#endif // CONFIG_BT_COEXIST
 
 	arg[0] = mac_id;
 	arg[1] = psta->raid;
@@ -4085,13 +4063,6 @@ _InitBeaconParameters_8814A(
 
 	val8 = DIS_TSF_UDT;
 	val16 = val8 | (val8 << 8); // port0 and port1
-#ifdef CONFIG_BT_COEXIST
-    if (pHalData->EEPROMBluetoothCoexist == 1)
-    {
-        // Enable prot0 beacon function for PSTDMA
-        val16 |= EN_BCN_FUNCTION;
-    }
-#endif
 	rtw_write16(Adapter, REG_BCN_CTRL, val16);
 	//rtw_write16(Adapter, REG_BCN_CTRL, 0x1010);
 
@@ -5115,14 +5086,6 @@ static void hw_var_set_bcn_func(PADAPTER Adapter, u8 variable, u8* val)
                 val8 = rtw_read8(Adapter, bcn_ctrl_reg);
                 val8 &= ~(EN_BCN_FUNCTION | EN_TXBCN_RPT);
 
-#ifdef CONFIG_BT_COEXIST
-                if (GET_HAL_DATA(Adapter)->EEPROMBluetoothCoexist == 1)
-                {
-                        // Always enable port0 beacon function for PSTDMA
-                        if (REG_BCN_CTRL == bcn_ctrl_reg)
-                            val8 |= EN_BCN_FUNCTION;
-                }
-#endif //CONFIG_BT_COEXIST
 
 		rtw_write8(Adapter, bcn_ctrl_reg, val8);
 	}
@@ -5722,10 +5685,6 @@ _func_enter_;
 		case HW_VAR_MLME_SITESURVEY:
 			hw_var_set_mlme_sitesurvey(padapter, variable,  pval);
 
-#ifdef CONFIG_BT_COEXIST
-			if (_TRUE == pHalData->EEPROMBluetoothCoexist)
-			        rtw_btcoex_ScanNotify(padapter, *pval?_TRUE:_FALSE);
-#endif
 			break;
 
 		case HW_VAR_MLME_JOIN:
@@ -5781,26 +5740,6 @@ _func_enter_;
 			}
 #endif // !CONFIG_CONCURRENT_MODE
 
-#ifdef CONFIG_BT_COEXIST
-			if (_TRUE == pHalData->EEPROMBluetoothCoexist)
-			{
-					switch (*pval)
-				{
-					case 0:
-						// prepare to join
-						rtw_btcoex_ConnectNotify(padapter, _TRUE);
-						break;
-					case 1:
-						// joinbss_event callback when join res < 0
-						rtw_btcoex_ConnectNotify(padapter, _FALSE);
-						break;
-					case 2:
-						// sta add event callback
-	//					rtw_btcoex_MediaStatusNotify(padapter, RT_MEDIA_CONNECT);
-						break;
-				}
-			}
-#endif
 			break;
 
 		case HW_VAR_ON_RCR_AM:
@@ -6269,15 +6208,6 @@ _func_enter_;
 			pHalData->bNeedIQK = _TRUE;
 			break;
 		case HW_VAR_DL_RSVD_PAGE:
-#ifdef CONFIG_BT_COEXIST
-        if (pHalData->EEPROMBluetoothCoexist == 1)
-        {
-			if (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) == _TRUE)
-			{
-				rtl8814a_download_BTCoex_AP_mode_rsvd_page(padapter);
-			}
-        }
-#endif // CONFIG_BT_COEXIST
                         break;
 #ifdef CONFIG_BEAMFORMING
 #if (BEAMFORMING_SUPPORT == 1) /*add by YuChen for PHYDM-TxBF AutoTest HW Timer*/
@@ -6811,60 +6741,6 @@ static s32 c2h_handler_8814a(PADAPTER padapter, u8 *buf)
 exit:
 	return ret;
 }
-
-#ifdef CONFIG_BT_COEXIST
-void rtl8812a_combo_card_WifiOnlyHwInit(PADAPTER pdapter)
-{
- 	u8  u1Tmp;
-	DBG_871X("%s !\n", __FUNCTION__);
-	if(IS_HARDWARE_TYPE_8812(pdapter))
-	{
-		//0x790[5:0]=0x5
-		u1Tmp = rtw_read8(pdapter,0x790);
-		u1Tmp = (u1Tmp & 0xb0) | 0x05 ;
-		rtw_write8(pdapter,0x790,u1Tmp);
-		// PTA parameter
-		//pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x6cc, 0x0);
-		//pBtCoexist->fBtcWrite4Byte(pBtCoexist, 0x6c8, 0xffffff);
-		//pBtCoexist->fBtcWrite4Byte(pBtCoexist, 0x6c4, 0x55555555);
-		//pBtCoexist->fBtcWrite4Byte(pBtCoexist, 0x6c0, 0x55555555);
-		rtw_write8(pdapter,0x6cc,0x0);
-		rtw_write32(pdapter,0x6c8,0xffffff);
-		rtw_write32(pdapter,0x6c4,0x55555555);
-		rtw_write32(pdapter,0x6c0,0x55555555);
-
-		// coex parameters
-		//pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x778, 0x3);
-		rtw_write8(pdapter,0x778,0x3);
-
-		// enable counter statistics
-		//pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x76e, 0xc);
-		rtw_write8(pdapter,0x76e,0xc);
-
-		// enable PTA
-		//pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x40, 0x20);
-		rtw_write8(pdapter,0x40, 0x20);
-
-		// bt clock related
-		//u1Tmp = pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x4);
-		//u1Tmp |= BIT7;
-		//pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x4, u1Tmp);
-		u1Tmp = rtw_read8(pdapter,0x4);
-		u1Tmp |= BIT7;
-		rtw_write8(pdapter,0x4, u1Tmp);
-
-		// bt clock related
-		//u1Tmp = pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x7);
-		//u1Tmp |= BIT1;
-		//pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x7, u1Tmp);
-		u1Tmp = rtw_read8(pdapter,0x7);
-		u1Tmp |= BIT1;
-		rtw_write8(pdapter,0x7, u1Tmp);
-	}
-
-
-}
-#endif //CONFIG_BT_COEXIST
 
 void rtl8814_set_hal_ops(struct hal_ops *pHalFunc)
 {

@@ -340,9 +340,5 @@ VOID	UpdateInterruptMask8814AE(PADAPTER Adapter, u32 AddMSR, u32 AddMSR1, u32 Re
 u16	get_txbd_idx_addr(u16 ff_hwaddr);
 #endif
 
-#ifdef CONFIG_BT_COEXIST
-void rtl8812a_combo_card_WifiOnlyHwInit(PADAPTER Adapter);
-#endif
-
 #endif //__RTL8188E_HAL_H__
 

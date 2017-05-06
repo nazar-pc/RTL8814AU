@@ -816,21 +816,11 @@ int rtw_mp_disable_bt_coexist(struct net_device *dev,
 		RT_TRACE(_module_mp_, _drv_info_,
 				 ("Set OID_RT_SET_DISABLE_BT_COEXIST: disable BT_COEXIST\n"));
 		DBG_871X("Set OID_RT_SET_DISABLE_BT_COEXIST: disable BT_COEXIST\n");
-#ifdef CONFIG_BT_COEXIST
-		rtw_btcoex_HaltNotify(padapter);
-		rtw_btcoex_SetManualControl(padapter, _TRUE);
-		/* Force to switch Antenna to WiFi*/
-		rtw_write16(padapter, 0x870, 0x300);
-		rtw_write16(padapter, 0x860, 0x110);
-#endif
 		/* CONFIG_BT_COEXIST */
 	} else {
 		RT_TRACE(_module_mp_, _drv_info_,
 				 ("Set OID_RT_SET_DISABLE_BT_COEXIST: enable BT_COEXIST\n"));
-#ifdef CONFIG_BT_COEXIST
-		rtw_btcoex_SetManualControl(padapter, _FALSE);
-#endif
-	}
+}
 
 	return 0;
 }

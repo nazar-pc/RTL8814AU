@@ -1139,42 +1139,6 @@ static ssize_t proc_set_tx_gain_offset(struct file *file, const char __user *buf
 }
 #endif /* CONFIG_RF_GAIN_OFFSET */
 
-#ifdef CONFIG_BT_COEXIST
-ssize_t proc_set_btinfo_evt(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
-{
-	struct net_device *dev = data;
-	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
-	char tmp[32];
-	u8 btinfo[8];
-
-	if (count < 6)
-		return -EFAULT;
-
-	if (count > sizeof(tmp)) {
-		rtw_warn_on(1);
-		return -EFAULT;
-	}
-
-	if (buffer && !copy_from_user(tmp, buffer, count)) {
-		int num = 0;
-
-		_rtw_memset(btinfo, 0, 8);
-
-		num = sscanf(tmp, "%hhx %hhx %hhx %hhx %hhx %hhx %hhx %hhx"
-			, &btinfo[0], &btinfo[1], &btinfo[2], &btinfo[3]
-			, &btinfo[4], &btinfo[5], &btinfo[6], &btinfo[7]);
-
-		if (num < 6)
-			return -EINVAL;
-
-		btinfo[1] = num-2;
-
-		rtw_btinfo_cmd(padapter, btinfo, btinfo[1]+2);
-	}
-
-	return count;
-}
-#endif
 #ifdef CONFIG_AUTO_CHNL_SEL_NHM
 static int proc_get_best_chan(struct seq_file *m, void *v)
 {
@@ -1310,12 +1274,6 @@ const struct rtw_proc_hdl adapter_proc_hdls [] = {
 
 	//{"path_rssi", proc_get_two_path_rssi, NULL},
 //	{"rssi_disp",proc_get_rssi_disp, proc_set_rssi_disp},
-
-#ifdef CONFIG_BT_COEXIST
-	{"btcoex_dbg", proc_get_btcoex_dbg, proc_set_btcoex_dbg},
-	{"btcoex", proc_get_btcoex_info, NULL},
-	{"btinfo_evt", proc_get_dummy, proc_set_btinfo_evt},
-#endif /* CONFIG_BT_COEXIST */
 
 #if defined(DBG_CONFIG_ERROR_DETECT)
 	{"sreset", proc_get_sreset, proc_set_sreset},

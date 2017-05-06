@@ -316,11 +316,7 @@ typedef enum tag_ODM_Support_IC_Type_Definition
 #define ODM_IC_11AC_SERIES_SUPPORT		1
 #endif
 
-#ifdef CONFIG_BT_COEXIST
-#define ODM_CONFIG_BT_COEXIST				1
-#else
 #define ODM_CONFIG_BT_COEXIST				0
-#endif
 
 #endif
 

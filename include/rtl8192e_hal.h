@@ -341,9 +341,6 @@ void _init_available_page_threshold(PADAPTER padapter, u8 numHQ, u8 numNQ, u8 nu
 #endif
 #endif
 
-#ifdef CONFIG_BT_COEXIST
-void rtl8192e_combo_card_WifiOnlyHwInit(PADAPTER Adapter);
-#endif
 
 #endif //__RTL8192E_HAL_H__
 

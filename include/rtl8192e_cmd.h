@@ -128,9 +128,6 @@ s32 FillH2CCmd_8192E(PADAPTER padapter, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer
 u8 GetTxBufferRsvdPageNum8192E(_adapter *padapter, bool wowlan);
 //u8 rtl8192c_set_FwSelectSuspend_cmd(PADAPTER padapter, u8 bfwpoll, u16 period);
 s32 c2h_handler_8192e(PADAPTER padapter, u8 *buf);
-#ifdef CONFIG_BT_COEXIST
-void rtl8192e_download_BTCoex_AP_mode_rsvd_page(PADAPTER padapter);
-#endif // CONFIG_BT_COEXIST
 #ifdef CONFIG_P2P_PS
 void rtl8192e_set_p2p_ps_offload_cmd(PADAPTER padapter, u8 p2p_ps_state);
 #endif //CONFIG_P2P
