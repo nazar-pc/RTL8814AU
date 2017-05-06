@@ -32,10 +32,6 @@
 #ifdef CONFIG_RTL8703B
 #include <rtl8703b_hal.h>
 #endif
-#ifdef CONFIG_RTL8188F
-#include <rtl8188f_hal.h>
-#endif
-
 
 u8 MgntQuery_NssTxRate(u16 Rate)
 {

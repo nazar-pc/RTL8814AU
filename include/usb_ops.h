@@ -68,16 +68,6 @@ void interrupt_handler_8814au(_adapter *padapter, u16 pkt_len, u8 *pbuf);
 #endif
 #endif /* CONFIG_RTL8814 */
 
-#ifdef CONFIG_RTL8188F
-void rtl8188fu_set_hw_type(struct dvobj_priv *pdvobj);
-void rtl8188fu_set_intf_ops(struct _io_ops *pops);
-void rtl8188fu_recv_tasklet(void *priv);
-void rtl8188fu_xmit_tasklet(void *priv);
-#ifdef CONFIG_SUPPORT_USB_INT
-void interrupt_handler_8188fu(_adapter *padapter, u16 pkt_len, u8 *pbuf);
-#endif
-#endif
-
 #ifdef CONFIG_RTL8723B
 void rtl8723bu_set_hw_type(struct dvobj_priv *pdvobj);
 void rtl8723bu_set_intf_ops(struct _io_ops *pops);

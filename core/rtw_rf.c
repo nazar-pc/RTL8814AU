@@ -397,12 +397,6 @@ void rtw_rf_set_tx_gain_offset(_adapter *adapter, u8 path, s8 offset)
 		rtw_hal_write_rfreg(adapter, path, 0x55, 0x0fc000, write_value);
 		break;
 #endif /* CONFIG_RTL8703B */
-#ifdef CONFIG_RTL8188F
-	case RTL8188F:
-		write_value = RF_TX_GAIN_OFFSET_8188F(offset);
-		rtw_hal_write_rfreg(adapter, path, 0x55, 0x0fc000, write_value);
-		break;
-#endif /* CONFIG_RTL8188F */
 #ifdef CONFIG_RTL8821A
 	case RTL8821:
 		write_value = RF_TX_GAIN_OFFSET_8821A(offset);

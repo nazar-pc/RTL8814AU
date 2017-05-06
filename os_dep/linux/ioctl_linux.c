@@ -10210,10 +10210,6 @@ static int rtw_mp_efuse_get(struct net_device *dev,
 		addr = EEPROM_VID_8723BU;
 		#endif // CONFIG_RTL8192E
 
-		#ifdef CONFIG_RTL8188F
-		addr = EEPROM_VID_8188FU;
-		#endif /* CONFIG_RTL8188F */
-
 		#ifdef CONFIG_RTL8703B
 			#ifdef CONFIG_USB_HCI
 			addr = EEPROM_VID_8703BU;
@@ -10796,10 +10792,6 @@ static int rtw_mp_efuse_set(struct net_device *dev,
 
 		#ifdef CONFIG_RTL8723B
 		addr = EEPROM_VID_8723BU;
-		#endif
-
-		#ifdef CONFIG_RTL8188F
-		addr = EEPROM_VID_8188FU;
 		#endif
 
 		#ifdef CONFIG_RTL8703B

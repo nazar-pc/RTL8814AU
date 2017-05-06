@@ -507,17 +507,6 @@ static void PHY_IQCalibrate(PADAPTER padapter, u8 bReCovery)
 #define PHY_SetRFPathSwitch(a, b)
 #endif
 
-#ifdef CONFIG_RTL8188F
-static void PHY_IQCalibrate(PADAPTER padapter, u8 bReCovery)
-{
-	PHY_IQCalibrate_8188F(padapter, bReCovery, _FALSE);
-}
-
-
-#define PHY_LCCalibrate(a)	PHY_LCCalibrate_8188F(&(GET_HAL_DATA(a)->odmpriv))
-#define PHY_SetRFPathSwitch(a, b)	PHY_SetRFPathSwitch_8188F(a, b)
-#endif
-
 s32
 MPT_InitializeAdapter(
 	IN	PADAPTER			pAdapter,
@@ -871,9 +860,6 @@ s32 mp_start_test(PADAPTER padapter)
 	#ifdef CONFIG_RTL8703B
 	rtl8703b_InitHalDm(padapter);
 	#endif /* CONFIG_RTL8703B */
-	#ifdef CONFIG_RTL8188F
-	rtl8188f_InitHalDm(padapter);
-	#endif
 
 	//3 0. update mp_priv
 
@@ -953,9 +939,6 @@ end_of_mp_stop_test:
 	#endif
 	#ifdef CONFIG_RTL8703B
 	rtl8703b_InitHalDm(padapter);
-	#endif
-	#ifdef CONFIG_RTL8188F
-	rtl8188f_InitHalDm(padapter);
 	#endif
 	}
 }
@@ -1169,9 +1152,6 @@ void PhySetTxPowerLevel(PADAPTER pAdapter)
 #endif
 #if defined(CONFIG_RTL8723B)
 		PHY_SetTxPowerLevel8723B(pAdapter,pmp_priv->channel);
-#endif
-#if defined(CONFIG_RTL8188F)
-		PHY_SetTxPowerLevel8188F(pAdapter, pmp_priv->channel);
 #endif
 	mpt_ProQueryCalTxPower(pAdapter,pmp_priv->antenna_tx);
 
@@ -1458,37 +1438,6 @@ void fill_tx_desc_8703b(PADAPTER padapter)
 }
 #endif
 
-#if defined(CONFIG_RTL8188F)
-void fill_tx_desc_8188f(PADAPTER padapter)
-{
-	struct mp_priv *pmp_priv = &padapter->mppriv;
-	struct pkt_attrib *pattrib = &(pmp_priv->tx.attrib);
-	u8 *ptxdesc = pmp_priv->tx.desc;
-
-	SET_TX_DESC_AGG_BREAK_8188F(ptxdesc, 1);
-	SET_TX_DESC_MACID_8188F(ptxdesc, pattrib->mac_id);
-	SET_TX_DESC_QUEUE_SEL_8188F(ptxdesc, pattrib->qsel);
-
-	SET_TX_DESC_RATE_ID_8188F(ptxdesc, pattrib->raid);
-	SET_TX_DESC_SEQ_8188F(ptxdesc, pattrib->seqnum);
-	SET_TX_DESC_HWSEQ_EN_8188F(ptxdesc, 1);
-	SET_TX_DESC_USE_RATE_8188F(ptxdesc, 1);
-	SET_TX_DESC_DISABLE_FB_8188F(ptxdesc, 1);
-
-	if (pmp_priv->preamble)
-		if (HwRateToMPTRate(pmp_priv->rateidx) <=  MPT_RATE_54M)
-			SET_TX_DESC_DATA_SHORT_8188F(ptxdesc, 1);
-
-	if (pmp_priv->bandwidth == CHANNEL_WIDTH_40)
-		SET_TX_DESC_DATA_BW_8188F(ptxdesc, 1);
-
-	SET_TX_DESC_TX_RATE_8188F(ptxdesc, pmp_priv->rateidx);
-
-	SET_TX_DESC_DATA_RATE_FB_LIMIT_8188F(ptxdesc, 0x1F);
-	SET_TX_DESC_RTS_RATE_FB_LIMIT_8188F(ptxdesc, 0xF);
-}
-#endif
-
 static void Rtw_MPSetMacTxEDCA(PADAPTER padapter)
 {
 
@@ -1576,11 +1525,6 @@ void SetPacketTx(PADAPTER padapter)
 #if defined(CONFIG_RTL8703B)
 	if (IS_HARDWARE_TYPE_8703B(padapter))
 		fill_tx_desc_8703b(padapter);
-#endif
-
-#if defined(CONFIG_RTL8188F)
-	if (IS_HARDWARE_TYPE_8188F(padapter))
-		fill_tx_desc_8188f(padapter);
 #endif
 
 	//3 4. make wlan header, make_wlanhdr()
@@ -2576,11 +2520,6 @@ ULONG mpt_ProQueryCalTxPower(
 	#if defined(CONFIG_RTL8703B)
 	if (IS_HARDWARE_TYPE_8703B(pAdapter))
 		TxPower = PHY_GetTxPowerIndex_8703B(pAdapter, RfPath, mgn_rate, pHalData->CurrentChannelBW, pHalData->CurrentChannel);
-	#endif
-
-	#if defined(CONFIG_RTL8188F)
-	if (IS_HARDWARE_TYPE_8188F(pAdapter))
-		TxPower = PHY_GetTxPowerIndex_8188F(pAdapter, RfPath, mgn_rate, pHalData->CurrentChannelBW, pHalData->CurrentChannel);
 	#endif
 
 	DBG_8192C("txPower=%d ,CurrentChannelBW=%d ,CurrentChannel=%d ,rate =%d\n",
