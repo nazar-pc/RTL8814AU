@@ -93,7 +93,7 @@ static void dm_CheckPbcGPIO(_adapter *padapter)
 	if(!padapter->registrypriv.hw_wps_pbc)
 		return;
 
-#if defined(CONFIG_USB_HCI) || defined(CONFIG_SDIO_HCI)
+#if defined(CONFIG_USB_HCI)
 
 	tmp1byte = rtw_read8(padapter, REG_GPIO_EXT_CTRL_8814A);
 	//DBG_871X("CheckPbcGPIO - %x\n", tmp1byte);

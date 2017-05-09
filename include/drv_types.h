@@ -363,10 +363,7 @@ struct registry_priv
 #define REGSTY_IS_BW_2G_SUPPORT(regsty, bw) (REGSTY_BW_2G((regsty)) >= (bw))
 #define REGSTY_IS_BW_5G_SUPPORT(regsty, bw) (REGSTY_BW_5G((regsty)) >= (bw))
 
-#ifdef CONFIG_SDIO_HCI
-#include <drv_types_sdio.h>
-#define INTF_DATA SDIO_DATA
-#elif defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 #include <drv_types_gspi.h>
 #define INTF_DATA GSPI_DATA
 #endif
@@ -817,9 +814,6 @@ static struct device *dvobj_to_dev(struct dvobj_priv *dvobj)
 #ifdef CONFIG_USB_HCI
 	return &dvobj->pusbintf->dev;
 #endif
-#ifdef CONFIG_SDIO_HCI
-	return &dvobj->intf_data.func->dev;
-#endif
 #ifdef CONFIG_GSPI_HCI
 	return &dvobj->intf_data.func->dev;
 #endif
@@ -1212,12 +1206,6 @@ int rtw_resume_process_wow(_adapter *padapter);
 #include <usb_osintf.h>
 #include <usb_ops.h>
 #include <usb_hal.h>
-#endif
-
-#ifdef CONFIG_SDIO_HCI
-#include <sdio_osintf.h>
-#include <sdio_ops.h>
-#include <sdio_hal.h>
 #endif
 
 #ifdef CONFIG_GSPI_HCI

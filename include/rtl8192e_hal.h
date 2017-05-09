@@ -331,12 +331,6 @@ void rtl8192e_start_thread(_adapter *padapter);
 void rtl8192e_stop_thread(_adapter *padapter);
 
 
-#ifdef CONFIG_SDIO_HCI
-#ifdef CONFIG_SDIO_TX_ENABLE_AVAL_INT
-void _init_available_page_threshold(PADAPTER padapter, u8 numHQ, u8 numNQ, u8 numLQ, u8 numPubQ);
-#endif
-#endif
-
 
 #endif //__RTL8192E_HAL_H__
 

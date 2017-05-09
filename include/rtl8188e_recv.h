@@ -46,7 +46,7 @@
 #endif
 #endif //!MAX_RECVBUF_SZ
 
-#elif defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#elif defined(CONFIG_GSPI_HCI)
 
 #define MAX_RECVBUF_SZ (10240)
 
@@ -142,7 +142,7 @@ typedef struct rxreport_8188e
 } RXREPORT, *PRXREPORT;
 
 
-#if defined (CONFIG_SDIO_HCI)||defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 s32 rtl8188es_init_recv_priv(PADAPTER padapter);
 void rtl8188es_free_recv_priv(PADAPTER padapter);
 void rtl8188es_recv_hdl(PADAPTER padapter, struct recv_buf *precvbuf);

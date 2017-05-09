@@ -27,7 +27,6 @@ CONFIG_RTL8821A = n
 CONFIG_RTL8814A = y
 ######################### Interface ###########################
 CONFIG_USB_HCI = y
-CONFIG_SDIO_HCI = n
 CONFIG_GSPI_HCI = n
 ########################## Features ###########################
 CONFIG_MP_INCLUDED = y
@@ -127,10 +126,6 @@ ifeq ($(CONFIG_GSPI_HCI), y)
 HCI_NAME = gspi
 endif
 
-ifeq ($(CONFIG_SDIO_HCI), y)
-HCI_NAME = sdio
-endif
-
 ifeq ($(CONFIG_USB_HCI), y)
 HCI_NAME = usb
 endif
@@ -151,11 +146,6 @@ _OS_INTFS_FILES :=	os_dep/osdep_service.o \
 
 ifeq ($(CONFIG_MP_INCLUDED), y)
 _OS_INTFS_FILES += os_dep/linux/ioctl_mp.o
-endif
-
-ifeq ($(CONFIG_SDIO_HCI), y)
-_OS_INTFS_FILES += os_dep/linux/custom_gpio_linux.o
-_OS_INTFS_FILES += os_dep/linux/$(HCI_NAME)_ops_linux.o
 endif
 
 ifeq ($(CONFIG_GSPI_HCI), y)
@@ -208,9 +198,6 @@ RTL871X = rtl8812a
 ifeq ($(CONFIG_USB_HCI), y)
 MODULE_NAME = 8812au
 endif
-ifeq ($(CONFIG_SDIO_HCI), y)
-MODULE_NAME = 8812as
-endif
 
 _HAL_INTFS_FILES +=  hal/HalPwrSeqCmd.o \
 					hal/$(RTL871X)/Hal8812PwrSeq.o \
@@ -229,14 +216,10 @@ _HAL_INTFS_FILES +=	hal/$(RTL871X)/$(RTL871X)_hal_init.o \
 			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_xmit.o \
 			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_recv.o
 
-ifeq ($(CONFIG_SDIO_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
-else
 ifeq ($(CONFIG_GSPI_HCI), y)
 _HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
 else
 _HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops_linux.o
-endif
 endif
 
 ifeq ($(CONFIG_RTL8812A), y)
@@ -270,9 +253,6 @@ RTL871X = rtl8821a
 ifeq ($(CONFIG_USB_HCI), y)
 MODULE_NAME := 8821au
 endif
-ifeq ($(CONFIG_SDIO_HCI), y)
-MODULE_NAME := 8821as
-endif
 
 endif
 
@@ -302,9 +282,6 @@ RTL871X = rtl8814a
 ifeq ($(CONFIG_USB_HCI), y)
 MODULE_NAME = 8814au
 endif
-ifeq ($(CONFIG_SDIO_HCI), y)
-MODULE_NAME = 8814as
-endif
 
 EXTRA_CFLAGS += -DCONFIG_RTL8814A
 
@@ -327,14 +304,10 @@ _HAL_INTFS_FILES +=	\
 			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_xmit.o \
 			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_recv.o
 
-ifeq ($(CONFIG_SDIO_HCI), y)
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
-else
 ifeq ($(CONFIG_GSPI_HCI), y)
 _HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops.o
 else
 _HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops_linux.o
-endif
 endif
 
 ifeq ($(CONFIG_USB_HCI), y)
@@ -457,16 +430,10 @@ endif
 
 ifeq ($(CONFIG_WOWLAN), y)
 EXTRA_CFLAGS += -DCONFIG_WOWLAN
-ifeq ($(CONFIG_SDIO_HCI), y)
-EXTRA_CFLAGS += -DCONFIG_RTW_SDIO_PM_KEEP_POWER
-endif
 endif
 
 ifeq ($(CONFIG_AP_WOWLAN), y)
 EXTRA_CFLAGS += -DCONFIG_AP_WOWLAN
-ifeq ($(CONFIG_SDIO_HCI), y)
-EXTRA_CFLAGS += -DCONFIG_RTW_SDIO_PM_KEEP_POWER
-endif
 endif
 
 ifeq ($(CONFIG_PNO_SUPPORT), y)
@@ -490,9 +457,6 @@ EXTRA_CFLAGS += -DWAKEUP_GPIO_IDX=$(CONFIG_WAKEUP_GPIO_IDX)
 endif
 
 ifeq ($(CONFIG_RTW_SDIO_PM_KEEP_POWER), y)
-ifeq ($(CONFIG_SDIO_HCI), y)
-EXTRA_CFLAGS += -DCONFIG_RTW_SDIO_PM_KEEP_POWER
-endif
 endif
 
 ifeq ($(CONFIG_REDUCE_TX_CPU_LOADING), y)
@@ -567,10 +531,6 @@ EXTRA_CFLAGS += -DCONFIG_P2P_IPS
 # Enable this for Android 5.0
 EXTRA_CFLAGS += -DCONFIG_RADIO_WORK
 
-ifeq ($(CONFIG_SDIO_HCI), y)
-EXTRA_CFLAGS += -DCONFIG_PLATFORM_OPS
-endif
-
 ARCH := arm
 CROSS_COMPILE := /opt/arm-2011.09/bin/arm-none-linux-gnueabi-
 KSRC := /home/android_sdk/Action-semi/705a_android_L/android/kernel
@@ -592,8 +552,6 @@ EXTRA_CFLAGS += -DCONFIG_RADIO_WORK
 
 ifeq ($(CONFIG_USB_HCI), y)
 EXTRA_CFLAGS += -DCONFIG_USE_USB_BUFFER_ALLOC_TX
-endif
-ifeq ($(CONFIG_SDIO_HCI), y)
 endif
 
 ARCH := arm64
@@ -645,9 +603,6 @@ EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE
 EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211 -DRTW_USE_CFG80211_STA_EVENT
 EXTRA_CFLAGS += -DCONFIG_P2P_IPS
 EXTRA_CFLAGS += -DCONFIG_SKIP_SIGNAL_SCALE_MAPPING
-ifeq ($(CONFIG_SDIO_HCI), y)
-EXTRA_CFLAGS += -DCONFIG_RESUME_IN_WORKQUEUE
-endif
 endif
 
 ifeq ($(CONFIG_PLATFORM_JB_X86), y)
@@ -884,9 +839,6 @@ EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
 EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE
 EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211
 EXTRA_CFLAGS += -DCONFIG_P2P_IPS
-ifeq ($(CONFIG_SDIO_HCI), y)
-EXTRA_CFLAGS += -DRTW_SUPPORT_PLATFORM_SHUTDOWN
-endif
 EXTRA_CFLAGS += -fno-pic
 ARCH := arm
 CROSS_COMPILE := /home/android_sdk/Rockchip/rk3066_20130607/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.6/bin/arm-linux-androideabi-
@@ -951,10 +903,6 @@ EXTRA_CFLAGS += -DCONFIG_PLATFORM_OPS
 ifeq ($(CONFIG_USB_HCI), y)
 EXTRA_CFLAGS += -DCONFIG_USE_USB_BUFFER_ALLOC_TX
 endif
-ifeq ($(CONFIG_SDIO_HCI), y)
-# default setting for A10-EVB mmc0
-#EXTRA_CFLAGS += -DCONFIG_WITS_EVB_V13
-endif
 
 ARCH := arm
 #CROSS_COMPILE := arm-none-linux-gnueabi-
@@ -976,10 +924,6 @@ EXTRA_CFLAGS += -DCONFIG_P2P_IPS -DCONFIG_QOS_OPTIMIZATION
 EXTRA_CFLAGS += -DCONFIG_PLATFORM_OPS
 ifeq ($(CONFIG_USB_HCI), y)
 EXTRA_CFLAGS += -DCONFIG_USE_USB_BUFFER_ALLOC_TX
-endif
-ifeq ($(CONFIG_SDIO_HCI), y)
-# default setting for A31-EVB mmc0
-EXTRA_CFLAGS += -DCONFIG_A31_EVB
 endif
 
 ARCH := arm
@@ -1006,8 +950,6 @@ EXTRA_CFLAGS += -DCONFIG_P2P_IPS -DCONFIG_QOS_OPTIMIZATION
 EXTRA_CFLAGS += -DCONFIG_PLATFORM_OPS
 ifeq ($(CONFIG_USB_HCI), y)
 EXTRA_CFLAGS += -DCONFIG_USE_USB_BUFFER_ALLOC_TX
-endif
-ifeq ($(CONFIG_SDIO_HCI), y)
 endif
 
 ARCH := arm
@@ -1036,8 +978,6 @@ EXTRA_CFLAGS += -DCONFIG_PLATFORM_OPS
 ifeq ($(CONFIG_USB_HCI), y)
 EXTRA_CFLAGS += -DCONFIG_USE_USB_BUFFER_ALLOC_TX
 endif
-ifeq ($(CONFIG_SDIO_HCI), y)
-endif
 
 ARCH := arm
 # ===Cross compile setting for Android 4.2 SDK ===
@@ -1064,8 +1004,6 @@ EXTRA_CFLAGS += -DCONFIG_RADIO_WORK
 EXTRA_CFLAGS += -DCONFIG_PLATFORM_OPS
 ifeq ($(CONFIG_USB_HCI), y)
 EXTRA_CFLAGS += -DCONFIG_USE_USB_BUFFER_ALLOC_TX
-endif
-ifeq ($(CONFIG_SDIO_HCI), y)
 endif
 
 ARCH := arm
@@ -1125,9 +1063,6 @@ EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
 ifeq ($(RTL871X), rtl8188e)
 EXTRA_CFLAGS += -DSOFTAP_PS_DURATION=50
 endif
-ifeq ($(CONFIG_SDIO_HCI), y)
-EXTRA_CFLAGS += -DCONFIG_PLATFORM_OPS
-endif
 endif
 
 ifeq ($(CONFIG_PLATFORM_ARM_SPREADTRUM_8810), y)
@@ -1140,9 +1075,6 @@ EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
 ifeq ($(RTL871X), rtl8188e)
 EXTRA_CFLAGS += -DSOFTAP_PS_DURATION=50
 endif
-ifeq ($(CONFIG_SDIO_HCI), y)
-EXTRA_CFLAGS += -DCONFIG_PLATFORM_OPS
-endif
 endif
 
 ifeq ($(CONFIG_PLATFORM_ARM_WMT), y)
@@ -1150,8 +1082,6 @@ EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
 EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE
 EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211 -DRTW_USE_CFG80211_STA_EVENT
 EXTRA_CFLAGS += -DCONFIG_PLATFORM_OPS
-ifeq ($(CONFIG_SDIO_HCI), y)
-endif
 ARCH := arm
 CROSS_COMPILE := /home/android_sdk/WonderMedia/wm8880-android4.4/toolchain/arm_201103_gcc4.5.2/mybin/arm_1103_le-
 KSRC := /home/android_sdk/WonderMedia/wm8880-android4.4/kernel4.4/
@@ -1171,8 +1101,6 @@ EXTRA_CFLAGS += -DCONFIG_QOS_OPTIMIZATION
 #EXTRA_CFLAGS += -DCONFIG_#PLATFORM_OPS
 ifeq ($(CONFIG_USB_HCI), y)
 EXTRA_CFLAGS += -DCONFIG_USE_USB_BUFFER_ALLOC_TX
-endif
-ifeq ($(CONFIG_SDIO_HCI), y)
 endif
 
 ARCH := arm

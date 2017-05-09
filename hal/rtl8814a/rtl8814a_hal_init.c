@@ -5280,7 +5280,7 @@ static void hw_var_set_mlme_sitesurvey(PADAPTER Adapter, u8 variable, u8* val)
 				) {
 					iface->mlmepriv.update_bcn = _TRUE;
 					#ifndef CONFIG_INTERRUPT_BASED_TXBCN
-					#if defined(CONFIG_USB_HCI) || defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+					#if defined(CONFIG_USB_HCI) || defined(CONFIG_GSPI_HCI)
 					tx_beacon_hdl(iface, NULL);
 					#endif
 					#endif

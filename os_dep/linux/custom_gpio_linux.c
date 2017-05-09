@@ -43,11 +43,6 @@
 extern unsigned int oob_irq;
 #endif // CONFIG_GSPI_HCI
 
-#ifdef CONFIG_SDIO_HCI
-extern int rtw_mp_mode;
-#else // !CONFIG_SDIO_HCI
-#endif // !CONFIG_SDIO_HCI
-
 int rtw_wifi_gpio_init(void)
 {
 #ifdef CONFIG_GSPI_HCI
@@ -65,8 +60,6 @@ int rtw_wifi_gpio_init(void)
 	if (GPIO_WIFI_POWER > 0)
 		gpio_request(GPIO_WIFI_POWER, "wifi_power");
 
-#ifdef CONFIG_SDIO_HCI
-#endif
 	return 0;
 }
 
@@ -81,8 +74,6 @@ int rtw_wifi_gpio_deinit(void)
 	if (GPIO_WIFI_POWER > 0)
 		gpio_free(GPIO_WIFI_POWER);
 
-#ifdef CONFIG_SDIO_HCI
-#endif
 	return 0;
 }
 
@@ -114,8 +105,6 @@ void rtw_wifi_gpio_wlan_ctrl(int onoff)
 
 		case WLAN_POWER_ON:
 		break;
-#ifdef CONFIG_SDIO_HCI
-#endif
 	}
 }
 

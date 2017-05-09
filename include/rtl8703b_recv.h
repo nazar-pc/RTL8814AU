@@ -46,7 +46,7 @@
 #endif
 #endif //!MAX_RECVBUF_SZ
 
-#elif defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#elif defined(CONFIG_GSPI_HCI)
 
 #define MAX_RECVBUF_SZ (10240)
 
@@ -55,14 +55,7 @@
 // Rx smooth factor
 #define	Rx_Smooth_Factor (20)
 
-#ifdef CONFIG_SDIO_HCI
-#ifndef CONFIG_SDIO_RX_COPY
-#undef MAX_RECVBUF_SZ
-#define MAX_RECVBUF_SZ	(RX_DMA_SIZE_8703B - RX_DMA_RESERVED_SIZE_8703B)
-#endif // !CONFIG_SDIO_RX_COPY
-#endif // CONFIG_SDIO_HCI
-
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 s32 rtl8703bs_init_recv_priv(PADAPTER padapter);
 void rtl8703bs_free_recv_priv(PADAPTER padapter);
 #endif

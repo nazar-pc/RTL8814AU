@@ -36,9 +36,6 @@ typedef struct txdescriptor_8814
 
 
 
-#ifdef CONFIG_SDIO_HCI
-#define SET_TX_DESC_SDIO_TXSEQ_8814A(__pTxDesc, __Value)			SET_BITS_TO_LE_4BYTE(__pTxDesc+28, 16, 8, __Value)
-#endif //CONFIG_SDIO_HCI
 
 //-----------------------------------------------------------------
 //	RTL8814A TX BUFFER DESC

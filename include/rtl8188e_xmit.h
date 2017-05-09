@@ -245,7 +245,7 @@ void rtl8188e_fill_fake_txdesc(PADAPTER	padapter,u8*pDesc,u32 BufferLen,
 		u8 IsPsPoll,u8	IsBTQosNull, u8 bDataFrame);
 void rtl8188e_cal_txdesc_chksum(struct tx_desc	*ptxdesc);
 
-#if defined(CONFIG_SDIO_HCI)||defined (CONFIG_GSPI_HCI)
+#if defined (CONFIG_GSPI_HCI)
 s32 rtl8188es_init_xmit_priv(PADAPTER padapter);
 void rtl8188es_free_xmit_priv(PADAPTER padapter);
 s32 rtl8188es_hal_xmit(PADAPTER padapter, struct xmit_frame *pxmitframe);

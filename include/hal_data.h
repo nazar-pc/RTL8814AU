@@ -24,9 +24,6 @@
 
 #include "../hal/phydm/phydm_precomp.h"
 
-#ifdef CONFIG_SDIO_HCI
-#include <hal_sdio.h>
-#endif
 #ifdef CONFIG_GSPI_HCI
 #include <hal_gspi.h>
 #endif
@@ -465,7 +462,7 @@ typedef struct hal_com_data
 	u8	OutEpQueueSel;
 	u8	OutEpNumber;
 
-#if defined (CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 	//
 	// For SDIO Interface HAL related
 	//

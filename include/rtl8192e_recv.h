@@ -44,10 +44,6 @@
 #endif
 #endif //!MAX_RECVBUF_SZ
 
-#elif defined(CONFIG_SDIO_HCI)
-
-#define MAX_RECVBUF_SZ (16384)
-
 #endif
 
 
@@ -143,12 +139,6 @@
 #define GET_RX_STATUS_DESC_BUFF_ADDR_92E(__pRxDesc) 		LE_BITS_TO_4BYTE(__pRxDesc+24, 0, 32)
 #define GET_RX_STATUS_DESC_BUFF_ADDR64_92E(__pRxDesc) 		LE_BITS_TO_4BYTE(__pRxDesc+28, 0, 32)
 
-
-#ifdef CONFIG_SDIO_HCI
-s32 rtl8192es_init_recv_priv(PADAPTER padapter);
-void rtl8192es_free_recv_priv(PADAPTER padapter);
-void rtl8192es_recv_hdl(PADAPTER padapter, struct recv_buf *precvbuf);
-#endif
 
 #ifdef CONFIG_USB_HCI
 void rtl8192eu_init_recvbuf(_adapter *padapter, struct recv_buf *precvbuf);

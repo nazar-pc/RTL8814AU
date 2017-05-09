@@ -291,7 +291,7 @@
 void rtl8703b_update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem);
 void rtl8703b_fill_fake_txdesc(PADAPTER padapter, u8 *pDesc, u32 BufferLen, u8 IsPsPoll, u8 IsBTQosNull, u8 bDataFrame);
 
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 s32 rtl8703bs_init_xmit_priv(PADAPTER padapter);
 void rtl8703bs_free_xmit_priv(PADAPTER padapter);
 s32 rtl8703bs_hal_xmit(PADAPTER padapter, struct xmit_frame *pxmitframe);

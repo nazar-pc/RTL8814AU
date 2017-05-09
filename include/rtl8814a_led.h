@@ -28,10 +28,6 @@
 void rtl8814au_InitSwLeds(PADAPTER padapter);
 void rtl8814au_DeInitSwLeds(PADAPTER padapter);
 #endif //CONFIG_USB_HCI
-#ifdef CONFIG_SDIO_HCI
-void rtl8814s_InitSwLeds(PADAPTER padapter);
-void rtl8814s_DeInitSwLeds(PADAPTER padapter);
-#endif //CONFIG_SDIO_HCI
 
 #endif //__RTL8814A_LED_H__
 

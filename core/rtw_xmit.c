@@ -176,7 +176,7 @@ _func_enter_;
 			}
 		}
 
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 		pxmitbuf->phead = pxmitbuf->pbuf;
 		pxmitbuf->pend = pxmitbuf->pbuf + MAX_XMITBUF_SZ;
 		pxmitbuf->len = 0;
@@ -257,7 +257,7 @@ _func_enter_;
 			goto exit;
 		}
 
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 		pxmitbuf->phead = pxmitbuf->pbuf;
 		pxmitbuf->pend = pxmitbuf->pbuf + MAX_XMIT_EXTBUF_SZ;
 		pxmitbuf->len = 0;
@@ -288,7 +288,7 @@ _func_enter_;
 				goto exit;
 			}
 
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 			pxmitbuf->phead = pxmitbuf->pbuf;
 			pxmitbuf->pend = pxmitbuf->pbuf + MAX_CMDBUF_SZ;
 			pxmitbuf->len = 0;
@@ -2555,7 +2555,7 @@ void rtw_count_tx_stats(PADAPTER padapter, struct xmit_frame *pxmitframe, int sz
 
 	if ((pxmitframe->frame_tag&0x0f) == DATA_FRAMETAG)
 	{
-#if defined(CONFIG_USB_TX_AGGREGATION) || defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_USB_TX_AGGREGATION) || defined(CONFIG_GSPI_HCI)
 		pkt_num = pxmitframe->agg_num;
 #endif
 		pmlmepriv->LinkDetectInfo.NumTxOkInPeriod += pkt_num;
@@ -2600,7 +2600,7 @@ _func_enter_;
 	if (pxmitbuf !=  NULL) {
 		pxmitbuf->priv_data = NULL;
 
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 		pxmitbuf->len = 0;
 		pxmitbuf->pdata = pxmitbuf->ptail = pxmitbuf->phead;
 		pxmitbuf->agg_num = 0;
@@ -2686,7 +2686,7 @@ _func_enter_;
 
 		pxmitbuf->priv_data = NULL;
 
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 		pxmitbuf->len = 0;
 		pxmitbuf->pdata = pxmitbuf->ptail = pxmitbuf->phead;
 		pxmitbuf->agg_num = 1;
@@ -2771,7 +2771,7 @@ _func_enter_;
 
 		pxmitbuf->priv_data = NULL;
 
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 		pxmitbuf->len = 0;
 		pxmitbuf->pdata = pxmitbuf->ptail = pxmitbuf->phead;
 		pxmitbuf->agg_num = 0;
@@ -2868,7 +2868,7 @@ void rtw_init_xmitframe(struct xmit_frame *pxframe)
 
 #endif //#ifdef CONFIG_USB_HCI
 
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 		pxframe->pg_num = 1;
 		pxframe->agg_num = 1;
 #endif
@@ -3169,7 +3169,7 @@ _func_enter_;
 		}
 #endif
 
-#if defined(CONFIG_USB_HCI) || defined(CONFIG_SDIO_HCI)
+#if defined(CONFIG_USB_HCI)
 		for(j=0; j<4; j++)
 			inx[j] = pxmitpriv->wmm_para_seq[j];
 #endif
@@ -4573,10 +4573,6 @@ void enqueue_pending_xmitbuf(
 
 
 
-#if defined(CONFIG_SDIO_HCI) && defined(CONFIG_CONCURRENT_MODE)
-	if (pri_adapter->adapter_type > PRIMARY_ADAPTER)
-		pri_adapter = pri_adapter->pbuddy_adapter;
-#endif  //SDIO_HCI + CONCURRENT
 	_rtw_up_sema(&(pri_adapter->xmitpriv.xmit_sema));
 
 }

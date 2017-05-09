@@ -369,7 +369,7 @@ void rtl8192eu_xmit_tasklet(void *priv);
 s32 rtl8192eu_xmitframe_complete(_adapter *padapter, struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf);
 #endif
 
-#if defined(CONFIG_SDIO_HCI)||defined (CONFIG_GSPI_HCI)
+#if defined (CONFIG_GSPI_HCI)
 s32 rtl8192es_init_xmit_priv(PADAPTER padapter);
 void rtl8192es_free_xmit_priv(PADAPTER padapter);
 

@@ -1401,7 +1401,7 @@ static u8 rtw_hal_pause_rx_dma(_adapter *adapter)
 			ret = _SUCCESS;
 			break;
 		}
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 		else {
 			// If RX_DMA is not idle, receive one pkt from DMA
 			res = sdio_local_read(adapter,
@@ -1417,7 +1417,7 @@ static u8 rtw_hal_pause_rx_dma(_adapter *adapter)
 			DBG_871X_LEVEL(_drv_always_,
 				       "RecvOnePkt Result: %d\n", res);
 		}
-#endif //CONFIG_SDIO_HCI || CONFIG_GSPI_HCI
+#endif //CONFIG_GSPI_HCI
 #ifdef CONFIG_USB_HCI
 		else {
 			if (adapter->intf_start)
@@ -1452,7 +1452,7 @@ static u8 rtw_hal_pause_rx_dma(_adapter *adapter)
 	return ret;
 }
 
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 static u8 rtw_hal_enable_cpwm2(_adapter* adapter)
 {
 	u8 ret = 0;
@@ -1482,7 +1482,7 @@ static u8 rtw_hal_enable_cpwm2(_adapter* adapter)
 
 	return ret;
 }
-#endif /* CONFIG_SDIO_HCI, CONFIG_GSPI_HCI */
+#endif /* CONFIG_GSPI_HCI */
 #endif /* CONFIG_WOWLAN || CONFIG_AP_WOWLAN */
 
 #ifdef CONFIG_WOWLAN
@@ -2180,7 +2180,7 @@ static void rtw_hal_ap_wow_enable(_adapter *padapter)
 	if (res == _FAIL)
 		DBG_871X_LEVEL(_drv_always_, "[WARNING] pause RX DMA fail\n");
 
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 	/* Enable CPWM2 only. */
 	res = rtw_hal_enable_cpwm2(padapter);
 	if (res == _FAIL)
@@ -5089,7 +5089,7 @@ static void rtw_hal_wow_enable(_adapter *adapter)
 		}
 	}
 
-#if defined(CONFIG_SDIO_HCI) || defined(CONFIG_GSPI_HCI)
+#if defined(CONFIG_GSPI_HCI)
 	/* Enable CPWM2 only. */
 	res = rtw_hal_enable_cpwm2(adapter);
 	if (res == _FAIL)
