@@ -46,19 +46,10 @@
 #endif
 #endif //!MAX_RECVBUF_SZ
 
-#elif defined(CONFIG_GSPI_HCI)
-
-#define MAX_RECVBUF_SZ (10240)
-
 #endif
 
 // Rx smooth factor
 #define	Rx_Smooth_Factor (20)
-
-#if defined(CONFIG_GSPI_HCI)
-s32 rtl8703bs_init_recv_priv(PADAPTER padapter);
-void rtl8703bs_free_recv_priv(PADAPTER padapter);
-#endif
 
 #ifdef CONFIG_USB_HCI
 int rtl8703bu_init_recv_priv(_adapter *padapter);

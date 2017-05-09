@@ -295,11 +295,6 @@ struct reg_protocol_wt {
 #define MAX_CONTINUAL_IO_ERR 4
 #endif
 
-#ifdef CONFIG_GSPI_HCI
-#define SD_IO_TRY_CNT (8)
-#define MAX_CONTINUAL_IO_ERR SD_IO_TRY_CNT
-#endif
-
 
 int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj);
 void rtw_reset_continual_io_error(struct dvobj_priv *dvobj);

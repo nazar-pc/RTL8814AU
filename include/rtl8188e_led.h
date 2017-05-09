@@ -28,10 +28,6 @@
 void rtl8188eu_InitSwLeds(PADAPTER padapter);
 void rtl8188eu_DeInitSwLeds(PADAPTER padapter);
 #endif
-#if defined(CONFIG_GSPI_HCI)
-void rtl8188es_InitSwLeds(PADAPTER padapter);
-void rtl8188es_DeInitSwLeds(PADAPTER padapter);
-#endif
 
 #endif
 

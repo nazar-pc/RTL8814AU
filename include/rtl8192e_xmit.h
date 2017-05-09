@@ -369,21 +369,6 @@ void rtl8192eu_xmit_tasklet(void *priv);
 s32 rtl8192eu_xmitframe_complete(_adapter *padapter, struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf);
 #endif
 
-#if defined (CONFIG_GSPI_HCI)
-s32 rtl8192es_init_xmit_priv(PADAPTER padapter);
-void rtl8192es_free_xmit_priv(PADAPTER padapter);
-
-s32 rtl8192es_hal_xmit(PADAPTER padapter, struct xmit_frame *pxmitframe);
-s32 rtl8192es_mgnt_xmit(PADAPTER padapter, struct xmit_frame *pmgntframe);
-s32	rtl8192es_hal_xmitframe_enqueue(_adapter *padapter, struct xmit_frame *pxmitframe);
-thread_return rtl8192es_xmit_thread(thread_context context);
-s32 rtl8192es_xmit_buf_handler(PADAPTER padapter);
-
-#ifdef CONFIG_SDIO_TX_TASKLET
-void rtl8192es_xmit_tasklet(void *priv);
-#endif
-#endif
-
 struct txrpt_ccx_92e {
 	/* offset 0 */
 	u8 tag1:1;

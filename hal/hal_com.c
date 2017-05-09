@@ -1401,23 +1401,6 @@ static u8 rtw_hal_pause_rx_dma(_adapter *adapter)
 			ret = _SUCCESS;
 			break;
 		}
-#if defined(CONFIG_GSPI_HCI)
-		else {
-			// If RX_DMA is not idle, receive one pkt from DMA
-			res = sdio_local_read(adapter,
-					SDIO_REG_RX0_REQ_LEN, 4, (u8*)&tmp);
-			len = le16_to_cpu(tmp);
-			DBG_871X_LEVEL(_drv_always_, "RX len:%d\n", len);
-
-			if (len > 0)
-				res = RecvOnePkt(adapter, len);
-			else
-				DBG_871X_LEVEL(_drv_always_, "read length fail %d\n", len);
-
-			DBG_871X_LEVEL(_drv_always_,
-				       "RecvOnePkt Result: %d\n", res);
-		}
-#endif //CONFIG_GSPI_HCI
 #ifdef CONFIG_USB_HCI
 		else {
 			if (adapter->intf_start)
@@ -1452,37 +1435,6 @@ static u8 rtw_hal_pause_rx_dma(_adapter *adapter)
 	return ret;
 }
 
-#if defined(CONFIG_GSPI_HCI)
-static u8 rtw_hal_enable_cpwm2(_adapter* adapter)
-{
-	u8 ret = 0;
-	int res = 0;
-	u32 tmp = 0;
-
-	DBG_871X_LEVEL(_drv_always_, "%s\n", __func__);
-
-	res = sdio_local_read(adapter, SDIO_REG_HIMR, 4, (u8*)&tmp);
-	if (!res)
-		DBG_871X_LEVEL(_drv_info_, "read SDIO_REG_HIMR: 0x%08x\n", tmp);
-	else
-		DBG_871X_LEVEL(_drv_info_, "sdio_local_read fail\n");
-
-	tmp = SDIO_HIMR_CPWM2_MSK;
-
-	res = sdio_local_write(adapter, SDIO_REG_HIMR, 4, (u8*)&tmp);
-
-	if (!res){
-		res = sdio_local_read(adapter, SDIO_REG_HIMR, 4, (u8*)&tmp);
-		DBG_871X_LEVEL(_drv_info_, "read again SDIO_REG_HIMR: 0x%08x\n", tmp);
-		ret = _SUCCESS;
-	}else {
-		DBG_871X_LEVEL(_drv_info_, "sdio_local_write fail\n");
-		ret = _FAIL;
-	}
-
-	return ret;
-}
-#endif /* CONFIG_GSPI_HCI */
 #endif /* CONFIG_WOWLAN || CONFIG_AP_WOWLAN */
 
 #ifdef CONFIG_WOWLAN
@@ -2180,12 +2132,6 @@ static void rtw_hal_ap_wow_enable(_adapter *padapter)
 	if (res == _FAIL)
 		DBG_871X_LEVEL(_drv_always_, "[WARNING] pause RX DMA fail\n");
 
-#if defined(CONFIG_GSPI_HCI)
-	/* Enable CPWM2 only. */
-	res = rtw_hal_enable_cpwm2(padapter);
-	if (res == _FAIL)
-		DBG_871X_LEVEL(_drv_always_, "[WARNING] enable cpwm2 fail\n");
-#endif
 
 #ifdef CONFIG_GPIO_WAKEUP
 	rtw_hal_switch_gpio_wl_ctrl(padapter, WAKEUP_GPIO_IDX, _TRUE);
@@ -5089,12 +5035,6 @@ static void rtw_hal_wow_enable(_adapter *adapter)
 		}
 	}
 
-#if defined(CONFIG_GSPI_HCI)
-	/* Enable CPWM2 only. */
-	res = rtw_hal_enable_cpwm2(adapter);
-	if (res == _FAIL)
-		DBG_871X_LEVEL(_drv_always_, "[WARNING] enable cpwm2 fail\n");
-#endif
 #ifdef CONFIG_GPIO_WAKEUP
 	rtw_hal_switch_gpio_wl_ctrl(adapter, WAKEUP_GPIO_IDX, _TRUE);
 #endif

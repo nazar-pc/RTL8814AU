@@ -3412,22 +3412,6 @@ int rtw_suspend_wow(_adapter *padapter)
 		//rtw_set_ps_mode(padapter, PS_MODE_ACTIVE, 0, 0, "WOWLAN");
 		//#endif
 
-#if defined(CONFIG_GSPI_HCI)
-		// 2. disable interrupt
-		if (padapter->intf_stop) {
-			padapter->intf_stop(padapter);
-		}
-
-
-		#ifdef CONFIG_CONCURRENT_MODE
-		if (rtw_buddy_adapter_up(padapter)) { //free buddy adapter's resource
-			padapter->pbuddy_adapter->intf_stop(padapter->pbuddy_adapter);
-		}
-		#endif
-
-		// 2.1 clean interupt
-		rtw_hal_clear_interrupt(padapter);
-#endif //CONFIG_SDIO_HCI
 
 		// 2.2 free irq
 		//sdio_free_irq(adapter_to_dvobj(padapter));

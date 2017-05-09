@@ -47,11 +47,6 @@
 // Rx smooth factor
 #define	Rx_Smooth_Factor (20)
 
-#if defined(CONFIG_GSPI_HCI)
-s32 rtl8188fs_init_recv_priv(PADAPTER padapter);
-void rtl8188fs_free_recv_priv(PADAPTER padapter);
-#endif
-
 #ifdef CONFIG_USB_HCI
 int rtl8188fu_init_recv_priv(_adapter *padapter);
 void rtl8188fu_free_recv_priv (_adapter *padapter);

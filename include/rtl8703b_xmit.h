@@ -291,17 +291,6 @@
 void rtl8703b_update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem);
 void rtl8703b_fill_fake_txdesc(PADAPTER padapter, u8 *pDesc, u32 BufferLen, u8 IsPsPoll, u8 IsBTQosNull, u8 bDataFrame);
 
-#if defined(CONFIG_GSPI_HCI)
-s32 rtl8703bs_init_xmit_priv(PADAPTER padapter);
-void rtl8703bs_free_xmit_priv(PADAPTER padapter);
-s32 rtl8703bs_hal_xmit(PADAPTER padapter, struct xmit_frame *pxmitframe);
-s32 rtl8703bs_mgnt_xmit(PADAPTER padapter, struct xmit_frame *pmgntframe);
-s32	rtl8703bs_hal_xmitframe_enqueue(_adapter *padapter, struct xmit_frame *pxmitframe);
-s32 rtl8703bs_xmit_buf_handler(PADAPTER padapter);
-thread_return rtl8703bs_xmit_thread(thread_context context);
-#define hal_xmit_handler rtl8703bs_xmit_buf_handler
-#endif
-
 #ifdef CONFIG_USB_HCI
 s32 rtl8703bu_xmit_buf_handler(PADAPTER padapter);
 #define hal_xmit_handler rtl8703bu_xmit_buf_handler

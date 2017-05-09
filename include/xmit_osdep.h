@@ -40,11 +40,7 @@ struct pkt_file {
 #endif
 #endif
 
-#ifdef CONFIG_GSPI_HCI
-#define NR_XMITFRAME     64
-#else
 #define NR_XMITFRAME     128
-#endif
 
 #define ETH_ALEN	6
 

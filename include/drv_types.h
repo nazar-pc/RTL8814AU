@@ -363,11 +363,6 @@ struct registry_priv
 #define REGSTY_IS_BW_2G_SUPPORT(regsty, bw) (REGSTY_BW_2G((regsty)) >= (bw))
 #define REGSTY_IS_BW_5G_SUPPORT(regsty, bw) (REGSTY_BW_5G((regsty)) >= (bw))
 
-#if defined(CONFIG_GSPI_HCI)
-#include <drv_types_gspi.h>
-#define INTF_DATA GSPI_DATA
-#endif
-
 #ifdef CONFIG_CONCURRENT_MODE
 #define is_primary_adapter(adapter) (adapter->adapter_type == PRIMARY_ADAPTER)
 #define is_vir_adapter(adapter) (adapter->adapter_type == MAX_ADAPTER)
@@ -814,9 +809,6 @@ static struct device *dvobj_to_dev(struct dvobj_priv *dvobj)
 #ifdef CONFIG_USB_HCI
 	return &dvobj->pusbintf->dev;
 #endif
-#ifdef CONFIG_GSPI_HCI
-	return &dvobj->intf_data.func->dev;
-#endif
 }
 #endif
 
@@ -1208,11 +1200,6 @@ int rtw_resume_process_wow(_adapter *padapter);
 #include <usb_hal.h>
 #endif
 
-#ifdef CONFIG_GSPI_HCI
-#include <gspi_osintf.h>
-#include <gspi_ops.h>
-#include <gspi_hal.h>
-#endif
 
 
 #endif //__DRV_TYPES_H__
