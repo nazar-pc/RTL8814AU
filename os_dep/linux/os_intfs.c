@@ -148,7 +148,6 @@ int rtw_wifi_spec = 1;//for wifi test
 int rtw_wifi_spec = 0;
 #endif
 
-int rtw_special_rf_path = 0; //0: 2T2R ,1: only turn on path A 1T1R
 
 int rtw_channel_plan = RTW_CHPLAN_MAX;
 
@@ -233,7 +232,6 @@ module_param(rtw_ext_iface_num, int, 0644);
 module_param(rtw_rfkfree_enable, int, 0644);
 module_param(rtw_initmac, charp, 0644);
 module_param(rtw_channel_plan, int, 0644);
-module_param(rtw_special_rf_path, int, 0644);
 module_param(rtw_chip_version, int, 0644);
 module_param(rtw_rfintfs, int, 0644);
 module_param(rtw_lbkmode, int, 0644);
@@ -551,7 +549,6 @@ _func_enter_;
 	registry_par->wifi_spec = (u8)rtw_wifi_spec;
 
 	registry_par->channel_plan = (u8)rtw_channel_plan;
-	registry_par->special_rf_path = (u8)rtw_special_rf_path;
 
 	registry_par->bAcceptAddbaReq = (u8)rtw_AcceptAddbaReq;
 

@@ -3876,9 +3876,6 @@ static void read_chip_version_8814a(PADAPTER Adapter)
 
 	pHalData->VersionID.RFType = RF_TYPE_3T3R;
 
-	if(Adapter->registrypriv.special_rf_path == 1)
-		pHalData->VersionID.RFType = RF_TYPE_1T1R;	//RF_1T1R;
-
 	vdr = (value32 & EXT_VENDOR_ID) >> EXT_VENDOR_ID_SHIFT;
 	if(vdr == 0x00)
 		pHalData->VersionID.VendorType = CHIP_VENDOR_TSMC;
