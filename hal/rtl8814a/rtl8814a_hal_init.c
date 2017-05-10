@@ -3886,8 +3886,6 @@ static void read_chip_version_8814a(PADAPTER Adapter)
 
 	pHalData->VersionID.CUTVersion = (value32 & CHIP_VER_RTL_MASK)>>CHIP_VER_RTL_SHIFT; // IC version (CUT)
 
-	pHalData->MultiFunc = RT_MULTI_FUNC_NONE;
-
 	rtw_hal_config_rftype(Adapter);
 
 #if 1
