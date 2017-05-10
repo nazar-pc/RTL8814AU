@@ -689,7 +689,7 @@ s32 c2h_evt_read_88xx(_adapter *adapter, u8 *buf)
 	if (buf == NULL)
 		goto exit;
 
-#if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A) || defined(CONFIG_RTL8703B)
+#if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A)
 
 	trigger = rtw_read8(adapter, REG_C2HEVT_CLEAR);
 
@@ -6619,14 +6619,6 @@ int hal_efuse_macaddr_offset(_adapter *adapter)
 	interface_type = rtw_get_intf_type(adapter);
 
 	switch (rtw_get_chip_type(adapter)) {
-#ifdef CONFIG_RTL8703B
-	case RTL8703B:
-		if (interface_type == RTW_USB)
-			addr_offset = EEPROM_MAC_ADDR_8703BU;
-		else if (interface_type == RTW_SDIO)
-			addr_offset = EEPROM_MAC_ADDR_8703BS;
-	break;
-#endif
 #ifdef CONFIG_RTL8812A
 	case RTL8812:
 		if (interface_type == RTW_USB)
@@ -7580,7 +7572,7 @@ void hal_set_crystal_cap(_adapter *adapter, u8 crystal_cap)
 		PHY_SetBBReg(adapter, REG_MAC_PHY_CTRL, 0x7FF80000, (crystal_cap | (crystal_cap << 6)));
 		break;
 #endif
-#if defined(CONFIG_RTL8703B) || defined(CONFIG_RTL8821A)
+#if defined(CONFIG_RTL8821A)
 	case RTL8723B:
 	case RTL8703B:
 	case RTL8821:

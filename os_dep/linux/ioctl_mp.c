@@ -1056,9 +1056,6 @@ int rtw_mp_thermal(struct net_device *dev,
 #if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A) || defined(CONFIG_RTL8814A)
 	u16 addr = EEPROM_THERMAL_METER_8812;
 #endif
-#ifdef CONFIG_RTL8703B
-	u16 addr = EEPROM_THERMAL_METER_8703B;
-#endif
 	u16 cnt = 1;
 	u16 max_available_size = 0;
 	PADAPTER padapter = rtw_netdev_priv(dev);

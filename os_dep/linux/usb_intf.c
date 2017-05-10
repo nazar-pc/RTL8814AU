@@ -174,12 +174,6 @@ static struct usb_device_id rtw_usb_id_tbl[] ={
 	{USB_DEVICE(0x056E, 0x400F) , .driver_info = RTL8821}, /* ELECOM -  ELECOM */
 #endif
 
-#ifdef CONFIG_RTL8703B
-	/*=== Realtek demoboard ===*/
-	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xB703, 0xff, 0xff, 0xff), .driver_info = RTL8703B}, /* 8723CU 1*1 */
-	/* {USB_DEVICE(USB_VENDER_ID_REALTEK, 0xB703), .driver_info = RTL723C}, */ /* 8723CU 1*1 */
-#endif /* CONFIG_RTL8703B */
-
 #ifdef CONFIG_RTL8814A
 
 	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0x8813),.driver_info = RTL8814A},
@@ -332,11 +326,6 @@ static void rtw_decide_chip_type_by_usb_info(struct dvobj_priv *pdvobjpriv, cons
 	if (pdvobjpriv->chip_type == RTL8814A)
 		rtl8814au_set_hw_type(pdvobjpriv);
 	#endif /* CONFIG_RTL8814A */
-
-	#ifdef CONFIG_RTL8703B
-	if (pdvobjpriv->chip_type == RTL8703B)
-		rtl8703bu_set_hw_type(pdvobjpriv);
-	#endif /* CONFIG_RTL8703B */
 
 }
 
@@ -589,11 +578,6 @@ u8 rtw_set_hal_ops(_adapter *padapter)
 		rtl8814au_set_hal_ops(padapter);
 	#endif /* CONFIG_RTL8814A */
 
-	#ifdef CONFIG_RTL8703B
-	if (rtw_get_chip_type(padapter) == RTL8703B)
-		rtl8703bu_set_hal_ops(padapter);
-	#endif /* CONFIG_RTL8703B */
-
 	if (_FAIL == rtw_hal_ops_check(padapter) )
 		return _FAIL;
 
@@ -611,11 +595,6 @@ void usb_set_intf_ops(_adapter *padapter,struct _io_ops *pops)
 	if (rtw_get_chip_type(padapter) == RTL8814A)
 		rtl8814au_set_intf_ops(pops);
 	#endif /* CONFIG_RTL8814A */
-
-	#ifdef CONFIG_RTL8703B
-	if (rtw_get_chip_type(padapter) == RTL8703B)
-		rtl8703bu_set_intf_ops(pops);
-	#endif /* CONFIG_RTL8703B */
 }
 
 

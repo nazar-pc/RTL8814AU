@@ -26,9 +26,6 @@
 #if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A)
 #include <rtl8812a_hal.h>
 #endif
-#ifdef CONFIG_RTL8703B
-#include <rtl8703b_hal.h>
-#endif
 
 u8 MgntQuery_NssTxRate(u16 Rate)
 {
@@ -916,88 +913,6 @@ void mpt_SetRFPath_8812A(PADAPTER pAdapter)
 
 
 
-#ifdef CONFIG_RTL8703B
-void mpt_SetRFPath_8703B(PADAPTER pAdapter)
-{
-	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(pAdapter);
-	u4Byte					ulAntennaTx, ulAntennaRx;
-	PMPT_CONTEXT		pMptCtx = &(pAdapter->mppriv.MptCtx);
-	PDM_ODM_T		pDM_Odm = &pHalData->odmpriv;
-	PODM_RF_CAL_T			pRFCalibrateInfo = &(pDM_Odm->RFCalibrateInfo);
-
-	ulAntennaTx = pHalData->AntennaTxPath;
-	ulAntennaRx = pHalData->AntennaRxPath;
-
-	if (pHalData->rf_chip >= RF_TYPE_MAX) {
-		DBG_871X("This RF chip ID is not supported\n");
-		return;
-	}
-
-	switch (pAdapter->mppriv.antenna_tx) {
-		u1Byte p = 0, i = 0;
-
-	case ANTENNA_A: /* Actually path S1  (Wi-Fi) */
-				{
-				pMptCtx->MptRfPath = ODM_RF_PATH_A;
-				PHY_SetBBReg(pAdapter, rS0S1_PathSwitch, BIT9|BIT8|BIT7, 0x0);
-				PHY_SetBBReg(pAdapter, 0xB2C, BIT31, 0x0); /* AGC Table Sel*/
-
-				for (i = 0; i < 3; ++i) {
-					u4Byte offset = pRFCalibrateInfo->TxIQC_8703B[i][0];
-					u4Byte data = pRFCalibrateInfo->TxIQC_8703B[i][1];
-
-					if (offset != 0) {
-						PHY_SetBBReg(pAdapter, offset, bMaskDWord, data);
-						DBG_871X("Switch to S1 TxIQC(offset, data) = (0x%X, 0x%X)\n", offset, data);
-					}
-
-				}
-				for (i = 0; i < 2; ++i) {
-					u4Byte offset = pRFCalibrateInfo->RxIQC_8703B[i][0];
-					u4Byte data = pRFCalibrateInfo->RxIQC_8703B[i][1];
-
-					if (offset != 0) {
-						PHY_SetBBReg(pAdapter, offset, bMaskDWord, data);
-						DBG_871X("Switch to S1 RxIQC (offset, data) = (0x%X, 0x%X)\n", offset, data);
-					}
-				}
-				}
-	break;
-	case ANTENNA_B: /* Actually path S0 (BT)*/
-				{
-				pMptCtx->MptRfPath = ODM_RF_PATH_B;
-				PHY_SetBBReg(pAdapter, rS0S1_PathSwitch, BIT9|BIT8|BIT7, 0x5);
-				PHY_SetBBReg(pAdapter, 0xB2C, BIT31, 0x1); /* AGC Table Sel */
-
-				for (i = 0; i < 3; ++i) {
-					u4Byte offset = pRFCalibrateInfo->TxIQC_8703B[i][0];
-					u4Byte data = pRFCalibrateInfo->TxIQC_8703B[i][1];
-
-					if (pRFCalibrateInfo->TxIQC_8703B[i][0] != 0) {
-						PHY_SetBBReg(pAdapter, offset, bMaskDWord, data);
-						DBG_871X("Switch to S0 TxIQC (offset, data) = (0x%X, 0x%X)\n", offset, data);
-					}
-				}
-				for (i = 0; i < 2; ++i) {
-					u4Byte offset = pRFCalibrateInfo->RxIQC_8703B[i][0];
-					u4Byte data = pRFCalibrateInfo->RxIQC_8703B[i][1];
-
-					if (pRFCalibrateInfo->RxIQC_8703B[i][0] != 0) {
-						PHY_SetBBReg(pAdapter, offset, bMaskDWord, data);
-						DBG_871X("Switch to S0 RxIQC (offset, data) = (0x%X, 0x%X)\n", offset, data);
-					}
-				}
-				}
-	break;
-	default:
-			pMptCtx->MptRfPath = RF_PATH_AB;
-			RT_TRACE(_module_mp_, _drv_notice_, ("Unknown Tx antenna.\n"));
-	break;
-	}
-
-	RT_TRACE(_module_mp_, _drv_notice_, ("-SwitchAntenna: finished\n"));
-}
-#endif
 
 
 VOID mpt_SetRFPath_819X(PADAPTER	pAdapter)
@@ -1174,12 +1089,6 @@ void hal_mpt_SetAntenna(PADAPTER	pAdapter)
 #if	defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A)
 	if (IS_HARDWARE_TYPE_JAGUAR(pAdapter)) {
 		mpt_SetRFPath_8812A(pAdapter);
-		return;
-	}
-#endif
-#ifdef	CONFIG_RTL8703B
-	if (IS_HARDWARE_TYPE_8703B(pAdapter)) {
-		mpt_SetRFPath_8703B(pAdapter);
 		return;
 	}
 #endif

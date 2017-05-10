@@ -77,18 +77,5 @@ void ClearInterrupt8821AS(PADAPTER padapter);
 extern u8 RecvOnePkt(PADAPTER padapter, u32 size);
 #endif // CONFIG_WOWLAN
 
-#ifdef CONFIG_RTL8703B
-extern void InitInterrupt8703BSdio(PADAPTER padapter);
-extern void InitSysInterrupt8703BSdio(PADAPTER padapter);
-extern void EnableInterrupt8703BSdio(PADAPTER padapter);
-extern void DisableInterrupt8703BSdio(PADAPTER padapter);
-extern u8 HalQueryTxBufferStatus8703BSdio(PADAPTER padapter);
-extern u8 HalQueryTxOQTBufferStatus8703BSdio(PADAPTER padapter);
-#if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
-extern void DisableInterruptButCpwm28703BSdio(PADAPTER padapter);
-extern void ClearInterrupt8703BSdio(PADAPTER padapter);
-#endif //CONFIG_WOWLAN
-#endif
-
 #endif // !__SDIO_OPS_H__
 

@@ -397,10 +397,6 @@
 
 #ifdef CONFIG_RF_GAIN_OFFSET
 
-#ifdef CONFIG_RTL8703B
-#define EEPROM_RF_GAIN_OFFSET			0xC1
-#endif
-
 #define EEPROM_RF_GAIN_VAL				0x1F6
 #endif //CONFIG_RF_GAIN_OFFSET
 

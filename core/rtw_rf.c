@@ -391,12 +391,6 @@ void rtw_rf_set_tx_gain_offset(_adapter *adapter, u8 path, s8 offset)
 
 	DBG_871X("kfree gain_offset 0x55:0x%x ", rtw_hal_read_rfreg(adapter, path, 0x55, 0xffffffff));
 	switch (rtw_get_chip_type(adapter)) {
-#ifdef CONFIG_RTL8703B
-	case RTL8703B:
-		write_value = RF_TX_GAIN_OFFSET_8703B(offset);
-		rtw_hal_write_rfreg(adapter, path, 0x55, 0x0fc000, write_value);
-		break;
-#endif /* CONFIG_RTL8703B */
 #ifdef CONFIG_RTL8821A
 	case RTL8821:
 		write_value = RF_TX_GAIN_OFFSET_8821A(offset);

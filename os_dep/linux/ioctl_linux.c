@@ -10196,12 +10196,6 @@ static int rtw_mp_efuse_get(struct net_device *dev,
 	else if (strcmp(tmp[0], "vidpid") == 0)
 	{
 
-		#ifdef CONFIG_RTL8703B
-			#ifdef CONFIG_USB_HCI
-			addr = EEPROM_VID_8703BU;
-			#endif
-		#endif /* CONFIG_RTL8703B */
-
 		cnts = 4;
 
 		EFUSE_GetEfuseDefinition(padapter, EFUSE_WIFI, TYPE_AVAILABLE_EFUSE_BYTES_TOTAL, (PVOID)&max_available_size, _FALSE);
@@ -10775,12 +10769,6 @@ static int rtw_mp_efuse_set(struct net_device *dev,
 		}
 
 		// pidvid,da0b7881
-
-		#ifdef CONFIG_RTL8703B
-			#ifdef CONFIG_USB_HCI
-			addr = EEPROM_VID_8703BU;
-			#endif /* CONFIG_USB_HCI */
-		#endif /* CONFIG_RTL8703B */
 
 		cnts = strlen(tmp[1]);
 		if (cnts%2)
@@ -12458,13 +12446,6 @@ static int rtw_widi_set_probe_request(struct net_device *dev,
 #endif // CONFIG_INTEL_WIDI
 
 #ifdef CONFIG_MAC_LOOPBACK_DRIVER
-
-#if defined(CONFIG_RTL8703B)
-/* extern void rtl8703b_cal_txdesc_chksum(struct tx_desc *ptxdesc); */
-#define cal_txdesc_chksum rtl8703b_cal_txdesc_chksum
-/* extern void rtl8703b_fill_default_txdesc(struct xmit_frame *pxmitframe, u8 *pbuf); */
-#define fill_default_txdesc rtl8703b_fill_default_txdesc
-#endif /* CONFIG_RTL8703B */
 
 static s32 initLoopback(PADAPTER padapter)
 {
