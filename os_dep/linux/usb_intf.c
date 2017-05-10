@@ -1020,10 +1020,6 @@ error_exit:
 }
 #endif
 
-#ifdef CONFIG_PLATFORM_RTD2880B
-extern void rtd2885_wlan_netlink_sendMsg(char *action_string, char *name);
-#endif
-
 /*
  * drv_init() - a device potentially for us
  *
@@ -1198,11 +1194,6 @@ static void rtw_usb_if1_deinit(_adapter *if1)
 
 	rtw_vmfree((u8 *)if1, sizeof(_adapter));
 
-#ifdef CONFIG_PLATFORM_RTD2880B
-	DBG_871X("wlan link down\n");
-	rtd2885_wlan_netlink_sendMsg("linkdown", "8712");
-#endif
-
 }
 
 static int rtw_drv_init(struct usb_interface *pusb_intf, const struct usb_device_id *pdid)
@@ -1260,11 +1251,6 @@ static int rtw_drv_init(struct usb_interface *pusb_intf, const struct usb_device
 
 #ifdef CONFIG_HOSTAPD_MLME
 	hostapd_mode_init(if1);
-#endif
-
-#ifdef CONFIG_PLATFORM_RTD2880B
-	DBG_871X("wlan link up\n");
-	rtd2885_wlan_netlink_sendMsg("linkup", "8712");
 #endif
 
 	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-871x_drv - drv_init, success!\n"));

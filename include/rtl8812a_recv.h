@@ -37,10 +37,6 @@
 		//#define MAX_RECVBUF_SZ (10240) //10K
 		//#define MAX_RECVBUF_SZ (15360) // 15k < 16k
 		//#define MAX_RECVBUF_SZ (8192+1024) // 8K+1k
-		#ifdef CONFIG_PLATFORM_NOVATEK_NT72668
-		#undef MAX_RECVBUF_SZ
-		#define MAX_RECVBUF_SZ (15360) // 15k < 16k
-		#endif //CONFIG_PLATFORM_NOVATEK_NT72668
 	#else
 		#define MAX_RECVBUF_SZ (4000) // about 4K
 	#endif

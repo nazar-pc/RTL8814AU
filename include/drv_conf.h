@@ -30,11 +30,6 @@
 
 //Older Android kernel doesn't has CONFIG_ANDROID defined,
 //add this to force CONFIG_ANDROID defined
-#ifdef CONFIG_PLATFORM_ANDROID
-#ifndef CONFIG_ANDROID
-#define CONFIG_ANDROID
-#endif
-#endif
 
 #ifdef CONFIG_ANDROID
 //Some Android build will restart the UI while non-printable ascii is passed

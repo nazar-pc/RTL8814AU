@@ -1734,12 +1734,6 @@ static u8 rtw_hal_set_wowlan_ctrl_cmd(_adapter *adapter, u8 enable, u8 change_un
 		gpio_pulse_en = 1;
 	}
 
-#ifdef CONFIG_PLATFORM_ARM_RK3188
-	if (enable) {
-		gpio_pulse_en = 1;
-		gpio_pulse_cnt = 0x04;
-	}
-#endif
 
 	SET_H2CCMD_WOWLAN_FUNC_ENABLE(u1H2CWoWlanCtrlParm, enable);
 	SET_H2CCMD_WOWLAN_PATTERN_MATCH_ENABLE(u1H2CWoWlanCtrlParm, pattern_en);

@@ -1728,11 +1728,6 @@ static u32 _rtw_wait_scan_done(_adapter *adapter, u8 abort, u32 timeout_ms)
 		if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY)) {
 			if (!RTW_CANNOT_RUN(adapter))
 				DBG_871X(FUNC_NDEV_FMT"waiting for scan_abort time out!\n", FUNC_NDEV_ARG(adapter->pnetdev));
-			#ifdef CONFIG_PLATFORM_MSTAR
-			/*_clr_fwstate_(pmlmepriv, _FW_UNDER_SURVEY);*/
-			set_survey_timer(pmlmeext, 0);
-			mlme_set_scan_to_timer(pmlmepriv, 50);
-			#endif
 			rtw_indicate_scan_done(adapter, _TRUE);
 		}
 	}
