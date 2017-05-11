@@ -233,10 +233,6 @@ PHY_SetTxPowerIndex(
 	IN	u8				Rate
 	);
 
-void dump_tx_power_by_rate_base(void *sel, _adapter *adapter);
-void dump_tx_power_by_rate(void *sel, _adapter *adapter);
-void dump_tx_power_limit(void *sel, _adapter *adapter);
-
 #ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
 #define MAX_PARA_FILE_BUF_LEN	25600
 
