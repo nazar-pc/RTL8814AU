@@ -805,46 +805,6 @@ u16 rtw_recv_select_queue(struct sk_buff *skb)
 }
 
 #endif
-static int rtw_ndev_notifier_call(struct notifier_block * nb, unsigned long state, void *ptr)
-{
-#if (LINUX_VERSION_CODE>=KERNEL_VERSION(3,11,0))
-	struct net_device *dev = netdev_notifier_info_to_dev(ptr);
-#else
-	struct net_device *dev = ptr;
-#endif
-
-#if (LINUX_VERSION_CODE>=KERNEL_VERSION(2,6,29))
-	if (dev->netdev_ops->ndo_do_ioctl != rtw_ioctl)
-#else
-	if (dev->do_ioctl != rtw_ioctl)
-#endif
-		return NOTIFY_DONE;
-
-	DBG_871X_LEVEL(_drv_info_, FUNC_NDEV_FMT" state:%lu\n", FUNC_NDEV_ARG(dev), state);
-
-	switch (state) {
-	case NETDEV_CHANGENAME:
-		rtw_adapter_proc_replace(dev);
-		break;
-	}
-
-	return NOTIFY_DONE;
-}
-
-static struct notifier_block rtw_ndev_notifier = {
-	.notifier_call = rtw_ndev_notifier_call,
-};
-
-int rtw_ndev_notifier_register(void)
-{
-	return register_netdevice_notifier(&rtw_ndev_notifier);
-}
-
-void rtw_ndev_notifier_unregister(void)
-{
-	unregister_netdevice_notifier(&rtw_ndev_notifier);
-}
-
 
 int rtw_ndev_init(struct net_device *dev)
 {
@@ -854,7 +814,6 @@ int rtw_ndev_init(struct net_device *dev)
 		, FUNC_ADPT_ARG(adapter), (adapter->iface_id+1), MAC_ARG(dev->dev_addr));
 	strncpy(adapter->old_ifname, dev->name, IFNAMSIZ);
 	adapter->old_ifname[IFNAMSIZ-1] = '\0';
-	rtw_adapter_proc_init(dev);
 
 	return 0;
 }
@@ -865,7 +824,6 @@ void rtw_ndev_uninit(struct net_device *dev)
 
 	DBG_871X_LEVEL(_drv_always_, FUNC_ADPT_FMT" if%d\n"
 		, FUNC_ADPT_ARG(adapter), (adapter->iface_id+1));
-	rtw_adapter_proc_deinit(dev);
 }
 
 #if (LINUX_VERSION_CODE>=KERNEL_VERSION(2,6,29))

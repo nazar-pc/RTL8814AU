@@ -114,11 +114,6 @@ void rtw_os_ndevs_deinit(struct dvobj_priv *dvobj);
 u16 rtw_recv_select_queue(struct sk_buff *skb);
 #endif //LINUX_VERSION_CODE>=KERNEL_VERSION(2,6,35)
 
-int rtw_ndev_notifier_register(void);
-void rtw_ndev_notifier_unregister(void);
-
-#include "../os_dep/linux/rtw_proc.h"
-
 #ifdef CONFIG_IOCTL_CFG80211
 #include "../os_dep/linux/ioctl_cfg80211.h"
 #endif //CONFIG_IOCTL_CFG80211
