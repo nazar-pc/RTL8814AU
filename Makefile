@@ -147,9 +147,9 @@ _HAL_INTFS_FILES +=	hal/rtl8814a/rtl8814a_hal_init.o \
 
 _HAL_INTFS_FILES +=	\
 			hal/rtl8814a/usb/usb_halinit.o \
-			hal/rtl8814a/usb/rtl$(MODULE_NAME)_led.o \
-			hal/rtl8814a/usb/rtl$(MODULE_NAME)_xmit.o \
-			hal/rtl8814a/usb/rtl$(MODULE_NAME)_recv.o
+			hal/rtl8814a/usb/rtl8814au_led.o \
+			hal/rtl8814a/usb/rtl8814au_xmit.o \
+			hal/rtl8814a/usb/rtl8814au_recv.o
 
 _HAL_INTFS_FILES += hal/rtl8814a/usb/usb_ops_linux.o
 
