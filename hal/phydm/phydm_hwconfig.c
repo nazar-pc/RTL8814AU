@@ -41,8 +41,6 @@
 #endif
 
 
-#define READ_FIRMWARE_MP(ic, txt) 		(ODM_ReadFirmware_MP_##ic##txt(pDM_Odm, pFirmware, pSize))
-
 #if (PHYDM_TESTCHIP_SUPPORT == 1)
 #define READ_FIRMWARE(ic, txt) do {\
 						if (pDM_Odm->bIsMPChip)\
@@ -2620,7 +2618,7 @@ ODM_ConfigFWWithHeaderFile(
 	if (pDM_Odm->SupportICType == ODM_RTL8814A)
 	{
 		if (ConfigType == CONFIG_FW_NIC)
-			READ_FIRMWARE_MP(8814A,_FW_NIC);
+			ODM_ReadFirmware_MP_8814A_FW_NIC(pDM_Odm, pFirmware, pSize);
 	}
 #endif
 
