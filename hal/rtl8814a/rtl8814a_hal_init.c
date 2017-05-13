@@ -98,13 +98,6 @@ s32 InitLLTTable8814A(
 	return Status;
 }
 
-#ifdef CONFIG_WOWLAN
-void hal_DetectWoWMode(PADAPTER pAdapter)
-{
-	adapter_to_pwrctl(pAdapter)->bSupportRemoteWakeup = _TRUE;
-}
-#endif
-
 VOID
 SetBcnCtrlReg(
 	IN	PADAPTER	Adapter,
@@ -776,12 +769,6 @@ FirmwareDownload8814A(
 			#endif //CONFIG_FILE_FWIMG
 			break;
 		case FW_SOURCE_HEADER_FILE:
-			#ifdef CONFIG_WOWLAN
-			if (bUsedWoWLANFw) {
-				ODM_ConfigFWWithHeaderFile(&pHalData->odmpriv, CONFIG_FW_WoWLAN, (u8 *)&(pFirmware->szFwBuffer), &(pFirmware->ulFwLength));
-				DBG_871X("%s fw:%s, size: %d\n", __FUNCTION__, "WoWLAN", pFirmware->ulFwLength);
-			} else
-			#endif /* CONFIG_WOWLAN */
 			{
 				//ODM_CmnInfoInit(pDM_OutSrc, ODM_CMNINFO_IC_TYPE, ODM_RTL8814A);
 				ODM_ConfigFWWithHeaderFile(&pHalData->odmpriv, CONFIG_FW_NIC, (u8 *)&(pFirmware->szFwBuffer), &(pFirmware->ulFwLength));
@@ -832,15 +819,6 @@ fwdl_stat:
 exit:
 	if (pFirmware)
 		rtw_mfree((u8*)pFirmware, sizeof(RT_FIRMWARE_8814));
-
-#ifdef CONFIG_WOWLAN
-	if (adapter_to_pwrctl(Adapter)->wowlan_mode)
-		InitializeFirmwareVars8814(Adapter);
-	else
-		DBG_871X_LEVEL(_drv_always_, "%s: wowland_mode:%d wowlan_wake_reason:%d\n",
-			__func__, adapter_to_pwrctl(Adapter)->wowlan_mode,
-			adapter_to_pwrctl(Adapter)->wowlan_wake_reason);
-#endif
 
 	return rtStatus;
 }
@@ -1355,42 +1333,6 @@ s32 FirmwareDownloadBT(PADAPTER padapter, PRT_MP_FIRMWARE pFirmware)
 	return rtStatus;
 }
 #endif //CONFIG_RTL8821A*/
-
-#ifdef CONFIG_WOWLAN
-//===========================================
-//
-// Description: Prepare some information to Fw for WoWLAN.
-//					(1) Download wowlan Fw.
-//					(2) Download RSVD page packets.
-//					(3) Enable AP offload if needed.
-//
-// 2011.04.12 by tynli.
-//
-VOID
-SetFwRelatedForWoWLAN8812(
-		IN		PADAPTER			padapter,
-		IN		u8					bHostIsGoingtoSleep
-)
-{
-		int				status=_FAIL;
-		HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(padapter);
-		u8				bRecover = _FALSE;
-	//
-	// 1. Before WoWLAN we need to re-download WoWLAN Fw.
-	//
-	status = FirmwareDownload8812(padapter, bHostIsGoingtoSleep);
-	if(status != _SUCCESS) {
-		DBG_871X("SetFwRelatedForWoWLAN8812(): Re-Download Firmware failed!!\n");
-		return;
-	} else {
-		DBG_871X("SetFwRelatedForWoWLAN8812(): Re-Download Firmware Success !!\n");
-	}
-	//
-	// 2. Re-Init the variables about Fw related setting.
-	//
-	InitializeFirmwareVars8812(padapter);
-}
-#endif //CONFIG_WOWLAN
 
 //===========================================================
 //				Efuse related code
@@ -6732,9 +6674,6 @@ void rtl8814_set_hal_ops(struct hal_ops *pHalFunc)
 
 	pHalFunc->fill_h2c_cmd = &FillH2CCmd_8814;
 	pHalFunc->fill_fake_txdesc = &rtl8814a_fill_fake_txdesc;
-#ifdef CONFIG_WOWLAN
-	pHalFunc->hal_set_wowlan_fw = &SetFwRelatedForWoWLAN8814;
-#endif //CONFIG_WOWLAN
 	pHalFunc->hal_get_tx_buff_rsvd_page_num = &GetTxBufferRsvdPageNum8814;
 }
 

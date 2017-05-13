@@ -83,9 +83,6 @@ struct H2C_SS_RFOFF_PARAM{
 
 typedef struct JOINBSSRPT_PARM_92E{
 	u8 OpMode;	// RT_MEDIA_STATUS
-#ifdef CONFIG_WOWLAN
-	u8 MacID;       // MACID
-#endif //CONFIG_WOWLAN
 }JOINBSSRPT_PARM_92E, *PJOINBSSRPT_PARM_92E;
 
 /* move to hal_com_h2c.h
@@ -140,9 +137,6 @@ int reset_tsf(PADAPTER Adapter, u8 reset_port );
 #endif	// CONFIG_TSF_RESET_OFFLOAD
 
 
-#if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
-void SetFwRelatedForWoWLAN8192E(_adapter* padapter, u8 bHostIsGoingtoSleep);
-#endif
 /// TX Feedback Content
 #define 	USEC_UNIT_FOR_8192E_C2H_TX_RPT_QUEUE_TIME			256
 

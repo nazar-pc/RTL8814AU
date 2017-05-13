@@ -174,11 +174,7 @@ typedef struct _RT_FIRMWARE_8814 {
 
 #endif //#if defined(CONFIG_USB_HCI)
 
-#ifdef CONFIG_WOWLAN
 #define WOWLAN_PAGE_NUM_8814	0x00
-#else
-#define WOWLAN_PAGE_NUM_8814	0x00
-#endif
 
 #define PAGE_SIZE_8814A						128//TXFF Page Size, Unit: Byte
 #define MAX_RX_DMA_BUFFER_SIZE_8814A		0x5C00	//BASIC_RXFF_SIZE_8814A+TRX_SHARE_MODE_8814A*TRX_SHARE_BUFF_UNIT_8814A //Basic RXFF Size + ShareBuffer Size
@@ -309,10 +305,6 @@ void	hal_ReadRemoteWakeup_8814A(PADAPTER padapter, u8* hwinfo, BOOLEAN AutoLoadF
 u8	MgntQuery_NssTxRate(u16 Rate);
 
 //BOOLEAN HalDetectPwrDownMode8812(PADAPTER Adapter);
-
-#ifdef CONFIG_WOWLAN
-void Hal_DetectWoWMode(PADAPTER pAdapter);
-#endif //CONFIG_WOWLAN
 
 void _InitBeaconParameters_8814A(PADAPTER padapter);
 void SetBeaconRelatedRegisters8814A(PADAPTER padapter);

@@ -132,9 +132,6 @@ void rtl8812_set_FwMediaStatus_cmd(PADAPTER padapter, u16 mstatus_rpt );
 int reset_tsf(PADAPTER Adapter, u8 reset_port );
 #endif	// CONFIG_TSF_RESET_OFFLOAD
 
-#ifdef CONFIG_WOWLAN
-void SetFwRelatedForWoWLAN8812(_adapter* padapter, u8 bHostIsGoingtoSleep);
-#endif//CONFIG_WOWLAN
 
 //------------------------------------
 //     C2H format

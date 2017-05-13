@@ -288,17 +288,6 @@ u8 rtw_hal_check_ips_status(_adapter *padapter)
 	return val;
 }
 
-#if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
-void rtw_hal_clear_interrupt(_adapter *padapter)
-{
-}
-void rtw_hal_set_wowlan_fw(_adapter *padapter, u8 sleep)
-{
-	padapter->HalFunc.hal_set_wowlan_fw(padapter, sleep);
-}
-
-#endif
-
 #if defined(CONFIG_USB_HCI)
 u32	rtw_hal_inirp_init(_adapter *padapter)
 {
@@ -946,7 +935,7 @@ u8 rtw_hal_ops_check(_adapter *padapter)
 		rtw_hal_error_msg("fill_h2c_cmd");
 		ret = _FAIL;
 	}
-	#if defined(CONFIG_LPS) || defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
+	#if defined(CONFIG_LPS)
 	if (NULL == padapter->HalFunc.fill_fake_txdesc) {
 		rtw_hal_error_msg("fill_fake_txdesc");
 		ret = _FAIL;
@@ -957,12 +946,6 @@ u8 rtw_hal_ops_check(_adapter *padapter)
 		ret = _FAIL;
 	}
 
-	#if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
-	if (NULL == padapter->HalFunc.hal_set_wowlan_fw) {
-		rtw_hal_error_msg("hal_set_wowlan_fw");
-		ret = _FAIL;
-	}
-	#endif //CONFIG_WOWLAN
 	if ((IS_HARDWARE_TYPE_8814A(padapter)
 		|| IS_HARDWARE_TYPE_8822BU(padapter) || IS_HARDWARE_TYPE_8822BS(padapter))
 		&& NULL == padapter->HalFunc.fw_correct_bcn) {

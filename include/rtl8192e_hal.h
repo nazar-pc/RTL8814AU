@@ -130,11 +130,7 @@ typedef struct _RT_FIRMWARE_8192E {
 #define BCN_DMA_ATIME_INT_TIME_8192E		0x02
 #define RX_DMA_SIZE_8192E					0x4000	/* 16K*/
 
-#ifdef CONFIG_WOWLAN
-#define RESV_FMWF	WKFMCAM_SIZE*MAX_WKFM_NUM /* 16 entries, for each is 24 bytes*/
-#else
 #define RESV_FMWF	0
-#endif
 
 #ifdef CONFIG_FW_C2H_DEBUG
 	#define RX_DMA_RESERVED_SIZE_8192E	0x100	/* 256B, reserved for c2h debug message*/
@@ -149,11 +145,7 @@ typedef struct _RT_FIRMWARE_8192E {
 #define RSVD_PAGE_NUM_8192E		0x08
 //For WoWLan , more reserved page
 //ARP Rsp:1, RWC:1, GTK Info:1,GTK RSP:2,GTK EXT MEM:2, PNO: 6
-#ifdef CONFIG_WOWLAN
-#define WOWLAN_PAGE_NUM_8192E	0x07
-#else
 #define WOWLAN_PAGE_NUM_8192E	0x00
-#endif
 
 #ifdef CONFIG_PNO_SUPPORT
 #undef WOWLAN_PAGE_NUM_8192E
@@ -275,10 +267,6 @@ void	Hal_EfuseParseKFreeData_8192E(PADAPTER pAdapter, u8 *hwinfo, BOOLEAN AutoLo
 u8 Hal_CrystalAFEAdjust(_adapter * Adapter);
 
 BOOLEAN HalDetectPwrDownMode8192E(PADAPTER Adapter);
-
-#if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
-void Hal_DetectWoWMode(PADAPTER pAdapter);
-#endif //CONFIG_WOWLAN
 
 /***********************************************************/
 // RTL8192E-MAC Setting

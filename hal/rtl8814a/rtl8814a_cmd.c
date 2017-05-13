@@ -1232,63 +1232,6 @@ static void rtl8814_set_FwRsvdPage_cmd(PADAPTER padapter, PRSVDPAGE_LOC rsvdpage
 	FillH2CCmd_8814(padapter, H2C_RSVD_PAGE, H2C_RSVDPAGE_LOC_LEN, u1H2CRsvdPageParm);
 }
 
-#ifdef CONFIG_WOWLAN
-static void rtl8814_set_FwAoacRsvdPage_cmd(PADAPTER padapter, PRSVDPAGE_LOC rsvdpageloc)
-{
-	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
-	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-	u8	res = 0, count = 0;
-#ifdef CONFIG_WOWLAN
-	u8 u1H2CAoacRsvdPageParm[H2C_AOAC_RSVDPAGE_LOC_LEN]={0};
-
-	DBG_871X("8192EAOACRsvdPageLoc: RWC=%d ArpRsp=%d NbrAdv=%d GtkRsp=%d GtkInfo=%d ProbeReq=%d NetworkList=%d\n",
-			rsvdpageloc->LocRemoteCtrlInfo, rsvdpageloc->LocArpRsp,
-			rsvdpageloc->LocNbrAdv, rsvdpageloc->LocGTKRsp,
-			rsvdpageloc->LocGTKInfo, rsvdpageloc->LocProbeReq,
-			rsvdpageloc->LocNetList);
-
-#ifdef CONFIG_PNO_SUPPORT
-	DBG_871X("NLO_INFO=%d\n", rsvdpageloc->LocPNOInfo);
-#endif
-	if (check_fwstate(pmlmepriv, _FW_LINKED)) {
-	SET_H2CCMD_AOAC_RSVDPAGE_LOC_REMOTE_WAKE_CTRL_INFO(u1H2CAoacRsvdPageParm, rsvdpageloc->LocRemoteCtrlInfo);
-	SET_H2CCMD_AOAC_RSVDPAGE_LOC_ARP_RSP(u1H2CAoacRsvdPageParm, rsvdpageloc->LocArpRsp);
-	//SET_H2CCMD_AOAC_RSVDPAGE_LOC_NEIGHBOR_ADV(u1H2CAoacRsvdPageParm, rsvdpageloc->LocNbrAdv);
-	SET_H2CCMD_AOAC_RSVDPAGE_LOC_GTK_RSP(u1H2CAoacRsvdPageParm, rsvdpageloc->LocGTKRsp);
-	SET_H2CCMD_AOAC_RSVDPAGE_LOC_GTK_INFO(u1H2CAoacRsvdPageParm, rsvdpageloc->LocGTKInfo);
-#ifdef CONFIG_GTK_OL
-	SET_H2CCMD_AOAC_RSVDPAGE_LOC_GTK_EXT_MEM(u1H2CAoacRsvdPageParm, rsvdpageloc->LocGTKEXTMEM);
-#endif // CONFIG_GTK_OL
-	} else {
-#ifdef CONFIG_PNO_SUPPORT
-		if(!pwrpriv->pno_in_resume) {
-			SET_H2CCMD_AOAC_RSVDPAGE_LOC_NLO_INFO(u1H2CAoacRsvdPageParm, rsvdpageloc->LocPNOInfo);
-		}
-#endif
-	}
-
-	RT_PRINT_DATA(_module_hal_init_c_, _drv_always_, "u1H2CAoacRsvdPageParm:", u1H2CAoacRsvdPageParm, H2C_AOAC_RSVDPAGE_LOC_LEN);
-	FillH2CCmd_8814(padapter, H2C_AOAC_RSVD_PAGE, H2C_AOAC_RSVDPAGE_LOC_LEN, u1H2CAoacRsvdPageParm);
-
-#ifdef CONFIG_PNO_SUPPORT
-	if (!check_fwstate(pmlmepriv, WIFI_AP_STATE) &&
-			!check_fwstate(pmlmepriv, _FW_LINKED) &&
-			pwrpriv->pno_in_resume == _FALSE) {
-
-		res = rtw_read8(padapter, 0x1b8);
-		while(res == 0 && count < 25) {
-			DBG_871X("[%d] FW loc_NLOInfo: %d\n", count, res);
-			res = rtw_read8(padapter, 0x1b8);
-			count++;
-			rtw_msleep_os(2);
-		}
-	}
-#endif // CONFIG_PNO_SUPPORT
-#endif // CONFIG_WOWLAN
-}
-#endif
-
-
 int rtl8814_iqk_wait(_adapter* padapter, u32 timeout_ms)
 {
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(padapter);

@@ -34,10 +34,6 @@
 #include <wlan_bssdef.h>
 #include <wifi.h>
 #include <ieee80211.h>
-#ifdef CONFIG_ARP_KEEP_ALIVE
-#include <net/neighbour.h>
-#include <net/arp.h>
-#endif
 
 #ifdef PLATFORM_OS_XP
 #include <drv_types_xp.h>
@@ -1187,11 +1183,6 @@ int rtw_dev_pno_set(struct net_device *net, pno_ssid_t* ssid, int num,
 void rtw_dev_pno_debug(struct net_device *net);
 #endif //CONFIG_PNO_SET_DEBUG
 #endif //CONFIG_PNO_SUPPORT
-
-#ifdef CONFIG_WOWLAN
-int rtw_suspend_wow(_adapter *padapter);
-int rtw_resume_process_wow(_adapter *padapter);
-#endif
 
 // HCI Related header file
 #ifdef CONFIG_USB_HCI

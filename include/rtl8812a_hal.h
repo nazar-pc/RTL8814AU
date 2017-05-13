@@ -159,11 +159,7 @@ typedef struct _RT_FIRMWARE_8812 {
 // TX 128K, RX 16K, Page size 512B for TX, 128B for RX
 #define MAX_RX_DMA_BUFFER_SIZE_8812	0x3E80 /* RX 16K */
 
-#ifdef CONFIG_WOWLAN
-#define RESV_FMWF	WKFMCAM_SIZE*MAX_WKFM_NUM /* 16 entries, for each is 24 bytes*/
-#else
 #define RESV_FMWF	0
-#endif
 
 #ifdef CONFIG_FW_C2H_DEBUG
 #define RX_DMA_RESERVED_SIZE_8812	0x100	// 256B, reserved for c2h debug message
@@ -176,11 +172,7 @@ typedef struct _RT_FIRMWARE_8812 {
 
 //For WoWLan , more reserved page
 //ARP Rsp:1, RWC:1, GTK Info:1,GTK RSP:1,GTK EXT MEM:1, PNO: 6
-#ifdef CONFIG_WOWLAN
-#define WOWLAN_PAGE_NUM_8812	0x05
-#else
 #define WOWLAN_PAGE_NUM_8812	0x00
-#endif
 
 
 #ifdef	CONFIG_BEAMFORMER_FW_NDPA
@@ -231,11 +223,7 @@ typedef struct _RT_FIRMWARE_8812 {
 
 //For WoWLan , more reserved page
 //ARP Rsp:1, RWC:1, GTK Info:1,GTK RSP:1,GTK EXT MEM:1, PNO: 6
-#ifdef CONFIG_WOWLAN
-#define WOWLAN_PAGE_NUM_8821	0x06
-#else
 #define WOWLAN_PAGE_NUM_8821	0x00
-#endif
 
 #define TX_TOTAL_PAGE_NUMBER_8821	(0xFF - BCNQ_PAGE_NUM_8821 - BCNQ1_PAGE_NUM_8821 - WOWLAN_PAGE_NUM_8821)
 #define TX_PAGE_BOUNDARY_8821				(TX_TOTAL_PAGE_NUMBER_8821 + 1)
@@ -328,10 +316,6 @@ void	Hal_ReadRemoteWakeup_8812A(PADAPTER padapter, u8* hwinfo, BOOLEAN AutoLoadF
 
 BOOLEAN HalDetectPwrDownMode8812(PADAPTER Adapter);
 void Hal_EfuseParseKFreeData_8821A(PADAPTER Adapter, u8 *PROMContent, BOOLEAN AutoloadFail);
-
-#ifdef CONFIG_WOWLAN
-void Hal_DetectWoWMode(PADAPTER pAdapter);
-#endif //CONFIG_WOWLAN
 
 void _InitBeaconParameters_8812A(PADAPTER padapter);
 void SetBeaconRelatedRegisters8812A(PADAPTER padapter);

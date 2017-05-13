@@ -2622,10 +2622,6 @@ ODM_ConfigFWWithHeaderFile(
 	{
 		if (ConfigType == CONFIG_FW_NIC)
 			READ_FIRMWARE_MP(8814A,_FW_NIC);
-		#ifdef CONFIG_AP_WOWLAN
-		else if (ConfigType == CONFIG_FW_AP_WoWLAN)
-			READ_FIRMWARE_MP(8814A,_FW_AP);
-		#endif
 	}
 #endif
 

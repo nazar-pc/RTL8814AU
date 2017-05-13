@@ -122,14 +122,6 @@ void dump_drv_cfg(void *sel)
 	DBG_871X_SEL_NL(sel, "ADAPTIVITY_MODE = %s\n", (CONFIG_RTW_ADAPTIVITY_MODE) ? "carrier_sense" : "normal");
 #endif
 
-#ifdef CONFIG_WOWLAN
-	DBG_871X_SEL_NL(sel, "CONFIG_WOWLAN - ");
-
-	#ifdef CONFIG_GPIO_WAKEUP
-	DBG_871X_SEL_NL(sel, "CONFIG_GPIO_WAKEUP - WAKEUP_GPIO_IDX:%d\n", WAKEUP_GPIO_IDX);
-	#endif
-#endif
-
 #ifdef CONFIG_TDLS
 	DBG_871X_SEL_NL(sel, "CONFIG_TDLS\n");
 #endif

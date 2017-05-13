@@ -42,10 +42,6 @@
 	// Fw Array
 	#define Rtl8188E_FwImageArray				Rtl8188EFwImgArray
 	#define Rtl8188E_FWImgArrayLength			Rtl8188EFWImgArrayLength
-#ifdef CONFIG_WOWLAN
-	#define Rtl8188E_FwWoWImageArray			Array_MP_8188E_FW_WoWLAN
-	#define Rtl8188E_FwWoWImgArrayLength		ArrayLength_MP_8188E_FW_WoWLAN
-#endif //CONFIG_WOWLAN
 #endif
 
 
@@ -141,11 +137,7 @@ typedef struct _RT_8188E_FIRMWARE_HDR
 //#define MAX_RX_DMA_BUFFER_SIZE_88E	      0x2400 //9k for 88E nornal chip , //MaxRxBuff=10k-max(TxReportSize(64*8), WOLPattern(16*24))
 #define RX_DMA_SIZE_88E(__Adapter) ((!IS_VENDOR_8188E_I_CUT_SERIES(__Adapter))?0x2800:0x4000)
 
-#ifdef CONFIG_WOWLAN
-#define RESV_FMWF	WKFMCAM_SIZE*MAX_WKFM_NUM /* 16 entries, for each is 24 bytes*/
-#else
 #define RESV_FMWF	0
-#endif
 
 #define RX_DMA_RESERVD_FW_FEATURE	0x200 /* for tx report (64*8) */
 
@@ -161,11 +153,7 @@ typedef struct _RT_8188E_FIRMWARE_HDR
 #define BCNQ_PAGE_NUM_88E		0x08
 
 //For WoWLan , more reserved page
-#ifdef CONFIG_WOWLAN
 #define WOWLAN_PAGE_NUM_88E	0x00
-#else
-#define WOWLAN_PAGE_NUM_88E	0x00
-#endif
 
 /* Note:
 Tx FIFO Size : previous CUT:22K /I_CUT after:32KB
@@ -276,10 +264,6 @@ void Hal_EfuseParseBoardType88E(PADAPTER pAdapter,u8* hwinfo,BOOLEAN AutoLoadFai
 void Hal_ReadPowerSavingMode88E(PADAPTER pAdapter,u8* hwinfo,BOOLEAN AutoLoadFail);
 
 BOOLEAN HalDetectPwrDownMode88E(PADAPTER Adapter);
-
-#if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
-void Hal_DetectWoWMode(PADAPTER pAdapter);
-#endif //CONFIG_WOWLAN
 
 
 #ifdef CONFIG_RF_GAIN_OFFSET

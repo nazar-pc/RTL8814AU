@@ -46,9 +46,6 @@ typedef enum _RTL8188E_H2C_CMD_ID
 	H2C_COM_SCAN					=0x02,
 	H2C_COM_KEEP_ALIVE			=0x03,
 	H2C_COM_DISCNT_DECISION		=0x04,
-#ifndef CONFIG_WOWLAN
-	H2C_COM_WWLAN				=0x05,
-#endif
 	H2C_COM_INIT_OFFLOAD			=0x06,
 	H2C_COM_REMOTE_WAKE_CTL	=0x07,
 	H2C_COM_AP_OFFLOAD			=0x08,
@@ -73,12 +70,6 @@ typedef enum _RTL8188E_H2C_CMD_ID
 	H2C_BT_PSD_RST				=0x63,
 
 	//Class Remote WakeUp
-#ifdef CONFIG_WOWLAN
-	H2C_COM_WWLAN				=0x80,
-	H2C_COM_REMOTE_WAKE_CTRL	=0x81,
-	H2C_COM_AOAC_GLOBAL_INFO	=0x82,
-	H2C_COM_AOAC_RSVD_PAGE		=0x83,
-#endif
 
 	//Class
 	 //H2C_RESET_TSF				=0xc0,
@@ -114,9 +105,6 @@ struct H2C_SS_RFOFF_PARAM{
 
 typedef struct JOINBSSRPT_PARM_88E{
 	u8 OpMode;	// RT_MEDIA_STATUS
-#ifdef CONFIG_WOWLAN
-	u8 MacID;       // MACID
-#endif //CONFIG_WOWLAN
 }JOINBSSRPT_PARM_88E, *PJOINBSSRPT_PARM_88E;
 
 /* move to hal_com_h2c.h
@@ -126,15 +114,6 @@ typedef struct _RSVDPAGE_LOC_88E {
 	u8 LocNullData;
 	u8 LocQosNull;
 	u8 LocBTQosNull;
-#ifdef CONFIG_WOWLAN
-	u8 LocRemoteCtrlInfo;
-	u8 LocArpRsp;
-	u8 LocNbrAdv;
-	u8 LocGTKRsp;
-	u8 LocGTKInfo;
-	u8 LocProbeReq;
-	u8 LocNetList;
-#endif //CONFIG_WOWLAN
 } RSVDPAGE_LOC_88E, *PRSVDPAGE_LOC_88E;
 */
 
@@ -164,9 +143,6 @@ int reset_tsf(PADAPTER Adapter, u8 reset_port );
 //#define H2C_8188E_RSVDPAGE_LOC_LEN      5
 //#define H2C_8188E_AOAC_RSVDPAGE_LOC_LEN 7
 
-#ifdef CONFIG_WOWLAN
-void SetFwRelatedForWoWLAN8188ES(_adapter* padapter, u8 bHostIsGoingtoSleep);
-#endif//CONFIG_WOWLAN
 
 //---------------------------------------------------------------------------------------------------------//
 //----------------------------------    H2C CMD CONTENT    --------------------------------------------------//

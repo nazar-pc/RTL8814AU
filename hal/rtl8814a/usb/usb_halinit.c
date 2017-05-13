@@ -2133,15 +2133,6 @@ void SetHwReg8814AU(PADAPTER Adapter, u8 variable, u8* val)
 				rtw_write8(Adapter, REG_USB_HRPWM, ps_state);
 			}
 #endif
-#ifdef CONFIG_AP_WOWLAN
-			if (pwrctl->wowlan_ap_mode == _TRUE) {
-				u8	ps_state = *((u8 *)val);
-
-				DBG_871X("%s, RPWM\n", __func__);
-				ps_state = ps_state & 0xC1;
-				rtw_write8(Adapter, REG_USB_HRPWM, ps_state);
-			}
-#endif
 			break;
 		case HW_VAR_USB_MODE:
 			/* U2 to U3 */

@@ -124,11 +124,7 @@ typedef struct _RT_8723B_FIRMWARE_HDR
 #define TX_DMA_SIZE_8723B			0x8000	/* 32K(TX) */
 #define RX_DMA_SIZE_8723B			0x4000	/* 16K(RX) */
 
-#ifdef CONFIG_WOWLAN
-#define RESV_FMWF	WKFMCAM_SIZE*MAX_WKFM_NUM /* 16 entries, for each is 24 bytes*/
-#else
 #define RESV_FMWF	0
-#endif
 
 #ifdef CONFIG_FW_C2H_DEBUG
 #define RX_DMA_RESERVED_SIZE_8723B	0x100	// 256B, reserved for c2h debug message
@@ -156,19 +152,11 @@ typedef struct _RT_8723B_FIRMWARE_HDR
 
 //For WoWLan , more reserved page
 //ARP Rsp:1, RWC:1, GTK Info:1,GTK RSP:2,GTK EXT MEM:2, PNO: 6
-#ifdef CONFIG_WOWLAN
-#define WOWLAN_PAGE_NUM_8723B	0x07
-#else
 #define WOWLAN_PAGE_NUM_8723B	0x00
-#endif
 
 #ifdef CONFIG_PNO_SUPPORT
 #undef WOWLAN_PAGE_NUM_8723B
 #define WOWLAN_PAGE_NUM_8723B	0x15
-#endif
-
-#ifdef CONFIG_AP_WOWLAN
-#define AP_WOWLAN_PAGE_NUM_8723B	0x02
 #endif
 
 #define TX_TOTAL_PAGE_NUMBER_8723B	(0xFF - BCNQ_PAGE_NUM_8723B - BCNQ1_PAGE_NUM_8723B - WOWLAN_PAGE_NUM_8723B)
@@ -286,9 +274,6 @@ void rtl8723b_InitBeaconParameters(PADAPTER padapter);
 void rtl8723b_InitBeaconMaxError(PADAPTER padapter, u8 InfraMode);
 void	_InitBurstPktLen_8723BS(PADAPTER Adapter);
 void _8051Reset8723(PADAPTER padapter);
-#if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
-void Hal_DetectWoWMode(PADAPTER pAdapter);
-#endif //CONFIG_WOWLAN
 
 void rtl8723b_start_thread(_adapter *padapter);
 void rtl8723b_stop_thread(_adapter *padapter);

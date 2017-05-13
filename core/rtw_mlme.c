@@ -76,10 +76,6 @@ _func_enter_;
 	//allocate DMA-able/Non-Page memory for cmd_buf and rsp_buf
 
 	rtw_clear_scan_deny(padapter);
-#ifdef CONFIG_ARP_KEEP_ALIVE
-	pmlmepriv->bGetGateway = 0;
-#endif
-
 #ifdef CONFIG_LAYER2_ROAMING
 	#define RTW_ROAM_SCAN_RESULT_EXP_MS 5*1000
 	#define RTW_ROAM_RSSI_DIFF_TH 10
@@ -3242,9 +3238,6 @@ _func_enter_;
 
 	if(candidate == NULL) {
 		DBG_871X("%s: return _FAIL(candidate == NULL)\n", __FUNCTION__);
-#ifdef CONFIG_WOWLAN
-		_clr_fwstate_(pmlmepriv, _FW_LINKED|_FW_UNDER_LINKING);
-#endif
 		ret = _FAIL;
 		goto exit;
 	} else {

@@ -11682,17 +11682,6 @@ bool rtw_port_switch_chk(_adapter *adapter)
 		ADPT_ARG(if_port1), if_port1_mlmeinfo->state, rtw_p2p_state(&if_port1->wdinfo), rtw_p2p_chk_state(&if_port1->wdinfo, P2P_STATE_NONE));
 #endif /* DBG_RUNTIME_PORT_SWITCH */
 
-#ifdef CONFIG_WOWLAN
-	/* WOWLAN interface(primary, for now) should be port0 */
-	if (pwrctl->wowlan_mode == _TRUE) {
-		if(!is_primary_adapter(if_port0)) {
-			DBG_871X("%s "ADPT_FMT" enable WOWLAN\n", __func__, ADPT_ARG(if_port1));
-			switch_needed = _TRUE;
-		}
-		goto exit;
-	}
-#endif /* CONFIG_WOWLAN */
-
 	/* AP should use port0 for ctl frame's ack */
 	if ((if_port1_mlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
 		DBG_871X("%s "ADPT_FMT" is AP/GO\n", __func__, ADPT_ARG(if_port1));
@@ -11916,9 +11905,6 @@ void mlmeext_joinbss_event_callback(_adapter *padapter, int join_res)
 	WLAN_BSSID_EX 		*cur_network = &(pmlmeinfo->network);
 	struct sta_priv		*pstapriv = &padapter->stapriv;
 	u8	join_type;
-#ifdef CONFIG_ARP_KEEP_ALIVE
-	struct mlme_priv	*pmlmepriv = &padapter->mlmepriv;
-#endif
 	struct security_priv *psecuritypriv = &padapter->securitypriv;
 
 	if(join_res < 0)
@@ -11929,9 +11915,6 @@ void mlmeext_joinbss_event_callback(_adapter *padapter, int join_res)
 
 		goto exit_mlmeext_joinbss_event_callback;
 	}
-#ifdef CONFIG_ARP_KEEP_ALIVE
-	pmlmepriv->bGetGateway = 1;
-#endif
 
 	if((pmlmeinfo->state&0x03) == WIFI_FW_ADHOC_STATE)
 	{
@@ -12351,9 +12334,6 @@ void linked_status_chk(_adapter *padapter, u8 from_timer)
 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
 	struct mlme_ext_info	*pmlmeinfo = &(pmlmeext->mlmext_info);
 	struct sta_priv		*pstapriv = &padapter->stapriv;
-#ifdef CONFIG_ARP_KEEP_ALIVE
-	struct mlme_priv	*pmlmepriv = &padapter->mlmepriv;
-#endif
 
 
 	if (is_client_associated_to_ap(padapter))
@@ -12371,17 +12351,6 @@ void linked_status_chk(_adapter *padapter, u8 from_timer)
 		#else
 		rx_chk_limit = 8;
 		#endif
-#ifdef CONFIG_ARP_KEEP_ALIVE
-		if (!from_timer && pmlmepriv->bGetGateway == 1) {
-			DBG_871X("do rtw_gw_addr_query()");
-			if (rtw_gw_addr_query(padapter) == 0) {
-				pmlmepriv->bGetGateway = 0;
-			} else {
-				_rtw_memset(pmlmepriv->gw_ip, 0, 4);
-				_rtw_memset(pmlmepriv->gw_mac_addr, 0, 6);
-			}
-		}
-#endif
 #ifdef CONFIG_P2P
 		if (!rtw_p2p_chk_state(&padapter->wdinfo, P2P_STATE_NONE))
 		{

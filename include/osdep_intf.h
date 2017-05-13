@@ -90,9 +90,6 @@ void rtw_dev_unload(PADAPTER padapter);
 
 u32 rtw_start_drv_threads(_adapter *padapter);
 void rtw_stop_drv_threads (_adapter *padapter);
-#if defined(CONFIG_WOWLAN) || defined(CONFIG_AP_WOWLAN)
-void rtw_cancel_dynamic_chk_timer(_adapter *padapter);
-#endif
 void rtw_cancel_all_timer(_adapter *padapter);
 
 uint loadparam(_adapter *adapter);
@@ -146,10 +143,6 @@ void rtw_drv_free_vir_ifaces(struct dvobj_priv *dvobj);
 #endif
 
 void rtw_ndev_destructor(_nic_hdl ndev);
-
-#ifdef CONFIG_ARP_KEEP_ALIVE
-int	rtw_gw_addr_query(_adapter *padapter);
-#endif
 
 int rtw_suspend_common(_adapter *padapter);
 int rtw_resume_common(_adapter *padapter);
