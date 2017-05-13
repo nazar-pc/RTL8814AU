@@ -128,7 +128,7 @@ ifeq ($(CONFIG_RTL8814A), y)
 #EXTRA_CFLAGS += -DCONFIG_MP_VHT_HW_TX_MODE
 #CONFIG_MP_VHT_HW_TX_MODE = y
 ##########################################
-MODULE_NAME = 8814au
+MODULE_NAME = rtl8814au
 
 EXTRA_CFLAGS += -DCONFIG_RTL8814A
 
