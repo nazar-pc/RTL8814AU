@@ -709,16 +709,6 @@ _FWFreeToGo8814A(
 	return _SUCCESS;
 }
 
-
-#ifdef CONFIG_FILE_FWIMG
-extern char *rtw_fw_file_path;
-u8	FwBuffer8814[FW_SIZE];
-#ifdef CONFIG_MP_INCLUDED
-extern char *rtw_fw_mp_bt_file_path;
-#endif // CONFIG_MP_INCLUDED
-u8 FwBuffer[FW_SIZE];
-#endif //CONFIG_FILE_FWIMG
-
 s32
 FirmwareDownload8814A(
 	IN	PADAPTER			Adapter,
@@ -746,14 +736,6 @@ FirmwareDownload8814A(
 		goto exit;
 	}
 
-	#ifdef CONFIG_FILE_FWIMG
-	if(rtw_is_file_readable(rtw_fw_file_path) == _TRUE)
-	{
-		DBG_871X("%s accquire FW from file:%s\n", __FUNCTION__, rtw_fw_file_path);
-		pFirmware->eFWSource = FW_SOURCE_IMG_FILE;
-	}
-	else
-	#endif //CONFIG_FILE_FWIMG
 	{
 		DBG_871X("%s fw source from Header\n", __FUNCTION__);
 		pFirmware->eFWSource = FW_SOURCE_HEADER_FILE;
@@ -762,11 +744,6 @@ FirmwareDownload8814A(
 	switch(pFirmware->eFWSource)
 	{
 		case FW_SOURCE_IMG_FILE:
-			#ifdef CONFIG_FILE_FWIMG
-			rtStatus = rtw_retrieve_from_file(rtw_fw_file_path, FwBuffer8814, FW_SIZE);
-			pFirmware->ulFwLength = rtStatus>=0?rtStatus:0;
-			pFirmware->szFwBuffer = FwBuffer8814;
-			#endif //CONFIG_FILE_FWIMG
 			break;
 		case FW_SOURCE_HEADER_FILE:
 			{
@@ -1271,17 +1248,6 @@ s32 FirmwareDownloadBT(PADAPTER padapter, PRT_MP_FIRMWARE pFirmware)
 		return _FAIL;
 	}
 
-#ifdef CONFIG_FILE_FWIMG
-	if (rtw_is_file_readable(rtw_fw_mp_bt_file_path) == _TRUE)
-	{
-		DBG_8192C("%s: accquire MP BT FW from file:%s\n", __FUNCTION__, rtw_fw_mp_bt_file_path);
-
-		rtStatus = rtw_retrieve_from_file(rtw_fw_mp_bt_file_path, FwBuffer, 0x8000);
-		BTFirmwareLen = rtStatus>=0?rtStatus:0;
-		pBTFirmwareBuf = FwBuffer;
-	}
-	else
-#endif // CONFIG_FILE_FWIMG
 	{
 #ifdef CONFIG_EMBEDDED_FWIMG
 		DBG_8192C("%s: Download MP BT FW from header\n", __FUNCTION__);
