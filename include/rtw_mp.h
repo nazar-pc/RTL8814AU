@@ -466,7 +466,6 @@ struct bb_reg_param {
 };
 
 typedef struct _MP_FIRMWARE {
-	FIRMWARE_SOURCE eFWSource;
 #ifdef CONFIG_EMBEDDED_FWIMG
 	u8* 		szFwBuffer;
 #else

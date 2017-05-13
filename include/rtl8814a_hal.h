@@ -54,15 +54,6 @@ enum{
 /* max. iram is 64k , max dmen is 32k. Total = 96k = 0x18000*/
 #define FW_SIZE							0x18000
 #define FW_START_ADDRESS   0x1000
-typedef struct _RT_FIRMWARE_8814 {
-	FIRMWARE_SOURCE	eFWSource;
-#ifdef CONFIG_EMBEDDED_FWIMG
-	u8*			szFwBuffer;
-#else
-	u8			szFwBuffer[FW_SIZE];
-#endif
-	u32			ulFwLength;
-} RT_FIRMWARE_8814, *PRT_FIRMWARE_8814;
 
 #define PAGE_SIZE_TX_8814	PAGE_SIZE_128
 #define BCNQ_PAGE_NUM_8814		0x08

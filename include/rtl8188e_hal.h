@@ -84,7 +84,6 @@
 #define IS_FW_HEADER_EXIST_88E(_pFwHdr)	((le16_to_cpu(_pFwHdr->Signature)&0xFFF0) == 0x88E0)
 
 typedef struct _RT_FIRMWARE_8188E {
-	FIRMWARE_SOURCE	eFWSource;
 #ifdef CONFIG_EMBEDDED_FWIMG
 	u8*			szFwBuffer;
 #else

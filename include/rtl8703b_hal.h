@@ -72,7 +72,6 @@
 #define IS_FW_HEADER_EXIST_8703B(_pFwHdr)	((le16_to_cpu(_pFwHdr->Signature)&0xFFF0) == 0x03B0)
 
 typedef struct _RT_FIRMWARE {
-	FIRMWARE_SOURCE	eFWSource;
 #ifdef CONFIG_EMBEDDED_FWIMG
 	u8*			szFwBuffer;
 #else

@@ -21,6 +21,7 @@
 
 //#include <drv_types.h>
 #include <rtl8814a_hal.h>
+#include <linux/firmware.h>
 
 //-------------------------------------------------------------------------
 //
@@ -720,49 +721,32 @@ FirmwareDownload8814A(
 	u32 fwdl_start_time;
 	PHAL_DATA_TYPE	pHalData = GET_HAL_DATA(Adapter);
 
-	u8				*pFwImageFileName;
-	u8				*pucMappedFile = NULL;
-	PRT_FIRMWARE_8814	pFirmware = NULL;
-	u8				*pFwHdr = NULL;
-	u8				*pFirmwareBuf;
-	u32				FirmwareLen;
+	u8 *pucMappedFile = NULL;
+	const struct firmware *fw;
+	char *fw_name;
+	u8 *pFwHdr = NULL;
+	u8 *pFirmwareBuf;
+	u32 FirmwareLen;
 
+	fw_name = "rtlwifi/rtl8814aufw.bin";
+	pr_info("Loading firmware %s\n", fw_name);
+
+	if (request_firmware(&fw, fw_name, &Adapter->dvobj->pusbdev->dev)) {
+		RT_TRACE(_module_hal_init_c_, _drv_info_, ("Firmware %s not available\n", fw_name));
+		return -ENOENT;
+	}
 
 	RT_TRACE(_module_hal_init_c_, _drv_info_, ("+%s\n", __FUNCTION__));
-	pFirmware = (PRT_FIRMWARE_8814)rtw_zmalloc(sizeof(RT_FIRMWARE_8814));
-	if(!pFirmware)
-	{
+
+	if (fw->size > FW_SIZE) {
 		rtStatus = _FAIL;
+		DBG_871X_LEVEL(_drv_emerg_, "Firmware size:%u exceed %u\n", (unsigned int) fw->size , FW_SIZE);
 		goto exit;
 	}
 
-	{
-		DBG_871X("%s fw source from Header\n", __FUNCTION__);
-		pFirmware->eFWSource = FW_SOURCE_HEADER_FILE;
-	}
-
-	switch(pFirmware->eFWSource)
-	{
-		case FW_SOURCE_IMG_FILE:
-			break;
-		case FW_SOURCE_HEADER_FILE:
-			{
-				//ODM_CmnInfoInit(pDM_OutSrc, ODM_CMNINFO_IC_TYPE, ODM_RTL8814A);
-				ODM_ConfigFWWithHeaderFile(&pHalData->odmpriv, CONFIG_FW_NIC, (u8 *)&(pFirmware->szFwBuffer), &(pFirmware->ulFwLength));
-				DBG_871X("%s fw:%s, size: %d\n", __FUNCTION__, "NIC", pFirmware->ulFwLength);
-			}
-			break;
-	}
-
-	if (pFirmware->ulFwLength > FW_SIZE) {
-		rtStatus = _FAIL;
-		DBG_871X_LEVEL(_drv_emerg_, "Firmware size:%u exceed %u\n", pFirmware->ulFwLength, FW_SIZE);
-		goto exit;
-	}
-
-	pFirmwareBuf = pFirmware->szFwBuffer;
-	FirmwareLen = pFirmware->ulFwLength;
-	pFwHdr = (u8 *)pFirmware->szFwBuffer;
+	pFirmwareBuf = (u8 *) fw->data;
+	FirmwareLen = fw->size;
+	pFwHdr = (u8 *) fw->data;
 
 	pHalData->FirmwareVersion =  (u16)GET_FIRMWARE_HDR_VERSION_3081(pFwHdr);
 	pHalData->FirmwareSubVersion = (u16)GET_FIRMWARE_HDR_SUB_VER_3081(pFwHdr);
@@ -782,6 +766,8 @@ FirmwareDownload8814A(
 
 	_FWDownloadEnable_8814A(Adapter, _FALSE);
 
+	release_firmware(fw);
+
 	rtStatus = _FWFreeToGo8814A(Adapter);
 	if (_SUCCESS != rtStatus)
 		goto fwdl_stat;
@@ -794,8 +780,6 @@ fwdl_stat:
 	);
 
 exit:
-	if (pFirmware)
-		rtw_mfree((u8*)pFirmware, sizeof(RT_FIRMWARE_8814));
 
 	return rtStatus;
 }
