@@ -128,44 +128,43 @@ ifeq ($(CONFIG_RTL8814A), y)
 #EXTRA_CFLAGS += -DCONFIG_MP_VHT_HW_TX_MODE
 #CONFIG_MP_VHT_HW_TX_MODE = y
 ##########################################
-RTL871X = rtl8814a
 MODULE_NAME = 8814au
 
 EXTRA_CFLAGS += -DCONFIG_RTL8814A
 
 _HAL_INTFS_FILES +=  hal/HalPwrSeqCmd.o \
-					hal/$(RTL871X)/Hal8814PwrSeq.o \
-					hal/$(RTL871X)/$(RTL871X)_xmit.o\
-					hal/$(RTL871X)/$(RTL871X)_sreset.o
+					hal/rtl8814a/Hal8814PwrSeq.o \
+					hal/rtl8814a/rtl8814a_xmit.o\
+					hal/rtl8814a/rtl8814a_sreset.o
 
-_HAL_INTFS_FILES +=	hal/$(RTL871X)/$(RTL871X)_hal_init.o \
-			hal/$(RTL871X)/$(RTL871X)_phycfg.o \
-			hal/$(RTL871X)/$(RTL871X)_rf6052.o \
-			hal/$(RTL871X)/$(RTL871X)_dm.o \
-			hal/$(RTL871X)/$(RTL871X)_rxdesc.o \
-			hal/$(RTL871X)/$(RTL871X)_cmd.o \
+_HAL_INTFS_FILES +=	hal/rtl8814a/rtl8814a_hal_init.o \
+			hal/rtl8814a/rtl8814a_phycfg.o \
+			hal/rtl8814a/rtl8814a_rf6052.o \
+			hal/rtl8814a/rtl8814a_dm.o \
+			hal/rtl8814a/rtl8814a_rxdesc.o \
+			hal/rtl8814a/rtl8814a_cmd.o \
 
 
 _HAL_INTFS_FILES +=	\
-			hal/$(RTL871X)/usb/usb_halinit.o \
-			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_led.o \
-			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_xmit.o \
-			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_recv.o
+			hal/rtl8814a/usb/usb_halinit.o \
+			hal/rtl8814a/usb/rtl$(MODULE_NAME)_led.o \
+			hal/rtl8814a/usb/rtl$(MODULE_NAME)_xmit.o \
+			hal/rtl8814a/usb/rtl$(MODULE_NAME)_recv.o
 
-_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops_linux.o
+_HAL_INTFS_FILES += hal/rtl8814a/usb/usb_ops_linux.o
 
 ifeq ($(CONFIG_USB_HCI), y)
-_HAL_INTFS_FILES +=hal/efuse/$(RTL871X)/HalEfuseMask8814A_USB.o
+_HAL_INTFS_FILES +=hal/efuse/rtl8814a/HalEfuseMask8814A_USB.o
 endif
 
-_OUTSRC_FILES += hal/phydm/$(RTL871X)/halhwimg8814a_bb.o\
-								hal/phydm/$(RTL871X)/halhwimg8814a_mac.o\
-								hal/phydm/$(RTL871X)/halhwimg8814a_rf.o\
-								hal/phydm/$(RTL871X)/halhwimg8814a_fw.o\
-								hal/phydm/$(RTL871X)/phydm_iqk_8814a.o\
-								hal/phydm/$(RTL871X)/phydm_regconfig8814a.o\
-								hal/phydm/$(RTL871X)/halphyrf_8814a_ce.o\
-								hal/phydm/$(RTL871X)/phydm_rtl8814a.o\
+_OUTSRC_FILES += hal/phydm/rtl8814a/halhwimg8814a_bb.o\
+								hal/phydm/rtl8814a/halhwimg8814a_mac.o\
+								hal/phydm/rtl8814a/halhwimg8814a_rf.o\
+								hal/phydm/rtl8814a/halhwimg8814a_fw.o\
+								hal/phydm/rtl8814a/phydm_iqk_8814a.o\
+								hal/phydm/rtl8814a/phydm_regconfig8814a.o\
+								hal/phydm/rtl8814a/halphyrf_8814a_ce.o\
+								hal/phydm/rtl8814a/phydm_rtl8814a.o\
 								hal/phydm/txbf/haltxbf8814a.o
 
 endif
