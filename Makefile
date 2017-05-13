@@ -69,14 +69,10 @@ CONFIG_DRVEXT_MODULE = n
 export TopDIR ?= $(shell pwd)
 
 ########### COMMON  #################################
-ifeq ($(CONFIG_USB_HCI), y)
-HCI_NAME = usb
-endif
-
 _OS_INTFS_FILES :=	os_dep/osdep_service.o \
 			os_dep/linux/os_intfs.o \
-			os_dep/linux/$(HCI_NAME)_intf.o \
-			os_dep/linux/$(HCI_NAME)_ops_linux.o \
+			os_dep/linux/usb_intf.o \
+			os_dep/linux/usb_ops_linux.o \
 			os_dep/linux/ioctl_linux.o \
 			os_dep/linux/xmit_linux.o \
 			os_dep/linux/mlme_linux.o \
@@ -97,8 +93,8 @@ _HAL_INTFS_FILES :=	hal/hal_intf.o \
 			hal/hal_dm.o \
 			hal/hal_btcoex.o \
 			hal/hal_mp.o \
-			hal/hal_hci/hal_$(HCI_NAME).o \
-			hal/led/hal_$(HCI_NAME)_led.o
+			hal/hal_hci/hal_usb.o \
+			hal/led/hal_usb_led.o
 
 
 _OUTSRC_FILES := hal/phydm/phydm_debug.o	\
@@ -133,9 +129,7 @@ ifeq ($(CONFIG_RTL8814A), y)
 #CONFIG_MP_VHT_HW_TX_MODE = y
 ##########################################
 RTL871X = rtl8814a
-ifeq ($(CONFIG_USB_HCI), y)
 MODULE_NAME = 8814au
-endif
 
 EXTRA_CFLAGS += -DCONFIG_RTL8814A
 
@@ -153,12 +147,12 @@ _HAL_INTFS_FILES +=	hal/$(RTL871X)/$(RTL871X)_hal_init.o \
 
 
 _HAL_INTFS_FILES +=	\
-			hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_halinit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_led.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_xmit.o \
-			hal/$(RTL871X)/$(HCI_NAME)/rtl$(MODULE_NAME)_recv.o
+			hal/$(RTL871X)/usb/usb_halinit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_led.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_xmit.o \
+			hal/$(RTL871X)/usb/rtl$(MODULE_NAME)_recv.o
 
-_HAL_INTFS_FILES += hal/$(RTL871X)/$(HCI_NAME)/$(HCI_NAME)_ops_linux.o
+_HAL_INTFS_FILES += hal/$(RTL871X)/usb/usb_ops_linux.o
 
 ifeq ($(CONFIG_USB_HCI), y)
 _HAL_INTFS_FILES +=hal/efuse/$(RTL871X)/HalEfuseMask8814A_USB.o
