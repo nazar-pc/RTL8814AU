@@ -5,12 +5,16 @@ also for rtl8813au devices.
 
 <u>If one USB-ID is missing, please mail me.</u>  
 
-For compiling type  
-`make`  
-in source dir  
+**Building and install driver**
 
-For install the driver use  
-`sudo insmod 8814au.ko`  
+for building type  
+`make`  
+
+for load the driver  
+`sudo insmod rtl8814au.ko`  
+
+You need to install the needed fw with  
+`sudo make installfw`  
 
 **STATUS**  
 Currently as educational driver,  
