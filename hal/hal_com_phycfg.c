@@ -1993,8 +1993,6 @@ phy_CrossReferenceHTAndVHTTxPowerLimit(
 	int ht_has_ref_5g_20_40 = 0;
 	int vht_has_ref_5g_20_40 = 0;
 
-	pHalData->tx_pwr_lmt_5g_20_40_ref = 0;
-
 	for (regulation = 0; regulation < MAX_REGULATION_NUM; ++regulation) {
 
 		for (bw = 0; bw < MAX_5G_BANDWIDTH_NUM; ++bw) {
@@ -2060,14 +2058,6 @@ phy_CrossReferenceHTAndVHTTxPowerLimit(
 		DBG_871X("ht_ref_vht_5g_20_40:%d, ht_has_ref_5g_20_40:%d\n", ht_ref_vht_5g_20_40, ht_has_ref_5g_20_40);
 		DBG_871X("vht_ref_hht_5g_20_40:%d, vht_has_ref_5g_20_40:%d\n", vht_ref_ht_5g_20_40, vht_has_ref_5g_20_40);
 	}
-
-	/* 5G 20M&40M HT all come from VHT*/
-	if (ht_ref_vht_5g_20_40 && ht_has_ref_5g_20_40 == ht_ref_vht_5g_20_40)
-		pHalData->tx_pwr_lmt_5g_20_40_ref |= TX_PWR_LMT_REF_HT_FROM_VHT;
-
-	/* 5G 20M&40M VHT all come from HT*/
-	if (vht_ref_ht_5g_20_40 && vht_has_ref_5g_20_40 == vht_ref_ht_5g_20_40)
-		pHalData->tx_pwr_lmt_5g_20_40_ref |= TX_PWR_LMT_REF_VHT_FROM_HT;
 }
 
 VOID

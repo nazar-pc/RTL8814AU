@@ -323,8 +323,6 @@ typedef struct hal_com_data
 	u8	TxPwrLegacyHtDiff[RF_PATH_MAX_92C_88E][CHANNEL_MAX_NUMBER];// For HT<->legacy pwr diff
 	*/
 
-	u8 tx_pwr_lmt_5g_20_40_ref;
-
 	// Power Limit Table for 2.4G
 	s8	TxPwrLimit_2_4G[MAX_REGULATION_NUM]
 						[MAX_2_4G_BANDWIDTH_NUM]
