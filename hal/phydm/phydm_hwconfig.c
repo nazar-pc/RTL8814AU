@@ -2617,62 +2617,6 @@ ODM_ConfigFWWithHeaderFile(
 {
 #if (DM_ODM_SUPPORT_TYPE != ODM_AP)
 
-#if (RTL8723B_SUPPORT == 1)
-	if (pDM_Odm->SupportICType == ODM_RTL8723B)
-	{
-		if (ConfigType == CONFIG_FW_NIC)
-			READ_FIRMWARE_MP(8723B,_FW_NIC);
-		else if (ConfigType == CONFIG_FW_WoWLAN)
-			READ_FIRMWARE_MP(8723B,_FW_WoWLAN);
-		#ifdef CONFIG_AP_WOWLAN
-		else if (ConfigType == CONFIG_FW_AP_WoWLAN)
-			READ_FIRMWARE(8723B,_FW_AP_WoWLAN);
-		#endif
-
-	}
-#endif //#if (RTL8723B_SUPPORT == 1)
-#if (RTL8812A_SUPPORT == 1)
-	if (pDM_Odm->SupportICType == ODM_RTL8812)
-	{
-		if (ConfigType == CONFIG_FW_NIC)
-			READ_FIRMWARE_MP(8812A,_FW_NIC);
-		else if (ConfigType == CONFIG_FW_WoWLAN)
-			READ_FIRMWARE_MP(8812A,_FW_WoWLAN);
-		else if (ConfigType == CONFIG_FW_BT)
-			READ_FIRMWARE_MP(8812A,_FW_NIC_BT);
-		#ifdef CONFIG_AP_WOWLAN
-		else if (ConfigType == CONFIG_FW_AP_WoWLAN)
-			READ_FIRMWARE(8812A,_FW_AP);
-		#endif
-	}
-#endif
-#if (RTL8821A_SUPPORT == 1)
-	if (pDM_Odm->SupportICType == ODM_RTL8821){
-		if (ConfigType == CONFIG_FW_NIC)
-			READ_FIRMWARE_MP(8821A,_FW_NIC);
-		else if (ConfigType == CONFIG_FW_WoWLAN)
-			READ_FIRMWARE_MP(8821A,_FW_WoWLAN);
-		#ifdef CONFIG_AP_WOWLAN
-		else if (ConfigType == CONFIG_FW_AP_WoWLAN)
-			READ_FIRMWARE_MP(8821A , _FW_AP);
-		#endif /*CONFIG_AP_WOWLAN*/
-		else if (ConfigType == CONFIG_FW_BT)
-			READ_FIRMWARE_MP(8821A,_FW_NIC_BT);
-	}
-#endif
-#if (RTL8192E_SUPPORT == 1)
-	if (pDM_Odm->SupportICType == ODM_RTL8192E)
-	{
-		if (ConfigType == CONFIG_FW_NIC)
-			READ_FIRMWARE_MP(8192E,_FW_NIC);
-		else if (ConfigType == CONFIG_FW_WoWLAN)
-			READ_FIRMWARE_MP(8192E,_FW_WoWLAN);
-		#ifdef CONFIG_AP_WOWLAN
-		else if (ConfigType == CONFIG_FW_AP_WoWLAN)
-			READ_FIRMWARE_MP(8192E,_FW_AP);
-		#endif
-	}
-#endif
 #if (RTL8814A_SUPPORT == 1)
 	if (pDM_Odm->SupportICType == ODM_RTL8814A)
 	{
@@ -2684,31 +2628,6 @@ ODM_ConfigFWWithHeaderFile(
 		#endif
 	}
 #endif
-#if (RTL8703B_SUPPORT == 1)
-	if (pDM_Odm->SupportICType == ODM_RTL8703B) {
-		if (ConfigType == CONFIG_FW_NIC)
-			READ_FIRMWARE_MP(8703B, _FW_NIC);
-		else if (ConfigType == CONFIG_FW_WoWLAN)
-			READ_FIRMWARE_MP(8703B, _FW_WoWLAN);
-		#ifdef CONFIG_AP_WOWLAN
-		else if (ConfigType == CONFIG_FW_AP_WoWLAN)
-			READ_FIRMWARE(8703B, _FW_AP_WoWLAN);
-		#endif
-	}
-#endif
-
-#if (RTL8188F_SUPPORT == 1)
-	if (pDM_Odm->SupportICType == ODM_RTL8188F) {
-		if (ConfigType == CONFIG_FW_NIC)
-			READ_FIRMWARE_MP(8188F, _FW_NIC);
-		else if (ConfigType == CONFIG_FW_WoWLAN)
-			READ_FIRMWARE_MP(8188F, _FW_WoWLAN);
-		#ifdef CONFIG_AP_WOWLAN
-		else if (ConfigType == CONFIG_FW_AP)
-			READ_FIRMWARE_MP(8188F,_FW_AP);
-		#endif
-	}
-#endif
 
 //1 New ICs (WIN only)
 #if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
@@ -2717,26 +2636,7 @@ ODM_ConfigFWWithHeaderFile(
 	{
 	}
 #endif
-#if (RTL8822B_SUPPORT == 1)
-	if (pDM_Odm->SupportICType == ODM_RTL8822B)
-	{
-		/*
-		if (ConfigType == CONFIG_FW_NIC)
-			READ_FIRMWARE_MP(8822B,_FW_NIC);
-		#ifdef CONFIG_AP_WOWLAN
-		else if (ConfigType == CONFIG_FW_AP_WoWLAN)
-			READ_FIRMWARE(8822B,_FW_AP);
-		#endif */
-	}
-#endif
 #if ((DEV_BUS_TYPE == RT_USB_INTERFACE) || (DEV_BUS_TYPE == RT_SDIO_INTERFACE))
-#if (RTL8188F_SUPPORT == 1)
-	if (pDM_Odm->SupportICType == ODM_RTL8188F)
-	{
-		if (ConfigType == CONFIG_FW_NIC)
-			READ_FIRMWARE_MP(8188F,_FW_NIC);
-	}
-#endif
 #endif
 #endif//(DM_ODM_SUPPORT_TYPE == ODM_WIN)
 
