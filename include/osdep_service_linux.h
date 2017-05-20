@@ -62,6 +62,10 @@
 	#include <linux/tqueue.h>
 #endif
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,11,0))
+	#include <linux/sched/signal.h>
+#endif
+
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 7, 0))
 	#include <uapi/linux/limits.h>
 #else
