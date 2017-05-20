@@ -175,41 +175,6 @@ s8 rtw_get_tx_nss(_adapter *adapter, struct sta_info *psta)
 	return nss;
 }
 
-u8 networktype_to_raid(_adapter *adapter,struct sta_info *psta)
-{
-	unsigned char raid;
-	switch(psta->wireless_mode)
-	{
-		case WIRELESS_11B:
-			raid = RATR_INX_WIRELESS_B;
-			break;
-		case WIRELESS_11A:
-		case WIRELESS_11G:
-			raid = RATR_INX_WIRELESS_G;
-			break;
-		case WIRELESS_11BG:
-			raid = RATR_INX_WIRELESS_GB;
-			break;
-		case WIRELESS_11_24N:
-		case WIRELESS_11_5N:
-			raid = RATR_INX_WIRELESS_N;
-			break;
-		case WIRELESS_11A_5N:
-		case WIRELESS_11G_24N:
-			raid = RATR_INX_WIRELESS_NG;
-			break;
-		case WIRELESS_11BG_24N:
-			raid = RATR_INX_WIRELESS_NGB;
-			break;
-		default:
-			raid = RATR_INX_WIRELESS_GB;
-			break;
-
-	}
-	return raid;
-
-}
-
 u8 networktype_to_raid_ex(_adapter *adapter, struct sta_info *psta)
 {
 	struct mlme_ext_priv	*pmlmeext = &adapter->mlmeextpriv;

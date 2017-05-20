@@ -396,7 +396,6 @@ typedef enum _HARDWARE_TYPE{
 	HARDWARE_TYPE_MAX,
 }HARDWARE_TYPE;
 
-#define IS_NEW_GENERATION_IC(_Adapter)	(rtw_get_hw_type(_Adapter) >= HARDWARE_TYPE_RTL8192EE)
 //
 // RTL8188E Series
 //
