@@ -55,17 +55,11 @@ enum{
 #if defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A)
 void rtl8812au_set_hw_type(struct dvobj_priv *pdvobj);
 void rtl8812au_set_intf_ops(struct _io_ops *pops);
-#ifdef CONFIG_SUPPORT_USB_INT
-void interrupt_handler_8812au(_adapter *padapter, u16 pkt_len, u8 *pbuf);
-#endif
 #endif
 
 #ifdef CONFIG_RTL8814A
 void rtl8814au_set_hw_type(struct dvobj_priv *pdvobj);
 void rtl8814au_set_intf_ops(struct _io_ops	*pops);
-#ifdef CONFIG_SUPPORT_USB_INT
-void interrupt_handler_8814au(_adapter *padapter, u16 pkt_len, u8 *pbuf);
-#endif
 #endif /* CONFIG_RTL8814 */
 
 enum RTW_USB_SPEED {

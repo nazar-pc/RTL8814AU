@@ -2365,9 +2365,6 @@ _func_enter_;
 #ifdef CONFIG_XMIT_THREAD_MODE
 	pHalFunc->xmit_thread_handler = &rtl8812au_xmit_buf_handler;
 #endif
-#ifdef CONFIG_SUPPORT_USB_INT
-	pHalFunc->interrupt_handler = interrupt_handler_8814au;
-#endif
 	pHalFunc->fw_correct_bcn = &rtl8814_fw_update_beacon_cmd;
 	rtl8814_set_hal_ops(pHalFunc);
 _func_exit_;

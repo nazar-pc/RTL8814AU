@@ -464,13 +464,6 @@ void rtw_hal_write_rfreg(_adapter *padapter, u32 eRFPath, u32 RegAddr, u32 BitMa
 	}
 }
 
-#if defined(CONFIG_USB_HCI) && defined(CONFIG_SUPPORT_USB_INT)
-void	rtw_hal_interrupt_handler(_adapter *padapter, u16 pkt_len, u8 *pbuf)
-{
-	padapter->HalFunc.interrupt_handler(padapter, pkt_len, pbuf);
-}
-#endif
-
 void	rtw_hal_set_bwmode(_adapter *padapter, CHANNEL_WIDTH Bandwidth, u8 Offset)
 {
 	PHAL_DATA_TYPE	pHalData = GET_HAL_DATA(padapter);
@@ -847,12 +840,6 @@ u8 rtw_hal_ops_check(_adapter *padapter)
 
 
 	/*** interrupt hdl section ***/
-	#if (defined(CONFIG_USB_HCI) && defined(CONFIG_SUPPORT_USB_INT))
-	if (NULL == padapter->HalFunc.interrupt_handler) {
-		rtw_hal_error_msg("interrupt_handler");
-		ret = _FAIL;
-	}
-	#endif /*#if (defined(CONFIG_USB_HCI) && defined(CONFIG_SUPPORT_USB_INT))*/
 
 
 

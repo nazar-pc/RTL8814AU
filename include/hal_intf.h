@@ -255,11 +255,6 @@ struct hal_ops {
 	void	(*disable_interrupt)(_adapter *padapter);
 	u8	(*check_ips_status)(_adapter *padapter);
 
-#if defined(CONFIG_USB_HCI) && defined(CONFIG_SUPPORT_USB_INT)
-	void	(*interrupt_handler)(_adapter *padapter, u16 pkt_len, u8 *pbuf);
-#endif
-
-
 	/*** DM section ***/
 
 	void	(*InitSwLeds)(_adapter *padapter);
@@ -584,10 +579,6 @@ void	rtw_hal_write_rfreg(_adapter *padapter, u32 eRFPath, u32 RegAddr, u32 BitMa
 
 #define PHY_SetMacReg	PHY_SetBBReg
 #define PHY_QueryMacReg PHY_QueryBBReg
-
-#if  defined(CONFIG_USB_HCI) && defined(CONFIG_SUPPORT_USB_INT)
-void	rtw_hal_interrupt_handler(_adapter *padapter, u16 pkt_len, u8 *pbuf);
-#endif
 
 void	rtw_hal_set_bwmode(_adapter *padapter, CHANNEL_WIDTH Bandwidth, u8 Offset);
 void	rtw_hal_set_chan(_adapter *padapter, u8 channel);
