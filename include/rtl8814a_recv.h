@@ -20,8 +20,6 @@
 #ifndef __RTL8814A_RECV_H__
 #define __RTL8814A_RECV_H__
 
-#if defined(CONFIG_USB_HCI)
-
 #ifndef MAX_RECVBUF_SZ
 #ifdef PLATFORM_OS_CE
 #define MAX_RECVBUF_SZ (8192+1024) // 8K+1k
@@ -38,9 +36,6 @@
 	#endif
 #endif
 #endif //!MAX_RECVBUF_SZ
-
-#endif
-
 
 /* RX buffer descriptor */
 /* DWORD 0 */
@@ -145,10 +140,8 @@
 // Rx smooth factor
 #define Rx_Smooth_Factor (20)
 
-#ifdef CONFIG_USB_HCI
 s32 rtl8814au_init_recv_priv(PADAPTER padapter);
 void rtl8814au_free_recv_priv(PADAPTER padapter);
-#endif
 
 
 /* temp solution

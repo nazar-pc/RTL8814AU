@@ -93,7 +93,6 @@ static void dm_CheckPbcGPIO(_adapter *padapter)
 	if(!padapter->registrypriv.hw_wps_pbc)
 		return;
 
-#if defined(CONFIG_USB_HCI)
 
 	tmp1byte = rtw_read8(padapter, REG_GPIO_EXT_CTRL_8814A);
 	//DBG_871X("CheckPbcGPIO - %x\n", tmp1byte);
@@ -107,7 +106,6 @@ static void dm_CheckPbcGPIO(_adapter *padapter)
 		bPbcPressed = _TRUE;
 	}
 
-#endif
 
 	if( _TRUE == bPbcPressed)
 	{
@@ -246,9 +244,7 @@ rtl8814_InitHalDm(
 	PDM_ODM_T		pDM_Odm = &(pHalData->odmpriv);
 	u8	i;
 
-#ifdef CONFIG_USB_HCI
 	dm_InitGPIOSetting(Adapter);
-#endif //CONFIG_USB_HCI
 
 	pHalData->DM_Type = DM_Type_ByDriver;
 

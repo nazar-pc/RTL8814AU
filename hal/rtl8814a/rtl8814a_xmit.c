@@ -361,11 +361,9 @@ void rtl8814a_fill_fake_txdesc(
 	}
 	SET_TX_DESC_TX_RATE_8814A(pDesc, MRateToHwRate(pmlmeext->tx_rate));
 
-#if defined(CONFIG_USB_HCI)
 	// USB interface drop packet if the checksum of descriptor isn't correct.
 	// Using this checksum can let hardware recovery from packet bulk out error (e.g. Cancel URC, Bulk out error.).
 	rtl8814a_cal_txdesc_chksum(pDesc);
-#endif
 }
 
 void rtl8814a_fill_txdesc_sectype(struct pkt_attrib *pattrib, u8 *ptxdesc)

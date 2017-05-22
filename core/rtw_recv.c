@@ -133,13 +133,11 @@ _func_enter_;
 
 	}
 
-#ifdef CONFIG_USB_HCI
 
 	ATOMIC_SET(&(precvpriv->rx_pending_cnt), 1);
 
 	_rtw_init_sema(&precvpriv->allrxreturnevt, 0);
 
-#endif
 
 	res = rtw_hal_init_recv_priv(padapter);
 

@@ -157,7 +157,6 @@ typedef enum _LED_PIN{
 //================================================================================
 // PCIE LED Definition.
 //================================================================================
-#if defined(CONFIG_USB_HCI)
 
 #define IS_LED_WPS_BLINKING(_LED_USB)	(((PLED_USB)_LED_USB)->CurrLedState==LED_BLINK_WPS \
 					|| ((PLED_USB)_LED_USB)->CurrLedState==LED_BLINK_WPS_STOP \
@@ -228,7 +227,6 @@ LedControlUSB(
 //================================================================================
 // SDIO LED Definition.
 //================================================================================
-#endif
 
 struct led_priv{
 	/* add for led controll */

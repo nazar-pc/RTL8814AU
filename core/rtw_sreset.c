@@ -198,7 +198,6 @@ void sreset_restore_network_station(_adapter *padapter)
 
 	{
 		u8 threshold;
-		#ifdef CONFIG_USB_HCI
 		// TH=1 => means that invalidate usb rx aggregation
 		// TH=0 => means that validate usb rx aggregation, use init value.
 		if(mlmepriv->htpriv.ht_option) {
@@ -211,7 +210,6 @@ void sreset_restore_network_station(_adapter *padapter)
 			threshold = 1;
 			rtw_hal_set_hwreg(padapter, HW_VAR_RXDMA_AGG_PG_TH, (u8 *)(&threshold));
 		}
-		#endif
 	}
 
 	rtw_hal_set_hwreg(padapter, HW_VAR_DO_IQK, NULL);
@@ -272,9 +270,7 @@ void sreset_stop_adapter(_adapter *padapter)
 	rtw_cancel_all_timer(padapter);
 
 	/* TODO: OS and HCI independent */
-	#if defined(PLATFORM_LINUX) && defined(CONFIG_USB_HCI)
 	tasklet_kill(&pxmitpriv->xmit_tasklet);
-	#endif
 
 	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
 		rtw_scan_abort(padapter);
@@ -302,9 +298,7 @@ void sreset_start_adapter(_adapter *padapter)
 	}
 
 	/* TODO: OS and HCI independent */
-	#if defined(PLATFORM_LINUX) && defined(CONFIG_USB_HCI)
 	tasklet_hi_schedule(&pxmitpriv->xmit_tasklet);
-	#endif
 
 	if (is_primary_adapter(padapter))
 		_set_timer(&padapter->mlmepriv.dynamic_chk_timer, 2000);

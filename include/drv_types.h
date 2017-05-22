@@ -723,7 +723,6 @@ struct dvobj_priv
 
 /*-------- below is for USB INTERFACE --------*/
 
-#ifdef CONFIG_USB_HCI
 
 	u8	usb_speed; // 1.1, 2.0 or 3.0
 	u8	nr_endpoint;
@@ -779,7 +778,6 @@ struct dvobj_priv
 	struct usb_device *pusbdev;
 #endif//PLATFORM_FREEBSD
 
-#endif//CONFIG_USB_HCI
 
 /*-------- below is for PCIE INTERFACE --------*/
 
@@ -802,9 +800,7 @@ static struct device *dvobj_to_dev(struct dvobj_priv *dvobj)
 #ifdef RTW_DVOBJ_CHIP_HW_TYPE
 #endif
 
-#ifdef CONFIG_USB_HCI
 	return &dvobj->pusbintf->dev;
-#endif
 }
 #endif
 
@@ -1185,11 +1181,9 @@ void rtw_dev_pno_debug(struct net_device *net);
 #endif //CONFIG_PNO_SUPPORT
 
 // HCI Related header file
-#ifdef CONFIG_USB_HCI
 #include <usb_osintf.h>
 #include <usb_ops.h>
 #include <usb_hal.h>
-#endif
 
 
 

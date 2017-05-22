@@ -30,7 +30,6 @@
 #define DRV_NAME "rtl8814au"
 
 
-#define CONFIG_USB_HCI	1
 
 
 #define PLATFORM_LINUX	1

@@ -166,11 +166,9 @@ _BlockWrite_8814A(
 	u8*			bufferPtr	= (u8*)buffer;
 	u32			i=0, offset=0;
 
-#ifdef CONFIG_USB_HCI
 	blockSize_p1	= MAX_REG_BOLCK_SIZE; // Use 196-byte write to download FW
 	// Small block size will increase USB init speed. But prevent FW download fail
 	// use 4-Byte instead of 196-Byte to write FW.
-#endif
 
 	//3 Phase #1
 	blockCount_p1 = buffSize / blockSize_p1;
@@ -1864,9 +1862,7 @@ hal_Read_TRX_antenna_8814A(
 	if (Adapter->registrypriv.rf_config == RF_MAX_TYPE) {
 
 		if (trx_antenna == RF_4T4R
-#ifdef CONFIG_USB_HCI
 		&& IS_SUPER_SPEED_USB(Adapter)
-#endif /* CONFIG_USB_HCI */
 		)
 			Adapter->registrypriv.rf_config = RF_3T3R;
 		else if (trx_antenna == RF_2T4R)
@@ -1876,10 +1872,8 @@ hal_Read_TRX_antenna_8814A(
 			DBG_871X("default rf type: %d\n", Adapter->registrypriv.rf_config);
 		}
 	} else {
-#ifdef CONFIG_USB_HCI
 		if (!IS_SUPER_SPEED_USB(Adapter))
 			Adapter->registrypriv.rf_config = RF_2T4R;
-#endif /* CONFIG_USB_HCI */
 	}
 
 	DBG_871X("Final rf_config: %d\n", Adapter->registrypriv.rf_config);
@@ -5170,9 +5164,7 @@ static void hw_var_set_mlme_sitesurvey(PADAPTER Adapter, u8 variable, u8* val)
 				) {
 					iface->mlmepriv.update_bcn = _TRUE;
 					#ifndef CONFIG_INTERRUPT_BASED_TXBCN
-					#if defined(CONFIG_USB_HCI)
 					tx_beacon_hdl(iface, NULL);
-					#endif
 					#endif
 				}
 			}

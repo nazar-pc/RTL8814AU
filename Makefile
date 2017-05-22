@@ -24,7 +24,6 @@ EXTRA_LDFLAGS += --strip-debug
 ########################## WIFI IC ############################
 CONFIG_RTL8814A = y
 ######################### Interface ###########################
-CONFIG_USB_HCI = y
 ########################## Features ###########################
 CONFIG_MP_INCLUDED = y
 CONFIG_POWER_SAVING = y
@@ -151,9 +150,7 @@ _HAL_INTFS_FILES +=	\
 
 _HAL_INTFS_FILES += hal/rtl8814a/usb/usb_ops_linux.o
 
-ifeq ($(CONFIG_USB_HCI), y)
 _HAL_INTFS_FILES +=hal/efuse/rtl8814a/HalEfuseMask8814A_USB.o
-endif
 
 _OUTSRC_FILES += hal/phydm/rtl8814a/halhwimg8814a_bb.o\
 								hal/phydm/rtl8814a/halhwimg8814a_mac.o\
@@ -170,10 +167,8 @@ endif
 ########### END OF PATH  #################################
 
 
-ifeq ($(CONFIG_USB_HCI), y)
 ifeq ($(CONFIG_USB_AUTOSUSPEND), y)
 EXTRA_CFLAGS += -DCONFIG_USB_AUTOSUSPEND
-endif
 endif
 
 ifeq ($(CONFIG_MP_INCLUDED), y)

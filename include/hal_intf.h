@@ -246,10 +246,8 @@ struct hal_ops {
 	/*** recv section ***/
 	s32	(*init_recv_priv)(_adapter *padapter);
 	void	(*free_recv_priv)(_adapter *padapter);
-#if defined(CONFIG_USB_HCI)
 	u32	(*inirp_init)(_adapter *padapter);
 	u32	(*inirp_deinit)(_adapter *padapter);
-#endif
 	/*** interrupt hdl section ***/
 	void	(*enable_interrupt)(_adapter *padapter);
 	void	(*disable_interrupt)(_adapter *padapter);
@@ -542,10 +540,8 @@ void rtw_hal_disable_interrupt(_adapter *padapter);
 
 u8 rtw_hal_check_ips_status(_adapter *padapter);
 
-#if defined(CONFIG_USB_HCI)
 u32	rtw_hal_inirp_init(_adapter *padapter);
 u32	rtw_hal_inirp_deinit(_adapter *padapter);
-#endif
 
 u8	rtw_hal_intf_ps_func(_adapter *padapter,HAL_INTF_PS_FUNC efunc_id, u8* val);
 

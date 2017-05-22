@@ -143,7 +143,6 @@ enum{
 //
 // 2013/08/16 MH MOve from SDIO.h for common use.
 //
-#if defined(CONFIG_USB_HCI)
 #define TRX_SHARE_MODE_8814A				0	//TRX Buffer Share Index
 #define BASIC_RXFF_SIZE_8814A				24576//Basic RXFF Size is 24K = 24*1024 Unit: Byte
 #define TRX_SHARE_BUFF_UNIT_8814A			65536//TRX Share Buffer unit Size 64K = 64*1024 Unit: Byte
@@ -155,15 +154,6 @@ enum{
 #define  NPQ_PGNUM_8814A	 				0x20	//Normal Queue
 #define  EPQ_PGNUM_8814A	 				0x20	//Extra Queue
 
-#else	// #if defined(CONFIG_USB_HCI)
-
-#define  HPQ_PGNUM_8814A		20
-#define  NPQ_PGNUM_8814A		20
-#define  LPQ_PGNUM_8814A		20 //1972
-#define  EPQ_PGNUM_8814A		20
-#define  BCQ_PGNUM_8814A		32
-
-#endif //#if defined(CONFIG_USB_HCI)
 
 #define WOWLAN_PAGE_NUM_8814	0x00
 

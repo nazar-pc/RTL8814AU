@@ -20,8 +20,6 @@
 #ifndef __RTL8812A_RECV_H__
 #define __RTL8812A_RECV_H__
 
-#if defined(CONFIG_USB_HCI)
-
 #ifndef MAX_RECVBUF_SZ
 #ifdef PLATFORM_OS_CE
 #define MAX_RECVBUF_SZ (8192+1024) // 8K+1k
@@ -42,8 +40,6 @@
 	#endif
 #endif
 #endif //!MAX_RECVBUF_SZ
-
-#endif
 
 
 // Rx smooth factor
@@ -122,14 +118,12 @@
 
 
 
-#ifdef CONFIG_USB_HCI
 void rtl8812au_init_recvbuf(_adapter *padapter, struct recv_buf *precvbuf);
 s32 rtl8812au_init_recv_priv(PADAPTER padapter);
 void rtl8812au_free_recv_priv(PADAPTER padapter);
 void rtl8812au_recv_hdl(PADAPTER padapter, struct recv_buf *precvbuf);
 void rtl8812au_recv_tasklet(void *priv);
 
-#endif
 
 
 void rtl8812_query_rx_desc_status(union recv_frame *precvframe, u8 *pdesc);

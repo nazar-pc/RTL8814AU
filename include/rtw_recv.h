@@ -351,7 +351,6 @@ struct recv_priv
 	uint  rx_smallpacket_crcerr;
 	uint  rx_middlepacket_crcerr;
 
-#ifdef CONFIG_USB_HCI
 	//u8 *pallocated_urb_buf;
 	_sema allrxreturnevt;
 	uint	ff_hwaddr;
@@ -365,7 +364,6 @@ struct recv_priv
 	u8	*int_in_buf;
 #endif //CONFIG_USB_INTERRUPT_IN_PIPE
 
-#endif
 #if defined(PLATFORM_LINUX) || defined(PLATFORM_FREEBSD)
 #ifdef PLATFORM_FREEBSD
 	struct task irq_prepare_beacon_tasklet;
@@ -388,9 +386,7 @@ struct recv_priv
 	_queue	free_recv_buf_queue;
 	u32	free_recv_buf_queue_cnt;
 
-#if defined(CONFIG_USB_HCI)
 	_queue	recv_buf_pending_queue;
-#endif
 
 
 	//For display the phy informatiom
@@ -463,7 +459,6 @@ struct recv_buf
 	u8	*ptail;
 	u8	*pend;
 
-#ifdef CONFIG_USB_HCI
 
 	#if defined(PLATFORM_OS_XP)||defined(PLATFORM_LINUX)||defined(PLATFORM_FREEBSD)
 	PURB	purb;
@@ -482,7 +477,6 @@ struct recv_buf
 	u8  irp_pending;
 	int  transfer_len;
 
-#endif
 
 #ifdef PLATFORM_LINUX
 	_pkt	*pskb;

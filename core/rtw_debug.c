@@ -126,7 +126,6 @@ void dump_drv_cfg(void *sel)
 	DBG_871X_SEL_NL(sel, "CONFIG_TDLS\n");
 #endif
 
-#ifdef CONFIG_USB_HCI
 	#ifdef CONFIG_USB_TX_AGGREGATION
 	DBG_871X_SEL_NL(sel, "CONFIG_USB_TX_AGGREGATION\n");
 	#endif
@@ -145,7 +144,6 @@ void dump_drv_cfg(void *sel)
 	#ifdef CONFIG_FIX_NR_BULKIN_BUFFER
 	DBG_871X_SEL_NL(sel, "CONFIG_FIX_NR_BULKIN_BUFFER\n");
 	#endif
-#endif /*CONFIG_USB_HCI*/
 
 
 	DBG_871X_SEL_NL(sel, "MAX_XMITBUF_SZ = %d\n", MAX_XMITBUF_SZ);

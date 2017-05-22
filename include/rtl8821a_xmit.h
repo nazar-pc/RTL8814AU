@@ -142,7 +142,6 @@ typedef struct txdescriptor_8821a
 }TXDESC_8821A, *PTXDESC_8821A;
 
 #if 0
-#ifdef CONFIG_USB_HCI
 s32 rtl8821au_init_xmit_priv(PADAPTER padapter);
 void rtl8821au_free_xmit_priv(PADAPTER padapter);
 s32 rtl8821au_hal_xmit(PADAPTER padapter, struct xmit_frame *pxmitframe);
@@ -151,7 +150,6 @@ s32 rtl8821au_hal_xmitframe_enqueue(PADAPTER padapter, struct xmit_frame *pxmitf
 s32 rtl8821au_xmit_buf_handler(PADAPTER padapter);
 void rtl8821au_xmit_tasklet(void *priv);
 s32 rtl8821au_xmitframe_complete(PADAPTER padapter, struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf);
-#endif // CONFIG_USB_HCI
 
 #endif
 

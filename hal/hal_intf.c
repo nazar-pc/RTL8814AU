@@ -288,7 +288,6 @@ u8 rtw_hal_check_ips_status(_adapter *padapter)
 	return val;
 }
 
-#if defined(CONFIG_USB_HCI)
 u32	rtw_hal_inirp_init(_adapter *padapter)
 {
 	if (is_primary_adapter(padapter))
@@ -303,7 +302,6 @@ u32	rtw_hal_inirp_deinit(_adapter *padapter)
 
 	return _SUCCESS;
 }
-#endif //#if defined(CONFIG_USB_HCI)
 
 /* for USB Auto-suspend */
 u8	rtw_hal_intf_ps_func(_adapter *padapter,HAL_INTF_PS_FUNC efunc_id, u8* val)
@@ -827,7 +825,6 @@ u8 rtw_hal_ops_check(_adapter *padapter)
 		rtw_hal_error_msg("free_recv_priv");
 		ret = _FAIL;
 	}
-	#if defined(CONFIG_USB_HCI)
 	if (NULL == padapter->HalFunc.inirp_init) {
 		rtw_hal_error_msg("inirp_init");
 		ret = _FAIL;
@@ -836,7 +833,6 @@ u8 rtw_hal_ops_check(_adapter *padapter)
 		rtw_hal_error_msg("inirp_deinit");
 		ret = _FAIL;
 	}
-	#endif //#if defined(CONFIG_USB_HCI)
 
 
 	/*** interrupt hdl section ***/

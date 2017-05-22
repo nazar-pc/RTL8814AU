@@ -257,9 +257,7 @@ typedef enum _RT_SPINLOCK_TYPE{
 	#define	ps8Byte 	s64*
 
 #endif
-	#ifdef CONFIG_USB_HCI
 		#define DEV_BUS_TYPE  	RT_USB_INTERFACE
-	#endif
 
 
 	#if defined(CONFIG_LITTLE_ENDIAN)

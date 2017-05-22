@@ -266,7 +266,6 @@ void rtl8814a_fill_txdesc_sectype(struct pkt_attrib *pattrib, u8 *ptxdesc);
 void rtl8814a_fill_txdesc_vcs(PADAPTER padapter, struct pkt_attrib *pattrib, u8 *ptxdesc);
 void rtl8814a_fill_txdesc_phy(PADAPTER padapter, struct pkt_attrib *pattrib, u8 *ptxdesc);
 
-#ifdef CONFIG_USB_HCI
 s32 rtl8814au_init_xmit_priv(PADAPTER padapter);
 void rtl8814au_free_xmit_priv(PADAPTER padapter);
 s32 rtl8814au_hal_xmit(PADAPTER padapter, struct xmit_frame *pxmitframe);
@@ -275,7 +274,6 @@ s32	 rtl8814au_hal_xmitframe_enqueue(_adapter *padapter, struct xmit_frame *pxmi
 s32 rtl8814au_xmit_buf_handler(PADAPTER padapter);
 void rtl8814au_xmit_tasklet(void *priv);
 s32 rtl8814au_xmitframe_complete(_adapter *padapter, struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf);
-#endif //CONFIG_USB_HCI
 
 
 void _dbg_dump_tx_info(_adapter	*padapter,int frame_tag, u8 *ptxdesc);
