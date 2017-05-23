@@ -117,10 +117,6 @@
 	#define CONFIG_RTW_AMPLIFIER_TYPE_5G 0
 #endif
 
-#ifndef CONFIG_RTW_RFE_TYPE
-	#define CONFIG_RTW_RFE_TYPE 64
-#endif
-
 #ifndef CONFIG_RTW_GLNA_TYPE
 	#define CONFIG_RTW_GLNA_TYPE 0
 #endif

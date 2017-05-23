@@ -337,10 +337,6 @@ uint rtw_amplifier_type_5g = CONFIG_RTW_AMPLIFIER_TYPE_5G;
 module_param(rtw_amplifier_type_5g, uint, 0644);
 MODULE_PARM_DESC(rtw_amplifier_type_5g, "BIT6:5G ext-PA, BIT7:5G ext-LNA");
 
-uint rtw_RFE_type = CONFIG_RTW_RFE_TYPE;
-module_param(rtw_RFE_type, uint, 0644);
-MODULE_PARM_DESC(rtw_RFE_type, "default init value:64");
-
 uint rtw_GLNA_type = CONFIG_RTW_GLNA_TYPE;
 module_param(rtw_GLNA_type, uint, 0644);
 MODULE_PARM_DESC(rtw_GLNA_type, "default init value:0");
@@ -583,7 +579,6 @@ _func_enter_;
 	registry_par->TxBBSwing_2G = (s8)rtw_TxBBSwing_2G;
 	registry_par->TxBBSwing_5G = (s8)rtw_TxBBSwing_5G;
 	registry_par->bEn_RFE = 1;
-	registry_par->RFE_Type = (u8)rtw_RFE_type;
 	registry_par->AmplifierType_2G = (u8)rtw_amplifier_type_2g;
 	registry_par->AmplifierType_5G = (u8)rtw_amplifier_type_5g;
 	registry_par->GLNA_Type = (u8)rtw_GLNA_type;

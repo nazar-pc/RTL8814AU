@@ -2267,10 +2267,8 @@ hal_ReadRFEType_8814A(
 
 	if(!AutoloadFail)
 	{
-		if ((GetRegRFEType(Adapter) != 64) || 0xFF == PROMContent[EEPROM_RFE_OPTION_8814] || PROMContent[EEPROM_RFE_OPTION_8814] & BIT7) {
-			if(GetRegRFEType(Adapter) != 64)
-				pHalData->RFEType = GetRegRFEType(Adapter);
-			else if(IS_HARDWARE_TYPE_8814AE(Adapter))
+		if (0xFF == PROMContent[EEPROM_RFE_OPTION_8814] || PROMContent[EEPROM_RFE_OPTION_8814] & BIT7) {
+			if(IS_HARDWARE_TYPE_8814AE(Adapter))
 				pHalData->RFEType = 0;
 			else if(IS_HARDWARE_TYPE_8814AU(Adapter))
 				pHalData->RFEType = 1;
@@ -2284,9 +2282,7 @@ hal_ReadRFEType_8814A(
 	}
 	else
 	{
-		if(GetRegRFEType(Adapter) != 64)
-			pHalData->RFEType = GetRegRFEType(Adapter);
-		else if(IS_HARDWARE_TYPE_8814AE(Adapter))
+		if(IS_HARDWARE_TYPE_8814AE(Adapter))
 			pHalData->RFEType = 0;
 		else if(IS_HARDWARE_TYPE_8814AU(Adapter))
 			pHalData->RFEType = 1;

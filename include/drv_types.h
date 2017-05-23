@@ -302,7 +302,6 @@ struct registry_priv
 	u8	AmplifierType_2G;
 	u8	AmplifierType_5G;
 	u8	bEn_RFE;
-	u8	RFE_Type;
 	u8	GLNA_Type;
 	u8  check_fw_ps;
 	u8	RegRfKFreeEnable;
@@ -348,7 +347,6 @@ struct registry_priv
 #define GetRegTxBBSwing_5G(_Adapter)	(_Adapter->registrypriv.TxBBSwing_5G)
 
 #define GetRegbENRFEType(_Adapter)	(_Adapter->registrypriv.bEn_RFE)
-#define GetRegRFEType(_Adapter)	(_Adapter->registrypriv.RFE_Type)
 #define GetRegGLNAType(_Adapter)	(_Adapter->registrypriv.GLNA_Type)
 
 #define BSSID_OFT(field) ((ULONG)FIELD_OFFSET(WLAN_BSSID_EX,field))
