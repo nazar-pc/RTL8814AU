@@ -876,10 +876,6 @@ struct _ADAPTER{
        struct	mp_priv	mppriv;
 #endif
 
-#ifdef CONFIG_DRVEXT_MODULE
-	struct	drvext_priv	drvextpriv;
-#endif
-
 #ifdef CONFIG_AP_MODE
 	struct	hostapd_priv	*phostapdpriv;
 #endif

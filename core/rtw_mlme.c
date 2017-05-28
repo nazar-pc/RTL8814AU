@@ -1335,10 +1335,6 @@ _func_enter_;
 	rtw_os_xmit_schedule(adapter->pbuddy_adapter);
 #endif
 
-#ifdef CONFIG_DRVEXT_MODULE_WSC
-	drvext_surveydone_callback(&adapter->drvextpriv);
-#endif
-
 #ifdef DBG_CONFIG_ERROR_DETECT
 	{
 		struct mlme_ext_priv *pmlmeext = &adapter->mlmeextpriv;
@@ -1558,13 +1554,6 @@ _func_enter_;
 		rtw_led_control(padapter, LED_CTL_LINK);
 
 
-#ifdef CONFIG_DRVEXT_MODULE
-		if(padapter->drvextpriv.enable_wpa)
-		{
-			indicate_l2_connect(padapter);
-		}
-		else
-#endif
 		{
 			rtw_os_indicate_connect(padapter);
 		}

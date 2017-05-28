@@ -79,8 +79,6 @@
 
 //#define CONFIG_TCP_CSUM_OFFLOAD_RX	1
 
-//#define CONFIG_DRVEXT_MODULE	1
-
 #define CONFIG_RF_GAIN_OFFSET
 
 #define CONFIG_DFS	1
