@@ -2703,11 +2703,6 @@ void update_beacon_info(_adapter *padapter, u8 *pframe, uint pkt_len, struct sta
 	unsigned int len;
 	PNDIS_802_11_VARIABLE_IEs	pIE;
 
-#ifdef CONFIG_TDLS
-	struct tdls_info *ptdlsinfo = &padapter->tdlsinfo;
-	u8 tdls_prohibited[] = { 0x00, 0x00, 0x00, 0x00, 0x10 }; //bit(38): TDLS_prohibited
-#endif //CONFIG_TDLS
-
 	len = pkt_len - (_BEACON_IE_OFFSET_ + WLAN_HDR_A3_LEN);
 
 	for (i = 0; i < len;)
@@ -2739,14 +2734,6 @@ void update_beacon_info(_adapter *padapter, u8 *pframe, uint pkt_len, struct sta
 				VCS_update(padapter, psta);
 				break;
 
-#ifdef CONFIG_TDLS
-			case _EXT_CAP_IE_:
-				if( check_ap_tdls_prohibited(pIE->data, pIE->Length) == _TRUE )
-					ptdlsinfo->ap_prohibited = _TRUE;
-				if (check_ap_tdls_ch_switching_prohibited(pIE->data, pIE->Length) == _TRUE)
-					ptdlsinfo->ch_switch_prohibited = _TRUE;
-				break;
-#endif //CONFIG_TDLS
 			default:
 				break;
 		}

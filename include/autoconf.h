@@ -151,18 +151,6 @@
 	#define CONFIG_P2P_INVITE_IOT
 #endif
 
-//	Added by Kurt 20110511
-#ifdef CONFIG_TDLS
-	#define CONFIG_TDLS_DRIVER_SETUP
-//	#ifndef CONFIG_WFD
-//		#define CONFIG_WFD
-//	#endif
-//	#define CONFIG_TDLS_AUTOSETUP
-	#define CONFIG_TDLS_AUTOCHECKALIVE
-	#define CONFIG_TDLS_CH_SW		/* Enable "CONFIG_TDLS_CH_SW" by default, however limit it to only work in wifi logo test mode but not in normal mode currently */
-#endif
-
-
 #define CONFIG_SKB_COPY	1//for amsdu
 
 #define CONFIG_LED

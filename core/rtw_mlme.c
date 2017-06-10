@@ -1441,9 +1441,6 @@ void rtw_free_assoc_resources(_adapter *adapter, int lock_scanned_queue)
 	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
 
 
-#ifdef CONFIG_TDLS
-	struct tdls_info *ptdlsinfo = &adapter->tdlsinfo;
-#endif //CONFIG_TDLS
 _func_enter_;
 
 	RT_TRACE(_module_rtl871x_mlme_c_, _drv_notice_, ("+rtw_free_assoc_resources\n"));
@@ -1455,15 +1452,6 @@ _func_enter_;
 
 		psta = rtw_get_stainfo(&adapter->stapriv, tgt_network->network.MacAddress);
 
-#ifdef CONFIG_TDLS
-		if (ptdlsinfo->link_established == _TRUE) {
-			rtw_tdls_cmd(adapter, NULL, TDLS_RS_RCR);
-			rtw_reset_tdls_info(adapter);
-			rtw_free_all_stainfo(adapter);
-			//_enter_critical_bh(&(pstapriv->sta_hash_lock), &irqL);
-		}
-		else
-#endif //CONFIG_TDLS
 		{
 			//_enter_critical_bh(&(pstapriv->sta_hash_lock), &irqL);
 			rtw_free_stainfo(adapter,  psta);
@@ -4305,37 +4293,6 @@ void rtw_update_ht_cap(_adapter *padapter, u8 *pie, uint ie_len, u8 channel)
 
 }
 
-#ifdef CONFIG_TDLS
-void rtw_issue_addbareq_cmd_tdls(_adapter *padapter, struct xmit_frame *pxmitframe)
-{
-	struct pkt_attrib *pattrib =&pxmitframe->attrib;
-	struct sta_info *ptdls_sta = NULL;
-	u8 issued;
-	int priority;
-	struct ht_priv	*phtpriv;
-
-	priority = pattrib->priority;
-
-	if (pattrib->direct_link == _TRUE) {
-		ptdls_sta = rtw_get_stainfo(&padapter->stapriv, pattrib->dst);
-		if ((ptdls_sta != NULL) && (ptdls_sta->tdls_sta_state & TDLS_LINKED_STATE)) {
-			phtpriv = &ptdls_sta->htpriv;
-
-			if ((phtpriv->ht_option == _TRUE) && (phtpriv->ampdu_enable == _TRUE)) {
-				issued = (phtpriv->agg_enable_bitmap>>priority)&0x1;
-				issued |= (phtpriv->candidate_tid_bitmap>>priority)&0x1;
-
-				if (0 == issued) {
-					DBG_871X("[%s], p=%d\n", __FUNCTION__, priority);
-					ptdls_sta->htpriv.candidate_tid_bitmap |= BIT((u8)priority);
-					rtw_addbareq_cmd(padapter,(u8)priority, pattrib->dst);
-				}
-			}
-		}
-	}
-}
-#endif //CONFIG_TDLS
-
 void rtw_issue_addbareq_cmd(_adapter *padapter, struct xmit_frame *pxmitframe)
 {
 	u8 issued;
@@ -4350,10 +4307,6 @@ void rtw_issue_addbareq_cmd(_adapter *padapter, struct xmit_frame *pxmitframe)
 		return;
 
 	priority = pattrib->priority;
-
-#ifdef CONFIG_TDLS
-	rtw_issue_addbareq_cmd_tdls(padapter, pxmitframe);
-#endif //CONFIG_TDLS
 
 	psta = rtw_get_stainfo(&padapter->stapriv, pattrib->ra);
 	if(pattrib->psta != psta)

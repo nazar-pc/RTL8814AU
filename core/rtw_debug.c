@@ -61,10 +61,6 @@ u32 GlobalDebugLevel = _drv_err_;
 
 #include <rtw_version.h>
 
-#ifdef CONFIG_TDLS
-#define TDLS_DBG_INFO_SPACE_BTWN_ITEM_AND_VALUE	41
-#endif
-
 void dump_drv_version(void *sel)
 {
 	DBG_871X_SEL_NL(sel, "%s %s\n", DRV_NAME, DRIVERVERSION);
@@ -120,10 +116,6 @@ void dump_drv_cfg(void *sel)
 	DBG_871X_SEL_NL(sel, "CONFIG_RTW_ADAPTIVITY_EN = %d\n", CONFIG_RTW_ADAPTIVITY_EN);
 #if (CONFIG_RTW_ADAPTIVITY_EN)
 	DBG_871X_SEL_NL(sel, "ADAPTIVITY_MODE = %s\n", (CONFIG_RTW_ADAPTIVITY_MODE) ? "carrier_sense" : "normal");
-#endif
-
-#ifdef CONFIG_TDLS
-	DBG_871X_SEL_NL(sel, "CONFIG_TDLS\n");
 #endif
 
 	#ifdef CONFIG_USB_TX_AGGREGATION

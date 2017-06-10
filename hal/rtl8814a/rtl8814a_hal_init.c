@@ -5091,13 +5091,6 @@ static void hw_var_set_mlme_sitesurvey(PADAPTER Adapter, u8 variable, u8* val)
 	{
 		rcr_clear_bit = RCR_CBSSID_BCN;
 	}
-#ifdef CONFIG_TDLS
-	// TDLS will clear RCR_CBSSID_DATA bit for connection.
-	else if (Adapter->tdlsinfo.link_established == _TRUE)
-	{
-		rcr_clear_bit = RCR_CBSSID_BCN;
-	}
-#endif // CONFIG_TDLS
 
 	value_rcr = rtw_read32(Adapter, REG_RCR);
 
@@ -5742,20 +5735,6 @@ _func_enter_;
 			rtl8814_set_p2p_ps_offload_cmd(padapter, *pval);
 			break;
 #endif // CONFIG_P2P_PS
-
-#ifdef CONFIG_TDLS
-		case HW_VAR_TDLS_WRCR:
-			val32 = rtw_read32(padapter, REG_RCR);
-			val32 &= ~RCR_CBSSID_DATA;
-			rtw_write32(padapter, REG_RCR, val32);
-			break;
-
-		case HW_VAR_TDLS_RS_RCR:
-			val32 = rtw_read32(padapter, REG_RCR);
-			val32 |= RCR_CBSSID_DATA;
-			rtw_write32(padapter, REG_RCR, val32);
-			break;
-#endif // CONFIG_TDLS
 
 #ifdef CONFIG_SW_ANTENNA_DIVERSITY
 		case HW_VAR_ANTENNA_DIVERSITY_LINK:
