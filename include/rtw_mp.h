@@ -773,7 +773,6 @@ void hal_mpt_SetChannel(PADAPTER pAdapter);
 void hal_mpt_SetBandwidth(PADAPTER pAdapter);
 void hal_mpt_SetTxPower(PADAPTER pAdapter);
 void hal_mpt_SetDataRate(PADAPTER pAdapter);
-void hal_mpt_SetAntenna(PADAPTER pAdapter);
 s32 hal_mpt_SetThermalMeter(PADAPTER pAdapter, u8 target_ther);
 void hal_mpt_TriggerRFThermalMeter(PADAPTER pAdapter);
 u8 hal_mpt_ReadRFThermalMeter(PADAPTER pAdapter);

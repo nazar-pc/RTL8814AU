@@ -1075,36 +1075,6 @@ VOID mpt_SetRFPath_819X(PADAPTER	pAdapter)
 	}
 }	/* MPT_ProSetRFPath */
 
-
-void hal_mpt_SetAntenna(PADAPTER	pAdapter)
-
-{
-	DBG_871X("Do %s\n", __func__);
-#ifdef	CONFIG_RTL8814A
-	if (IS_HARDWARE_TYPE_8814A(pAdapter)) {
-		mpt_SetRFPath_8814A(pAdapter);
-		return;
-	}
-#endif
-#if	defined(CONFIG_RTL8812A) || defined(CONFIG_RTL8821A)
-	if (IS_HARDWARE_TYPE_JAGUAR(pAdapter)) {
-		mpt_SetRFPath_8812A(pAdapter);
-		return;
-	}
-#endif
-
-/*	else if (IS_HARDWARE_TYPE_8821B(pAdapter))
-		mpt_SetRFPath_8821B(pAdapter);
-	Prepare for 8822B
-	else if (IS_HARDWARE_TYPE_8822B(Context))
-		mpt_SetRFPath_8822B(Context);
-*/
-	mpt_SetRFPath_819X(pAdapter);
-	DBG_871X("mpt_SetRFPath_819X Do %s\n", __func__);
-
-}
-
-
 s32 hal_mpt_SetThermalMeter(PADAPTER pAdapter, u8 target_ther)
 {
 	HAL_DATA_TYPE *pHalData = GET_HAL_DATA(pAdapter);
