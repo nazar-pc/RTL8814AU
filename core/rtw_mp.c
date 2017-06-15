@@ -977,11 +977,6 @@ void SetBandwidth(PADAPTER pAdapter)
 
 }
 
-void SetAntenna(PADAPTER pAdapter)
-{
-	hal_mpt_SetAntenna(pAdapter);
-}
-
 int SetTxPower(PADAPTER pAdapter)
 {
 
