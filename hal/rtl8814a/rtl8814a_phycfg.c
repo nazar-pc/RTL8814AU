@@ -3041,15 +3041,6 @@ PHY_SetMonitorMode8814A(
 }
 */
 
-BOOLEAN
-SetAntennaConfig8814A(
-	IN	PADAPTER		pAdapter,
-	IN	u8			DefaultAnt		// 0: Main, 1: Aux.
-)
-{
-	return TRUE;
-}
-
 VOID
 PHY_SetBWMode8814(
 	IN	PADAPTER			Adapter,

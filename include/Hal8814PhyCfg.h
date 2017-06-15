@@ -218,12 +218,6 @@ RtCheckForHangWorkItemCallback8814A(
 );
 #endif
 
-BOOLEAN
-SetAntennaConfig8814A(
-	IN	PADAPTER	Adapter,
-	IN	u8		DefaultAnt
-	);
-
 VOID
 PHY_SetRFEReg8814A(
 	IN PADAPTER		Adapter,
