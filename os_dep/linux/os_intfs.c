@@ -1504,9 +1504,7 @@ _func_enter_;
 	//_rtw_memset((u8 *)&padapter->qospriv, 0, sizeof (struct qos_priv));//move to mlme_priv
 
 #ifdef CONFIG_MP_INCLUDED
-	if (init_mp_priv(padapter) == _FAIL) {
-		DBG_871X("%s: initialize MP private data Fail!\n", __func__);
-	}
+	init_mp_priv(padapter);
 #endif
 
 	rtw_hal_dm_init(padapter);
