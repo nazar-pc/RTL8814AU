@@ -760,7 +760,6 @@ void	ResetPhyRxPktCount(PADAPTER pAdapter);
 u32	GetPhyRxPktReceived(PADAPTER pAdapter);
 u32	GetPhyRxPktCRC32Error(PADAPTER pAdapter);
 s32	SetPowerTracking(PADAPTER padapter, u8 enable);
-void	GetPowerTracking(PADAPTER padapter, u8 *enable);
 u32	mp_query_psd(PADAPTER pAdapter, u8 *data);
 
 

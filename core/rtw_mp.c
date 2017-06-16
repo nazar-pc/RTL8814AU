@@ -603,11 +603,6 @@ s32 SetPowerTracking(PADAPTER padapter, u8 enable)
 	return 0;
 }
 
-void GetPowerTracking(PADAPTER padapter, u8 *enable)
-{
-	hal_mpt_GetPowerTracking(padapter, enable);
-}
-
 static void disable_dm(PADAPTER padapter)
 {
 	u8 v8;
