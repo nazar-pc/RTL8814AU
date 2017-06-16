@@ -83,29 +83,6 @@ void hal_mpt_SwitchRfSetting(PADAPTER	pAdapter)
 	}
 }
 
-s32 hal_mpt_SetPowerTracking(PADAPTER padapter, u8 enable)
-{
-	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(padapter);
-	PDM_ODM_T		pDM_Odm = &(pHalData->odmpriv);
-
-
-	if (!netif_running(padapter->pnetdev)) {
-		RT_TRACE(_module_mp_, _drv_warning_, ("SetPowerTracking! Fail: interface not opened!\n"));
-		return _FAIL;
-	}
-
-	if (check_fwstate(&padapter->mlmepriv, WIFI_MP_STATE) == _FALSE) {
-		RT_TRACE(_module_mp_, _drv_warning_, ("SetPowerTracking! Fail: not in MP mode!\n"));
-		return _FAIL;
-	}
-	if (enable)
-		pDM_Odm->RFCalibrateInfo.TxPowerTrackControl = _TRUE;
-	else
-		pDM_Odm->RFCalibrateInfo.TxPowerTrackControl = _FALSE;
-
-	return _SUCCESS;
-}
-
 void hal_mpt_CCKTxPowerAdjust(PADAPTER Adapter, BOOLEAN bInCH14)
 {
 	u32		TempVal = 0, TempVal2 = 0, TempVal3 = 0;
