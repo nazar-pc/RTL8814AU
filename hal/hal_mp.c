@@ -106,16 +106,6 @@ s32 hal_mpt_SetPowerTracking(PADAPTER padapter, u8 enable)
 	return _SUCCESS;
 }
 
-void hal_mpt_GetPowerTracking(PADAPTER padapter, u8 *enable)
-{
-	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(padapter);
-	PDM_ODM_T		pDM_Odm = &(pHalData->odmpriv);
-
-
-	*enable = pDM_Odm->RFCalibrateInfo.TxPowerTrackControl;
-}
-
-
 void hal_mpt_CCKTxPowerAdjust(PADAPTER Adapter, BOOLEAN bInCH14)
 {
 	u32		TempVal = 0, TempVal2 = 0, TempVal3 = 0;

@@ -766,7 +766,6 @@ u32	mp_query_psd(PADAPTER pAdapter, u8 *data);
 
 void hal_mpt_SwitchRfSetting(PADAPTER pAdapter);
 s32 hal_mpt_SetPowerTracking(PADAPTER padapter, u8 enable);
-void hal_mpt_GetPowerTracking(PADAPTER padapter, u8 *enable);
 void hal_mpt_CCKTxPowerAdjust(PADAPTER Adapter, BOOLEAN bInCH14);
 void hal_mpt_SetChannel(PADAPTER pAdapter);
 void hal_mpt_SetBandwidth(PADAPTER pAdapter);
