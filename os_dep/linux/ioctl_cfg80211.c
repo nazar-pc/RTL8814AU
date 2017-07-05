@@ -6029,16 +6029,16 @@ static void rtw_cfg80211_init_ht_capab_ex(_adapter *padapter, struct ieee80211_s
 
 		if (stbc_rx_enable) {
 			switch (rf_type) {
-			case RF_1T1R:
+			case _RF_1T1R:
 				ht_cap->cap |= IEEE80211_HT_CAP_RX_STBC_1R;/*RX STBC One spatial stream*/
 				break;
 
 			case RF_2T2R:
-			case RF_1T2R:
+			case _RF_1T2R:
 				ht_cap->cap |= IEEE80211_HT_CAP_RX_STBC_1R;/* Only one spatial-stream STBC RX is supported */
 				break;
 			case RF_3T3R:
-			case RF_3T4R:
+			case _RF_3T4R:
 			case RF_4T4R:
 				ht_cap->cap |= IEEE80211_HT_CAP_RX_STBC_1R;/* Only one spatial-stream STBC RX is supported */
 				break;
@@ -6084,16 +6084,16 @@ static void rtw_cfg80211_init_ht_capab(_adapter *padapter, struct ieee80211_sta_
 	 *if BW_40 rx_mask[4]=0x01;
 	 *highest supported RX rate
 	 */
-	if (rf_type == RF_1T1R) {
+	if (rf_type == _RF_1T1R) {
 		ht_cap->mcs.rx_mask[0] = 0xFF;
 
 		ht_cap->mcs.rx_highest = MAX_BIT_RATE_40MHZ_MCS7;
-	} else if ((rf_type == RF_1T2R) || (rf_type == RF_2T2R) || (rf_type == RF_2T2R_GREEN)) {
+	} else if ((rf_type == _RF_1T2R) || (rf_type == RF_2T2R) || (rf_type == _RF_2T2R_GREEN)) {
 		ht_cap->mcs.rx_mask[0] = 0xFF;
 		ht_cap->mcs.rx_mask[1] = 0xFF;
 
 		ht_cap->mcs.rx_highest = MAX_BIT_RATE_40MHZ_MCS15;
-	} else if ((rf_type == RF_2T3R) || (rf_type == RF_3T3R)) {
+	} else if ((rf_type == _RF_2T3R) || (rf_type == RF_3T3R)) {
 		ht_cap->mcs.rx_mask[0] = 0xFF;
 		ht_cap->mcs.rx_mask[1] = 0xFF;
 		ht_cap->mcs.rx_mask[2] = 0xFF;

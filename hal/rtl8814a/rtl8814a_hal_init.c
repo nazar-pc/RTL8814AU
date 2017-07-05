@@ -3625,7 +3625,7 @@ void ReadRFType8814A(PADAPTER padapter)
 	pHalData->rf_chip = RF_6052;
 #endif
 
-	//if (pHalData->rf_type == RF_1T1R){
+	//if (pHalData->rf_type == _RF_1T1R){
 	//	pHalData->bRFPathRxEnable[0] = _TRUE;
 	//}
 	//else {	// Default unknow type is 2T2r
@@ -4141,7 +4141,7 @@ SetBeamformRfMode_8812(
 	else
 		pBeamInfo->beamforming_cap = BeamformCap;
 
-	if(GET_RF_TYPE(Adapter) == RF_1T1R)
+	if(GET_RF_TYPE(Adapter) == _RF_1T1R)
 		return;
 
 	bSelfBeamformer = BeamformCap & BEAMFORMER_CAP;
@@ -6386,7 +6386,7 @@ u8 GetHalDefVar8814A(PADAPTER padapter, HAL_DEF_VARIABLE variable, void *pval)
 			break;
 
 		case HAL_DEF_TX_STBC:
-			if (pHalData->rf_type == RF_1T2R || pHalData->rf_type == RF_1T1R)
+			if (pHalData->rf_type == _RF_1T2R || pHalData->rf_type == _RF_1T1R)
 				*(u8 *)pval = 0;
 			else
 				*(u8 *)pval = 1;
@@ -6397,7 +6397,7 @@ u8 GetHalDefVar8814A(PADAPTER padapter, HAL_DEF_VARIABLE variable, void *pval)
 			break;
 
 		case HAL_DEF_EXPLICIT_BEAMFORMER:
-			if (pHalData->rf_type != RF_1T2R || pHalData->rf_type != RF_1T1R)/*1T?R not support mer*/
+			if (pHalData->rf_type != _RF_1T2R || pHalData->rf_type != _RF_1T1R)/*1T?R not support mer*/
 				*((PBOOLEAN)pval) = _TRUE;
 			else
 				*((PBOOLEAN)pval) = _FALSE;

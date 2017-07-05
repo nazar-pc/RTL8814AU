@@ -2526,7 +2526,7 @@ ODM_Get_Rate_Bitmap(
 
 	case (ODM_WM_AC|ODM_WM_A):
 
-		if (pDM_Odm->RFType == RF_1T1R) {
+		if (pDM_Odm->RFType == _RF_1T1R) {
 			if (rssi_level == 1)				// add by Gary for ac-series
 				rate_bitmap = 0x003f8000;
 			else if (rssi_level == 2)
@@ -2544,7 +2544,7 @@ ODM_Get_Rate_Bitmap(
 		break;
 
 	default:
-		if (pDM_Odm->RFType == RF_1T2R)
+		if (pDM_Odm->RFType == _RF_1T2R)
 			rate_bitmap = 0x000fffff;
 		else
 			rate_bitmap = 0x0fffffff;

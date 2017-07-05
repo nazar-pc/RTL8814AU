@@ -381,7 +381,7 @@ void VHT_caps_handler(_adapter *padapter, PNDIS_802_11_VARIABLE_IEs pIE)
 	struct vht_priv		*pvhtpriv = &pmlmepriv->vhtpriv;
 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
 	struct mlme_ext_info	*pmlmeinfo = &(pmlmeext->mlmext_info);
-	u8	cur_ldpc_cap = 0, cur_stbc_cap = 0, rf_type = RF_1T1R;
+	u8	cur_ldpc_cap = 0, cur_stbc_cap = 0, rf_type = _RF_1T1R;
 	u16	cur_beamform_cap = 0;
 	u8	*pcap_mcs;
 	u8	vht_mcs[2];
@@ -444,7 +444,7 @@ void VHT_caps_handler(_adapter *padapter, PNDIS_802_11_VARIABLE_IEs pIE)
 	_rtw_memcpy(vht_mcs, pcap_mcs, 2);
 
 	rtw_hal_get_hwreg(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
-	if ((rf_type == RF_1T1R) || (rf_type == RF_1T2R))
+	if ((rf_type == _RF_1T1R) || (rf_type == _RF_1T2R))
 		vht_mcs[0] |= 0xfc;
 	else if (rf_type == RF_2T2R)
 		vht_mcs[0] |= 0xf0;
@@ -544,20 +544,20 @@ u32	rtw_build_vht_operation_ie(_adapter *padapter, u8 *pbuf, u8 channel)
 		rf_type = padapter->registrypriv.rf_config;
 
 	switch (rf_type) {
-	case RF_1T1R:
+	case _RF_1T1R:
 	operation[3] = 0xfe;
 	operation[4] = 0xff;
 	break;
-	case RF_1T2R:
+	case _RF_1T2R:
 	case RF_2T2R:
-	case RF_2T2R_GREEN:
+	case _RF_2T2R_GREEN:
 	operation[3] = 0xfa;
 	operation[4] = 0xff;
 	break;
-	case RF_2T3R:
+	case _RF_2T3R:
 	case RF_2T4R:
 	case RF_3T3R:
-	case RF_3T4R:
+	case _RF_3T4R:
 	operation[3] = 0xea;
 	operation[4] = 0xff;
 	break;

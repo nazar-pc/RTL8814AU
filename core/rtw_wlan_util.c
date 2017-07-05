@@ -100,7 +100,7 @@ int cckratesonly_included(unsigned char *rate, int ratelen)
 
 s8 rtw_get_tx_nss(_adapter *adapter, struct sta_info *psta)
 {
-	u8 rf_type = RF_1T1R, custom_rf_type, vht_mcs[2];
+	u8 rf_type = _RF_1T1R, custom_rf_type, vht_mcs[2];
 	s8 nss = 1;
 
 	custom_rf_type = adapter->registrypriv.rf_config;
@@ -123,18 +123,18 @@ s8 rtw_get_tx_nss(_adapter *adapter, struct sta_info *psta)
 		/* doesn't support 5~8 SS so far */
 		vht_mcs[1] = 0xff;
 		switch (rf_type) {
-		case RF_1T1R:
-		case RF_1T2R:
+		case _RF_1T1R:
+		case _RF_1T2R:
 			vht_mcs[0] |= 0xfc;
 			break;
 		case RF_2T2R:
 		case RF_2T4R:
-		case RF_2T2R_GREEN:
-		case RF_2T3R:
+		case _RF_2T2R_GREEN:
+		case _RF_2T3R:
 			vht_mcs[0] |= 0xf0;
 			break;
 		case RF_3T3R:
-		case RF_3T4R:
+		case _RF_3T4R:
 			vht_mcs[0] |= 0xc0;
 			break;
 		default:
@@ -150,18 +150,18 @@ s8 rtw_get_tx_nss(_adapter *adapter, struct sta_info *psta)
 		_rtw_memcpy(supp_mcs_set, psta->htpriv.ht_cap.supp_mcs_set, 4);
 
 		switch (rf_type) {
-		case RF_1T1R:
-		case RF_1T2R:
+		case _RF_1T1R:
+		case _RF_1T2R:
 			supp_mcs_set[1] = supp_mcs_set[2] = supp_mcs_set[3] = 0;
 			break;
 		case RF_2T2R:
 		case RF_2T4R:
-		case RF_2T2R_GREEN:
-		case RF_2T3R:
+		case _RF_2T2R_GREEN:
+		case _RF_2T3R:
 			supp_mcs_set[2] = supp_mcs_set[3] = 0;
 			break;
 		case RF_3T3R:
-		case RF_3T4R:
+		case _RF_3T4R:
 			supp_mcs_set[3] = 0;
 			break;
 		default:
@@ -1913,7 +1913,7 @@ void HT_caps_handler(_adapter *padapter, PNDIS_802_11_VARIABLE_IEs pIE)
 {
 #ifdef CONFIG_80211N_HT
 	unsigned int	i;
-	u8	rf_type = RF_1T1R;
+	u8	rf_type = _RF_1T1R;
 	u8	max_AMPDU_len, min_MPDU_spacing;
 	u8	cur_ldpc_cap=0, cur_stbc_cap=0, cur_beamform_cap=0;
 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
@@ -1980,8 +1980,8 @@ void HT_caps_handler(_adapter *padapter, PNDIS_802_11_VARIABLE_IEs pIE)
 	//update the MCS rates
 	switch(rf_type)
 	{
-		case RF_1T1R:
-		case RF_1T2R:
+		case _RF_1T1R:
+		case _RF_1T2R:
 			set_mcs_rate_by_mask(pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate, MCS_RATE_1R);
 			break;
 		case RF_2T2R:

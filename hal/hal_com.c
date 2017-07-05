@@ -100,7 +100,7 @@ void rtw_hal_config_rftype(PADAPTER  padapter)
 	HAL_DATA_TYPE *pHalData = GET_HAL_DATA(padapter);
 
 	if (IS_1T1R(pHalData->VersionID)) {
-		pHalData->rf_type = RF_1T1R;
+		pHalData->rf_type = _RF_1T1R;
 		pHalData->NumTotalRFPath = 1;
 	}
 	else if (IS_2T2R(pHalData->VersionID)) {
@@ -108,7 +108,7 @@ void rtw_hal_config_rftype(PADAPTER  padapter)
 		pHalData->NumTotalRFPath = 2;
 	}
 	else if (IS_1T2R(pHalData->VersionID)) {
-		pHalData->rf_type = RF_1T2R;
+		pHalData->rf_type = _RF_1T2R;
 		pHalData->NumTotalRFPath = 2;
 	}
 	else if(IS_3T3R(pHalData->VersionID)) {
@@ -120,7 +120,7 @@ void rtw_hal_config_rftype(PADAPTER  padapter)
 		pHalData->NumTotalRFPath = 4;
 	}
 	else {
-		pHalData->rf_type = RF_1T1R;
+		pHalData->rf_type = _RF_1T1R;
 		pHalData->NumTotalRFPath = 1;
 	}
 
@@ -782,7 +782,7 @@ void rtw_hal_update_sta_rate_mask(PADAPTER padapter, struct sta_info *psta)
 		//n mode ra_bitmap
 		if(psta->htpriv.ht_option)
 		{
-			rf_type = RF_1T1R;
+			rf_type = _RF_1T1R;
 			rtw_hal_get_hwreg(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
 			if(rf_type == RF_2T2R)
 				limit=16;// 2R

@@ -949,9 +949,9 @@ PHY_StoreTxPowerByRate(
 	{
 		PHY_StoreTxPowerByRateOld( pAdapter, RegAddr, BitMask, Data );
 
-		if ( RegAddr == rTxAGC_A_Mcs15_Mcs12 && pHalData->rf_type == RF_1T1R )
+		if ( RegAddr == rTxAGC_A_Mcs15_Mcs12 && pHalData->rf_type == _RF_1T1R )
 			pHalData->pwrGroupCnt++;
-		else if ( RegAddr == rTxAGC_B_Mcs15_Mcs12 && pHalData->rf_type != RF_1T1R )
+		else if ( RegAddr == rTxAGC_B_Mcs15_Mcs12 && pHalData->rf_type != _RF_1T1R )
 			pHalData->pwrGroupCnt++;
 	}
 	else

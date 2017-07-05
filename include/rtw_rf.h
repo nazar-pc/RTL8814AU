@@ -189,14 +189,14 @@ typedef enum _PROTECTION_MODE{
 }PROTECTION_MODE, *PPROTECTION_MODE;
 
 enum rt_rf_types {
-	RF_1T2R = 0,
+	_RF_1T2R = 0,
 	RF_2T4R = 1,
 	RF_2T2R = 2,
-	RF_1T1R = 3,
-	RF_2T2R_GREEN = 4,
-	RF_2T3R = 5,
+	_RF_1T1R = 3,
+	_RF_2T2R_GREEN = 4,
+	_RF_2T3R = 5,
 	RF_3T3R = 6,
-	RF_3T4R	= 7,
+	_RF_3T4R	= 7,
 	RF_4T4R	= 8,
 
 	RF_MAX_TYPE = 0xF, /* u1Byte */

@@ -361,7 +361,7 @@ PHY_BBConfig8814(
 	hal_set_crystal_cap(Adapter, pHalData->CrystalCap);
 
 	switch (Adapter->registrypriv.rf_config) {
-	case RF_1T1R:
+	case _RF_1T1R:
 	case RF_2T4R:
 	case RF_3T3R:
 		/*RX CCK disable 2R CCA*/

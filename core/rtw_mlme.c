@@ -3976,12 +3976,12 @@ unsigned int rtw_restructure_ht_ie(_adapter *padapter, u8 *in_ie, u8 *out_ie, ui
 
 	switch(rf_type)
 	{
-	case RF_1T1R:
+	case _RF_1T1R:
 		set_mcs_rate_by_mask(ht_capie.supp_mcs_set, MCS_RATE_1R);
 			break;
 
 	case RF_2T2R:
-	case RF_1T2R:
+	case _RF_1T2R:
 		#ifdef CONFIG_DISABLE_MCS13TO15
 		if(((cbw40_enable == 1) && (operation_bw == CHANNEL_WIDTH_40)) && (pregistrypriv->wifi_spec!=1))
 				set_mcs_rate_by_mask(ht_capie.supp_mcs_set, MCS_RATE_2R_13TO15_OFF);
@@ -4178,7 +4178,7 @@ void rtw_update_ht_cap(_adapter *padapter, u8 *pie, uint ie_len, u8 channel)
 		(pmlmeinfo->HT_info.infos[0] & BIT(2)))
 	{
 		int i;
-		u8	rf_type = RF_1T1R;
+		u8	rf_type = _RF_1T1R;
 
 		rtw_hal_get_hwreg(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
 
@@ -4189,8 +4189,8 @@ void rtw_update_ht_cap(_adapter *padapter, u8 *pie, uint ie_len, u8 channel)
 		//update the MCS rates
 		switch(rf_type)
 		{
-			case RF_1T1R:
-			case RF_1T2R:
+			case _RF_1T1R:
+			case _RF_1T2R:
 				set_mcs_rate_by_mask(pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate, MCS_RATE_1R);
 				break;
 			case RF_2T2R:

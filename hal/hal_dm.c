@@ -82,21 +82,21 @@ void Init_ODM_ComInfo(_adapter *adapter)
 	ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_BWIFI_TEST, adapter->registrypriv.wifi_spec);
 
 
-	if (pHalData->rf_type == RF_1T1R)
+	if (pHalData->rf_type == _RF_1T1R)
 		ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_RF_TYPE, ODM_1T1R);
-	else if (pHalData->rf_type == RF_1T2R)
+	else if (pHalData->rf_type == _RF_1T2R)
 		ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_RF_TYPE, ODM_1T2R);
 	else if (pHalData->rf_type == RF_2T2R)
 		ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_RF_TYPE, ODM_2T2R);
-	else if (pHalData->rf_type == RF_2T2R_GREEN)
+	else if (pHalData->rf_type == _RF_2T2R_GREEN)
 		ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_RF_TYPE, ODM_2T2R_GREEN);
-	else if (pHalData->rf_type == RF_2T3R)
+	else if (pHalData->rf_type == _RF_2T3R)
 		ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_RF_TYPE, ODM_2T3R);
 	else if (pHalData->rf_type == RF_2T4R)
 		ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_RF_TYPE, ODM_2T4R);
 	else if (pHalData->rf_type == RF_3T3R)
 		ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_RF_TYPE, ODM_3T3R);
-	else if (pHalData->rf_type == RF_3T4R)
+	else if (pHalData->rf_type == _RF_3T4R)
 		ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_RF_TYPE, ODM_3T4R);
 	else if (pHalData->rf_type == RF_4T4R)
 		ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_RF_TYPE, ODM_4T4R);

@@ -200,7 +200,7 @@ void rf_reg_dump(void *sel, _adapter *adapter)
 	u8 path_nums = 0;
 
 	rtw_hal_get_hwreg(adapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
-	if((RF_1T2R == rf_type) ||(RF_1T1R ==rf_type ))
+	if((_RF_1T2R == rf_type) ||(_RF_1T1R ==rf_type ))
 		path_nums = 1;
 	else
 		path_nums = 2;

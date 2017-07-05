@@ -2018,8 +2018,8 @@ int rtw_check_beacon_data(_adapter *padapter, u8 *pbuf,  int len)
 			/* RX MCS Bitmask */
 			switch(rf_type)
 			{
-				case RF_1T1R:
-				case RF_1T2R: //?
+				case _RF_1T1R:
+				case _RF_1T2R: //?
 					set_mcs_rate_by_mask(HT_CAP_ELE_RX_MCS_MAP(pht_cap), MCS_RATE_1R);
 					break;
 				case RF_2T2R:

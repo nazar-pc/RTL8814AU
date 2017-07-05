@@ -138,7 +138,7 @@ int rtw_vht_rate_sel = 0;
 
 int rtw_lowrate_two_xmit = 1;//Use 2 path Tx to transmit MCS0~7 and legacy mode
 
-//int rf_config = RF_1T2R;  // 1T2R
+//int rf_config = _RF_1T2R;  // 1T2R
 int rtw_rf_config = RF_MAX_TYPE;  //auto
 
 int rtw_low_power = 0;

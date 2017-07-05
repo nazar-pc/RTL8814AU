@@ -306,7 +306,7 @@ static void mp_init_xmit_attrib(struct mp_tx *pmptx, PADAPTER padapter)
 	pattrib->pktlen = 1500;
 
 #ifdef CONFIG_80211AC_VHT
-		if (pHalData->rf_type == RF_1T1R)
+		if (pHalData->rf_type == _RF_1T1R)
 			pattrib->raid = RATEID_IDX_VHT_1SS;
 		else if (pHalData->rf_type == RF_2T2R || pHalData->rf_type == RF_2T4R)
 			pattrib->raid = RATEID_IDX_VHT_2SS;
@@ -336,17 +336,17 @@ void init_mp_priv(PADAPTER padapter)
 	mp_init_xmit_attrib(&pmppriv->tx, padapter);
 
 	switch (padapter->registrypriv.rf_config) {
-		case RF_1T1R:
+		case _RF_1T1R:
 			pmppriv->antenna_tx = ANTENNA_A;
 			pmppriv->antenna_rx = ANTENNA_A;
 			break;
-		case RF_1T2R:
+		case _RF_1T2R:
 		default:
 			pmppriv->antenna_tx = ANTENNA_A;
 			pmppriv->antenna_rx = ANTENNA_AB;
 			break;
 		case RF_2T2R:
-		case RF_2T2R_GREEN:
+		case _RF_2T2R_GREEN:
 			pmppriv->antenna_tx = ANTENNA_AB;
 			pmppriv->antenna_rx = ANTENNA_AB;
 			break;
@@ -791,17 +791,17 @@ s32 mp_start_test(PADAPTER padapter)
 	if (padapter->registrypriv.rf_config == RF_MAX_TYPE) {
 //		switch (phal->rf_type) {
 		switch (GET_RF_TYPE(padapter)) {
-			case RF_1T1R:
+			case _RF_1T1R:
 				pmppriv->antenna_tx = ANTENNA_A;
 				pmppriv->antenna_rx = ANTENNA_A;
 				break;
-			case RF_1T2R:
+			case _RF_1T2R:
 			default:
 				pmppriv->antenna_tx = ANTENNA_A;
 				pmppriv->antenna_rx = ANTENNA_AB;
 				break;
 			case RF_2T2R:
-			case RF_2T2R_GREEN:
+			case _RF_2T2R_GREEN:
 				pmppriv->antenna_tx = ANTENNA_AB;
 				pmppriv->antenna_rx = ANTENNA_AB;
 				break;
