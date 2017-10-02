@@ -2739,7 +2739,9 @@ void rtw_ndev_destructor(struct net_device *ndev)
 	if (ndev->ieee80211_ptr)
 		rtw_mfree((u8 *)ndev->ieee80211_ptr, sizeof(struct wireless_dev));
 #endif
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,11,9))
 	free_netdev(ndev);
+#endif
 }
 
 void rtw_dev_unload(PADAPTER padapter)
