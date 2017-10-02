@@ -7,7 +7,7 @@ else
   echo "About to run dkms install steps..."
 fi
 
-DRV_NAME=rtl8814AU
+DRV_NAME=RTL8814AU
 DRV_VERSION=4.3.21
 mkdir /usr/src/${DRV_NAME}-${DRV_VERSION}
 git archive driver-${DRV_VERSION} | tar -x -C /usr/src/${DRV_NAME}-${DRV_VERSION}
