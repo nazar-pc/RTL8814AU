@@ -12,7 +12,7 @@ DRV_VERSION=4.3.21
 
 dkms remove ${DRV_NAME}/${DRV_VERSION} --all
 RESULT=$?
-rmdir -rf /usr/src/${DRV_NAME}-${DRV_VERSION}
+rm -rf /usr/src/${DRV_NAME}-${DRV_VERSION}
 if [[ "$RESULT" != "0" ]]; then
   echo "Error occurred while running dkms remove." 2>&1
 else
