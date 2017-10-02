@@ -1,37 +1,31 @@
-<u>**rtl8814au for linux**</u>
+# Realtek RTL8814AU USB WiFi Driver
 
-rtl8814au linux kernel driver Wireless Dual-Band USB Adapter
-also for rtl8813au devices.
+Driver for the Edimax EW7833UAC (AC1750 802.11ac Dual-Band Wi-Fi USB 3.0 Adapter) and other adapters using the same Realtek chipset.
+Modified from the original source code for Linux kernels up to 4.8 with DKMS support.
+Should work on modern Linux kernels from 4.9 to 4.14-rc2 (older and newer kernels might work as well, but were not tested, feel free to let me know if it works on others).
 
-<u>If one USB-ID is missing, please mail me.</u>  
+## Usage
+I recommend to install driver using DKMS, since it will make sure to recompile driver once you install newer kernel and generally requires less manual work.
 
-**Building and install driver**
+### Installation
+You'll need to have `git` and `dkms` packages on you machine, which on Debian (based) systems (like Ubuntu) is done like this:
+```bash
+sudo apt-get install git dkms
+```
 
-for building type  
-`make`  
+Next clone this repository onto your machine somewhere:
+```bash
+git clone https://github.com/nazar-pc/RTL8814AU.git
+```
 
-for load the driver  
-`sudo insmod rtl8814au.ko`  
+Now go to the directory with cloned driver and install it using DKMS:
+```
+cd RTL8814AU
+sudo ./dkms-install.sh
+```
 
-You need to install the needed fw with  
-`sudo make installfw`  
-
-**STATUS**  
-Currently as educational driver,  
-but driver is working fine in STA  
-
-**USB3 Mode Issue**  
-Realtek aka the chipdesigner does some **stupid** idea to switch into USB3 mode via special usb read/write command.  
-  
-On cold boot this device will appear as normal USB2 device.
-Switching is tested, but currently not active yet !
-
-**TODO**, will work on if I have enough time,  
-currently <u>not</u>
-
-- rip out firmware blob
-- activate USB3 switch
-- minor crosscompile check
-
-
-Hans Ulli Kroll <ulli.kroll@googlemail.com>
+### Removal
+If you later on want to remove this driver, just go to the directory with cloned driver and remove DKMS driver:
+```
+sudo ./dkms-remove.sh
+```
