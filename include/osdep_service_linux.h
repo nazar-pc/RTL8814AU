@@ -121,7 +121,23 @@
 #else
 	typedef struct semaphore	_mutex;
 #endif
+
+/** ntauth (a.chouak@protonmail.com) 
+ *  ++
+ */
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0))
+	typedef void (*function_t)(unsigned long);
+
+	typedef struct timer_adapter_
+	{
+		struct timer_list t;
+		function_t function;
+		unsigned long data;
+	} _timer, *_ptimer;
+#else
 	typedef struct timer_list _timer;
+#endif
+/** -- */
 
 	struct	__queue	{
 		struct	list_head	queue;
@@ -254,23 +270,61 @@ __inline static void rtw_list_delete(_list *plist)
 
 #define RTW_TIMER_HDL_ARGS void *FunctionContext
 
+/** ntauth (a.chouak@protonmail.com)
+ *  ++ 
+ */
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0))
+__inline static void timer_adapter_fn(struct timer_list* t)
+{
+	_ptimer t_ptr = from_timer(t_ptr, t, t);
+	t_ptr->function(t_ptr->data); 
+}
+#endif
+/** -- */
+
 __inline static void _init_timer(_timer *ptimer,_nic_hdl nic_hdl,void *pfunc,void* cntx)
 {
 	//setup_timer(ptimer, pfunc,(u32)cntx);
 	ptimer->function = pfunc;
 	ptimer->data = (unsigned long)cntx;
+
+	/** ntauth (a.chouak@protonmail.com)
+ 	 *  ++ 
+ 	 */
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0))
+	timer_setup(&ptimer->t, timer_adapter_fn, 0);
+#else
 	init_timer(ptimer);
+#endif
+	/** -- */
 }
 
 __inline static void _set_timer(_timer *ptimer,u32 delay_time)
 {
-	mod_timer(ptimer , (jiffies+(delay_time*HZ/1000)));
+	/** ntauth (a.chouak@protonmail.com)
+ 	 *  ++ 
+ 	 */
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0))
+		mod_timer(&ptimer->t, (jiffies + (delay_time * HZ / 1000)));
+#else
+		mod_timer(ptimer, (jiffies + (delay_time * HZ / 1000)));
+#endif
+	/** -- */
 }
 
 __inline static void _cancel_timer(_timer *ptimer,u8 *bcancelled)
 {
-	del_timer_sync(ptimer);
-	*bcancelled=  _TRUE;//TRUE ==1; FALSE==0
+	/** ntauth (a.chouak@protonmail.com)
+ 	 *  ++ 
+ 	 */
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0))
+		del_timer_sync(&ptimer->t);
+#else
+		del_timer_sync(ptimer);
+#endif
+	/** -- */
+	
+	*bcancelled = _TRUE; //TRUE ==1; FALSE==0
 }
 
 

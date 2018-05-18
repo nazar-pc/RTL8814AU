@@ -202,7 +202,15 @@ typedef enum _RT_SPINLOCK_TYPE{
 
 	typedef struct rtl8192cd_priv	*prtl8192cd_priv;
 	typedef struct stat_info		STA_INFO_T,*PSTA_INFO_T;
-	typedef struct timer_list		RT_TIMER, *PRT_TIMER;
+	/** ntauth (a.chouak@protonmail.com)
+ 	 *  ++ 
+ 	 */
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0))
+	typedef struct timer_adapter_ RT_TIMER, *PRT_TIMER;
+#else
+	typedef struct timer_list RT_TIMER, *PRT_TIMER;
+#endif
+	/** -- */
 	typedef  void *				RT_TIMER_CALL_BACK;
 
 	#define _TRUE				1
@@ -266,7 +274,15 @@ typedef enum _RT_SPINLOCK_TYPE{
 		#define	ODM_ENDIAN_TYPE			ODM_ENDIAN_BIG
 	#endif
 
-	typedef struct timer_list		RT_TIMER, *PRT_TIMER;
+	/** ntauth (a.chouak@protonmail.com)
+ 	 *  ++ 
+ 	 */
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0))
+	typedef struct timer_adapter_ RT_TIMER, *PRT_TIMER;
+#else
+	typedef struct timer_list RT_TIMER, *PRT_TIMER;
+#endif
+	/** -- */
 	typedef  void *				RT_TIMER_CALL_BACK;
 	#define	STA_INFO_T			struct sta_info
 	#define	PSTA_INFO_T		struct sta_info *
