@@ -1,8 +1,8 @@
 # Realtek RTL8814AU USB WiFi Driver
 
-Driver for the Edimax EW7833UAC (AC1750 802.11ac Dual-Band Wi-Fi USB 3.0 Adapter) and other adapters using the same Realtek chipset.
+Driver for the Edimax EW7833UAC (AC1750 802.11ac Dual-Band Wi-Fi USB 3.0 Adapter), TP-Link Archer T9UH (AC1900 802.11ac Dual-Band Wi-Fi USB 3.0 Adapter) and other adapters using the same Realtek chipset.
 Modified from the original source code for Linux kernels up to 4.8 with DKMS support.
-Should work on modern Linux kernels from 4.9 to 4.14-rc2 (older and newer kernels might work as well, but were not tested, feel free to let me know if it works on others).
+Should work on modern Linux kernels from 4.9 to 4.16.
 
 ## Usage
 I recommend to install driver using DKMS, since it will make sure to recompile driver once you install newer kernel and generally requires less manual work.
