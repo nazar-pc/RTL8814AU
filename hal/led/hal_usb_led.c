@@ -2308,6 +2308,22 @@ void BlinkHandler(PLED_USB pLed)
 		return;
 	}
 
+	#ifdef CONFIG_SW_LED
+	// led_enable 1 is normal blinking so don't cause always on/off
+	if (padapter->registrypriv.led_ctrl != 1) {
+		if (padapter->registrypriv.led_ctrl == 0)
+		{
+			// Cause LED to be always off
+			pLed->BlinkingLedState = RTW_LED_OFF;
+		} else {
+			// Cause LED to be always on for led_ctrl 2 or greater
+			pLed->BlinkingLedState = RTW_LED_ON;
+		}
+		// Skip various switch cases where SwLedBlink*() called below
+		pLed->CurrLedState = LED_UNKNOWN;
+	}
+	#endif
+
 	switch(ledpriv->LedStrategy)
 	{
 		case SW_LED_MODE0:
@@ -5176,5 +5192,3 @@ DeInitLed(
 	_cancel_timer_ex(&(pLed->BlinkTimer));
 	ResetLedStatus(pLed);
 }
-
-

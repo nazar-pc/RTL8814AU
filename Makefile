@@ -193,7 +193,6 @@ ifeq ($(CONFIG_WAPI_SUPPORT), y)
 EXTRA_CFLAGS += -DCONFIG_WAPI_SUPPORT
 endif
 
-
 ifeq ($(CONFIG_EFUSE_CONFIG_FILE), y)
 EXTRA_CFLAGS += -DCONFIG_EFUSE_CONFIG_FILE
 
@@ -403,4 +402,3 @@ help:
 	@echo "RTLWIFI=y	use RTLWIFI from linux kernel not complete !!"
 
 endif
-
