@@ -125,10 +125,17 @@ int rtw_ampdu_amsdu = 0;// 0: disabled, 1:enabled, 2:auto . There is an IOT issu
 int rtw_short_gi = 0xf;
 // BIT0: Enable VHT LDPC Rx, BIT1: Enable VHT LDPC Tx, BIT4: Enable HT LDPC Rx, BIT5: Enable HT LDPC Tx
 int rtw_ldpc_cap = 0x33;
-// BIT0: Enable VHT STBC Rx, BIT1: Enable VHT STBC Tx, BIT4: Enable HT STBC Rx, BIT5: Enable HT STBC Tx
+/* BIT0: Enable VHT STBC Rx, BIT1: Enable VHT STBC Tx, BIT4: Enable HT STBC Rx, BIT5: Enable HT STBC Tx */
 int rtw_stbc_cap = 0x33;
-// BIT0: Enable VHT Beamformer, BIT1: Enable VHT Beamformee, BIT4: Enable HT Beamformer, BIT5: Enable HT Beamformee
-int rtw_beamform_cap = 0x2;
+/*
+* BIT0: Enable VHT SU Beamformer
+* BIT1: Enable VHT SU Beamformee
+* BIT2: Enable VHT MU Beamformer, depend on VHT SU Beamformer
+* BIT3: Enable VHT MU Beamformee, depend on VHT SU Beamformee
+* BIT4: Enable HT Beamformer
+* BIT5: Enable HT Beamformee
+*/
+int rtw_beamform_cap = BIT(1) | BIT(3);
 int rtw_bfer_rf_number = 0; /*BeamformerCapRfNum Rf path number, 0 for auto, others for manual*/
 int rtw_bfee_rf_number = 0; /*BeamformeeCapRfNum  Rf path number, 0 for auto, others for manual*/
 

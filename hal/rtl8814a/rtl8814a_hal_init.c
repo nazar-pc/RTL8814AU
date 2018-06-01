@@ -6393,7 +6393,7 @@ u8 GetHalDefVar8814A(PADAPTER padapter, HAL_DEF_VARIABLE variable, void *pval)
 			break;
 
 		case HAL_DEF_RX_STBC:
-			*(u8*)pval = 1;
+			*(u8*)pval = 4;
 			break;
 
 		case HAL_DEF_EXPLICIT_BEAMFORMER:
@@ -6590,5 +6590,3 @@ void rtl8814_set_hal_ops(struct hal_ops *pHalFunc)
 	pHalFunc->fill_fake_txdesc = &rtl8814a_fill_fake_txdesc;
 	pHalFunc->hal_get_tx_buff_rsvd_page_num = &GetTxBufferRsvdPageNum8814;
 }
-
-
