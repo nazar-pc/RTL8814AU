@@ -1509,9 +1509,13 @@ odm_RxPhyStatusJaguarSeries_Parsing(
 						if (i == ODM_RF_PATH_A) {
 							EVM = odm_EVMdbToPercentage((pPhyStaRpt->sigevm));	/*dbm*/
 							EVM += 20;
-							if (EVM > 100)
+							if (EVM > 100) {
 								EVM = 100;
-						}
+                            }
+						} else {
+                            // it's a made up value, but Realtek apparently assumed 'this would never happen'
+                            EVM = 0;
+                        }
 					} else {
 						if (i < ODM_RF_PATH_C) {
 							if (pPhyStaRpt->rxevm[i] == -128)
@@ -3185,4 +3189,3 @@ phydm_RxPhyStatusJaguarSeries2(
 }
 /*==============================================*/
 #endif
-
